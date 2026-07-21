@@ -1142,55 +1142,87 @@ function renderComparisonChart(entries) {
   const statsNow = getMonthlyDpsStats(entries, yearNow);
   const statsPrev = getMonthlyDpsStats(entries, yearPrev);
 
-  const dataNow = rapportMetric === 'heures'
-    ? cumulativeArray(statsNow.hours, currentMonthIdx)
-    : cumulativeArray(statsNow.counts, currentMonthIdx);
-  const dataPrev = rapportMetric === 'heures'
-    ? cumulativeArray(statsPrev.hours, null)
-    : cumulativeArray(statsPrev.counts, null);
-
   const labels = ['Jan','Fév','Mar','Avr','Mai','Juin','Juil','Août','Sep','Oct','Nov','Déc'];
 
   if (rapportChartInstance) {
     rapportChartInstance.destroy();
   }
 
-  rapportChartInstance = new Chart(canvas, {
-    type: 'line',
-    data: {
-      labels,
-      datasets: [
-        {
-          label: String(yearNow),
-          data: dataNow,
-          borderColor: '#F5821F',
-          backgroundColor: 'rgba(245,130,31,0.15)',
-          fill: true,
-          tension: 0.3,
-          pointRadius: 3
-        },
-        {
-          label: String(yearPrev),
-          data: dataPrev,
-          borderColor: '#85B7EB',
-          backgroundColor: 'transparent',
-          fill: false,
-          tension: 0.3,
-          pointRadius: 3
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { labels: { color: '#9FB3D6', font: { size: 11 } } }
+  if (rapportMetric === 'heures') {
+    const dataNow = cumulativeArray(statsNow.hours, currentMonthIdx);
+    const dataPrev = cumulativeArray(statsPrev.hours, null);
+
+    rapportChartInstance = new Chart(canvas, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: String(yearNow),
+            data: dataNow,
+            borderColor: '#F5821F',
+            backgroundColor: 'rgba(245,130,31,0.15)',
+            fill: true,
+            tension: 0.3,
+            pointRadius: 3
+          },
+          {
+            label: String(yearPrev),
+            data: dataPrev,
+            borderColor: '#85B7EB',
+            backgroundColor: 'transparent',
+            fill: false,
+            tension: 0.3,
+            pointRadius: 3
+          }
+        ]
       },
-      scales: {
-        x: { ticks: { color: '#9FB3D6', font: { size: 10 } }, grid: { color: '#223258' } },
-        y: { ticks: { color: '#9FB3D6', font: { size: 10 } }, grid: { color: '#223258' }, beginAtZero: true }
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { labels: { color: '#9FB3D6', font: { size: 11 } } }
+        },
+        scales: {
+          x: { ticks: { color: '#9FB3D6', font: { size: 10 } }, grid: { color: '#223258' } },
+          y: { ticks: { color: '#9FB3D6', font: { size: 10 } }, grid: { color: '#223258' }, beginAtZero: true }
+        }
       }
-    }
-  });
+    });
+  } else {
+    const dataNow = statsNow.counts.map((v, i) => i <= currentMonthIdx ? v : null);
+    const dataPrev = statsPrev.counts;
+
+    rapportChartInstance = new Chart(canvas, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: String(yearNow),
+            data: dataNow,
+            backgroundColor: '#F5821F',
+            borderRadius: 4
+          },
+          {
+            label: String(yearPrev),
+            data: dataPrev,
+            backgroundColor: '#85B7EB',
+            borderRadius: 4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { labels: { color: '#9FB3D6', font: { size: 11 } } }
+        },
+        scales: {
+          x: { ticks: { color: '#9FB3D6', font: { size: 10 } }, grid: { display: false } },
+          y: { ticks: { color: '#9FB3D6', font: { size: 10 }, stepSize: 1 }, grid: { color: '#223258' }, beginAtZero: true }
+        }
+      }
+    });
+  }
 }
 
 function renderRapport(history) {
