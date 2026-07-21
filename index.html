@@ -332,26 +332,68 @@
 </nav>
 
 <script>
-const FAVORIS_KEY = 'eprotec_favoris';
+const FIREBASE_URL = 'https://eprotec-favoris-default-rtdb.europe-west1.firebasedatabase.app';
+const OLD_FAVORIS_KEY = 'eprotec_favoris';
+let favorisCache = [];
+let favorisReady = false;
 
 function getFavoris() {
-  try {
-    return JSON.parse(localStorage.getItem(FAVORIS_KEY) || '[]');
-  } catch {
-    return [];
-  }
+  return favorisCache;
 }
 
 function isFavori(uid) {
-  return getFavoris().includes(uid);
+  return favorisCache.includes(uid);
+}
+
+async function pushFavorisToFirebase() {
+  try {
+    await fetch(FIREBASE_URL + '/favoris.json', {
+      method: 'PUT',
+      body: JSON.stringify(favorisCache)
+    });
+  } catch (err) {
+    console.error('Erreur sauvegarde favoris en ligne :', err);
+  }
 }
 
 function toggleFavori(uid) {
-  const favoris = getFavoris();
-  const idx = favoris.indexOf(uid);
-  if (idx >= 0) favoris.splice(idx, 1);
-  else favoris.push(uid);
-  localStorage.setItem(FAVORIS_KEY, JSON.stringify(favoris));
+  const idx = favorisCache.indexOf(uid);
+  if (idx >= 0) favorisCache.splice(idx, 1);
+  else favorisCache.push(uid);
+  pushFavorisToFirebase();
+}
+
+async function initFavoris() {
+  try {
+    const res = await fetch(FIREBASE_URL + '/favoris.json?t=' + Date.now(), { cache: 'no-store' });
+    const remote = await res.json();
+    if (Array.isArray(remote)) {
+      favorisCache = remote;
+      favorisReady = true;
+      return;
+    }
+  } catch (err) {
+    console.error('Erreur chargement favoris en ligne :', err);
+  }
+
+  try {
+    const local = JSON.parse(localStorage.getItem(OLD_FAVORIS_KEY) || 'null');
+    if (Array.isArray(local) && local.length > 0) {
+      favorisCache = local;
+      favorisReady = true;
+      await pushFavorisToFirebase();
+      return;
+    }
+  } catch {}
+
+  try {
+    favorisCache = await fetch('data/favoris-seed.json').then(r => r.json());
+    favorisReady = true;
+    await pushFavorisToFirebase();
+  } catch {
+    favorisCache = [];
+    favorisReady = true;
+  }
 }
 
 function formatDate(iso) {
@@ -372,16 +414,7 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
-async function importFavorisOnce() {
-  if (localStorage.getItem(FAVORIS_KEY) !== null) return;
-  try {
-    const seed = await fetch('data/favoris-seed.json').then(r => r.json());
-    localStorage.setItem(FAVORIS_KEY, JSON.stringify(seed));
-  } catch {
-    localStorage.setItem(FAVORIS_KEY, JSON.stringify([]));
-  }
-}
-importFavorisOnce();
+
 
 let allEvents = [];
 let allSuggestions = [];
@@ -1050,6 +1083,8 @@ function renderUpdateStatus(lastUpdateIso) {
 }
 
 async function loadData() {
+  await initFavoris();
+
   const bust = Date.now();
   const [events, suggestions, status, history] = await Promise.all([
     fetch('data/events.json?t=' + bust, { cache: 'no-store' }).then(r => r.json()),
