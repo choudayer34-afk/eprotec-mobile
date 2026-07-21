@@ -20,6 +20,7 @@ jobs:
       - run: node scripts/check-events.js
         env:
           EPROTEC_ICS_URL: ${{ secrets.EPROTEC_ICS_URL }}
+          EPROTEC_PERSO_URL: ${{ secrets.EPROTEC_PERSO_URL }}
           SMTP_HOST: ${{ secrets.SMTP_HOST }}
           SMTP_PORT: ${{ secrets.SMTP_PORT }}
           SMTP_USER: ${{ secrets.SMTP_USER }}
@@ -29,4 +30,4 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Mise a jour de la liste des evenements connus"
-          file_pattern: data/known-uids.json
+          file_pattern: data/*.json
