@@ -1,4 +1,3 @@
-import nodemailer from 'nodemailer';
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 
 const KNOWN_UIDS_PATH = 'data/known-uids.json';
@@ -82,14 +81,6 @@ function getTag(summary) {
   if (/\[AIP/.test(summary)) return 'AIP';
   if (/BENEVOLE/.test(summary)) return 'BENEVOLE';
   return 'AUTRE';
-}
-
-function formatDate(d) {
-  if (!d) return 'date inconnue';
-  return d.toLocaleString('fr-FR', {
-    weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric',
-    hour: '2-digit', minute: '2-digit'
-  });
 }
 
 function loadJson(path, fallback) {
@@ -271,68 +262,6 @@ async function computeOadSuggestions(events, registrationsHistory, geocache) {
   return results.filter(r => r.score > -500).sort((a, b) => b.score - a.score);
 }
 
-async function sendMail(newEvents, suggestions) {
-  const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT),
-    secure: false,
-    requireTLS: true,
-    auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
-  });
-
-  const items = newEvents.map(e => `
-    <div style="margin-bottom:14px;padding:10px;border:1px solid #ddd;border-radius:6px;">
-      <b>[${e.tag}] ${e.summary}</b><br>
-      Date : ${formatDate(e.startDate)}<br>
-      Lieu : ${e.location || 'non renseigné'}<br>
-      ${e.dejaInscrit ? '✅ Vous êtes déjà inscrit<br>' : ''}
-      ${e.url ? `<a href="${e.url}">Voir l'événement</a>` : ''}
-    </div>
-  `).join('');
-
-  const suggestionHtml = suggestions.slice(0, 1).map(s => `
-    <div style="margin-bottom:14px;padding:10px;border:2px solid #F5821F;border-radius:6px;">
-      <b>🎯 Suggestion du mois : [DPS] ${s.event.summary}</b><br>
-      Date : ${formatDate(s.event.startDate)}<br>
-      Lieu : ${s.event.location || 'non renseigné'}<br>
-      Score : ${s.score}<br>
-      <ul>${s.reasons.map(r => `<li>${r}</li>`).join('')}</ul>
-    </div>
-  `).join('');
-
-  await transporter.sendMail({
-    from: process.env.MAIL_FROM,
-    to: process.env.MAIL_TO,
-    subject: `[Protection Civile] ${newEvents.length} nouvelle(s) activité(s) détectée(s)`,
-    html: `<p>Bonjour,</p><p>Voici les nouveautés détectées :</p>${items}${suggestionHtml}`
-  });
-}
-
-async function sendPushNotification(newEvents) {
-  const topic = process.env.NTFY_TOPIC;
-  if (!topic) return;
-
-  const titles = newEvents.slice(0, 3).map(e => `[${e.tag}] ${e.summary}`).join('\n');
-  const suffix = newEvents.length > 3 ? `\n...et ${newEvents.length - 3} autre(s)` : '';
-  const appUrl = 'https://choudayer34-afk.github.io/eprotec-mobile/#nouveautes';
-
-  try {
-    await fetch(`https://ntfy.sh/${topic}`, {
-      method: 'POST',
-      headers: {
-        'Title': `${newEvents.length} nouvelle(s) activité(s) eProtec`,
-        'Priority': 'default',
-        'Tags': 'bell',
-        'Click': appUrl
-      },
-      body: titles + suffix
-    });
-    console.log('Notification push envoyée.');
-  } catch (err) {
-    console.error('Erreur notification push :', err.message);
-  }
-}
-
 async function fetchIcs(url) {
   const res = await fetch(url);
   if (!res.ok) throw new Error(`Échec du téléchargement ICS (${res.status}) : ${url}`);
@@ -389,12 +318,9 @@ async function main() {
   const recentNewSet = new Set(Object.keys(recentNew));
 
   if (isFirstRun) {
-    console.log("Premier lancement : initialisation, aucune alerte envoyée.");
+    console.log("Premier lancement : initialisation, aucune notification prévue.");
   } else if (newEvents.length > 0) {
-    console.log(`${newEvents.length} nouveauté(s), envoi des alertes...`);
-    await sendMail(newEvents, suggestions);
-    await sendPushNotification(newEvents);
-    console.log('Alertes envoyées.');
+    console.log(`${newEvents.length} nouveauté(s) détectée(s).`);
   } else {
     console.log("Aucune nouveauté cette fois-ci.");
   }
@@ -418,7 +344,7 @@ async function main() {
   }));
   writeFileSync('data/events.json', JSON.stringify(eventsForApp, null, 2));
 
-const suggestionsForApp = suggestions.slice(0, 30).map(s => ({
+  const suggestionsForApp = suggestions.slice(0, 30).map(s => ({
     uid: s.event.uid,
     titre: s.event.summary,
     lieu: s.event.location,
@@ -435,6 +361,25 @@ const suggestionsForApp = suggestions.slice(0, 30).map(s => ({
   writeFileSync('data/status.json', JSON.stringify({
     lastUpdate: new Date().toISOString()
   }, null, 2));
+
+  const pendingNotification = {
+    newEvents: isFirstRun ? [] : newEvents.map(e => ({
+      tag: e.tag,
+      titre: e.summary,
+      lieu: e.location,
+      url: e.url,
+      dejaInscrit: e.dejaInscrit,
+      dateDebutIso: e.startDate ? e.startDate.toISOString() : null
+    })),
+    topSuggestion: suggestions[0] ? {
+      titre: suggestions[0].event.summary,
+      lieu: suggestions[0].event.location,
+      dateDebutIso: suggestions[0].event.startDate ? suggestions[0].event.startDate.toISOString() : null,
+      score: suggestions[0].score,
+      reasons: suggestions[0].reasons
+    } : null
+  };
+  writeFileSync('data/pending-notification.json', JSON.stringify(pendingNotification, null, 2));
 
   console.log(`Export terminé : ${eventsForApp.length} événements à venir, ${suggestionsForApp.length} suggestions.`);
 }
