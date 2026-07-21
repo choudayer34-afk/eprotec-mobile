@@ -2,6 +2,7 @@ import nodemailer from 'nodemailer';
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 
 const KNOWN_UIDS_PATH = 'data/known-uids.json';
+const HISTORY_PATH = 'data/dps-history.json';
 
 function unfoldIcs(text) {
   return text.replace(/\r\n[ \t]/g, '').replace(/\n[ \t]/g, '');
@@ -68,6 +69,39 @@ function formatDate(d) {
   });
 }
 
+function loadJson(path, fallback) {
+  return existsSync(path) ? JSON.parse(readFileSync(path, 'utf8')) : fallback;
+}
+
+function updateDpsHistory(events) {
+  const history = loadJson(HISTORY_PATH, {});
+  const now = new Date();
+
+  for (const e of events) {
+    if (e.tag !== 'DPS' || !e.dejaInscrit) continue;
+
+    const existing = history[e.uid];
+    if (existing) {
+      const existingDate = new Date(existing.dateDebut);
+      if (existingDate < now) continue;
+    }
+
+    history[e.uid] = {
+      uid: e.uid,
+      titre: e.summary,
+      lieu: e.location,
+      dateDebut: e.startDate ? e.startDate.toISOString() : null,
+      dureeHeures: e.startDate && e.endDate
+        ? Math.round((e.endDate - e.startDate) / 3600000 * 10) / 10
+        : null,
+      statut: 'Inscrit'
+    };
+  }
+
+  writeFileSync(HISTORY_PATH, JSON.stringify(history, null, 2));
+  return history;
+}
+
 async function sendMail(newEvents) {
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
@@ -82,6 +116,7 @@ async function sendMail(newEvents) {
       <b>[${e.tag}] ${e.summary}</b><br>
       Date : ${formatDate(e.startDate)}<br>
       Lieu : ${e.location || 'non renseigné'}<br>
+      ${e.dejaInscrit ? '✅ Vous êtes déjà inscrit<br>' : ''}
       ${e.url ? `<a href="${e.url}">Voir l'événement</a>` : ''}
     </div>
   `).join('');
@@ -94,18 +129,36 @@ async function sendMail(newEvents) {
   });
 }
 
+async function fetchIcs(url) {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`Échec du téléchargement ICS (${res.status}) : ${url}`);
+  return res.text();
+}
+
 async function main() {
-  const icsUrl = process.env.EPROTEC_ICS_URL;
-  const res = await fetch(icsUrl);
-  if (!res.ok) throw new Error(`Échec du téléchargement ICS : ${res.status}`);
-  const icsText = await res.text();
+  const [icsText, persoText] = await Promise.all([
+    fetchIcs(process.env.EPROTEC_ICS_URL),
+    fetchIcs(process.env.EPROTEC_PERSO_URL)
+  ]);
+
+  const persoEvents = parseIcs(persoText);
+  const registeredUids = new Set(persoEvents.map(e => e.uid).filter(Boolean));
 
   const rawEvents = parseIcs(icsText);
   const events = rawEvents
     .filter(e => e.uid)
-    .map(e => ({ ...e, tag: getTag(e.summary), startDate: parseIcsDate(e.dtstart) }));
+    .map(e => ({
+      ...e,
+      tag: getTag(e.summary),
+      startDate: parseIcsDate(e.dtstart),
+      endDate: parseIcsDate(e.dtend),
+      dejaInscrit: registeredUids.has(e.uid)
+    }));
 
-  console.log(`Événements trouvés dans le calendrier : ${events.length}`);
+  console.log(`Événements trouvés : ${events.length}`);
+  console.log(`Dont déjà inscrits : ${events.filter(e => e.dejaInscrit).length}`);
+
+  updateDpsHistory(events);
 
   const isFirstRun = !existsSync(KNOWN_UIDS_PATH);
   const knownUids = isFirstRun ? [] : JSON.parse(readFileSync(KNOWN_UIDS_PATH, 'utf8'));
@@ -114,11 +167,11 @@ async function main() {
   const newEvents = events.filter(e => !knownSet.has(e.uid));
 
   if (isFirstRun) {
-    console.log('Premier lancement : initialisation de la liste, aucun mail envoyé.');
+    console.log("Premier lancement : initialisation, aucun mail envoyé.");
   } else if (newEvents.length > 0) {
-    console.log(`${newEvents.length} nouveauté(s) détectée(s), envoi du mail...`);
+    console.log(`${newEvents.length} nouveauté(s), envoi du mail...`);
     await sendMail(newEvents);
-    console.log('Mail envoyé avec succès.');
+    console.log('Mail envoyé.');
   } else {
     console.log('Aucune nouveauté aujourd\'hui.');
   }
