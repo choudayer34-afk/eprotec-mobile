@@ -975,6 +975,7 @@ loadData()
   .then(() => {
     if (window.location.hash === '#nouveautes') {
       goToPlusSub('plus-nouveautes');
+      history.replaceState(null, '', window.location.pathname);
     }
   })
   .catch(err => {
