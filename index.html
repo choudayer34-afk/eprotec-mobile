@@ -429,7 +429,7 @@ async function loadData() {
   listeEvenements.innerHTML = events.slice(0, 40).map(e => eventCard(e)).join('');
   attachStarHandlers(listeEvenements);
 
-renderSuggestions(suggestions);
+renderSuggestions(suggestions);}
 
 loadData().catch(err => {
   document.querySelectorAll('.empty').forEach(el => el.textContent = 'Erreur de chargement des données.');
