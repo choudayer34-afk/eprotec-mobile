@@ -128,22 +128,6 @@
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1609274"
   },
   {
-    "uid": "evt16274931@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] MHSC - Pau",
-    "lieu": "Stade de la Mosson, 34080 Montpellier",
-    "dateDebut": "2026-09-11T18:30:00.000Z",
-    "score": 15,
-    "reasons": [
-      "Mois sans DPS planifié",
-      "Jour très favorable (vendredi)",
-      "Créneau fin d'après-midi / soirée",
-      "Durée raisonnable",
-      "Très proche (9.4 km)",
-      "Espacement confortable (50 jours)"
-    ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1627493"
-  },
-  {
     "uid": "evt16288541@https://eprotec.protection-civile.org",
     "titre": "[DPS 34] Beer Love Fest",
     "lieu": "Promenade du Peyrou 34000 Montpellier",
@@ -158,6 +142,22 @@
       "Espacement confortable (50 jours)"
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1628854"
+  },
+  {
+    "uid": "evt16274931@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] MHSC - Pau",
+    "lieu": "Stade de la Mosson, 34080 Montpellier",
+    "dateDebut": "2026-09-11T18:30:00.000Z",
+    "score": 15,
+    "reasons": [
+      "Mois sans DPS planifié",
+      "Jour très favorable (vendredi)",
+      "Créneau fin d'après-midi / soirée",
+      "Durée raisonnable",
+      "Très proche (9.4 km)",
+      "Espacement confortable (50 jours)"
+    ],
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1627493"
   },
   {
     "uid": "evt16274941@https://eprotec.protection-civile.org",
