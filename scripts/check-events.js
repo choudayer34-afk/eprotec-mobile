@@ -292,6 +292,7 @@ async function sendPushNotification(newEvents) {
 
   const titles = newEvents.slice(0, 3).map(e => `[${e.tag}] ${e.summary}`).join('\n');
   const suffix = newEvents.length > 3 ? `\n...et ${newEvents.length - 3} autre(s)` : '';
+  const appUrl = 'https://choudayer34-afk.github.io/eprotec-mobile/#nouveautes';
 
   try {
     await fetch(`https://ntfy.sh/${topic}`, {
@@ -299,7 +300,8 @@ async function sendPushNotification(newEvents) {
       headers: {
         'Title': `${newEvents.length} nouvelle(s) activité(s) eProtec`,
         'Priority': 'default',
-        'Tags': 'bell'
+        'Tags': 'bell',
+        'Click': appUrl
       },
       body: titles + suffix
     });
