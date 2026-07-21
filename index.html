@@ -99,6 +99,9 @@
   .badge-ok { background: #12351F; color: #97C459; }
   .badge-blue { background: #1B2A4A; color: #85B7EB; }
   .badge-suggest { background: #223258; color: #F5821F; }
+  .status-frame { display: inline-block; font-size: 11px; padding: 4px 10px; border-radius: 20px; border: 1.5px solid; margin-right: 6px; }
+  .status-frame-green { border-color: #639922; color: #97C459; }
+  .status-frame-yellow { border-color: #EF9F27; color: #FAC775; }
   .empty { color: #9FB3D6; font-size: 13px; padding: 8px 0; }
 
   .star-btn {
@@ -137,6 +140,8 @@
   .cal-cell { background: #16274A; border-radius: 8px; padding: 4px 2px; min-height: 40px; text-align: center; }
   .cal-cell.empty { background: transparent; }
   .cal-cell.today { border: 1px solid #F5821F; }
+  .cal-cell.has-favori { border: 1.5px solid #EF9F27; }
+  .cal-cell.has-inscrit { border: 1.5px solid #639922; }
   .cal-cell.selected { background: #223258; }
   .cal-cell .cal-daynum { font-size: 11px; color: #fff; }
   .cal-dots { display: flex; justify-content: center; gap: 2px; margin-top: 2px; flex-wrap: wrap; }
@@ -552,7 +557,7 @@ function renderCalendar() {
   const daysInMonth = new Date(calMonth.getFullYear(), calMonth.getMonth() + 1, 0).getDate();
   const todayKey = dateKey(new Date());
 
-  let cells = '';
+ let cells = '';
   for (let i = 0; i < startWeekday; i++) cells += '<div class="cal-cell empty"></div>';
   for (let day = 1; day <= daysInMonth; day++) {
     const d = new Date(calMonth.getFullYear(), calMonth.getMonth(), day);
@@ -564,8 +569,12 @@ function renderCalendar() {
     const suggestDot = daySuggestions.length > 0
       ? `<span class="cal-dot cal-dot-outline" style="border-color:${TAG_COLORS.DPS}"></span>`
       : '';
+    const hasInscrit = dayEvents.some(e => e.dejaInscrit);
+    const hasFavori = dayEvents.some(e => isFavori(e.uid));
     const classes = ['cal-cell'];
     if (key === todayKey) classes.push('today');
+    if (hasFavori) classes.push('has-favori');
+    if (hasInscrit) classes.push('has-inscrit');
     if (key === calSelectedKey) classes.push('selected');
     cells += `<div class="${classes.join(' ')}" data-day-key="${key}">
       <div class="cal-daynum">${day}</div>
@@ -622,7 +631,7 @@ function renderDayDetail(key, events, suggestions = []) {
   }
 
   let html = `<div class="card-title" style="margin:10px 0 6px;">${dateLabel}</div>`;
-  html += events.map(e => eventCard(e)).join('');
+  html += events.map(e => eventCard(e, { showStatusFrame: true })).join('');
 
   suggestions.forEach(s => {
     html += `
@@ -643,10 +652,16 @@ function renderDayDetail(key, events, suggestions = []) {
   attachCardHandlers(detail);
 }
 
-function eventCard(e) {
+function eventCard(e, opts = {}) {
   let badge = '';
   if (e.dejaInscrit) badge = '<span class="badge badge-blue">Déjà inscrit</span>';
   else if (e.nouveau) badge = '<span class="badge badge-new">Nouveau</span>';
+
+  let statusFrame = '';
+  if (opts.showStatusFrame) {
+    if (e.dejaInscrit) statusFrame = '<span class="status-frame status-frame-green">Inscrit</span>';
+    else if (isFavori(e.uid)) statusFrame = '<span class="status-frame status-frame-yellow">Favori</span>';
+  }
 
   const starActive = isFavori(e.uid) ? 'active' : '';
   const starIcon = isFavori(e.uid) ? '★' : '☆';
@@ -661,7 +676,7 @@ function eventCard(e) {
       <div class="event-meta-row"><span class="meta-icon">🕒</span>${formatDate(e.dateDebut)}</div>
       <div class="event-meta-row"><span class="meta-icon">📍</span>${e.lieu || 'Lieu non renseigné'}</div>
       <div class="card-bottom-row">
-        <div>${badge}</div>
+        <div>${statusFrame}${badge}</div>
         <button class="star-btn ${starActive}" data-fav-uid="${e.uid}">${starIcon}</button>
       </div>
     </div>
