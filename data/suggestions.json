@@ -25,8 +25,23 @@
       "Jour très favorable (vendredi)",
       "Créneau fin d'après-midi / soirée",
       "Durée raisonnable",
-      "Très proche (9.5 km)",
+      "Très proche (9.6 km)",
       "Espacement confortable (22 jours)"
+    ]
+  },
+  {
+    "uid": "evt16092691@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] Feu d'artifice",
+    "lieu": "16 Boulevard Marechal Joffre 34250 Palavas-les-Flots",
+    "dateDebut": "2026-08-15T18:00:00.000Z",
+    "score": 15,
+    "reasons": [
+      "Mois sans DPS planifié",
+      "Jour très favorable (samedi)",
+      "Créneau fin d'après-midi / soirée",
+      "Durée raisonnable",
+      "Très proche (5 km)",
+      "Espacement confortable (23 jours)"
     ]
   },
   {
@@ -40,7 +55,7 @@
       "Jour très favorable (samedi)",
       "Créneau fin d'après-midi / soirée",
       "Durée raisonnable",
-      "Très proche (9.5 km)",
+      "Très proche (9.6 km)",
       "Espacement confortable (23 jours)"
     ]
   },
@@ -87,6 +102,21 @@
       "Durée raisonnable",
       "Très proche (9.4 km)",
       "Espacement confortable (36 jours)"
+    ]
+  },
+  {
+    "uid": "evt16092741@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] Feu d'artifice",
+    "lieu": "16 Boulevard Marechal Joffre 34250 Palavas-les-Flots",
+    "dateDebut": "2026-08-29T18:00:00.000Z",
+    "score": 15,
+    "reasons": [
+      "Mois sans DPS planifié",
+      "Jour très favorable (samedi)",
+      "Créneau fin d'après-midi / soirée",
+      "Durée raisonnable",
+      "Très proche (5 km)",
+      "Espacement confortable (37 jours)"
     ]
   },
   {
@@ -325,7 +355,7 @@
       "Jour favorable (dimanche)",
       "Créneau fin d'après-midi / soirée",
       "Durée raisonnable",
-      "Très proche (9.5 km)",
+      "Très proche (9.6 km)",
       "Espacement confortable (24 jours)"
     ]
   },
@@ -368,7 +398,7 @@
       "Mois sans DPS planifié",
       "Jour très favorable (samedi)",
       "Durée raisonnable",
-      "Très proche (5.8 km)",
+      "Très proche (5 km)",
       "Espacement confortable (44 jours)"
     ]
   },
@@ -382,7 +412,7 @@
       "Mois sans DPS planifié",
       "Jour très favorable (samedi)",
       "Durée raisonnable",
-      "Très proche (5.8 km)",
+      "Très proche (5 km)",
       "Espacement confortable (58 jours)"
     ]
   },
@@ -414,34 +444,6 @@
       "Durée raisonnable",
       "Distance raisonnable (16 km)",
       "Espacement confortable (65 jours)"
-    ]
-  },
-  {
-    "uid": "evt16285401@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] MHR - RC Toulon",
-    "lieu": "Avenue de Vanieres 34070 Montpellier",
-    "dateDebut": "2026-10-03T14:30:00.000Z",
-    "score": 13,
-    "reasons": [
-      "Mois sans DPS planifié",
-      "Jour très favorable (samedi)",
-      "Durée raisonnable",
-      "Très proche (5.8 km)",
-      "Espacement confortable (72 jours)"
-    ]
-  },
-  {
-    "uid": "evt16285411@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] MHR - Castres Olympique",
-    "lieu": "Avenue de Vanieres 34070 Montpellier",
-    "dateDebut": "2026-10-31T14:30:00.000Z",
-    "score": 13,
-    "reasons": [
-      "Mois sans DPS planifié",
-      "Jour très favorable (samedi)",
-      "Durée raisonnable",
-      "Très proche (5.8 km)",
-      "Espacement confortable (100 jours)"
     ]
   }
 ]
