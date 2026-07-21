@@ -743,9 +743,24 @@ const dureeLabel = formatDuree(evt.dureeHeures);
 
 let calMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
 let calSelectedKey = null;
+let calStatusFilters = new Set();
+
+const CAL_FILTER_LABELS = {
+  inscrit: '✅ Inscrits',
+  favori: '⭐ Favoris',
+  suggestion: '🎯 Suggestions',
+  nouveau: '🔔 Nouveautés'
+};
 
 function dateKey(d) {
   return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+
+function matchesCalFilters(e) {
+  if (calStatusFilters.size === 0) return true;
+  return (calStatusFilters.has('inscrit') && e.dejaInscrit) ||
+         (calStatusFilters.has('favori') && isFavori(e.uid)) ||
+         (calStatusFilters.has('nouveau') && e.nouveau);
 }
 
 function renderCalendar() {
@@ -753,26 +768,34 @@ function renderCalendar() {
   if (!container) return;
 
   const monthLabel = calMonth.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
-  const eventsByDay = {};
+  const rawEventsByDay = {};
   calendarEvents.forEach(e => {
     if (!e.dateDebut) return;
     const key = dateKey(new Date(e.dateDebut));
-    (eventsByDay[key] ||= []).push(e);
+    (rawEventsByDay[key] ||= []).push(e);
   });
 
-  const suggestionsByDay = {};
+  const rawSuggestionsByDay = {};
   allSuggestions.forEach(s => {
     if (!s.dateDebut) return;
     const key = dateKey(new Date(s.dateDebut));
-    (suggestionsByDay[key] ||= []).push(s);
+    (rawSuggestionsByDay[key] ||= []).push(s);
   });
+
+  const suggestionsActive = calStatusFilters.size === 0 || calStatusFilters.has('suggestion');
+  const eventsByDay = {};
+  Object.keys(rawEventsByDay).forEach(key => {
+    const filtered = rawEventsByDay[key].filter(matchesCalFilters);
+    if (filtered.length > 0) eventsByDay[key] = filtered;
+  });
+  const suggestionsByDay = suggestionsActive ? rawSuggestionsByDay : {};
 
   const firstOfMonth = new Date(calMonth.getFullYear(), calMonth.getMonth(), 1);
   const startWeekday = (firstOfMonth.getDay() + 6) % 7;
   const daysInMonth = new Date(calMonth.getFullYear(), calMonth.getMonth() + 1, 0).getDate();
   const todayKey = dateKey(new Date());
 
- let cells = '';
+  let cells = '';
   for (let i = 0; i < startWeekday; i++) cells += '<div class="cal-cell empty"></div>';
   for (let day = 1; day <= daysInMonth; day++) {
     const d = new Date(calMonth.getFullYear(), calMonth.getMonth(), day);
@@ -784,7 +807,7 @@ function renderCalendar() {
     const suggestDot = daySuggestions.length > 0
       ? `<span class="cal-dot cal-dot-outline" style="border-color:${TAG_COLORS.DPS}"></span>`
       : '';
-  const hasInscrit = dayEvents.some(e => e.dejaInscrit);
+    const hasInscrit = dayEvents.some(e => e.dejaInscrit);
     const hasFavori = dayEvents.some(e => isFavori(e.uid));
     const hasNouveau = dayEvents.some(e => e.nouveau);
     const nouveauDot = hasNouveau ? '<span class="cal-dot" style="background:#FAC775"></span>' : '';
@@ -802,7 +825,12 @@ function renderCalendar() {
 
   const dayLabels = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'].map(l => `<div class="cal-daylabel">${l}</div>`).join('');
 
+  const filterChipsHtml = Object.entries(CAL_FILTER_LABELS).map(([key, label]) => `
+    <button data-cal-filter="${key}" class="${calStatusFilters.has(key) ? 'active' : ''}">${label}</button>
+  `).join('');
+
   container.innerHTML = `
+    <div class="filter-chips">${filterChipsHtml}</div>
     <div class="cal-header">
       <button id="cal-prev">‹</button>
       <span class="cal-title">${monthLabel}</span>
@@ -818,6 +846,15 @@ function renderCalendar() {
     </div>
     <div id="cal-day-detail"></div>
   `;
+
+  container.querySelectorAll('[data-cal-filter]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const key = btn.dataset.calFilter;
+      if (calStatusFilters.has(key)) calStatusFilters.delete(key);
+      else calStatusFilters.add(key);
+      renderCalendar();
+    });
+  });
 
   document.getElementById('cal-prev').addEventListener('click', () => {
     calMonth = new Date(calMonth.getFullYear(), calMonth.getMonth() - 1, 1);
