@@ -1,0 +1,32 @@
+name: Verification quotidienne eProtec
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install
+      - run: node scripts/check-events.js
+        env:
+          EPROTEC_ICS_URL: ${{ secrets.EPROTEC_ICS_URL }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+          MAIL_FROM: ${{ secrets.MAIL_FROM }}
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Mise a jour de la liste des evenements connus"
+          file_pattern: data/known-uids.json
