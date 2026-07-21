@@ -1,0 +1,42 @@
+{
+  "newEvents": [
+    {
+      "tag": "FOR",
+      "titre": "[FOR 34] Formation Conduite remorque",
+      "lieu": "Centre de formation de Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1625805",
+      "dejaInscrit": false,
+      "dateDebutIso": "2027-06-14T19:00:00.000Z"
+    },
+    {
+      "tag": "MAN",
+      "titre": "[MAN 34] Rassemblement Mensuel - MTP 11 -2027 - Bilan et administrati",
+      "lieu": "Centre de formation de Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1625817",
+      "dejaInscrit": false,
+      "dateDebutIso": "2027-06-14T18:45:00.000Z"
+    },
+    {
+      "tag": "MAN",
+      "titre": "[MAN 34] Rassemblement Mensuel - MTP 12 -2027 - Brancardage",
+      "lieu": "Centre de formation de Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1625818",
+      "dejaInscrit": false,
+      "dateDebutIso": "2027-06-23T18:45:00.000Z"
+    }
+  ],
+  "topSuggestion": {
+    "titre": "[DPS 34] MHSC - Dijon FCO",
+    "lieu": "Stade de la Mosson, 34080 Montpellier",
+    "dateDebutIso": "2026-08-08T19:15:00.000Z",
+    "score": 15,
+    "reasons": [
+      "Mois sans DPS planifié",
+      "Jour très favorable (samedi)",
+      "Créneau fin d'après-midi / soirée",
+      "Durée raisonnable",
+      "Très proche (9.4 km)",
+      "Espacement confortable (16 jours)"
+    ]
+  }
+}
