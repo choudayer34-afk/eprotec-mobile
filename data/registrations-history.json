@@ -43,7 +43,7 @@
     "dateDebut": "2026-11-24T08:00:00.000Z",
     "dureeHeures": 9,
     "statut": "Inscrit"
-  }
+  },
   "11": { "uid": "11", "tag": "DPS", "titre": "Soirées Antillaises", "lieu": "Pérols", "dateDebut": "2026-02-20T23:00:00.000Z", "dureeHeures": 6, "statut": "Inscrit" },
   "3": { "uid": "3", "tag": "DPS", "titre": "Gala Pharmacie", "lieu": "Castries", "dateDebut": "2026-04-17T20:00:00.000Z", "dureeHeures": 8, "statut": "Inscrit" },
   "20": { "uid": "20", "tag": "FOR", "titre": "FOR PSE1 partie 1", "lieu": "Centre de FOR de Montpellier", "dateDebut": "2026-01-24T08:00:00.000Z", "dureeHeures": 9, "statut": "Inscrit" },
