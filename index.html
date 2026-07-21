@@ -396,6 +396,13 @@ async function initFavoris() {
   }
 }
 
+function normalizeText(str) {
+  return (str || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+}
+
 function formatDate(iso) {
   if (!iso) return 'date inconnue';
   const d = new Date(iso);
@@ -1029,7 +1036,9 @@ function renderTypeFilterChips() {
 function renderEvenements() {
   let filtered = allEvents.filter(e => e.dateDebut);
 
-  if (filterType !== 'ALL') {
+  if (filterType === 'BENEVOLE') {
+    filtered = filtered.filter(e => normalizeText(e.titre).includes('benevole'));
+  } else if (filterType !== 'ALL') {
     filtered = filtered.filter(e => e.tag === filterType);
   }
   if (searchQuery) {
