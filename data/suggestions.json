@@ -296,43 +296,6 @@
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1609274"
   },
   {
-    "uid": "evt16274931@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] MHSC - Pau",
-    "lieu": "Stade de la Mosson, 34080 Montpellier",
-    "dateDebut": "2026-09-11T18:30:00.000Z",
-    "dateFin": "2026-09-11T22:30:00.000Z",
-    "description": "1h30 avant match - 1h45 de match - 30mn apres match. Bord de terrain uniquement et dedie extraction joueurs. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627493'>Lien vers l'activité</a>",
-    "tag": "DPS",
-    "score": 15,
-    "reasons": [
-      {
-        "text": "Mois sans DPS planifié",
-        "category": "positive"
-      },
-      {
-        "text": "Jour très favorable (vendredi)",
-        "category": "positive"
-      },
-      {
-        "text": "Créneau fin d'après-midi / soirée",
-        "category": "positive"
-      },
-      {
-        "text": "Durée raisonnable",
-        "category": "positive"
-      },
-      {
-        "text": "Très proche (9.4 km)",
-        "category": "positive"
-      },
-      {
-        "text": "Espacement confortable (50 jours)",
-        "category": "positive"
-      }
-    ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1627493"
-  },
-  {
     "uid": "evt16288541@https://eprotec.protection-civile.org",
     "titre": "[DPS 34] Beer Love Fest",
     "lieu": "Promenade du Peyrou 34000 Montpellier",
@@ -368,6 +331,43 @@
       }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1628854"
+  },
+  {
+    "uid": "evt16274931@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] MHSC - Pau",
+    "lieu": "Stade de la Mosson, 34080 Montpellier",
+    "dateDebut": "2026-09-11T18:30:00.000Z",
+    "dateFin": "2026-09-11T22:30:00.000Z",
+    "description": "1h30 avant match - 1h45 de match - 30mn apres match. Bord de terrain uniquement et dedie extraction joueurs. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627493'>Lien vers l'activité</a>",
+    "tag": "DPS",
+    "score": 15,
+    "reasons": [
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour très favorable (vendredi)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (9.4 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (50 jours)",
+        "category": "positive"
+      }
+    ],
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1627493"
   },
   {
     "uid": "evt16274941@https://eprotec.protection-civile.org",
