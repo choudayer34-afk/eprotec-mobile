@@ -383,7 +383,32 @@ importFavorisOnce();
 
 let allEvents = [];
 let allSuggestions = [];
-  let allHistory = {};
+let allHistory = {};
+let calendarEvents = [];
+
+function buildCalendarEvents() {
+  const now = new Date();
+  const cutoff = new Date(now.getTime() - 60 * 24 * 3600 * 1000);
+  const existingUids = new Set(allEvents.map(e => e.uid));
+
+  const historyItems = Object.values(allHistory)
+    .filter(h => h.dateDebut && new Date(h.dateDebut) >= cutoff && new Date(h.dateDebut) <= now && !existingUids.has(h.uid))
+    .map(h => ({
+      uid: h.uid,
+      tag: h.tag || 'AUTRE',
+      titre: h.titre,
+      lieu: h.lieu,
+      dateDebut: h.dateDebut,
+      dateFin: null,
+      dureeHeures: h.dureeHeures,
+      dejaInscrit: true,
+      nouveau: false,
+      url: null,
+      description: null
+    }));
+
+  calendarEvents = allEvents.concat(historyItems);
+}
 
 const TAG_COLORS = {
   DPS: '#F5821F', FOR: '#378ADD', MAN: '#D85A30',
@@ -465,7 +490,7 @@ document.getElementById('detail-back').addEventListener('click', () => {
 });
 
 function renderDetail(uid) {
-  const evt = allEvents.find(e => e.uid === uid);
+  const evt = allEvents.find(e => e.uid === uid) || calendarEvents.find(e => e.uid === uid);
   const container = document.getElementById('detail-content');
   if (!evt) {
     container.innerHTML = '<div class="empty">Événement introuvable.</div>';
@@ -539,7 +564,7 @@ function renderCalendar() {
 
   const monthLabel = calMonth.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
   const eventsByDay = {};
-  allEvents.forEach(e => {
+  calendarEvents.forEach(e => {
     if (!e.dateDebut) return;
     const key = dateKey(new Date(e.dateDebut));
     (eventsByDay[key] ||= []).push(e);
@@ -1074,6 +1099,8 @@ async function loadData() {
     topSuggestionCard.style.cursor = 'pointer';
     topSuggestionCard.onclick = () => openDetail(s.uid);
   }
+
+  buildCalendarEvents();
 
   renderTypeFilterChips();
   renderEvenements();
