@@ -180,13 +180,17 @@ function eventCard(e, opts = {}) {
   `;
 }
 
-function attachStarHandlers(container) {
+function attachStarHandlers(container, removeOnUnfav = false) {
   container.querySelectorAll('[data-fav-uid]').forEach(btn => {
     btn.addEventListener('click', () => {
       toggleFavori(btn.dataset.favUid);
       const active = isFavori(btn.dataset.favUid);
       btn.classList.toggle('active', active);
       btn.textContent = active ? '★' : '☆';
+      if (removeOnUnfav && !active) {
+        const card = btn.closest('.card');
+        if (card) card.remove();
+      }
     });
   });
 }
