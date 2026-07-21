@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
 <title>eProtec Mobile</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <script>
 (function generateAppIcon() {
   const canvas = document.createElement('canvas');
@@ -165,6 +166,12 @@
   .stat-bar-head { display: flex; justify-content: space-between; font-size: 12px; color: #9FB3D6; margin-bottom: 4px; }
   .stat-bar-track { background: #0E1E3A; border-radius: 6px; height: 10px; overflow: hidden; }
   .stat-bar-fill { height: 100%; border-radius: 6px; background: #F5821F; }
+  .metric-toggle { display: flex; gap: 6px; margin-bottom: 12px; }
+  .metric-toggle button {
+    flex: 1; background: #0E1E3A; color: #9FB3D6; border: none; font-size: 12px;
+    padding: 8px; border-radius: 10px;
+  }
+  .metric-toggle button.active { background: #F5821F; color: #4A1B0C; font-weight: 500; }
 
   .sub-nav { display: flex; gap: 6px; margin-bottom: 14px; overflow-x: auto; }
   .sub-nav button {
@@ -555,6 +562,8 @@ let allEvents = [];
 let allSuggestions = [];
 let allHistory = {};
 let calendarEvents = [];
+let rapportChartInstance = null;
+let rapportMetric = 'heures';
 
 function buildCalendarEvents() {
   const now = new Date();
@@ -1099,6 +1108,91 @@ function renderSuggestions(suggestions) {
   );
 }
 
+function getMonthlyDpsStats(entries, year) {
+  const hours = new Array(12).fill(0);
+  const counts = new Array(12).fill(0);
+  entries
+    .filter(e => e.tag === 'DPS' && e.dateDebut && new Date(e.dateDebut).getFullYear() === year)
+    .forEach(e => {
+      const m = new Date(e.dateDebut).getMonth();
+      hours[m] += (e.dureeHeures || 0);
+      counts[m]++;
+    });
+  return { hours, counts };
+}
+
+function cumulativeArray(values, stopAtMonth) {
+  let sum = 0;
+  return values.map((v, i) => {
+    if (stopAtMonth != null && i > stopAtMonth) return null;
+    sum += v;
+    return Math.round(sum * 10) / 10;
+  });
+}
+
+function renderComparisonChart(entries) {
+  const canvas = document.getElementById('rapport-comparison-chart');
+  if (!canvas) return;
+
+  const now = new Date();
+  const yearNow = now.getFullYear();
+  const yearPrev = yearNow - 1;
+  const currentMonthIdx = now.getMonth();
+
+  const statsNow = getMonthlyDpsStats(entries, yearNow);
+  const statsPrev = getMonthlyDpsStats(entries, yearPrev);
+
+  const dataNow = rapportMetric === 'heures'
+    ? cumulativeArray(statsNow.hours, currentMonthIdx)
+    : cumulativeArray(statsNow.counts, currentMonthIdx);
+  const dataPrev = rapportMetric === 'heures'
+    ? cumulativeArray(statsPrev.hours, null)
+    : cumulativeArray(statsPrev.counts, null);
+
+  const labels = ['Jan','Fév','Mar','Avr','Mai','Juin','Juil','Août','Sep','Oct','Nov','Déc'];
+
+  if (rapportChartInstance) {
+    rapportChartInstance.destroy();
+  }
+
+  rapportChartInstance = new Chart(canvas, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: String(yearNow),
+          data: dataNow,
+          borderColor: '#F5821F',
+          backgroundColor: 'rgba(245,130,31,0.15)',
+          fill: true,
+          tension: 0.3,
+          pointRadius: 3
+        },
+        {
+          label: String(yearPrev),
+          data: dataPrev,
+          borderColor: '#85B7EB',
+          backgroundColor: 'transparent',
+          fill: false,
+          tension: 0.3,
+          pointRadius: 3
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { labels: { color: '#9FB3D6', font: { size: 11 } } }
+      },
+      scales: {
+        x: { ticks: { color: '#9FB3D6', font: { size: 10 } }, grid: { color: '#223258' } },
+        y: { ticks: { color: '#9FB3D6', font: { size: 10 } }, grid: { color: '#223258' }, beginAtZero: true }
+      }
+    }
+  });
+}
+
 function renderRapport(history) {
   const container = document.getElementById('rapport-content');
   const now = new Date();
@@ -1120,12 +1214,21 @@ function renderRapport(history) {
   const moyenneMensuelle = Math.round((nbDps / monthsElapsed) * 10) / 10;
   const projection = Math.round((totalHeures / monthsElapsed) * 12 * 10) / 10;
 
-  let html = `
+let html = `
     <div class="kpi-grid">
       <div class="kpi"><div class="value">${nbDps}</div><div class="label">DPS réalisés ${yearNow}</div></div>
       <div class="kpi"><div class="value">${totalHeures} h</div><div class="label">Heures cumulées</div></div>
       <div class="kpi"><div class="value">${moyenneMensuelle}</div><div class="label">DPS / mois</div></div>
       <div class="kpi"><div class="value">${projection} h</div><div class="label">Projection annuelle</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Comparatif ${yearNow} vs ${yearNow - 1} (cumulé)</div>
+      <div class="metric-toggle">
+        <button data-metric="heures" class="${rapportMetric === 'heures' ? 'active' : ''}">Heures</button>
+        <button data-metric="nombre" class="${rapportMetric === 'nombre' ? 'active' : ''}">Nombre de DPS</button>
+      </div>
+      <canvas id="rapport-comparison-chart" height="220"></canvas>
     </div>
   `;
 
@@ -1208,7 +1311,7 @@ function renderRapport(history) {
     </div>
   `;
 
-  container.innerHTML = html;
+ container.innerHTML = html;
 
   container.querySelectorAll('.month-toggle').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -1219,6 +1322,15 @@ function renderRapport(history) {
       chevron.textContent = isHidden ? '▾' : '▸';
     });
   });
+
+  container.querySelectorAll('.metric-toggle button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      rapportMetric = btn.dataset.metric;
+      renderRapport(allHistory);
+    });
+  });
+
+  renderComparisonChart(entries);
 }
 
 function renderTypeFilterChips() {
