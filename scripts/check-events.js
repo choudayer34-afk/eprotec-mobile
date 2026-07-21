@@ -180,37 +180,38 @@ function getMonthKey(date) {
 async function evaluateDpsCandidate(evt, monthIsOpen, registeredDps, geocache) {
   let score = 0;
   const reasons = [];
+  const push = (text, category) => reasons.push({ text, category });
   const start = evt.startDate;
-  if (!start) return { event: evt, score: -999, reasons: ['Date invalide'] };
+  if (!start) return { event: evt, score: -999, reasons: [{ text: 'Date invalide', category: 'negative' }] };
 
   if (monthIsOpen) {
     score += W.monthEmpty;
-    reasons.push('Mois sans DPS planifié');
+    push('Mois sans DPS planifié', 'positive');
   }
 
   const day = start.getDay();
-  if (day === 5) { score += W.friday; reasons.push('Jour très favorable (vendredi)'); }
-  else if (day === 6) { score += W.saturday; reasons.push('Jour très favorable (samedi)'); }
-  else if (day === 0) { score += W.sunday; reasons.push('Jour favorable (dimanche)'); }
-  else { score += W.weekday; reasons.push('Jour de semaine'); }
+  if (day === 5) { score += W.friday; push('Jour très favorable (vendredi)', 'positive'); }
+  else if (day === 6) { score += W.saturday; push('Jour très favorable (samedi)', 'positive'); }
+  else if (day === 0) { score += W.sunday; push('Jour favorable (dimanche)', 'positive'); }
+  else { score += W.weekday; push('Jour de semaine', 'neutral'); }
 
   if (start.getHours() >= 16) {
     score += W.eveningSlot;
-    reasons.push("Créneau fin d'après-midi / soirée");
+    push("Créneau fin d'après-midi / soirée", 'positive');
   }
 
   if (evt.dureeHeures != null) {
-    if (evt.dureeHeures >= 8) { score += W.badDuration; reasons.push('DPS long (fatigue)'); }
-    else { score += W.goodDuration; reasons.push('Durée raisonnable'); }
+    if (evt.dureeHeures >= 8) { score += W.badDuration; push('DPS long (fatigue)', 'negative'); }
+    else { score += W.goodDuration; push('Durée raisonnable', 'positive'); }
   }
 
   const coord = await geocode(evt.location, geocache);
   if (coord) {
     const dist = haversineKm(HOME.lat, HOME.lon, coord.lat, coord.lon);
-    if (dist <= 15) { score += W.veryClose; reasons.push(`Très proche (${dist} km)`); }
-    else if (dist <= 30) { score += W.close; reasons.push(`Distance raisonnable (${dist} km)`); }
-    else if (dist <= 50) { score += W.far; reasons.push(`Assez éloigné (${dist} km)`); }
-    else { score += W.veryFar; reasons.push(`Trop éloigné (${dist} km)`); }
+    if (dist <= 15) { score += W.veryClose; push(`Très proche (${dist} km)`, 'positive'); }
+    else if (dist <= 30) { score += W.close; push(`Distance raisonnable (${dist} km)`, 'positive'); }
+    else if (dist <= 50) { score += W.far; push(`Assez éloigné (${dist} km)`, 'negative'); }
+    else { score += W.veryFar; push(`Trop éloigné (${dist} km)`, 'negative'); }
   }
 
   if (registeredDps.length > 0) {
@@ -218,10 +219,10 @@ async function evaluateDpsCandidate(evt, monthIsOpen, registeredDps, geocache) {
     const minGap = Math.round(Math.min(...gaps));
     if (minGap < MIN_GAP_DAYS) {
       score += W.gapTooClosePenalty;
-      reasons.push(`Trop proche d'un DPS déjà planifié (${minGap} jours)`);
+      push(`Trop proche d'un DPS déjà planifié (${minGap} jours)`, 'negative');
     } else {
       score += W.gapComfortable;
-      reasons.push(`Espacement confortable (${minGap} jours)`);
+      push(`Espacement confortable (${minGap} jours)`, 'positive');
     }
   }
 
