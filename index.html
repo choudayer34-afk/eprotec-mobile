@@ -154,6 +154,10 @@
   .month-chevron { color: #F5821F; font-size: 12px; }
   .month-body { padding-top: 8px; }
   .insc-section-title { font-size: 11px; color: #9FB3D6; margin: 14px 0 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .stat-bar-row { margin-bottom: 10px; }
+  .stat-bar-head { display: flex; justify-content: space-between; font-size: 12px; color: #9FB3D6; margin-bottom: 4px; }
+  .stat-bar-track { background: #0E1E3A; border-radius: 6px; height: 10px; overflow: hidden; }
+  .stat-bar-fill { height: 100%; border-radius: 6px; background: #F5821F; }
 
   .sub-nav { display: flex; gap: 6px; margin-bottom: 14px; overflow-x: auto; }
   .sub-nav button {
@@ -259,10 +263,11 @@
   </section>
 
   <section id="plus">
-    <div class="sub-nav">
+<div class="sub-nav">
       <button data-sub="plus-suggestions" class="active">Suggestions</button>
       <button data-sub="plus-inscriptions">Inscriptions</button>
       <button data-sub="plus-nouveautes">Nouveautés</button>
+      <button data-sub="plus-rapport">Rapport</button>
       <button data-sub="plus-liens">Liens utiles</button>
     </div>
 
@@ -276,6 +281,10 @@
 
     <div id="plus-nouveautes" class="sub-section">
       <div id="liste-nouveautes-completes"><div class="empty">Chargement...</div></div>
+    </div>
+
+    <div id="plus-rapport" class="sub-section">
+      <div id="rapport-content"><div class="empty">Chargement...</div></div>
     </div>
 
     <div id="plus-liens" class="sub-section">
@@ -369,6 +378,7 @@ importFavorisOnce();
 
 let allEvents = [];
 let allSuggestions = [];
+  let allHistory = {};
 
 const TAG_COLORS = {
   DPS: '#F5821F', FOR: '#378ADD', MAN: '#D85A30',
@@ -394,7 +404,7 @@ document.querySelectorAll('nav button').forEach(btn => {
     if (btn.dataset.tab === 'favoris') renderFavoris();
     if (btn.dataset.tab === 'calendrier') renderCalendar();
     if (btn.dataset.tab === 'evenements') renderEvenements();
-    if (btn.dataset.tab === 'plus') { renderInscriptions(); renderSuggestions(allSuggestions); renderNouveautesCompletes(allEvents); }
+    if (btn.dataset.tab === 'plus') { renderInscriptions(); renderSuggestions(allSuggestions); renderNouveautesCompletes(allEvents); renderRapport(allHistory); }
   });
 });
 
@@ -422,7 +432,9 @@ function goToPlusSub(subId) {
   renderInscriptions();
   renderSuggestions(allSuggestions);
   renderNouveautesCompletes(allEvents);
+  renderRapport(allHistory);
 }
+
 
 function openDetail(uid) {
   const activeTab = document.querySelector('nav button.active');
@@ -799,6 +811,128 @@ function renderSuggestions(suggestions) {
   );
 }
 
+function renderRapport(history) {
+  const container = document.getElementById('rapport-content');
+  const now = new Date();
+  const yearNow = now.getFullYear();
+
+  const entries = Object.values(history || {});
+  const pastEntries = entries.filter(e => e.dateDebut && new Date(e.dateDebut) < now);
+  const pastThisYear = pastEntries.filter(e => new Date(e.dateDebut).getFullYear() === yearNow);
+
+  if (pastThisYear.length === 0) {
+    container.innerHTML = '<div class="empty">Pas encore assez de données cette année pour établir un rapport.</div>';
+    return;
+  }
+
+  const dpsThisYear = pastThisYear.filter(e => e.tag === 'DPS');
+  const nbDps = dpsThisYear.length;
+  const totalHeures = Math.round(dpsThisYear.reduce((sum, e) => sum + (e.dureeHeures || 0), 0) * 10) / 10;
+  const monthsElapsed = now.getMonth() + 1;
+  const moyenneMensuelle = Math.round((nbDps / monthsElapsed) * 10) / 10;
+  const projection = Math.round((totalHeures / monthsElapsed) * 12 * 10) / 10;
+
+  let html = `
+    <div class="kpi-grid">
+      <div class="kpi"><div class="value">${nbDps}</div><div class="label">DPS réalisés ${yearNow}</div></div>
+      <div class="kpi"><div class="value">${totalHeures} h</div><div class="label">Heures cumulées</div></div>
+      <div class="kpi"><div class="value">${moyenneMensuelle}</div><div class="label">DPS / mois</div></div>
+      <div class="kpi"><div class="value">${projection} h</div><div class="label">Projection annuelle</div></div>
+    </div>
+  `;
+
+  const monthNames = ['Jan','Fév','Mar','Avr','Mai','Juin','Juil','Août','Sep','Oct','Nov','Déc'];
+  const hoursByMonth = new Array(12).fill(0);
+  dpsThisYear.forEach(e => {
+    const m = new Date(e.dateDebut).getMonth();
+    hoursByMonth[m] += (e.dureeHeures || 0);
+  });
+  const maxMonthHours = Math.max(...hoursByMonth, 1);
+
+  html += '<div class="card"><div class="card-title">Heures de DPS par mois</div>';
+  monthNames.forEach((label, i) => {
+    const h = Math.round(hoursByMonth[i] * 10) / 10;
+    const pct = Math.round((hoursByMonth[i] / maxMonthHours) * 100);
+    html += `
+      <div class="stat-bar-row">
+        <div class="stat-bar-head"><span>${label}</span><span>${h} h</span></div>
+        <div class="stat-bar-track"><div class="stat-bar-fill" style="width:${pct}%"></div></div>
+      </div>
+    `;
+  });
+  html += '</div>';
+
+  const dayNames = ['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
+  const countByDay = new Array(7).fill(0);
+  dpsThisYear.forEach(e => {
+    const jsDay = new Date(e.dateDebut).getDay();
+    const idx = (jsDay + 6) % 7;
+    countByDay[idx]++;
+  });
+  const maxDayCount = Math.max(...countByDay, 1);
+
+  html += '<div class="card"><div class="card-title">Répartition par jour de la semaine</div>';
+  dayNames.forEach((label, i) => {
+    const pct = Math.round((countByDay[i] / maxDayCount) * 100);
+    html += `
+      <div class="stat-bar-row">
+        <div class="stat-bar-head"><span>${label}</span><span>${countByDay[i]}</span></div>
+        <div class="stat-bar-track"><div class="stat-bar-fill" style="width:${pct}%"></div></div>
+      </div>
+    `;
+  });
+  html += '</div>';
+
+  const byTag = {};
+  pastThisYear.forEach(e => { byTag[e.tag] = (byTag[e.tag] || 0) + 1; });
+  const totalAll = pastThisYear.length;
+
+  html += '<div class="card"><div class="card-title">Répartition par type d\'activité</div>';
+  Object.keys(byTag).sort((a, b) => byTag[b] - byTag[a]).forEach(tag => {
+    const count = byTag[tag];
+    const pct = Math.round((count / totalAll) * 100);
+    html += `
+      <div class="stat-bar-row">
+        <div class="stat-bar-head"><span>${tag}</span><span>${count} (${pct}%)</span></div>
+        <div class="stat-bar-track"><div class="stat-bar-fill" style="width:${pct}%; background:${TAG_COLORS[tag] || '#888780'}"></div></div>
+      </div>
+    `;
+  });
+  html += '</div>';
+
+  const sortedDetail = [...pastThisYear].sort((a, b) => new Date(b.dateDebut) - new Date(a.dateDebut));
+  html += `
+    <div class="month-group">
+      <button class="month-toggle" data-month-key="detail-annee">
+        <span>Détail des activités réalisées (${sortedDetail.length})</span>
+        <span class="month-chevron">▸</span>
+      </button>
+      <div class="month-body" data-month-body="detail-annee" style="display:none">
+        ${sortedDetail.map(e => `
+          <div class="event-row">
+            <div>
+              <div class="event-title">[${e.tag}] ${e.titre}</div>
+              <div class="event-meta">${formatDate(e.dateDebut)} · ${e.lieu || ''} · ${e.dureeHeures || 0} h</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+
+  container.innerHTML = html;
+
+  container.querySelectorAll('.month-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const body = container.querySelector(`[data-month-body="${btn.dataset.monthKey}"]`);
+      const chevron = btn.querySelector('.month-chevron');
+      const isHidden = body.style.display === 'none';
+      body.style.display = isHidden ? 'block' : 'none';
+      chevron.textContent = isHidden ? '▾' : '▸';
+    });
+  });
+}
+
 function renderTypeFilterChips() {
   const container = document.getElementById('type-filter-chips');
   container.innerHTML = TAG_ORDER.map(tag => `
@@ -872,11 +1006,14 @@ function renderUpdateStatus(lastUpdateIso) {
 
 async function loadData() {
   const bust = Date.now();
-  const [events, suggestions, status] = await Promise.all([
+  const [events, suggestions, status, history] = await Promise.all([
     fetch('data/events.json?t=' + bust, { cache: 'no-store' }).then(r => r.json()),
     fetch('data/suggestions.json?t=' + bust, { cache: 'no-store' }).then(r => r.json()),
-    fetch('data/status.json?t=' + bust, { cache: 'no-store' }).then(r => r.json()).catch(() => ({}))
+    fetch('data/status.json?t=' + bust, { cache: 'no-store' }).then(r => r.json()).catch(() => ({})),
+    fetch('data/registrations-history.json?t=' + bust, { cache: 'no-store' }).then(r => r.json()).catch(() => ({}))
   ]);
+
+  allHistory = history;
 
   renderUpdateStatus(status.lastUpdate);
 
