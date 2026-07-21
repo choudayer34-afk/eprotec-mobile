@@ -34,7 +34,7 @@
     "dateFin": "2026-07-21T20:30:00.000Z",
     "dureeHeures": 2,
     "dejaInscrit": false,
-    "nouveau": true,
+    "nouveau": false,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1609246",
     "description": "Nouveautes en 2026 : les rassemblements sont thematises .   Arrivee possible apres l'heure prevue de 18h30, en fonction de vos disponibilites. Merci de l'indiquer en commentaire.  Evitons les annulations aux derniers moments merci.  Ouvert a tous, PSE ou non. Duree indicative dependant du nombre d'inscrits et des difficultes et des themes.<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1609246'>Lien vers l'activité</a>"
   },
@@ -42,10 +42,10 @@
     "uid": "evt16340331@https://eprotec.protection-civile.org",
     "tag": "AUTRE",
     "titre": "[MSP 34] PAP - ARS",
-    "lieu": "Sete",
-    "dateDebut": "2026-07-22T08:00:00.000Z",
-    "dateFin": "2026-07-22T17:00:00.000Z",
-    "dureeHeures": 9,
+    "lieu": "Parking du Belvedere, Sete",
+    "dateDebut": "2026-07-22T10:45:00.000Z",
+    "dateFin": "2026-07-22T19:00:00.000Z",
+    "dureeHeures": 8.3,
     "dejaInscrit": false,
     "nouveau": false,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1634033",
@@ -702,19 +702,6 @@
     "description": "- Inscription ouverte : validation finale entre 7 et 10j avant du personnel  - 3 PSE2  (dont un CEPS) + 1 PSE 1/2 - Pas de stagiaire - Mineur interdit - Si depart de Montpellier : RDV 17h15 au local sauf info contraire - Beziers : directement sur place a 18h30 <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628708'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt15588681@https://eprotec.protection-civile.org",
-    "tag": "DPS",
-    "titre": "[DPS 34] Fete du Cres",
-    "lieu": "Rue de la Monnaie 34920 Le Cres",
-    "dateDebut": "2026-08-15T20:30:00.000Z",
-    "dateFin": "2026-08-16T01:00:00.000Z",
-    "dureeHeures": 4.5,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1558868",
-    "description": "20h30-21h30 : Bandidos rue des aiguerelles  21h30-1h : bal - Hotel de ville<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1558868'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt16288141@https://eprotec.protection-civile.org",
     "tag": "DPS",
     "titre": "[DPS 34] Animations - Feria de Beziers",
@@ -726,6 +713,19 @@
     "nouveau": false,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1628814",
     "description": "Animations taurines, lancee de tong sur les allees course de caisses a savon, bodega des pitchoun plateau des poetes. Contact Bodga : Matthieu Vidal 0786145070. Contact Caisse a Savon Nelly Canut : 0786840661<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628814'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt15588681@https://eprotec.protection-civile.org",
+    "tag": "DPS",
+    "titre": "[DPS 34] Fete du Cres",
+    "lieu": "Rue de la Monnaie 34920 Le Cres",
+    "dateDebut": "2026-08-15T20:30:00.000Z",
+    "dateFin": "2026-08-16T01:00:00.000Z",
+    "dureeHeures": 4.5,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1558868",
+    "description": "20h30-21h30 : Bandidos rue des aiguerelles  21h30-1h : bal - Hotel de ville<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1558868'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt15588731@https://eprotec.protection-civile.org",
@@ -1716,19 +1716,6 @@
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1601131'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt15219951@https://eprotec.protection-civile.org",
-    "tag": "FOR",
-    "titre": "[FOR 34] Formation PSC",
-    "lieu": "Centre de formation de Montpellier",
-    "dateDebut": "2026-09-19T08:30:00.000Z",
-    "dateFin": "2026-09-19T17:30:00.000Z",
-    "dureeHeures": 9,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1521995",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1521995'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt16285391@https://eprotec.protection-civile.org",
     "tag": "DPS",
     "titre": "[DPS 34] MHR - USA Perpignan",
@@ -1740,6 +1727,19 @@
     "nouveau": false,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1628539",
     "description": "Horaires non definitives - 2h avant match - 1h45 de match - 2h de post match (pour 8 IS seulement). En general, match a 16h30 le samedi. Peut etre a 14h30, 21h ou exceptionnellement le dimanche a 21h. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628539'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt15219951@https://eprotec.protection-civile.org",
+    "tag": "FOR",
+    "titre": "[FOR 34] Formation PSC",
+    "lieu": "Centre de formation de Montpellier",
+    "dateDebut": "2026-09-19T08:30:00.000Z",
+    "dateFin": "2026-09-19T17:30:00.000Z",
+    "dureeHeures": 9,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1521995",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1521995'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16191851@https://eprotec.protection-civile.org",
@@ -2990,19 +2990,6 @@
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1583594'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt15835942@https://eprotec.protection-civile.org",
-    "tag": "FOR",
-    "titre": "[FOR 34] ACIM F1543 renomme 1549 - SST partie 2/2",
-    "lieu": "18 rue Paul Brousse, 34056 MONTPELLIER",
-    "dateDebut": "2026-11-19T08:00:00.000Z",
-    "dateFin": "2026-11-19T17:00:00.000Z",
-    "dureeHeures": 9,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1583594",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1583594'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt15220191@https://eprotec.protection-civile.org",
     "tag": "FOR",
     "titre": "[FOR 34] Formation PSC",
@@ -3014,6 +3001,19 @@
     "nouveau": false,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1522019",
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1522019'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt15835942@https://eprotec.protection-civile.org",
+    "tag": "FOR",
+    "titre": "[FOR 34] ACIM F1543 renomme 1549 - SST partie 2/2",
+    "lieu": "18 rue Paul Brousse, 34056 MONTPELLIER",
+    "dateDebut": "2026-11-19T08:00:00.000Z",
+    "dateFin": "2026-11-19T17:00:00.000Z",
+    "dureeHeures": 9,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1583594",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1583594'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16286421@https://eprotec.protection-civile.org",
