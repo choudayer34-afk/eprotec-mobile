@@ -17,6 +17,7 @@
     padding: 16px; position: sticky; top: 0; background: #0E1E3A; z-index: 5;
   }
   header h1 { font-size: 16px; font-weight: 500; }
+  .update-status { font-size: 10px; color: #9FB3D6; text-align: center; padding: 0 14px 10px; }
   main { padding: 0 14px; }
   .kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
   .kpi { background: #16274A; border-radius: 12px; padding: 12px; cursor: pointer; }
@@ -109,6 +110,7 @@
 <body>
 
 <header><h1>eProtec Mobile</h1></header>
+<div class="update-status" id="update-status">Chargement...</div>
 
 <main>
 
@@ -644,12 +646,29 @@ function goToPlusSub(subId) {
 document.getElementById('kpi-inscrits').closest('.kpi').addEventListener('click', () => goToPlusSub('plus-inscriptions'));
 document.getElementById('kpi-nouveautes').closest('.kpi').addEventListener('click', () => goToPlusSub('plus-nouveautes'));
 
+function renderUpdateStatus(lastUpdateIso) {
+  const el = document.getElementById('update-status');
+  if (!lastUpdateIso) {
+    el.textContent = 'Heure de mise à jour inconnue';
+    return;
+  }
+  const last = new Date(lastUpdateIso);
+  const next = new Date(last);
+  next.setHours(next.getHours() + 1, 0, 0, 0);
+  if (next <= last) next.setHours(next.getHours() + 1);
+
+  const fmt = (d) => d.toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+  el.textContent = `Mise à jour : ${fmt(last)} · Prochaine : ${fmt(next)}`;
+}
+
 async function loadData() {
-  const [events, suggestions] = await Promise.all([
+  const [events, suggestions, status] = await Promise.all([
     fetch('data/events.json').then(r => r.json()),
-    fetch('data/suggestions.json').then(r => r.json())
+    fetch('data/suggestions.json').then(r => r.json()),
+    fetch('data/status.json').then(r => r.json()).catch(() => ({}))
   ]);
 
+  renderUpdateStatus(status.lastUpdate);
   allEvents = events;
   allSuggestions = suggestions;
 
