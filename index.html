@@ -59,7 +59,15 @@
   .cal-cell .cal-daynum { font-size: 11px; color: #fff; }
 .cal-dots { display: flex; justify-content: center; gap: 2px; margin-top: 2px; flex-wrap: wrap; }
   .cal-legend { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 14px; }
-  .cal-legend-item { display: flex; align-items: center; gap: 4px; font-size: 10px; color: #9FB3D6; }
+.cal-legend-item { display: flex; align-items: center; gap: 4px; font-size: 10px; color: #9FB3D6; }
+  .month-group { margin-bottom: 12px; }
+  .month-toggle {
+    width: 100%; background: #16274A; border: none; color: #fff;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 14px; border-radius: 12px; font-size: 13px; font-weight: 500;
+  }
+  .month-chevron { color: #F5821F; font-size: 12px; }
+  .month-body { padding-top: 8px; }
   .cal-dot { width: 5px; height: 5px; border-radius: 50%; }
   nav {
     position: fixed; bottom: 0; left: 0; right: 0;
@@ -320,6 +328,62 @@ function renderFavoris() {
    attachStarHandlers(container, true);
 }
 
+function groupSuggestionsByMonth(suggestions) {
+  const groups = {};
+  suggestions.forEach(s => {
+    if (!s.dateDebut) return;
+    const d = new Date(s.dateDebut);
+    const key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+    (groups[key] ||= []).push(s);
+  });
+  return Object.keys(groups).sort().map(key => ({
+    key,
+    label: new Date(key + '-01').toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' }),
+    items: groups[key].sort((a, b) => b.score - a.score)
+  }));
+}
+
+function renderSuggestions(suggestions) {
+  const container = document.getElementById('liste-suggestions');
+  const monthGroups = groupSuggestionsByMonth(suggestions);
+
+  if (monthGroups.length === 0) {
+    container.innerHTML = '<div class="empty">Aucune suggestion disponible.</div>';
+    return;
+  }
+
+  container.innerHTML = monthGroups.map((g, gi) => `
+    <div class="month-group">
+      <button class="month-toggle" data-month-key="${g.key}">
+        <span>${g.label.charAt(0).toUpperCase() + g.label.slice(1)} (${g.items.length})</span>
+        <span class="month-chevron">${gi === 0 ? '▾' : '▸'}</span>
+      </button>
+      <div class="month-body" data-month-body="${g.key}" style="display:${gi === 0 ? 'block' : 'none'}">
+        ${g.items.map((s, i) => `
+          <div class="card ${i === 0 ? 'highlight' : ''}">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <span class="badge ${i === 0 ? 'badge-new' : 'badge-ok'}">${i === 0 ? 'Prioritaire' : 'Score ' + s.score}</span>
+              ${i === 0 ? `<span style="color:#F5821F; font-weight:500;">${s.score} pts</span>` : ''}
+            </div>
+            <div class="event-title">[DPS] ${s.titre}</div>
+            <div class="event-meta">${formatDate(s.dateDebut)} · ${s.lieu || ''}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+
+  container.querySelectorAll('.month-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const body = container.querySelector(`[data-month-body="${btn.dataset.monthKey}"]`);
+      const chevron = btn.querySelector('.month-chevron');
+      const isHidden = body.style.display === 'none';
+      body.style.display = isHidden ? 'block' : 'none';
+      chevron.textContent = isHidden ? '▾' : '▸';
+    });
+  });
+}
+
 async function loadData() {
   const [events, suggestions] = await Promise.all([
     fetch('data/events.json').then(r => r.json()),
@@ -365,18 +429,7 @@ async function loadData() {
   listeEvenements.innerHTML = events.slice(0, 40).map(e => eventCard(e)).join('');
   attachStarHandlers(listeEvenements);
 
-  const listeSuggestions = document.getElementById('liste-suggestions');
-  listeSuggestions.innerHTML = suggestions.map((s, i) => `
-    <div class="card ${i === 0 ? 'highlight' : ''}">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-        <span class="badge ${i === 0 ? 'badge-new' : 'badge-ok'}">${i === 0 ? 'Prioritaire' : 'Score ' + s.score}</span>
-        ${i === 0 ? `<span style="color:#F5821F; font-weight:500;">${s.score} pts</span>` : ''}
-      </div>
-      <div class="event-title">[DPS] ${s.titre}</div>
-      <div class="event-meta">${formatDate(s.dateDebut)} · ${s.lieu || ''}</div>
-    </div>
-  `).join('');
-}
+renderSuggestions(suggestions);
 
 loadData().catch(err => {
   document.querySelectorAll('.empty').forEach(el => el.textContent = 'Erreur de chargement des données.');
