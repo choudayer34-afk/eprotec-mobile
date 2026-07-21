@@ -286,6 +286,29 @@ async function sendMail(newEvents, suggestions) {
   });
 }
 
+async function sendPushNotification(newEvents) {
+  const topic = process.env.NTFY_TOPIC;
+  if (!topic) return;
+
+  const titles = newEvents.slice(0, 3).map(e => `[${e.tag}] ${e.summary}`).join('\n');
+  const suffix = newEvents.length > 3 ? `\n...et ${newEvents.length - 3} autre(s)` : '';
+
+  try {
+    await fetch(`https://ntfy.sh/${topic}`, {
+      method: 'POST',
+      headers: {
+        'Title': `${newEvents.length} nouvelle(s) activité(s) eProtec`,
+        'Priority': 'default',
+        'Tags': 'bell'
+      },
+      body: titles + suffix
+    });
+    console.log('Notification push envoyée.');
+  } catch (err) {
+    console.error('Erreur notification push :', err.message);
+  }
+}
+
 async function fetchIcs(url) {
   const res = await fetch(url);
   if (!res.ok) throw new Error(`Échec du téléchargement ICS (${res.status}) : ${url}`);
@@ -326,7 +349,7 @@ async function main() {
   console.log(`Dont déjà inscrits : ${registered.length}`);
 
   const geocache = loadJson(GEOCACHE_PATH, {});
-  console.log('Calcul des suggestions OAD (peut prendre quelques secondes)...');
+  console.log('Calcul des suggestions OAD...');
   const suggestions = await computeOadSuggestions(events, registrationsHistory, geocache);
   writeFileSync(GEOCACHE_PATH, JSON.stringify(geocache, null, 2));
   console.log(`Suggestions calculées : ${suggestions.length}`);
@@ -337,13 +360,14 @@ async function main() {
   const newEvents = events.filter(e => !knownSet.has(e.uid));
 
   if (isFirstRun) {
-    console.log("Premier lancement : initialisation, aucun mail envoyé.");
+    console.log("Premier lancement : initialisation, aucune alerte envoyée.");
   } else if (newEvents.length > 0) {
-    console.log(`${newEvents.length} nouveauté(s), envoi du mail...`);
+    console.log(`${newEvents.length} nouveauté(s), envoi des alertes...`);
     await sendMail(newEvents, suggestions);
-    console.log('Mail envoyé.');
+    await sendPushNotification(newEvents);
+    console.log('Alertes envoyées.');
   } else {
-    console.log("Aucune nouveauté aujourd'hui.");
+    console.log("Aucune nouveauté cette fois-ci.");
   }
 
   writeFileSync(KNOWN_UIDS_PATH, JSON.stringify(events.map(e => e.uid), null, 2));
