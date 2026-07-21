@@ -4,6 +4,8 @@ import { readFileSync, writeFileSync, existsSync } from 'fs';
 const KNOWN_UIDS_PATH = 'data/known-uids.json';
 const HISTORY_PATH = 'data/registrations-history.json';
 const GEOCACHE_PATH = 'data/geocache.json';
+const RECENT_NEW_PATH = 'data/recent-new.json';
+const NEW_RETENTION_HOURS = 48;
 
 const HOME = { lat: 43.5675, lon: 3.9010 };
 const MIN_GAP_DAYS = 14;
@@ -122,6 +124,26 @@ function updateRegistrationsHistory(events) {
 
   writeFileSync(HISTORY_PATH, JSON.stringify(history, null, 2));
   return history;
+}
+
+function updateRecentNew(newEvents, existingRecentNew) {
+  const now = new Date();
+  const recentNew = { ...existingRecentNew };
+
+  for (const e of newEvents) {
+    if (!recentNew[e.uid]) {
+      recentNew[e.uid] = now.toISOString();
+    }
+  }
+
+  const cutoff = now.getTime() - NEW_RETENTION_HOURS * 3600000;
+  for (const uid of Object.keys(recentNew)) {
+    if (new Date(recentNew[uid]).getTime() < cutoff) {
+      delete recentNew[uid];
+    }
+  }
+
+  return recentNew;
 }
 
 function haversineKm(lat1, lon1, lat2, lon2) {
@@ -292,7 +314,7 @@ async function sendPushNotification(newEvents) {
 
   const titles = newEvents.slice(0, 3).map(e => `[${e.tag}] ${e.summary}`).join('\n');
   const suffix = newEvents.length > 3 ? `\n...et ${newEvents.length - 3} autre(s)` : '';
-  const appUrl = 'https://choudayer34-afk.github.io/eprotec-mobile/#nouveautes';
+  const appUrl = 'https://TON-NOM-UTILISATEUR.github.io/eprotec-mobile/#nouveautes';
 
   try {
     await fetch(`https://ntfy.sh/${topic}`, {
@@ -361,6 +383,11 @@ async function main() {
   const knownSet = new Set(knownUids);
   const newEvents = events.filter(e => !knownSet.has(e.uid));
 
+  const existingRecentNew = loadJson(RECENT_NEW_PATH, {});
+  const recentNew = isFirstRun ? {} : updateRecentNew(newEvents, existingRecentNew);
+  writeFileSync(RECENT_NEW_PATH, JSON.stringify(recentNew, null, 2));
+  const recentNewSet = new Set(Object.keys(recentNew));
+
   if (isFirstRun) {
     console.log("Premier lancement : initialisation, aucune alerte envoyée.");
   } else if (newEvents.length > 0) {
@@ -384,13 +411,13 @@ async function main() {
     dateFin: e.endDate ? e.endDate.toISOString() : null,
     dureeHeures: e.dureeHeures,
     dejaInscrit: e.dejaInscrit,
-    nouveau: newEvents.some(n => n.uid === e.uid),
+    nouveau: recentNewSet.has(e.uid),
     url: e.url,
     description: e.description
   }));
   writeFileSync('data/events.json', JSON.stringify(eventsForApp, null, 2));
 
-const suggestionsForApp = suggestions.slice(0, 30).map(s => ({
+  const suggestionsForApp = suggestions.slice(0, 30).map(s => ({
     uid: s.event.uid,
     titre: s.event.summary,
     lieu: s.event.location,
@@ -399,7 +426,7 @@ const suggestionsForApp = suggestions.slice(0, 30).map(s => ({
     reasons: s.reasons,
     url: s.event.url
   }));
-writeFileSync('data/suggestions.json', JSON.stringify(suggestionsForApp, null, 2));
+  writeFileSync('data/suggestions.json', JSON.stringify(suggestionsForApp, null, 2));
 
   writeFileSync('data/status.json', JSON.stringify({
     lastUpdate: new Date().toISOString()
