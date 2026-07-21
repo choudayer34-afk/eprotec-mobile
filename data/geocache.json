@@ -1,98 +1,95 @@
 {
-  "Stade de la Mosson, 34080 Montpellier": {
-    "lat": 43.622022,
-    "lon": 3.8120898
-  },
-  "Avenue des Olympiades, 34500 Beziers, France": {
-    "lat": 43.3344458,
-    "lon": 3.2611072
-  },
-  "Allees Paul Riquet 34500 Beziers": {
-    "lat": 43.3429865,
-    "lon": 3.2164053
-  },
-  "Rue de la Monnaie 34920 Le Cres": {
-    "lat": 43.649375,
-    "lon": 3.9340531
-  },
-  "Mas du pont, Le Cres": {
-    "lat": 43.6671936,
-    "lon": 3.9265698
-  },
-  "Rue des Aiguerelles 34920 Le Cres": {
-    "lat": 43.6481708,
-    "lon": 3.937614
-  },
-  "Lattes": {
-    "lat": 43.5653993,
-    "lon": 3.9017114
-  },
-  "Beziers": {
-    "lat": 43.3426562,
-    "lon": 3.2131307
-  },
-  "Rue des Lavoirs 34350 Vendres": {
-    "lat": 43.2685519,
-    "lon": 3.2226305
-  },
-  "Place des Ecoles 34710 Lespignan": {
-    "lat": 43.2731465,
-    "lon": 3.1713879
-  },
-  "Place Emile Barthe 34440 Nissan-lez-Enserune": {
-    "lat": 43.2874938,
-    "lon": 3.1282128
-  },
-  "Place du Bicentenaire 34370 Maureilhan": {
-    "lat": 43.3561154,
-    "lon": 3.1204966
-  },
-  "Route de Bessan 34500 Beziers": {
-    "lat": 43.3578633,
-    "lon": 3.298217
-  },
-  "Avenue de Vanieres 34070 Montpellier": {
-    "lat": 43.5977769,
-    "lon": 3.8428837
-  },
-  "Rue du Mas de l'Oppidum 34440 Nissan-lez-Enserune": {
-    "lat": 43.2844492,
-    "lon": 3.1328539
-  },
-  "CAMPING LE CAMARGUAIS 807 ALLEE DE TOURNEFORT, Lattes": {
-    "lat": 43.5470718,
-    "lon": 3.8957626
-  },
-  "Promenade du Peyrou 34000 Montpellier": {
-    "lat": 43.6112535,
-    "lon": 3.8696016
-  },
-  "Camping Soleil, Chemin de la Grande Cosse, Vias": {
-    "lat": 43.2934534,
-    "lon": 3.3991141
-  },
-  "Avenue de Septimanie 34970 Lattes": {
-    "lat": 43.5634505,
-    "lon": 3.8749053
-  },
-  "Rue Saint-Louis, 34280 La Grande-Motte": {
-    "lat": 43.563328,
-    "lon": 4.0991081
-  },
-  "Sainte-Croix-de-Quintillargues": {
-    "lat": 43.7732155,
-    "lon": 3.9090903
-  },
-  "114 AVENUE ROGER AUDOUX 34410 SERIGNAN": {
-    "lat": 43.2807849,
-    "lon": 3.2746374
-  },
-  "515 Avenue de la Monnaie, 34170 Castelnau-le-Lez, France": {
-    "lat": 43.645509,
-    "lon": 3.9167576
-  },
-  "Stade de la Presidente, Beziers": {
-    "lat": 43.3363914,
-    "lon": 3.1948345
-  }
+  "domaine de Fangouse": { "lat": 43.56417608707294, "lon": 3.9234038576715706 },
+  "Avenue de Septimanie 34970 Lattes": { "lat": 43.5634505, "lon": 3.8749053 },
+  "Sainte-Croix-de-Quintillargues": { "lat": 43.7732155, "lon": 3.9090903 },
+  "Place des Ecoles 34710 Lespignan": { "lat": 43.2731465, "lon": 3.1713879 },
+  "Espace Bessede, St Aunes": { "lat": 43.63835558228327, "lon": 3.9707122134934263 },
+  "Avenue Valentin Duc 34500 Beziers": { "lat": 43.3391905, "lon": 3.2114899 },
+  "Domaine des grands chais, Mauguio": { "lat": 43.59673148497168, "lon": 3.981282284657118 },
+  "Route de Jacou Le Parc Hermes 34740 Vendargues": { "lat": 43.65806027345841, "lon": 3.9575877153436045 },
+  "Lozere": { "lat": 43.6411496, "lon": 3.9605656 },
+  "Sete": { "lat": 43.4014434, "lon": 3.6959771 },
+  "1744 Avenue Albert Einstein 34000 Montpellier": { "lat": 43.6103303, "lon": 3.9200507 },
+  "Place du Mail, Maurin": { "lat": 43.559655191821385, "lon": 3.871847164322502 },
+  "3 Carrefour de l'Hours, 34500 Beziers": { "lat": 43.336008, "lon": 3.2251954 },
+  "Plateau sportif municipal, Murviel les beziers": { "lat": 43.43585826879743, "lon": 3.1309169045934175 },
+  "Rue de la Monnaie 34920 Le Cres": { "lat": 43.649808, "lon": 3.9367994 },
+  "Capestang": { "lat": 43.3265792, "lon": 3.0457226 },
+  "Parc Montcalm": { "lat": 43.5970745, "lon": 3.859078 },
+  "Roquebrun": { "lat": 43.5006, "lon": 3.02943 },
+  "103 Chem. des Amouries, 34110 Mireval.": { "lat": 43.50880315322255, "lon": 3.7990238153428812 },
+  "Plan des Fetes, chemin vieux 34690 Fabregues": { "lat": 43.55221568784456, "lon": 3.7777895423289505 },
+  "lac jean Marie-Rouche avenue du mistral": { "lat": 43.65495471411455, "lon": 3.930782568391465 },
+  "Lattes": { "lat": 43.5653993, "lon": 3.9017114 },
+  "Parc des expositions, Route de la Foire, Perols": { "lat": 43.57337827650273, "lon": 3.9502892240669936 },
+  "Rue des Aiguerelles 34920 Le Cres": { "lat": 43.6481708, "lon": 3.937614 },
+  "Route de Bessan 34500 Beziers": { "lat": 43.3542659, "lon": 3.2757464 },
+  "stade sportif complexe de Courtoujours, Maurin": { "lat": 43.56011456069854, "lon": 3.880077155822377 },
+  "Salle de la Condamine, Le Pouget": { "lat": 43.588755314513655, "lon": 3.5275169693142363 },
+  "Avenue de l'Abbe Brocardi 34250 Palavas-les-Flots": { "lat": 43.5319808, "lon": 3.9267662 },
+  "Salle polyvalente Joseph Roque, Sauvian": { "lat": 43.29163610460987, "lon": 3.256454835604462 },
+  "Rue du Souvenir Francais 41600 Lamotte-Beuvron": { "lat": 47.602836935210156, "lon": 2.0169791301160784 },
+  "Visio": { "lat": 43.57833221623106, "lon": 3.8796168200589976 },
+  "24 Place Henri Auge 34970 Lattes": { "lat": 43.586842, "lon": 3.9251083 },
+  "Parc de la source, laurens": { "lat": 43.5220324081295, "lon": 3.2010325846571184 },
+  "Mas du pont, Le Cres": { "lat": 43.6671936, "lon": 3.9265698 },
+  "Agde": { "lat": 43.3124696, "lon": 3.4707789 },
+  "Montpellier": { "lat": 43.6112422, "lon": 3.8767337 },
+  "Antigone Montpellier": { "lat": 43.6092765, "lon": 3.8895111 },
+  "16 Boulevard Marechal Joffre 34250 Palavas-les-Flots": { "lat": 43.52888748285452, "lon": 3.933298242328559 },
+  "Palais des sports": { "lat": 43.3626541, "lon": 3.2498272 },
+  "Domaine de Soustre 34310 Montady": { "lat": 43.31589866029047, "lon": 3.1014101865071613 },
+  "11 Rue des Chasseurs 34070 Montpellier": { "lat": 43.5989323, "lon": 3.861427 },
+  "Visio et presentiel": { "lat": 43.57831027965864, "lon": 3.8795099091530605 },
+  "Avenue des Olympiades, 34500 Beziers, France": { "lat": 43.3344458, "lon": 3.2611072 },
+  "Gymnase Le Riveral. 2 Avenue du Mas Salat 34150 Gignac": { "lat": 43.65573645652129, "lon": 3.546260857671048 },
+  "Esplanade de la gare 34370 Cazouls-les-Beziers": { "lat": 43.39147350900986, "lon": 3.10614795767144 },
+  "114 AVENUE ROGER AUDOUX 34410 SERIGNAN": { "lat": 43.2807849, "lon": 3.2746374 },
+  "Carnon": { "lat": 43.546747, "lon": 3.9795856 },
+  "Rue des Lavoirs 34350 Vendres": { "lat": 43.2685519, "lon": 3.2226305 },
+  "Centre de formation de Beziers": { "lat": 43.34339930407263, "lon": 3.2272854383913065 },
+  "Parcours de Sante, Maurin": { "lat": 43.5663725, "lon": 3.8773181 },
+  "Camping Soleil, Chemin de la Grande Cosse, Vias": { "lat": 43.2934534, "lon": 3.3991141 },
+  "Rampe du Coche d'Eau 34500 Beziers": { "lat": 43.331087497919654, "lon": 3.2005059711642794 },
+  "Place du 14 juillet": { "lat": 43.6781299, "lon": 4.0913697 },
+  "Place du 14 Juillet 34500 Beziers": { "lat": 43.3477725, "lon": 3.2219895 },
+  "Domaine Municipal de Veyrassi, Montpellier": { "lat": 43.64250574604608, "lon": 3.8537174 },
+  "Parc de la Salle de spectacle de la Cigaliere, Serignan": { "lat": 43.284927105998946, "lon": 3.2794293171929243 },
+  "Place du Bicentenaire 34370 Maureilhan": { "lat": 43.3561154, "lon": 3.1204966 },
+  "Plan des Taureaux 34670 Baillargues": { "lat": 43.6617202, "lon": 4.0151093 },
+  "St Felix de Lodez": { "lat": 43.6625, "lon": 3.45797 },
+  "Avenue 81eme Regiment d'Infanteri 34110 Frontignan": { "lat": 43.441289054947724, "lon": 3.7588132711642803 },
+  "Parc Domaine de Meric, Montpellier": { "lat": 43.6305673, "lon": 3.8918438 },
+  "515 Avenue de la Monnaie 34170 Castelnau-le-Lez": { "lat": 43.645509, "lon": 3.9167576 },
+  "place jacques d aragon 34970 Lattes": { "lat": 43.5701602, "lon": 3.9044478 },
+  "3 Bd Michelet, 13008 Marseille, France": { "lat": 43.26985111059366, "lon": 5.395918066156684 },
+  "Parc de Font colombe, Montpellier": { "lat": 43.59818599414963, "lon": 3.829275528835525 },
+  "null, 34440 Colombiers, France": { "lat": 43.31638164716796, "lon": 3.139480681497076 },
+  "Stade Philipides, Montpellier": { "lat": 43.617625319860714, "lon": 3.867721998149956 },
+  "Rue du Mas de l'Oppidum 34440 Nissan-lez-Enserune": { "lat": 43.2844492, "lon": 3.1328539 },
+  "Cave des vignerons, Maraussan": { "lat": 43.36591034309662, "lon": 3.155307269270789 },
+  "La Grande Motte": { "lat": 43.5602672, "lon": 4.0860222 },
+  "Place Etienne Sanier": { "lat": 43.6860828, "lon": 3.5848204 },
+  "Beziers": { "lat": 43.3426562, "lon": 3.2131307 },
+  "4 Chemin des Gratades 34380 Argelliers": { "lat": 43.6882432, "lon": 3.6665577 },
+  "Arenes de Palavas": { "lat": 43.5302641, "lon": 3.9294691 },
+  "807 Allee de Tournefort 34970 Lattes": { "lat": 43.5479575, "lon": 3.8947569 },
+  "Rue Saint-Louis, 34280 La Grande-Motte": { "lat": 43.563328, "lon": 4.0991081 },
+  "Centre de formation de Montpellier": { "lat": 43.6001406, "lon": 3.9017114 },
+  "Montpellier du Cerema (105 Rue Guglielmo Marconi,": { "lat": 43.61032036137664, "lon": 3.9104117325385155 },
+  "Protection civile Montpellier": { "lat": 43.5783158, "lon": 3.8795806 },
+  "Place Emile Barthe 34440 Nissan-lez-Enserune": { "lat": 43.2874938, "lon": 3.1282128 },
+  "Salle marcel Peysson, Villeveyrac": { "lat": 43.5009113, "lon": 3.6027431 },
+  "CAMPING LE CAMARGUAIS 807 ALLEE DE TOURNEFORT, Lattes": { "lat": 43.5470718, "lon": 3.8957626 },
+  "Parking de la gare": { "lat": 43.5359009, "lon": 3.4979153 },
+  "A definir": { "lat": 43.57831027965864, "lon": 3.8795099091530605 },
+  "Rue Descartes 34760 Boujan-sur-Libron": { "lat": 43.3680899, "lon": 3.250954 },
+  "Allees Paul Riquet 34500 Beziers": { "lat": 43.3409722, "lon": 3.2182871 },
+  "Promenade du Peyrou 34000 Montpellier": { "lat": 43.6112535, "lon": 3.8696016 },
+  "Magalas": { "lat": 43.4724204, "lon": 3.2221621 },
+  "515 Avenue de la Monnaie, 34170 Castelnau-le-Lez, France": { "lat": 43.645509, "lon": 3.9167576 },
+  "351 Avenue du Marechal de Lattre de Tassigny 34170 Castelnau-le-Lez": { "lat": 43.6469572, "lon": 3.9199569 },
+  "Stade de la Mosson, 34080 Montpellier": { "lat": 43.622022, "lon": 3.8120898 },
+  "Avenue de Vanieres 34070 Montpellier": { "lat": 43.594066, "lon": 3.8507564 },
+  "Urban Park, Boirargues": { "lat": 43.590682, "lon": 3.9226986 }
 }
