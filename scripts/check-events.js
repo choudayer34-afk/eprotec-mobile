@@ -399,7 +399,11 @@ const suggestionsForApp = suggestions.slice(0, 30).map(s => ({
     reasons: s.reasons,
     url: s.event.url
   }));
-  writeFileSync('data/suggestions.json', JSON.stringify(suggestionsForApp, null, 2));
+writeFileSync('data/suggestions.json', JSON.stringify(suggestionsForApp, null, 2));
+
+  writeFileSync('data/status.json', JSON.stringify({
+    lastUpdate: new Date().toISOString()
+  }, null, 2));
 
   console.log(`Export terminé : ${eventsForApp.length} événements à venir, ${suggestionsForApp.length} suggestions.`);
 }
