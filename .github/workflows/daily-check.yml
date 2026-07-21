@@ -2,7 +2,7 @@ name: Verification quotidienne eProtec
 
 on:
   schedule:
-    - cron: '13 * * * *'
+    - cron: '1 * * * *'
   workflow_dispatch:
 
 permissions:
@@ -21,6 +21,14 @@ jobs:
         env:
           EPROTEC_ICS_URL: ${{ secrets.EPROTEC_ICS_URL }}
           EPROTEC_PERSO_URL: ${{ secrets.EPROTEC_PERSO_URL }}
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Mise a jour de la liste des evenements connus"
+          file_pattern: data/*.json
+      - name: Attendre la publication sur GitHub Pages
+        run: sleep 120
+      - run: node scripts/send-notifications.js
+        env:
           SMTP_HOST: ${{ secrets.SMTP_HOST }}
           SMTP_PORT: ${{ secrets.SMTP_PORT }}
           SMTP_USER: ${{ secrets.SMTP_USER }}
@@ -28,7 +36,3 @@ jobs:
           MAIL_TO: ${{ secrets.MAIL_TO }}
           MAIL_FROM: ${{ secrets.MAIL_FROM }}
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
-      - uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "Mise a jour de la liste des evenements connus"
-          file_pattern: data/*.json
