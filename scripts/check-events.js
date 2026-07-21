@@ -3,6 +3,27 @@ import { readFileSync, writeFileSync, existsSync } from 'fs';
 
 const KNOWN_UIDS_PATH = 'data/known-uids.json';
 const HISTORY_PATH = 'data/registrations-history.json';
+const GEOCACHE_PATH = 'data/geocache.json';
+
+const HOME = { lat: 43.5675, lon: 3.9010 };
+const MIN_GAP_DAYS = 14;
+
+const W = {
+  monthEmpty: 3,
+  friday: 3,
+  saturday: 3,
+  sunday: 2,
+  weekday: 0,
+  eveningSlot: 2,
+  badDuration: -2,
+  goodDuration: 1,
+  veryClose: 4,
+  close: 2,
+  far: -1,
+  veryFar: -3,
+  gapTooClosePenalty: -5,
+  gapComfortable: 2
+};
 
 function unfoldIcs(text) {
   return text.replace(/\r\n[ \t]/g, '').replace(/\n[ \t]/g, '');
@@ -103,7 +124,132 @@ function updateRegistrationsHistory(events) {
   return history;
 }
 
-async function sendMail(newEvents) {
+function haversineKm(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = Math.PI * (lat2 - lat1) / 180;
+  const dLon = Math.PI * (lon2 - lon1) / 180;
+  const a = Math.sin(dLat / 2) ** 2 +
+    Math.cos(Math.PI * lat1 / 180) * Math.cos(Math.PI * lat2 / 180) *
+    Math.sin(dLon / 2) ** 2;
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return Math.round(R * c * 10) / 10;
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function geocode(address, cache) {
+  if (!address) return null;
+  if (cache[address]) return cache[address];
+
+  const query = encodeURIComponent(`${address}, Hérault, France`);
+  const url = `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1`;
+
+  try {
+    const res = await fetch(url, { headers: { 'User-Agent': 'Eprotec-Mobile/1.0' } });
+    await sleep(1100);
+    if (!res.ok) return null;
+    const data = await res.json();
+    if (!data || data.length === 0) return null;
+    const coord = { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) };
+    cache[address] = coord;
+    return coord;
+  } catch {
+    return null;
+  }
+}
+
+function getMonthKey(date) {
+  return `${date.getFullYear()}-${date.getMonth() + 1}`;
+}
+
+async function evaluateDpsCandidate(evt, monthIsOpen, registeredDps, geocache) {
+  let score = 0;
+  const reasons = [];
+  const start = evt.startDate;
+  if (!start) return { event: evt, score: -999, reasons: ['Date invalide'] };
+
+  if (monthIsOpen) {
+    score += W.monthEmpty;
+    reasons.push('Mois sans DPS planifié');
+  }
+
+  const day = start.getDay();
+  if (day === 5) { score += W.friday; reasons.push('Jour très favorable (vendredi)'); }
+  else if (day === 6) { score += W.saturday; reasons.push('Jour très favorable (samedi)'); }
+  else if (day === 0) { score += W.sunday; reasons.push('Jour favorable (dimanche)'); }
+  else { score += W.weekday; reasons.push('Jour de semaine'); }
+
+  if (start.getHours() >= 16) {
+    score += W.eveningSlot;
+    reasons.push("Créneau fin d'après-midi / soirée");
+  }
+
+  if (evt.dureeHeures != null) {
+    if (evt.dureeHeures >= 8) { score += W.badDuration; reasons.push('DPS long (fatigue)'); }
+    else { score += W.goodDuration; reasons.push('Durée raisonnable'); }
+  }
+
+  const coord = await geocode(evt.location, geocache);
+  if (coord) {
+    const dist = haversineKm(HOME.lat, HOME.lon, coord.lat, coord.lon);
+    if (dist <= 15) { score += W.veryClose; reasons.push(`Très proche (${dist} km)`); }
+    else if (dist <= 30) { score += W.close; reasons.push(`Distance raisonnable (${dist} km)`); }
+    else if (dist <= 50) { score += W.far; reasons.push(`Assez éloigné (${dist} km)`); }
+    else { score += W.veryFar; reasons.push(`Trop éloigné (${dist} km)`); }
+  }
+
+  if (registeredDps.length > 0) {
+    const gaps = registeredDps.map(r => Math.abs((new Date(r.dateDebut) - start) / 86400000));
+    const minGap = Math.round(Math.min(...gaps));
+    if (minGap < MIN_GAP_DAYS) {
+      score += W.gapTooClosePenalty;
+      reasons.push(`Trop proche d'un DPS déjà planifié (${minGap} jours)`);
+    } else {
+      score += W.gapComfortable;
+      reasons.push(`Espacement confortable (${minGap} jours)`);
+    }
+  }
+
+  return { event: evt, score, reasons };
+}
+
+async function computeOadSuggestions(events, registrationsHistory, geocache) {
+  const now = new Date();
+  const registeredDps = Object.values(registrationsHistory).filter(r => r.tag === 'DPS');
+
+  const candidates = events.filter(e =>
+    e.tag === 'DPS' &&
+    !e.dejaInscrit &&
+    e.startDate && e.startDate > now &&
+    !/recensement/i.test(e.summary)
+  );
+
+  const byMonth = {};
+  for (const c of candidates) {
+    const key = getMonthKey(c.startDate);
+    (byMonth[key] ||= []).push(c);
+  }
+
+  const results = [];
+  for (const monthEvents of Object.values(byMonth)) {
+    const first = monthEvents[0].startDate;
+    const registeredInMonth = registeredDps.filter(r => {
+      const d = new Date(r.dateDebut);
+      return d.getFullYear() === first.getFullYear() && d.getMonth() === first.getMonth();
+    });
+    if (registeredInMonth.length > 0) continue;
+
+    for (const evt of monthEvents) {
+      results.push(await evaluateDpsCandidate(evt, true, registeredDps, geocache));
+    }
+  }
+
+  return results.filter(r => r.score > -500).sort((a, b) => b.score - a.score);
+}
+
+async function sendMail(newEvents, suggestions) {
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: Number(process.env.SMTP_PORT),
@@ -122,11 +268,21 @@ async function sendMail(newEvents) {
     </div>
   `).join('');
 
+  const suggestionHtml = suggestions.slice(0, 1).map(s => `
+    <div style="margin-bottom:14px;padding:10px;border:2px solid #F5821F;border-radius:6px;">
+      <b>🎯 Suggestion du mois : [DPS] ${s.event.summary}</b><br>
+      Date : ${formatDate(s.event.startDate)}<br>
+      Lieu : ${s.event.location || 'non renseigné'}<br>
+      Score : ${s.score}<br>
+      <ul>${s.reasons.map(r => `<li>${r}</li>`).join('')}</ul>
+    </div>
+  `).join('');
+
   await transporter.sendMail({
     from: process.env.MAIL_FROM,
     to: process.env.MAIL_TO,
     subject: `[Protection Civile] ${newEvents.length} nouvelle(s) activité(s) détectée(s)`,
-    html: `<p>Bonjour,</p><p>Voici les nouveautés détectées :</p>${items}`
+    html: `<p>Bonjour,</p><p>Voici les nouveautés détectées :</p>${items}${suggestionHtml}`
   });
 }
 
@@ -154,32 +310,42 @@ async function main() {
       startDate: parseIcsDate(e.dtstart),
       endDate: parseIcsDate(e.dtend),
       dejaInscrit: registeredUids.has(e.uid)
+    }))
+    .map(e => ({
+      ...e,
+      dureeHeures: e.startDate && e.endDate
+        ? Math.round((e.endDate - e.startDate) / 3600000 * 10) / 10
+        : null
     }));
 
   console.log(`Événements trouvés : ${events.length}`);
 
+  const registrationsHistory = updateRegistrationsHistory(events);
   const registered = events.filter(e => e.dejaInscrit);
   console.log(`Dont déjà inscrits : ${registered.length}`);
-  const parTag = {};
-  for (const e of registered) parTag[e.tag] = (parTag[e.tag] || 0) + 1;
-  console.log('Répartition par type :', parTag);
 
-  updateRegistrationsHistory(events);
+  const geocache = loadJson(GEOCACHE_PATH, {});
+  console.log('Calcul des suggestions OAD (peut prendre quelques secondes)...');
+  const suggestions = await computeOadSuggestions(events, registrationsHistory, geocache);
+  writeFileSync(GEOCACHE_PATH, JSON.stringify(geocache, null, 2));
+  console.log(`Suggestions calculées : ${suggestions.length}`);
+  if (suggestions[0]) {
+    console.log(`Meilleure suggestion : ${suggestions[0].event.summary} (score ${suggestions[0].score})`);
+  }
 
   const isFirstRun = !existsSync(KNOWN_UIDS_PATH);
   const knownUids = isFirstRun ? [] : JSON.parse(readFileSync(KNOWN_UIDS_PATH, 'utf8'));
   const knownSet = new Set(knownUids);
-
   const newEvents = events.filter(e => !knownSet.has(e.uid));
 
   if (isFirstRun) {
     console.log("Premier lancement : initialisation, aucun mail envoyé.");
   } else if (newEvents.length > 0) {
     console.log(`${newEvents.length} nouveauté(s), envoi du mail...`);
-    await sendMail(newEvents);
+    await sendMail(newEvents, suggestions);
     console.log('Mail envoyé.');
   } else {
-    console.log('Aucune nouveauté aujourd\'hui.');
+    console.log("Aucune nouveauté aujourd'hui.");
   }
 
   writeFileSync(KNOWN_UIDS_PATH, JSON.stringify(events.map(e => e.uid), null, 2));
