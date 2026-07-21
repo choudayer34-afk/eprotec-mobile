@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
 <title>eProtec Mobile</title>
 <script>
 (function generateAppIcon() {
@@ -19,7 +20,6 @@
   ctx.arcTo(0, 0, 180, 0, r);
   ctx.closePath();
   ctx.fill();
-
   ctx.fillStyle = '#F5821F';
   ctx.beginPath();
   ctx.moveTo(90, 42);
@@ -27,9 +27,7 @@
   ctx.lineTo(38, 128);
   ctx.closePath();
   ctx.fill();
-
   const dataUrl = canvas.toDataURL('image/png');
-
   let touchIcon = document.querySelector("link[rel='apple-touch-icon']");
   if (!touchIcon) {
     touchIcon = document.createElement('link');
@@ -37,7 +35,6 @@
     document.head.appendChild(touchIcon);
   }
   touchIcon.href = dataUrl;
-
   let favicon = document.querySelector("link[rel='icon']");
   if (!favicon) {
     favicon = document.createElement('link');
@@ -59,39 +56,73 @@
     display: flex; align-items: center; justify-content: space-between;
     padding: 16px; position: sticky; top: 0; background: #0E1E3A; z-index: 5;
   }
-  header h1 { font-size: 16px; font-weight: 500; }
-  .update-status { font-size: 10px; color: #9FB3D6; text-align: center; padding: 0 14px 10px; }
+  header h1 { font-size: 17px; font-weight: 500; }
+  .update-status { font-size: 11px; color: #9FB3D6; text-align: center; padding: 0 14px 10px; }
   main { padding: 0 14px; }
   .kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
   .kpi { background: #16274A; border-radius: 12px; padding: 12px; cursor: pointer; }
-  .kpi .value { color: #F5821F; font-size: 22px; font-weight: 500; }
-  .kpi .label { color: #9FB3D6; font-size: 11px; margin-top: 2px; }
+  .kpi .value { color: #F5821F; font-size: 24px; font-weight: 500; }
+  .kpi .label { color: #9FB3D6; font-size: 12px; margin-top: 2px; }
+
   .card {
-    background: #16274A; border-radius: 14px; padding: 12px; margin-bottom: 10px;
+    background: #16274A; border-radius: 16px; padding: 16px; margin-bottom: 12px;
   }
   .card.highlight { border: 1.5px solid #F5821F; }
-  .card-title { font-size: 13px; font-weight: 500; margin-bottom: 6px; }
+  .card-title { font-size: 14px; font-weight: 500; margin-bottom: 8px; }
+
+  .card-clickable { cursor: pointer; }
+  .card-top-row { display: flex; justify-content: space-between; align-items: center; }
+  .tag-badge { font-size: 11px; padding: 4px 10px; border-radius: 20px; font-weight: 500; background: #223258; color: #F5821F; }
+  .chevron { color: #F5821F; font-size: 20px; font-style: normal; }
+  .event-title-lg { color: #fff; font-size: 17px; font-weight: 500; margin: 10px 0 8px; }
+  .event-meta-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; color: #9FB3D6; font-size: 14px; }
+  .meta-icon { font-size: 15px; }
+  .card-bottom-row { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
+
   .event-row {
-    padding: 8px 0; border-top: 0.5px solid #223258;
+    padding: 10px 0; border-top: 0.5px solid #223258;
     display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;
+    cursor: pointer;
   }
   .event-row:first-child { border-top: none; }
-  .event-title { font-size: 13px; }
-  .event-meta { color: #9FB3D6; font-size: 11px; margin-top: 3px; }
-  .badge {
-    font-size: 10px; padding: 3px 9px; border-radius: 20px; white-space: nowrap;
-  }
+  .event-title { font-size: 14px; }
+  .event-meta { color: #9FB3D6; font-size: 12px; margin-top: 3px; }
+
+  .badge { font-size: 11px; padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
   .badge-new { background: #3A2A0E; color: #FAC775; }
   .badge-ok { background: #12351F; color: #97C459; }
   .badge-blue { background: #1B2A4A; color: #85B7EB; }
   .badge-suggest { background: #223258; color: #F5821F; }
-  .empty { color: #9FB3D6; font-size: 12px; padding: 8px 0; }
+  .empty { color: #9FB3D6; font-size: 13px; padding: 8px 0; }
+
   .star-btn {
-    background: none; border: none; font-size: 17px; color: #5F5E5A;
+    background: none; border: none; font-size: 19px; color: #5F5E5A;
     padding: 2px 4px; line-height: 1;
   }
   .star-btn.active { color: #F5821F; }
-  .card-header-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+
+  .search-box {
+    background: #16274A; border-radius: 20px; padding: 10px 14px;
+    display: flex; align-items: center; gap: 8px; margin-bottom: 10px;
+  }
+  .search-box input {
+    background: none; border: none; color: #fff; font-size: 14px; flex: 1; outline: none;
+  }
+  .search-box input::placeholder { color: #9FB3D6; }
+
+  .date-filter-row { display: flex; gap: 6px; margin-bottom: 8px; }
+  .date-filter-row input[type=date] {
+    flex: 1; background: #16274A; border: none; color: #fff; font-size: 12px;
+    padding: 9px 10px; border-radius: 10px;
+  }
+
+  .filter-chips { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 14px; }
+  .filter-chips button {
+    background: #16274A; color: #9FB3D6; border: none; font-size: 12px;
+    padding: 7px 14px; border-radius: 20px; white-space: nowrap;
+  }
+  .filter-chips button.active { background: #F5821F; color: #4A1B0C; font-weight: 500; }
+
   .cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
   .cal-header button { background: #16274A; border: none; color: #fff; font-size: 16px; padding: 6px 14px; border-radius: 10px; }
   .cal-header .cal-title { font-size: 14px; font-weight: 500; }
@@ -107,6 +138,7 @@
   .cal-dot-outline { background: transparent !important; border: 1.5px solid; box-sizing: border-box; }
   .cal-legend { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 14px; }
   .cal-legend-item { display: flex; align-items: center; gap: 4px; font-size: 10px; color: #9FB3D6; }
+
   .month-group { margin-bottom: 12px; }
   .month-toggle {
     width: 100%; background: #16274A; border: none; color: #fff;
@@ -132,7 +164,28 @@
     text-decoration: none; color: #fff;
   }
   .link-card .link-icon { font-size: 22px; }
-  .link-card .link-title { font-size: 13px; font-weight: 500; }
+  .link-card .link-title { font-size: 14px; font-weight: 500; }
+
+  .detail-header {
+    display: flex; align-items: center; gap: 14px; padding: 4px 0 16px;
+  }
+  .detail-header button {
+    background: none; border: none; color: #fff; font-size: 24px; line-height: 1; padding: 4px;
+  }
+  .detail-header span { font-size: 17px; font-weight: 500; }
+  .detail-title { color: #fff; font-size: 19px; font-weight: 500; margin: 12px 0 14px; }
+  .detail-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
+  .detail-row .meta-icon { font-size: 17px; margin-top: 2px; color: #9FB3D6; }
+  .detail-label { color: #9FB3D6; font-size: 11px; }
+  .detail-value { color: #fff; font-size: 15px; margin-top: 2px; }
+  .detail-desc { color: #9FB3D6; font-size: 13px; line-height: 1.6; white-space: pre-wrap; }
+  .reason-list { padding-left: 18px; color: #9FB3D6; font-size: 13px; line-height: 1.7; }
+  .detail-actions { display: flex; gap: 8px; margin-top: 4px; }
+  .detail-action-btn {
+    flex: 1; background: #16274A; border: none; color: #fff; font-size: 13px;
+    padding: 13px; border-radius: 12px; text-align: center; text-decoration: none; display: block;
+  }
+  .detail-action-btn.primary { background: #F5821F; color: #4A1B0C; font-weight: 500; }
 
   nav {
     position: fixed; bottom: 0; left: 0; right: 0;
@@ -159,8 +212,8 @@
 
   <section id="accueil" class="active">
     <div class="kpi-grid">
-      <div class="kpi"><div class="value" id="kpi-nouveautes">-</div><div class="label">Nouveautés</div></div>
-      <div class="kpi"><div class="value" id="kpi-inscrits">-</div><div class="label">Déjà inscrits</div></div>
+      <div class="kpi" id="kpi-nouveautes-box"><div class="value" id="kpi-nouveautes">-</div><div class="label">Nouveautés</div></div>
+      <div class="kpi" id="kpi-inscrits-box"><div class="value" id="kpi-inscrits">-</div><div class="label">Déjà inscrits</div></div>
     </div>
 
     <div class="card">
@@ -173,13 +226,22 @@
       <div id="liste-inscriptions-proches"><div class="empty">Chargement...</div></div>
     </div>
 
-    <div class="card highlight">
+    <div class="card highlight" id="top-suggestion-card">
       <div class="card-title">🎯 Suggestion du mois</div>
       <div id="top-suggestion"><div class="empty">Chargement...</div></div>
     </div>
   </section>
 
   <section id="evenements">
+    <div class="search-box">
+      <span>🔍</span>
+      <input type="text" id="search-input" placeholder="Titre, lieu...">
+    </div>
+    <div class="date-filter-row">
+      <input type="date" id="date-from">
+      <input type="date" id="date-to">
+    </div>
+    <div class="filter-chips" id="type-filter-chips"></div>
     <div id="liste-evenements"><div class="empty">Chargement...</div></div>
   </section>
 
@@ -190,7 +252,7 @@
   </section>
 
   <section id="plus">
- <div class="sub-nav">
+    <div class="sub-nav">
       <button data-sub="plus-suggestions" class="active">Suggestions</button>
       <button data-sub="plus-inscriptions">Inscriptions</button>
       <button data-sub="plus-nouveautes">Nouveautés</button>
@@ -208,6 +270,7 @@
     <div id="plus-nouveautes" class="sub-section">
       <div id="liste-nouveautes-completes"><div class="empty">Chargement...</div></div>
     </div>
+
     <div id="plus-liens" class="sub-section">
       <a class="link-card" href="https://academy.protection-civile-herault.org/" target="_blank">
         <span class="link-icon">📘</span><span class="link-title">Formation</span>
@@ -225,6 +288,14 @@
         <span class="link-icon">🛒</span><span class="link-title">Boutique</span>
       </a>
     </div>
+  </section>
+
+  <section id="detail">
+    <div class="detail-header">
+      <button id="detail-back">‹</button>
+      <span>Détail</span>
+    </div>
+    <div id="detail-content"></div>
   </section>
 
 </main>
@@ -266,17 +337,46 @@ function formatDate(iso) {
   return d.toLocaleString('fr-FR', { weekday: 'short', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
 }
 
+function formatDateFull(iso) {
+  if (!iso) return 'Non renseigné';
+  const d = new Date(iso);
+  return d.toLocaleString('fr-FR', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
 async function importFavorisOnce() {
   if (localStorage.getItem(FAVORIS_KEY) !== null) return;
   try {
     const seed = await fetch('data/favoris-seed.json').then(r => r.json());
     localStorage.setItem(FAVORIS_KEY, JSON.stringify(seed));
-    console.log(`${seed.length} anciens favoris importés.`);
   } catch {
     localStorage.setItem(FAVORIS_KEY, JSON.stringify([]));
   }
 }
 importFavorisOnce();
+
+let allEvents = [];
+let allSuggestions = [];
+
+const TAG_COLORS = {
+  DPS: '#F5821F', FOR: '#378ADD', MAN: '#D85A30',
+  MLA: '#7F77DD', ALERT: '#E24B4A', AIP: '#639922',
+  BENEVOLE: '#1D9E75', AUTRE: '#888780'
+};
+const TAG_LABELS = { ALL: 'Tous', ...Object.fromEntries(Object.keys(TAG_COLORS).map(t => [t, t])) };
+const TAG_ORDER = ['ALL', 'DPS', 'FOR', 'MAN', 'BENEVOLE', 'MLA', 'ALERT', 'AIP', 'AUTRE'];
+
+let filterType = 'ALL';
+let searchQuery = '';
+let dateFrom = null;
+let dateTo = null;
+
+let detailReturn = { tab: 'accueil', sub: null };
 
 document.querySelectorAll('nav button').forEach(btn => {
   btn.addEventListener('click', () => {
@@ -286,7 +386,8 @@ document.querySelectorAll('nav button').forEach(btn => {
     document.getElementById(btn.dataset.tab).classList.add('active');
     if (btn.dataset.tab === 'favoris') renderFavoris();
     if (btn.dataset.tab === 'calendrier') renderCalendar();
-    if (btn.dataset.tab === 'plus') { renderInscriptions(); renderSuggestions(allSuggestions); }
+    if (btn.dataset.tab === 'evenements') renderEvenements();
+    if (btn.dataset.tab === 'plus') { renderInscriptions(); renderSuggestions(allSuggestions); renderNouveautesCompletes(allEvents); }
   });
 });
 
@@ -299,14 +400,107 @@ document.querySelectorAll('.sub-nav button').forEach(btn => {
   });
 });
 
-let allEvents = [];
-let allSuggestions = [];
+document.getElementById('kpi-inscrits-box').addEventListener('click', () => goToPlusSub('plus-inscriptions'));
+document.getElementById('kpi-nouveautes-box').addEventListener('click', () => goToPlusSub('plus-nouveautes'));
 
-const TAG_COLORS = {
-  DPS: '#F5821F', FOR: '#378ADD', MAN: '#D85A30',
-  MLA: '#7F77DD', ALERT: '#E24B4A', AIP: '#639922',
-  BENEVOLE: '#1D9E75', AUTRE: '#888780'
-};
+function goToPlusSub(subId) {
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  document.querySelector('nav button[data-tab="plus"]').classList.add('active');
+  document.getElementById('plus').classList.add('active');
+  document.querySelectorAll('.sub-nav button').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.sub-section').forEach(s => s.classList.remove('active'));
+  document.querySelector(`.sub-nav button[data-sub="${subId}"]`).classList.add('active');
+  document.getElementById(subId).classList.add('active');
+  renderInscriptions();
+  renderSuggestions(allSuggestions);
+  renderNouveautesCompletes(allEvents);
+}
+
+function openDetail(uid) {
+  const activeTab = document.querySelector('nav button.active');
+  detailReturn.tab = activeTab ? activeTab.dataset.tab : 'accueil';
+  const activeSub = document.querySelector('.sub-nav button.active');
+  detailReturn.sub = activeSub ? activeSub.dataset.sub : null;
+
+  renderDetail(uid);
+
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  document.getElementById('detail').classList.add('active');
+}
+
+document.getElementById('detail-back').addEventListener('click', () => {
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  document.getElementById(detailReturn.tab).classList.add('active');
+  document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === detailReturn.tab));
+  if (detailReturn.tab === 'plus' && detailReturn.sub) {
+    document.querySelectorAll('.sub-nav button').forEach(b => b.classList.toggle('active', b.dataset.sub === detailReturn.sub));
+    document.querySelectorAll('.sub-section').forEach(s => s.classList.toggle('active', s.id === detailReturn.sub));
+  }
+});
+
+function renderDetail(uid) {
+  const evt = allEvents.find(e => e.uid === uid);
+  const container = document.getElementById('detail-content');
+  if (!evt) {
+    container.innerHTML = '<div class="empty">Événement introuvable.</div>';
+    return;
+  }
+  const suggestion = allSuggestions.find(s => s.uid === uid);
+
+  let statusBadge = '';
+  if (evt.dejaInscrit) statusBadge = '<span class="badge badge-blue" style="margin-left:6px;">Déjà inscrit</span>';
+  else if (evt.nouveau) statusBadge = '<span class="badge badge-new" style="margin-left:6px;">Nouveau</span>';
+
+  let html = `
+    <div class="card">
+      <span class="tag-badge">${evt.tag}</span>${statusBadge}
+      <div class="detail-title">${evt.titre}</div>
+      <div class="detail-row">
+        <span class="meta-icon">▶</span>
+        <div><div class="detail-label">Début</div><div class="detail-value">${formatDateFull(evt.dateDebut)}</div></div>
+      </div>
+      <div class="detail-row">
+        <span class="meta-icon">■</span>
+        <div><div class="detail-label">Fin</div><div class="detail-value">${formatDateFull(evt.dateFin)}</div></div>
+      </div>
+      <div class="detail-row" style="margin-bottom:0;">
+        <span class="meta-icon">📍</span>
+        <div><div class="detail-label">Lieu</div><div class="detail-value">${evt.lieu || 'Non renseigné'}</div></div>
+      </div>
+    </div>
+  `;
+
+  if (evt.description) {
+    const desc = evt.description.replace(/<br\s*\/?>/gi, '\n');
+    html += `<div class="card"><div class="card-title">Description</div><div class="detail-desc">${escapeHtml(desc)}</div></div>`;
+  }
+
+  if (suggestion) {
+    html += `
+      <div class="card highlight">
+        <div class="card-title">🎯 Analyse OAD · score ${suggestion.score}</div>
+        <ul class="reason-list">${suggestion.reasons.map(r => `<li>${r}</li>`).join('')}</ul>
+      </div>
+    `;
+  }
+
+  const favActive = isFavori(uid);
+  html += `
+    <div class="detail-actions">
+      <button class="detail-action-btn" id="detail-fav-btn">${favActive ? '★ Retirer des favoris' : '☆ Ajouter aux favoris'}</button>
+      ${evt.url ? `<a class="detail-action-btn primary" href="${evt.url}" target="_blank">Ouvrir sur eProtec</a>` : ''}
+    </div>
+  `;
+
+  container.innerHTML = html;
+
+  document.getElementById('detail-fav-btn').addEventListener('click', () => {
+    toggleFavori(uid);
+    document.getElementById('detail-fav-btn').textContent = isFavori(uid) ? '★ Retirer des favoris' : '☆ Ajouter aux favoris';
+  });
+}
 
 let calMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
 let calSelectedKey = null;
@@ -323,8 +517,7 @@ function renderCalendar() {
   const eventsByDay = {};
   allEvents.forEach(e => {
     if (!e.dateDebut) return;
-    const d = new Date(e.dateDebut);
-    const key = dateKey(d);
+    const key = dateKey(new Date(e.dateDebut));
     (eventsByDay[key] ||= []).push(e);
   });
 
@@ -352,13 +545,12 @@ function renderCalendar() {
     const suggestDot = daySuggestions.length > 0
       ? `<span class="cal-dot cal-dot-outline" style="border-color:${TAG_COLORS.DPS}"></span>`
       : '';
-    const dots = eventDots + suggestDot;
     const classes = ['cal-cell'];
     if (key === todayKey) classes.push('today');
     if (key === calSelectedKey) classes.push('selected');
     cells += `<div class="${classes.join(' ')}" data-day-key="${key}">
       <div class="cal-daynum">${day}</div>
-      <div class="cal-dots">${dots}</div>
+      <div class="cal-dots">${eventDots}${suggestDot}</div>
     </div>`;
   }
 
@@ -415,21 +607,21 @@ function renderDayDetail(key, events, suggestions = []) {
 
   suggestions.forEach(s => {
     html += `
-      <div class="card" data-url="${s.url || ''}">
-        <div class="card-header-row">
-          <div>
-            <div class="event-title">[DPS] ${s.titre}</div>
-            <div class="event-meta">${formatDate(s.dateDebut)} · ${s.lieu || ''}</div>
-          </div>
+      <div class="card card-clickable" data-uid="${s.uid}">
+        <div class="card-top-row">
+          <span class="tag-badge">DPS</span>
+          <i class="chevron">›</i>
         </div>
-        <div style="margin-top:8px;"><span class="badge badge-suggest">🎯 Suggéré (score ${s.score})</span></div>
+        <div class="event-title-lg">${s.titre}</div>
+        <div class="event-meta-row"><span class="meta-icon">🕒</span>${formatDate(s.dateDebut)}</div>
+        <div class="event-meta-row"><span class="meta-icon">📍</span>${s.lieu || 'Lieu non renseigné'}</div>
+        <div class="card-bottom-row"><span class="badge badge-suggest">🎯 Suggéré · score ${s.score}</span></div>
       </div>
     `;
   });
 
   detail.innerHTML = html;
-  attachStarHandlers(detail);
-  attachCardLinkHandlers(detail);
+  attachCardHandlers(detail);
 }
 
 function eventCard(e) {
@@ -441,29 +633,30 @@ function eventCard(e) {
   const starIcon = isFavori(e.uid) ? '★' : '☆';
 
   return `
-    <div class="card" data-uid="${e.uid}" data-url="${e.url || ''}">
-      <div class="card-header-row">
-        <div>
-          <div class="event-title">[${e.tag}] ${e.titre}</div>
-          <div class="event-meta">${formatDate(e.dateDebut)} · ${e.lieu || ''}</div>
-        </div>
+    <div class="card card-clickable" data-uid="${e.uid}">
+      <div class="card-top-row">
+        <span class="tag-badge">${e.tag}</span>
+        <i class="chevron">›</i>
+      </div>
+      <div class="event-title-lg">${e.titre}</div>
+      <div class="event-meta-row"><span class="meta-icon">🕒</span>${formatDate(e.dateDebut)}</div>
+      <div class="event-meta-row"><span class="meta-icon">📍</span>${e.lieu || 'Lieu non renseigné'}</div>
+      <div class="card-bottom-row">
+        <div>${badge}</div>
         <button class="star-btn ${starActive}" data-fav-uid="${e.uid}">${starIcon}</button>
       </div>
-      <div style="margin-top:8px;">${badge}</div>
     </div>
   `;
 }
 
-function attachCardLinkHandlers(container) {
-  container.querySelectorAll('[data-url]').forEach(card => {
-    const url = card.dataset.url;
-    if (!url) return;
-    card.style.cursor = 'pointer';
+function attachCardHandlers(container) {
+  container.querySelectorAll('.card-clickable[data-uid]').forEach(card => {
     card.addEventListener('click', (e) => {
       if (e.target.closest('.star-btn')) return;
-      window.open(url, '_blank');
+      openDetail(card.dataset.uid);
     });
   });
+  attachStarHandlers(container);
 }
 
 function attachStarHandlers(container, removeOnUnfav = false) {
@@ -482,164 +675,35 @@ function attachStarHandlers(container, removeOnUnfav = false) {
   });
 }
 
-function renderFavoris() {
-  const favUids = getFavoris();
-  const favEvents = allEvents
-    .filter(e => favUids.includes(e.uid) && e.dateDebut)
-    .sort((a, b) => new Date(a.dateDebut) - new Date(b.dateDebut));
-
-  const container = document.getElementById('liste-favoris');
-  if (favEvents.length === 0) {
-    container.innerHTML = '<div class="empty">Aucun favori pour le moment. Appuie sur l\'étoile d\'un événement pour l\'ajouter.</div>';
-    return;
-  }
-
+function groupByMonth(items) {
   const groups = {};
-  favEvents.forEach(e => {
-    const d = new Date(e.dateDebut);
+  items.forEach(item => {
+    if (!item.dateDebut) return;
+    const d = new Date(item.dateDebut);
     const key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
-    (groups[key] ||= []).push(e);
-  });
-
-  container.innerHTML = Object.keys(groups).sort().map(key => {
-    const label = new Date(key + '-01').toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
-    return `
-      <div class="month-group">
-        <button class="month-toggle" data-month-key="${key}">
-          <span>${label.charAt(0).toUpperCase() + label.slice(1)} (${groups[key].length})</span>
-          <span class="month-chevron">▾</span>
-        </button>
-        <div class="month-body" data-month-body="${key}" style="display:block">
-          ${groups[key].map(e => eventCard(e)).join('')}
-        </div>
-      </div>
-    `;
-  }).join('');
-
-  container.querySelectorAll('.month-toggle').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const body = container.querySelector(`[data-month-body="${btn.dataset.monthKey}"]`);
-      const chevron = btn.querySelector('.month-chevron');
-      const isHidden = body.style.display === 'none';
-      body.style.display = isHidden ? 'block' : 'none';
-      chevron.textContent = isHidden ? '▾' : '▸';
-    });
-  });
-
-  attachStarHandlers(container, true);
-  attachCardLinkHandlers(container);
-}
-
-function renderUpcomingRegistrations(events) {
-  const now = new Date();
-  const limit = new Date(now.getTime() + 15 * 24 * 3600 * 1000);
-  const upcoming = events
-    .filter(e => e.dejaInscrit && e.dateDebut && new Date(e.dateDebut) >= now && new Date(e.dateDebut) <= limit)
-    .sort((a, b) => new Date(a.dateDebut) - new Date(b.dateDebut));
-
-  const container = document.getElementById('liste-inscriptions-proches');
-  container.innerHTML = upcoming.length === 0
-    ? '<div class="empty">Aucune inscription dans les 15 prochains jours.</div>'
-    : upcoming.map(e => `
-      <div class="event-row" data-url="${e.url || ''}">
-        <div>
-          <div class="event-title">[${e.tag}] ${e.titre}</div>
-          <div class="event-meta">${formatDate(e.dateDebut)} · ${e.lieu || ''}</div>
-        </div>
-        <span class="badge badge-blue">Inscrit</span>
-      </div>
-    `).join('');
-  attachCardLinkHandlers(container);
-}
-
-function renderInscriptions() {
-  const registered = allEvents
-    .filter(e => e.dejaInscrit && e.dateDebut)
-    .sort((a, b) => new Date(a.dateDebut) - new Date(b.dateDebut));
-
-  const container = document.getElementById('liste-inscriptions-globales');
-  if (registered.length === 0) {
-    container.innerHTML = '<div class="empty">Aucune inscription à venir.</div>';
-    return;
-  }
-
-  const groups = {};
-  registered.forEach(e => {
-    const d = new Date(e.dateDebut);
-    const key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
-    (groups[key] ||= []).push(e);
-  });
-
-  container.innerHTML = Object.keys(groups).sort().map(key => {
-    const label = new Date(key + '-01').toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
-    return `
-      <div class="month-group">
-        <button class="month-toggle" data-month-key="${key}">
-          <span>${label.charAt(0).toUpperCase() + label.slice(1)} (${groups[key].length})</span>
-          <span class="month-chevron">▾</span>
-        </button>
-        <div class="month-body" data-month-body="${key}" style="display:block">
-          ${groups[key].map(e => eventCard(e)).join('')}
-        </div>
-      </div>
-    `;
-  }).join('');
-
-  container.querySelectorAll('.month-toggle').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const body = container.querySelector(`[data-month-body="${btn.dataset.monthKey}"]`);
-      const chevron = btn.querySelector('.month-chevron');
-      const isHidden = body.style.display === 'none';
-      body.style.display = isHidden ? 'block' : 'none';
-      chevron.textContent = isHidden ? '▾' : '▸';
-    });
-  });
-
-  attachStarHandlers(container);
-  attachCardLinkHandlers(container);
-}
-
-function groupSuggestionsByMonth(suggestions) {
-  const groups = {};
-  suggestions.forEach(s => {
-    if (!s.dateDebut) return;
-    const d = new Date(s.dateDebut);
-    const key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
-    (groups[key] ||= []).push(s);
+    (groups[key] ||= []).push(item);
   });
   return Object.keys(groups).sort().map(key => ({
     key,
     label: new Date(key + '-01').toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' }),
-    items: groups[key].sort((a, b) => b.score - a.score)
+    items: groups[key]
   }));
 }
 
-function renderSuggestions(suggestions) {
-  const container = document.getElementById('liste-suggestions');
-  const monthGroups = groupSuggestionsByMonth(suggestions);
-
+function renderMonthGroupedCards(container, monthGroups, emptyMessage) {
   if (monthGroups.length === 0) {
-    container.innerHTML = '<div class="empty">Aucune suggestion disponible.</div>';
+    container.innerHTML = `<div class="empty">${emptyMessage}</div>`;
     return;
   }
 
-  container.innerHTML = monthGroups.map((g) => `
+  container.innerHTML = monthGroups.map(g => `
     <div class="month-group">
       <button class="month-toggle" data-month-key="${g.key}">
         <span>${g.label.charAt(0).toUpperCase() + g.label.slice(1)} (${g.items.length})</span>
         <span class="month-chevron">▾</span>
       </button>
       <div class="month-body" data-month-body="${g.key}" style="display:block">
-        ${g.items.map((s, i) => `
-          <div class="card ${i === 0 ? 'highlight' : ''}" data-url="${s.url || ''}">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-              <span class="badge ${i === 0 ? 'badge-new' : 'badge-ok'}">${i === 0 ? 'Prioritaire' : 'Score ' + s.score}</span>
-              ${i === 0 ? `<span style="color:#F5821F; font-weight:500;">${s.score} pts</span>` : ''}
-            </div>
-            <div class="event-title">[DPS] ${s.titre}</div>
-            <div class="event-meta">${formatDate(s.dateDebut)} · ${s.lieu || ''}</div>
-          </div>
-        `).join('')}
+        ${g.items.map(item => eventCard(item)).join('')}
       </div>
     </div>
   `).join('');
@@ -654,10 +718,48 @@ function renderSuggestions(suggestions) {
     });
   });
 
-  attachCardLinkHandlers(container);
+  attachCardHandlers(container);
 }
 
-function renderNouveautes(events) {
+function renderFavoris() {
+  const favUids = getFavoris();
+  const favEvents = allEvents
+    .filter(e => favUids.includes(e.uid) && e.dateDebut)
+    .sort((a, b) => new Date(a.dateDebut) - new Date(b.dateDebut));
+
+  renderMonthGroupedCards(
+    document.getElementById('liste-favoris'),
+    groupByMonth(favEvents),
+    "Aucun favori pour le moment. Ouvre un événement et tape l'étoile pour l'ajouter."
+  );
+}
+
+function renderUpcomingRegistrations(events) {
+  const now = new Date();
+  const limit = new Date(now.getTime() + 15 * 24 * 3600 * 1000);
+  const upcoming = events
+    .filter(e => e.dejaInscrit && e.dateDebut && new Date(e.dateDebut) >= now && new Date(e.dateDebut) <= limit)
+    .sort((a, b) => new Date(a.dateDebut) - new Date(b.dateDebut));
+
+  const container = document.getElementById('liste-inscriptions-proches');
+  container.innerHTML = upcoming.length === 0
+    ? '<div class="empty">Aucune inscription dans les 15 prochains jours.</div>'
+    : upcoming.map(e => `
+      <div class="event-row" data-uid="${e.uid}">
+        <div>
+          <div class="event-title">[${e.tag}] ${e.titre}</div>
+          <div class="event-meta">${formatDate(e.dateDebut)} · ${e.lieu || ''}</div>
+        </div>
+        <span class="badge badge-blue">Inscrit</span>
+      </div>
+    `).join('');
+
+  container.querySelectorAll('[data-uid]').forEach(row => {
+    row.addEventListener('click', () => openDetail(row.dataset.uid));
+  });
+}
+
+function renderNouveautesCompletes(events) {
   const nouveautes = events
     .filter(e => e.nouveau && e.dateDebut)
     .sort((a, b) => new Date(a.dateDebut) - new Date(b.dateDebut));
@@ -666,28 +768,86 @@ function renderNouveautes(events) {
   container.innerHTML = nouveautes.length === 0
     ? '<div class="empty">Aucune nouveauté pour le moment.</div>'
     : nouveautes.map(e => eventCard(e)).join('');
-  attachStarHandlers(container);
-  attachCardLinkHandlers(container);
+  attachCardHandlers(container);
 }
 
-function goToPlusSub(subId) {
-  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
-  document.querySelector('nav button[data-tab="plus"]').classList.add('active');
-  document.getElementById('plus').classList.add('active');
+function renderInscriptions() {
+  const registered = allEvents
+    .filter(e => e.dejaInscrit && e.dateDebut)
+    .sort((a, b) => new Date(a.dateDebut) - new Date(b.dateDebut));
 
-  document.querySelectorAll('.sub-nav button').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.sub-section').forEach(s => s.classList.remove('active'));
-  document.querySelector(`.sub-nav button[data-sub="${subId}"]`).classList.add('active');
-  document.getElementById(subId).classList.add('active');
-
-  renderInscriptions();
-  renderSuggestions(allSuggestions);
-  renderNouveautes(allEvents);
+  renderMonthGroupedCards(
+    document.getElementById('liste-inscriptions-globales'),
+    groupByMonth(registered),
+    'Aucune inscription à venir.'
+  );
 }
 
-document.getElementById('kpi-inscrits').closest('.kpi').addEventListener('click', () => goToPlusSub('plus-inscriptions'));
-document.getElementById('kpi-nouveautes').closest('.kpi').addEventListener('click', () => goToPlusSub('plus-nouveautes'));
+function renderSuggestions(suggestions) {
+  const sorted = [...suggestions].sort((a, b) => new Date(a.dateDebut) - new Date(b.dateDebut));
+  renderMonthGroupedCards(
+    document.getElementById('liste-suggestions'),
+    groupByMonth(sorted),
+    'Aucune suggestion disponible.'
+  );
+}
+
+function renderTypeFilterChips() {
+  const container = document.getElementById('type-filter-chips');
+  container.innerHTML = TAG_ORDER.map(tag => `
+    <button data-type="${tag}" class="${tag === filterType ? 'active' : ''}">${TAG_LABELS[tag]}</button>
+  `).join('');
+
+  container.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterType = btn.dataset.type;
+      container.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.type === filterType));
+      renderEvenements();
+    });
+  });
+}
+
+function renderEvenements() {
+  let filtered = allEvents.filter(e => e.dateDebut);
+
+  if (filterType !== 'ALL') {
+    filtered = filtered.filter(e => e.tag === filterType);
+  }
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    filtered = filtered.filter(e =>
+      (e.titre || '').toLowerCase().includes(q) ||
+      (e.lieu || '').toLowerCase().includes(q)
+    );
+  }
+  if (dateFrom) {
+    filtered = filtered.filter(e => new Date(e.dateDebut) >= new Date(dateFrom));
+  }
+  if (dateTo) {
+    filtered = filtered.filter(e => new Date(e.dateDebut) <= new Date(dateTo + 'T23:59:59'));
+  }
+
+  filtered.sort((a, b) => new Date(a.dateDebut) - new Date(b.dateDebut));
+
+  renderMonthGroupedCards(
+    document.getElementById('liste-evenements'),
+    groupByMonth(filtered),
+    'Aucun événement ne correspond à ces critères.'
+  );
+}
+
+document.getElementById('search-input').addEventListener('input', (e) => {
+  searchQuery = e.target.value;
+  renderEvenements();
+});
+document.getElementById('date-from').addEventListener('change', (e) => {
+  dateFrom = e.target.value || null;
+  renderEvenements();
+});
+document.getElementById('date-to').addEventListener('change', (e) => {
+  dateTo = e.target.value || null;
+  renderEvenements();
+});
 
 function renderUpdateStatus(lastUpdateIso) {
   const el = document.getElementById('update-status');
@@ -699,7 +859,6 @@ function renderUpdateStatus(lastUpdateIso) {
   const next = new Date(last);
   next.setHours(next.getHours() + 1, 0, 0, 0);
   if (next <= last) next.setHours(next.getHours() + 1);
-
   const fmt = (d) => d.toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
   el.textContent = `Mise à jour : ${fmt(last)} · Prochaine : ${fmt(next)}`;
 }
@@ -713,6 +872,7 @@ async function loadData() {
   ]);
 
   renderUpdateStatus(status.lastUpdate);
+
   allEvents = events;
   allSuggestions = suggestions;
 
@@ -728,7 +888,7 @@ async function loadData() {
   listeNouveautes.innerHTML = nouveautes.length === 0
     ? '<div class="empty">Aucune nouveauté pour le moment.</div>'
     : nouveautes.slice(0, 5).map(e => `
-      <div class="event-row" data-url="${e.url || ''}">
+      <div class="event-row" data-uid="${e.uid}">
         <div>
           <div class="event-title">[${e.tag}] ${e.titre}</div>
           <div class="event-meta">${formatDate(e.dateDebut)} · ${e.lieu || ''}</div>
@@ -736,32 +896,29 @@ async function loadData() {
         <span class="badge badge-new">Nouveau</span>
       </div>
     `).join('');
-  attachCardLinkHandlers(listeNouveautes);
+  listeNouveautes.querySelectorAll('[data-uid]').forEach(row => {
+    row.addEventListener('click', () => openDetail(row.dataset.uid));
+  });
 
+  const topSuggestionCard = document.getElementById('top-suggestion-card');
   const topSuggestion = document.getElementById('top-suggestion');
   if (suggestions.length === 0) {
     topSuggestion.innerHTML = '<div class="empty">Aucune suggestion disponible.</div>';
   } else {
     const s = suggestions[0];
     topSuggestion.innerHTML = `
-      <div class="event-title">[DPS] ${s.titre}</div>
-      <div class="event-meta">${formatDate(s.dateDebut)} · ${s.lieu || ''}</div>
-      <div style="margin-top:8px; display:flex; gap:6px; flex-wrap:wrap;">
-        <span class="badge badge-ok">Score ${s.score}</span>
-      </div>
+      <div class="event-title-lg" style="margin-top:0;">${s.titre}</div>
+      <div class="event-meta-row"><span class="meta-icon">🕒</span>${formatDate(s.dateDebut)}</div>
+      <div class="event-meta-row"><span class="meta-icon">📍</span>${s.lieu || 'Lieu non renseigné'}</div>
+      <div style="margin-top:8px;"><span class="badge badge-ok">Score ${s.score}</span></div>
     `;
-    if (s.url) {
-      topSuggestion.style.cursor = 'pointer';
-      topSuggestion.addEventListener('click', () => window.open(s.url, '_blank'));
-    }
+    topSuggestionCard.style.cursor = 'pointer';
+    topSuggestionCard.onclick = () => openDetail(s.uid);
   }
 
-const listeEvenements = document.getElementById('liste-evenements');
-  listeEvenements.innerHTML = events.slice(0, 40).map(e => eventCard(e)).join('');
-  attachStarHandlers(listeEvenements);
-  attachCardLinkHandlers(listeEvenements);
-
-  renderNouveautes(events);
+  renderTypeFilterChips();
+  renderEvenements();
+  renderNouveautesCompletes(events);
 }
 
 loadData()
