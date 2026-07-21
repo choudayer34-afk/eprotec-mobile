@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>eProtec Mobile</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "Segoe UI", sans-serif;
+    background: #0E1E3A;
+    color: #fff;
+    padding-bottom: 80px;
+  }
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px; position: sticky; top: 0; background: #0E1E3A; z-index: 5;
+  }
+  header h1 { font-size: 16px; font-weight: 500; }
+  main { padding: 0 14px; }
+  .kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+  .kpi { background: #16274A; border-radius: 12px; padding: 12px; }
+  .kpi .value { color: #F5821F; font-size: 22px; font-weight: 500; }
+  .kpi .label { color: #9FB3D6; font-size: 11px; margin-top: 2px; }
+  .card {
+    background: #16274A; border-radius: 14px; padding: 12px; margin-bottom: 10px;
+  }
+  .card.highlight { border: 1.5px solid #F5821F; }
+  .card-title { font-size: 13px; font-weight: 500; margin-bottom: 6px; }
+  .event-row {
+    padding: 8px 0; border-top: 0.5px solid #223258;
+    display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;
+  }
+  .event-row:first-child { border-top: none; }
+  .event-title { font-size: 13px; }
+  .event-meta { color: #9FB3D6; font-size: 11px; margin-top: 3px; }
+  .badge {
+    font-size: 10px; padding: 3px 9px; border-radius: 20px; white-space: nowrap;
+  }
+  .badge-new { background: #3A2A0E; color: #FAC775; }
+  .badge-ok { background: #12351F; color: #97C459; }
+  .badge-blue { background: #1B2A4A; color: #85B7EB; }
+  .empty { color: #9FB3D6; font-size: 12px; padding: 8px 0; }
+  nav {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: #16274A; display: flex; justify-content: space-around;
+    padding: 10px 4px calc(10px + env(safe-area-inset-bottom));
+  }
+  nav button {
+    background: none; border: none; color: #9FB3D6;
+    font-size: 9px; display: flex; flex-direction: column; align-items: center; gap: 2px;
+  }
+  nav button.active { color: #F5821F; }
+  nav button svg { width: 18px; height: 18px; }
+  section { display: none; }
+  section.active { display: block; }
+</style>
+</head>
+<body>
+
+<header><h1>eProtec Mobile</h1></header>
+
+<main>
+
+  <section id="accueil" class="active">
+    <div class="kpi-grid">
+      <div class="kpi"><div class="value" id="kpi-nouveautes">-</div><div class="label">Nouveautés</div></div>
+      <div class="kpi"><div class="value" id="kpi-inscrits">-</div><div class="label">Déjà inscrits</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Dernières nouveautés</div>
+      <div id="liste-nouveautes"><div class="empty">Chargement...</div></div>
+    </div>
+
+    <div class="card highlight">
+      <div class="card-title">🎯 Suggestion du mois</div>
+      <div id="top-suggestion"><div class="empty">Chargement...</div></div>
+    </div>
+  </section>
+
+  <section id="evenements">
+    <div id="liste-evenements"><div class="empty">Chargement...</div></div>
+  </section>
+
+  <section id="suggestions">
+    <div id="liste-suggestions"><div class="empty">Chargement...</div></div>
+  </section>
+
+</main>
+
+<nav>
+  <button data-tab="accueil" class="active">Accueil</button>
+  <button data-tab="evenements">Événements</button>
+  <button data-tab="suggestions">Suggestions</button>
+</nav>
+
+<script>
+function formatDate(iso) {
+  if (!iso) return 'date inconnue';
+  const d = new Date(iso);
+  return d.toLocaleString('fr-FR', { weekday: 'short', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+}
+
+document.querySelectorAll('nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+async function loadData() {
+  const [events, suggestions] = await Promise.all([
+    fetch('data/events.json').then(r => r.json()),
+    fetch('data/suggestions.json').then(r => r.json())
+  ]);
+
+  const nouveautes = events.filter(e => e.nouveau);
+  const inscrits = events.filter(e => e.dejaInscrit);
+
+  document.getElementById('kpi-nouveautes').textContent = nouveautes.length;
+  document.getElementById('kpi-inscrits').textContent = inscrits.length;
+
+  const listeNouveautes = document.getElementById('liste-nouveautes');
+  listeNouveautes.innerHTML = nouveautes.length === 0
+    ? '<div class="empty">Aucune nouveauté pour le moment.</div>'
+    : nouveautes.slice(0, 5).map(e => `
+      <div class="event-row">
+        <div>
+          <div class="event-title">[${e.tag}] ${e.titre}</div>
+          <div class="event-meta">${formatDate(e.dateDebut)} · ${e.lieu || ''}</div>
+        </div>
+        <span class="badge badge-new">Nouveau</span>
+      </div>
+    `).join('');
+
+  const topSuggestion = document.getElementById('top-suggestion');
+  if (suggestions.length === 0) {
+    topSuggestion.innerHTML = '<div class="empty">Aucune suggestion disponible.</div>';
+  } else {
+    const s = suggestions[0];
+    topSuggestion.innerHTML = `
+      <div class="event-title">[DPS] ${s.titre}</div>
+      <div class="event-meta">${formatDate(s.dateDebut)} · ${s.lieu || ''}</div>
+      <div style="margin-top:8px; display:flex; gap:6px; flex-wrap:wrap;">
+        <span class="badge badge-ok">Score ${s.score}</span>
+      </div>
+    `;
+  }
+
+  const listeEvenements = document.getElementById('liste-evenements');
+  listeEvenements.innerHTML = events.slice(0, 40).map(e => {
+    let badge = '';
+    if (e.dejaInscrit) badge = '<span class="badge badge-blue">Déjà inscrit</span>';
+    else if (e.nouveau) badge = '<span class="badge badge-new">Nouveau</span>';
+    return `
+      <div class="card">
+        <div class="event-title">[${e.tag}] ${e.titre}</div>
+        <div class="event-meta">${formatDate(e.dateDebut)} · ${e.lieu || ''}</div>
+        <div style="margin-top:8px;">${badge}</div>
+      </div>
+    `;
+  }).join('');
+
+  const listeSuggestions = document.getElementById('liste-suggestions');
+  listeSuggestions.innerHTML = suggestions.map((s, i) => `
+    <div class="card ${i === 0 ? 'highlight' : ''}">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+        <span class="badge ${i === 0 ? 'badge-new' : 'badge-ok'}">${i === 0 ? 'Prioritaire' : 'Score ' + s.score}</span>
+        ${i === 0 ? `<span style="color:#F5821F; font-weight:500;">${s.score} pts</span>` : ''}
+      </div>
+      <div class="event-title">[DPS] ${s.titre}</div>
+      <div class="event-meta">${formatDate(s.dateDebut)} · ${s.lieu || ''}</div>
+    </div>
+  `).join('');
+}
+
+loadData().catch(err => {
+  document.querySelectorAll('.empty').forEach(el => el.textContent = 'Erreur de chargement des données.');
+  console.error(err);
+});
+</script>
+
+</body>
+</html>
