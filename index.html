@@ -41,6 +41,12 @@
   .badge-ok { background: #12351F; color: #97C459; }
   .badge-blue { background: #1B2A4A; color: #85B7EB; }
   .empty { color: #9FB3D6; font-size: 12px; padding: 8px 0; }
+  .star-btn {
+    background: none; border: none; font-size: 17px; color: #5F5E5A;
+    padding: 2px 4px; line-height: 1;
+  }
+  .star-btn.active { color: #F5821F; }
+  .card-header-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
   nav {
     position: fixed; bottom: 0; left: 0; right: 0;
     background: #16274A; display: flex; justify-content: space-around;
@@ -51,7 +57,6 @@
     font-size: 9px; display: flex; flex-direction: column; align-items: center; gap: 2px;
   }
   nav button.active { color: #F5821F; }
-  nav button svg { width: 18px; height: 18px; }
   section { display: none; }
   section.active { display: block; }
 </style>
@@ -87,15 +92,42 @@
     <div id="liste-suggestions"><div class="empty">Chargement...</div></div>
   </section>
 
+  <section id="favoris">
+    <div id="liste-favoris"><div class="empty">Chargement...</div></div>
+  </section>
+
 </main>
 
 <nav>
   <button data-tab="accueil" class="active">Accueil</button>
   <button data-tab="evenements">Événements</button>
   <button data-tab="suggestions">Suggestions</button>
+  <button data-tab="favoris">Favoris</button>
 </nav>
 
 <script>
+const FAVORIS_KEY = 'eprotec_favoris';
+
+function getFavoris() {
+  try {
+    return JSON.parse(localStorage.getItem(FAVORIS_KEY) || '[]');
+  } catch {
+    return [];
+  }
+}
+
+function isFavori(uid) {
+  return getFavoris().includes(uid);
+}
+
+function toggleFavori(uid) {
+  const favoris = getFavoris();
+  const idx = favoris.indexOf(uid);
+  if (idx >= 0) favoris.splice(idx, 1);
+  else favoris.push(uid);
+  localStorage.setItem(FAVORIS_KEY, JSON.stringify(favoris));
+}
+
 function formatDate(iso) {
   if (!iso) return 'date inconnue';
   const d = new Date(iso);
@@ -108,14 +140,62 @@ document.querySelectorAll('nav button').forEach(btn => {
     document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
     btn.classList.add('active');
     document.getElementById(btn.dataset.tab).classList.add('active');
+    if (btn.dataset.tab === 'favoris') renderFavoris();
   });
 });
+
+let allEvents = [];
+
+function eventCard(e, opts = {}) {
+  let badge = '';
+  if (e.dejaInscrit) badge = '<span class="badge badge-blue">Déjà inscrit</span>';
+  else if (e.nouveau) badge = '<span class="badge badge-new">Nouveau</span>';
+
+  const starActive = isFavori(e.uid) ? 'active' : '';
+  const starIcon = isFavori(e.uid) ? '★' : '☆';
+
+  return `
+    <div class="card" data-uid="${e.uid}">
+      <div class="card-header-row">
+        <div>
+          <div class="event-title">[${e.tag}] ${e.titre}</div>
+          <div class="event-meta">${formatDate(e.dateDebut)} · ${e.lieu || ''}</div>
+        </div>
+        <button class="star-btn ${starActive}" data-fav-uid="${e.uid}">${starIcon}</button>
+      </div>
+      <div style="margin-top:8px;">${badge}</div>
+    </div>
+  `;
+}
+
+function attachStarHandlers(container) {
+  container.querySelectorAll('[data-fav-uid]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      toggleFavori(btn.dataset.favUid);
+      const active = isFavori(btn.dataset.favUid);
+      btn.classList.toggle('active', active);
+      btn.textContent = active ? '★' : '☆';
+    });
+  });
+}
+
+function renderFavoris() {
+  const favUids = getFavoris();
+  const favEvents = allEvents.filter(e => favUids.includes(e.uid));
+  const container = document.getElementById('liste-favoris');
+  container.innerHTML = favEvents.length === 0
+    ? '<div class="empty">Aucun favori pour le moment. Appuie sur l\'étoile d\'un événement pour l\'ajouter.</div>'
+    : favEvents.map(e => eventCard(e)).join('');
+  attachStarHandlers(container);
+}
 
 async function loadData() {
   const [events, suggestions] = await Promise.all([
     fetch('data/events.json').then(r => r.json()),
     fetch('data/suggestions.json').then(r => r.json())
   ]);
+
+  allEvents = events;
 
   const nouveautes = events.filter(e => e.nouveau);
   const inscrits = events.filter(e => e.dejaInscrit);
@@ -151,18 +231,8 @@ async function loadData() {
   }
 
   const listeEvenements = document.getElementById('liste-evenements');
-  listeEvenements.innerHTML = events.slice(0, 40).map(e => {
-    let badge = '';
-    if (e.dejaInscrit) badge = '<span class="badge badge-blue">Déjà inscrit</span>';
-    else if (e.nouveau) badge = '<span class="badge badge-new">Nouveau</span>';
-    return `
-      <div class="card">
-        <div class="event-title">[${e.tag}] ${e.titre}</div>
-        <div class="event-meta">${formatDate(e.dateDebut)} · ${e.lieu || ''}</div>
-        <div style="margin-top:8px;">${badge}</div>
-      </div>
-    `;
-  }).join('');
+  listeEvenements.innerHTML = events.slice(0, 40).map(e => eventCard(e)).join('');
+  attachStarHandlers(listeEvenements);
 
   const listeSuggestions = document.getElementById('liste-suggestions');
   listeSuggestions.innerHTML = suggestions.map((s, i) => `
