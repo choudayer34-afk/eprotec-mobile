@@ -46,7 +46,19 @@
     padding: 2px 4px; line-height: 1;
   }
   .star-btn.active { color: #F5821F; }
-  .card-header-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.card-header-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .cal-header button { background: #16274A; border: none; color: #fff; font-size: 16px; padding: 6px 14px; border-radius: 10px; }
+  .cal-header .cal-title { font-size: 14px; font-weight: 500; }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 12px; }
+  .cal-daylabel { text-align: center; font-size: 10px; color: #9FB3D6; padding-bottom: 4px; }
+  .cal-cell { background: #16274A; border-radius: 8px; padding: 4px 2px; min-height: 40px; text-align: center; }
+  .cal-cell.empty { background: transparent; }
+  .cal-cell.today { border: 1px solid #F5821F; }
+  .cal-cell.selected { background: #223258; }
+  .cal-cell .cal-daynum { font-size: 11px; color: #fff; }
+  .cal-dots { display: flex; justify-content: center; gap: 2px; margin-top: 2px; flex-wrap: wrap; }
+  .cal-dot { width: 5px; height: 5px; border-radius: 50%; }
   nav {
     position: fixed; bottom: 0; left: 0; right: 0;
     background: #16274A; display: flex; justify-content: space-around;
@@ -92,9 +104,11 @@
     <div id="liste-suggestions"><div class="empty">Chargement...</div></div>
   </section>
 
-  <section id="favoris">
+<section id="favoris">
     <div id="liste-favoris"><div class="empty">Chargement...</div></div>
   </section>
+
+  <section id="calendrier"></section>
 
 </main>
 
@@ -103,6 +117,7 @@
   <button data-tab="evenements">Événements</button>
   <button data-tab="suggestions">Suggestions</button>
   <button data-tab="favoris">Favoris</button>
+  <button data-tab="calendrier">Calendrier</button>
 </nav>
 
 <script>
@@ -153,10 +168,103 @@ document.querySelectorAll('nav button').forEach(btn => {
     btn.classList.add('active');
     document.getElementById(btn.dataset.tab).classList.add('active');
     if (btn.dataset.tab === 'favoris') renderFavoris();
+    if (btn.dataset.tab === 'calendrier') renderCalendar();
   });
 });
 
 let allEvents = [];
+
+const TAG_COLORS = {
+  DPS: '#F5821F', FOR: '#378ADD', MAN: '#D85A30',
+  MLA: '#7F77DD', ALERT: '#E24B4A', AIP: '#639922',
+  BENEVOLE: '#1D9E75', AUTRE: '#888780'
+};
+
+let calMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+let calSelectedKey = null;
+
+function dateKey(d) {
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+
+function renderCalendar() {
+  const container = document.getElementById('calendrier');
+  if (!container) return;
+
+  const monthLabel = calMonth.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+  const eventsByDay = {};
+  allEvents.forEach(e => {
+    if (!e.dateDebut) return;
+    const d = new Date(e.dateDebut);
+    const key = dateKey(d);
+    (eventsByDay[key] ||= []).push(e);
+  });
+
+  const firstOfMonth = new Date(calMonth.getFullYear(), calMonth.getMonth(), 1);
+  const startWeekday = (firstOfMonth.getDay() + 6) % 7;
+  const daysInMonth = new Date(calMonth.getFullYear(), calMonth.getMonth() + 1, 0).getDate();
+  const todayKey = dateKey(new Date());
+
+  let cells = '';
+  for (let i = 0; i < startWeekday; i++) cells += '<div class="cal-cell empty"></div>';
+  for (let day = 1; day <= daysInMonth; day++) {
+    const d = new Date(calMonth.getFullYear(), calMonth.getMonth(), day);
+    const key = dateKey(d);
+    const dayEvents = eventsByDay[key] || [];
+    const tags = [...new Set(dayEvents.map(e => e.tag))].slice(0, 4);
+    const dots = tags.map(t => `<span class="cal-dot" style="background:${TAG_COLORS[t] || '#888780'}"></span>`).join('');
+    const classes = ['cal-cell'];
+    if (key === todayKey) classes.push('today');
+    if (key === calSelectedKey) classes.push('selected');
+    cells += `<div class="${classes.join(' ')}" data-day-key="${key}">
+      <div class="cal-daynum">${day}</div>
+      <div class="cal-dots">${dots}</div>
+    </div>`;
+  }
+
+  const dayLabels = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'].map(l => `<div class="cal-daylabel">${l}</div>`).join('');
+
+  container.innerHTML = `
+    <div class="cal-header">
+      <button id="cal-prev">‹</button>
+      <span class="cal-title">${monthLabel}</span>
+      <button id="cal-next">›</button>
+    </div>
+    <div class="cal-grid">${dayLabels}${cells}</div>
+    <div id="cal-day-detail"></div>
+  `;
+
+  document.getElementById('cal-prev').addEventListener('click', () => {
+    calMonth = new Date(calMonth.getFullYear(), calMonth.getMonth() - 1, 1);
+    renderCalendar();
+  });
+  document.getElementById('cal-next').addEventListener('click', () => {
+    calMonth = new Date(calMonth.getFullYear(), calMonth.getMonth() + 1, 1);
+    renderCalendar();
+  });
+
+  container.querySelectorAll('[data-day-key]').forEach(cell => {
+    cell.addEventListener('click', () => {
+      calSelectedKey = cell.dataset.dayKey;
+      renderCalendar();
+      renderDayDetail(calSelectedKey, eventsByDay[calSelectedKey] || []);
+    });
+  });
+
+  if (calSelectedKey) renderDayDetail(calSelectedKey, eventsByDay[calSelectedKey] || []);
+}
+
+function renderDayDetail(key, events) {
+  const detail = document.getElementById('cal-day-detail');
+  if (!detail) return;
+  const dateLabel = new Date(key).toLocaleDateString('fr-FR', { weekday: 'long', day: '2-digit', month: 'long' });
+  if (events.length === 0) {
+    detail.innerHTML = `<div class="card"><div class="card-title">${dateLabel}</div><div class="empty">Aucune activité ce jour.</div></div>`;
+    return;
+  }
+  detail.innerHTML = `<div class="card-title" style="margin:10px 0 6px;">${dateLabel}</div>` + events.map(e => eventCard(e)).join('');
+  attachStarHandlers(detail);
+}
 
 function eventCard(e, opts = {}) {
   let badge = '';
