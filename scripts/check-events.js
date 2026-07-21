@@ -401,7 +401,8 @@ async function main() {
 
   writeFileSync(KNOWN_UIDS_PATH, JSON.stringify(events.map(e => e.uid), null, 2));
 
-  const upcoming = events.filter(e => e.startDate && e.startDate > now);
+  const historyCutoff = new Date(now.getTime() - 60 * 24 * 3600 * 1000);
+  const upcoming = events.filter(e => e.startDate && e.startDate > historyCutoff);
   const eventsForApp = upcoming.map(e => ({
     uid: e.uid,
     tag: e.tag,
