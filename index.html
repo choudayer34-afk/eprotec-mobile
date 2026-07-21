@@ -4,6 +4,49 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>eProtec Mobile</title>
+<script>
+(function generateAppIcon() {
+  const canvas = document.createElement('canvas');
+  canvas.width = 180; canvas.height = 180;
+  const ctx = canvas.getContext('2d');
+  const r = 40;
+  ctx.fillStyle = '#0E1E3A';
+  ctx.beginPath();
+  ctx.moveTo(r, 0);
+  ctx.arcTo(180, 0, 180, 180, r);
+  ctx.arcTo(180, 180, 0, 180, r);
+  ctx.arcTo(0, 180, 0, 0, r);
+  ctx.arcTo(0, 0, 180, 0, r);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.fillStyle = '#F5821F';
+  ctx.beginPath();
+  ctx.moveTo(90, 42);
+  ctx.lineTo(142, 128);
+  ctx.lineTo(38, 128);
+  ctx.closePath();
+  ctx.fill();
+
+  const dataUrl = canvas.toDataURL('image/png');
+
+  let touchIcon = document.querySelector("link[rel='apple-touch-icon']");
+  if (!touchIcon) {
+    touchIcon = document.createElement('link');
+    touchIcon.rel = 'apple-touch-icon';
+    document.head.appendChild(touchIcon);
+  }
+  touchIcon.href = dataUrl;
+
+  let favicon = document.querySelector("link[rel='icon']");
+  if (!favicon) {
+    favicon = document.createElement('link');
+    favicon.rel = 'icon';
+    document.head.appendChild(favicon);
+  }
+  favicon.href = dataUrl;
+})();
+</script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -662,10 +705,11 @@ function renderUpdateStatus(lastUpdateIso) {
 }
 
 async function loadData() {
+  const bust = Date.now();
   const [events, suggestions, status] = await Promise.all([
-    fetch('data/events.json').then(r => r.json()),
-    fetch('data/suggestions.json').then(r => r.json()),
-    fetch('data/status.json').then(r => r.json()).catch(() => ({}))
+    fetch('data/events.json?t=' + bust, { cache: 'no-store' }).then(r => r.json()),
+    fetch('data/suggestions.json?t=' + bust, { cache: 'no-store' }).then(r => r.json()),
+    fetch('data/status.json?t=' + bust, { cache: 'no-store' }).then(r => r.json()).catch(() => ({}))
   ]);
 
   renderUpdateStatus(status.lastUpdate);
