@@ -1,0 +1,47 @@
+{
+  "evt15899331@https://eprotec.protection-civile.org": {
+    "uid": "evt15899331@https://eprotec.protection-civile.org",
+    "tag": "DPS",
+    "titre": "[DPS 34] Jeudis festifs",
+    "lieu": "Parcours de Sante, Maurin",
+    "dateDebut": "2026-07-23T18:00:00.000Z",
+    "dureeHeures": 6,
+    "statut": "Inscrit"
+  },
+  "evt15219881@https://eprotec.protection-civile.org": {
+    "uid": "evt15219881@https://eprotec.protection-civile.org",
+    "tag": "FOR",
+    "titre": "[FOR 34] {Benevole} -  Formation PSE2 partie 1/4",
+    "lieu": "Centre de formation de Montpellier",
+    "dateDebut": "2026-11-21T08:00:00.000Z",
+    "dureeHeures": 9,
+    "statut": "Inscrit"
+  },
+  "evt15219882@https://eprotec.protection-civile.org": {
+    "uid": "evt15219882@https://eprotec.protection-civile.org",
+    "tag": "FOR",
+    "titre": "[FOR 34] {Benevole} -  Formation PSE2 partie 2/4",
+    "lieu": "Centre de formation de Montpellier",
+    "dateDebut": "2026-11-22T08:00:00.000Z",
+    "dureeHeures": 9,
+    "statut": "Inscrit"
+  },
+  "evt15219883@https://eprotec.protection-civile.org": {
+    "uid": "evt15219883@https://eprotec.protection-civile.org",
+    "tag": "FOR",
+    "titre": "[FOR 34] {Benevole} -  Formation PSE2 partie 3/4",
+    "lieu": "Centre de formation de Montpellier",
+    "dateDebut": "2026-11-23T08:00:00.000Z",
+    "dureeHeures": 9,
+    "statut": "Inscrit"
+  },
+  "evt15219884@https://eprotec.protection-civile.org": {
+    "uid": "evt15219884@https://eprotec.protection-civile.org",
+    "tag": "FOR",
+    "titre": "[FOR 34] {Benevole} -  Formation PSE2 partie 4/4",
+    "lieu": "Centre de formation de Montpellier",
+    "dateDebut": "2026-11-24T08:00:00.000Z",
+    "dureeHeures": 9,
+    "statut": "Inscrit"
+  }
+}
