@@ -736,6 +736,10 @@ function eventCard(e, opts = {}) {
     else if (e.nouveau) badge = '<span class="badge badge-new">Nouveau</span>';
   }
 
+  if (opts.showScore && typeof e.score === 'number') {
+    badge += ` <span class="badge badge-ok">Score ${e.score}</span>`;
+  }
+
   const starActive = isFavori(e.uid) ? 'active' : '';
   const starIcon = isFavori(e.uid) ? '★' : '☆';
 
@@ -797,7 +801,7 @@ function groupByMonth(items) {
   }));
 }
 
-function renderMonthGroupedCards(container, monthGroups, emptyMessage) {
+function renderMonthGroupedCards(container, monthGroups, emptyMessage, itemOpts = {}) {
   if (monthGroups.length === 0) {
     container.innerHTML = `<div class="empty">${emptyMessage}</div>`;
     return;
@@ -807,10 +811,10 @@ function renderMonthGroupedCards(container, monthGroups, emptyMessage) {
     <div class="month-group">
       <button class="month-toggle" data-month-key="${g.key}">
         <span>${g.label.charAt(0).toUpperCase() + g.label.slice(1)} (${g.items.length})</span>
-        <span class="month-chevron">▾</span>
+        <span class="month-chevron">▸</span>
       </button>
-      <div class="month-body" data-month-body="${g.key}" style="display:block">
-        ${g.items.map(item => eventCard(item)).join('')}
+      <div class="month-body" data-month-body="${g.key}" style="display:none">
+        ${g.items.map(item => eventCard(item, itemOpts)).join('')}
       </div>
     </div>
   `).join('');
@@ -895,7 +899,8 @@ function renderSuggestions(suggestions) {
   renderMonthGroupedCards(
     document.getElementById('liste-suggestions'),
     groupByMonth(sorted),
-    'Aucune suggestion disponible.'
+    'Aucune suggestion disponible.',
+    { showScore: true }
   );
 }
 
