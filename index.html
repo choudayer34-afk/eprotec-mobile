@@ -57,7 +57,9 @@
   .cal-cell.today { border: 1px solid #F5821F; }
   .cal-cell.selected { background: #223258; }
   .cal-cell .cal-daynum { font-size: 11px; color: #fff; }
-  .cal-dots { display: flex; justify-content: center; gap: 2px; margin-top: 2px; flex-wrap: wrap; }
+.cal-dots { display: flex; justify-content: center; gap: 2px; margin-top: 2px; flex-wrap: wrap; }
+  .cal-legend { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 14px; }
+  .cal-legend-item { display: flex; align-items: center; gap: 4px; font-size: 10px; color: #9FB3D6; }
   .cal-dot { width: 5px; height: 5px; border-radius: 50%; }
   nav {
     position: fixed; bottom: 0; left: 0; right: 0;
@@ -230,7 +232,12 @@ function renderCalendar() {
       <span class="cal-title">${monthLabel}</span>
       <button id="cal-next">›</button>
     </div>
-    <div class="cal-grid">${dayLabels}${cells}</div>
+<div class="cal-grid">${dayLabels}${cells}</div>
+    <div class="cal-legend">
+      ${Object.entries(TAG_COLORS).map(([tag, color]) => `
+        <span class="cal-legend-item"><span class="cal-dot" style="background:${color}"></span>${tag}</span>
+      `).join('')}
+    </div>
     <div id="cal-day-detail"></div>
   `;
 
