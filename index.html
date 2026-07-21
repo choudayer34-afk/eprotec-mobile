@@ -701,10 +701,16 @@ const listeEvenements = document.getElementById('liste-evenements');
   renderNouveautes(events);
 }
 
-loadData().catch(err => {
-  document.querySelectorAll('.empty').forEach(el => el.textContent = 'Erreur de chargement des données.');
-  console.error(err);
-});
+loadData()
+  .then(() => {
+    if (window.location.hash === '#nouveautes') {
+      goToPlusSub('plus-nouveautes');
+    }
+  })
+  .catch(err => {
+    document.querySelectorAll('.empty').forEach(el => el.textContent = 'Erreur de chargement des données.');
+    console.error(err);
+  });
 </script>
 
 </body>
