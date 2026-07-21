@@ -34,7 +34,7 @@ async function sendMail(newEvents, topSuggestion) {
       Date : ${formatDate(topSuggestion.dateDebutIso)}<br>
       Lieu : ${topSuggestion.lieu || 'non renseigné'}<br>
       Score : ${topSuggestion.score}<br>
-      <ul>${topSuggestion.reasons.map(r => `<li>${r}</li>`).join('')}</ul>
+      <ul>${topSuggestion.reasons.map(r => `<li>${r.category === 'positive' ? '✅' : r.category === 'negative' ? '⚠️' : '•'} ${r.text}</li>`).join('')}</ul>
     </div>
   ` : '';
 
