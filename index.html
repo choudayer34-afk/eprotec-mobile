@@ -69,6 +69,10 @@
   .month-chevron { color: #F5821F; font-size: 12px; }
   .month-body { padding-top: 8px; }
   .cal-dot { width: 5px; height: 5px; border-radius: 50%; }
+  .cal-dot-outline { background: transparent !important; border: 1.5px solid; box-sizing: border-box; }
+  .badge-suggest { background: #223258; color: #F5821F; }
+  .insc-section-title { font-size: 11px; color: #9FB3D6; margin: 14px 0 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  nav {
   nav {
     position: fixed; bottom: 0; left: 0; right: 0;
     background: #16274A; display: flex; justify-content: space-around;
@@ -100,6 +104,11 @@
       <div id="liste-nouveautes"><div class="empty">Chargement...</div></div>
     </div>
 
+<div class="card">
+      <div class="card-title">📅 Mes inscriptions (15 prochains jours)</div>
+      <div id="liste-inscriptions-proches"><div class="empty">Chargement...</div></div>
+    </div>
+
     <div class="card highlight">
       <div class="card-title">🎯 Suggestion du mois</div>
       <div id="top-suggestion"><div class="empty">Chargement...</div></div>
@@ -118,7 +127,11 @@
     <div id="liste-favoris"><div class="empty">Chargement...</div></div>
   </section>
 
-  <section id="calendrier"></section>
+<section id="calendrier"></section>
+
+  <section id="inscriptions">
+    <div id="liste-inscriptions-globales"><div class="empty">Chargement...</div></div>
+  </section>
 
 </main>
 
@@ -126,8 +139,9 @@
   <button data-tab="accueil" class="active">Accueil</button>
   <button data-tab="evenements">Événements</button>
   <button data-tab="suggestions">Suggestions</button>
-  <button data-tab="favoris">Favoris</button>
+<button data-tab="favoris">Favoris</button>
   <button data-tab="calendrier">Calendrier</button>
+  <button data-tab="inscriptions">Inscriptions</button>
 </nav>
 
 <script>
@@ -179,10 +193,12 @@ document.querySelectorAll('nav button').forEach(btn => {
     document.getElementById(btn.dataset.tab).classList.add('active');
     if (btn.dataset.tab === 'favoris') renderFavoris();
     if (btn.dataset.tab === 'calendrier') renderCalendar();
+   if (btn.dataset.tab === 'inscriptions') renderInscriptions();
   });
 });
 
 let allEvents = [];
+ let allSuggestions = [];
 
 const TAG_COLORS = {
   DPS: '#F5821F', FOR: '#378ADD', MAN: '#D85A30',
@@ -210,6 +226,13 @@ function renderCalendar() {
     (eventsByDay[key] ||= []).push(e);
   });
 
+  const suggestionsByDay = {};
+  allSuggestions.forEach(s => {
+    if (!s.dateDebut) return;
+    const key = dateKey(new Date(s.dateDebut));
+    (suggestionsByDay[key] ||= []).push(s);
+  });
+
   const firstOfMonth = new Date(calMonth.getFullYear(), calMonth.getMonth(), 1);
   const startWeekday = (firstOfMonth.getDay() + 6) % 7;
   const daysInMonth = new Date(calMonth.getFullYear(), calMonth.getMonth() + 1, 0).getDate();
@@ -221,8 +244,13 @@ function renderCalendar() {
     const d = new Date(calMonth.getFullYear(), calMonth.getMonth(), day);
     const key = dateKey(d);
     const dayEvents = eventsByDay[key] || [];
+    const daySuggestions = suggestionsByDay[key] || [];
     const tags = [...new Set(dayEvents.map(e => e.tag))].slice(0, 4);
-    const dots = tags.map(t => `<span class="cal-dot" style="background:${TAG_COLORS[t] || '#888780'}"></span>`).join('');
+    const eventDots = tags.map(t => `<span class="cal-dot" style="background:${TAG_COLORS[t] || '#888780'}"></span>`).join('');
+    const suggestDot = daySuggestions.length > 0
+      ? `<span class="cal-dot cal-dot-outline" style="border-color:${TAG_COLORS.DPS}"></span>`
+      : '';
+    const dots = eventDots + suggestDot;
     const classes = ['cal-cell'];
     if (key === todayKey) classes.push('today');
     if (key === calSelectedKey) classes.push('selected');
@@ -245,6 +273,7 @@ function renderCalendar() {
       ${Object.entries(TAG_COLORS).map(([tag, color]) => `
         <span class="cal-legend-item"><span class="cal-dot" style="background:${color}"></span>${tag}</span>
       `).join('')}
+      <span class="cal-legend-item"><span class="cal-dot cal-dot-outline" style="border-color:${TAG_COLORS.DPS}"></span>Suggestion</span>
     </div>
     <div id="cal-day-detail"></div>
   `;
@@ -262,22 +291,41 @@ function renderCalendar() {
     cell.addEventListener('click', () => {
       calSelectedKey = cell.dataset.dayKey;
       renderCalendar();
-      renderDayDetail(calSelectedKey, eventsByDay[calSelectedKey] || []);
+      renderDayDetail(calSelectedKey, eventsByDay[calSelectedKey] || [], suggestionsByDay[calSelectedKey] || []);
     });
   });
 
-  if (calSelectedKey) renderDayDetail(calSelectedKey, eventsByDay[calSelectedKey] || []);
+  if (calSelectedKey) renderDayDetail(calSelectedKey, eventsByDay[calSelectedKey] || [], suggestionsByDay[calSelectedKey] || []);
 }
 
-function renderDayDetail(key, events) {
+function renderDayDetail(key, events, suggestions = []) {
   const detail = document.getElementById('cal-day-detail');
   if (!detail) return;
   const dateLabel = new Date(key).toLocaleDateString('fr-FR', { weekday: 'long', day: '2-digit', month: 'long' });
-  if (events.length === 0) {
+
+  if (events.length === 0 && suggestions.length === 0) {
     detail.innerHTML = `<div class="card"><div class="card-title">${dateLabel}</div><div class="empty">Aucune activité ce jour.</div></div>`;
     return;
   }
-  detail.innerHTML = `<div class="card-title" style="margin:10px 0 6px;">${dateLabel}</div>` + events.map(e => eventCard(e)).join('');
+
+  let html = `<div class="card-title" style="margin:10px 0 6px;">${dateLabel}</div>`;
+  html += events.map(e => eventCard(e)).join('');
+
+  suggestions.forEach(s => {
+    html += `
+      <div class="card">
+        <div class="card-header-row">
+          <div>
+            <div class="event-title">[DPS] ${s.titre}</div>
+            <div class="event-meta">${formatDate(s.dateDebut)} · ${s.lieu || ''}</div>
+          </div>
+        </div>
+        <div style="margin-top:8px;"><span class="badge badge-suggest">🎯 Suggéré (score ${s.score})</span></div>
+      </div>
+    `;
+  });
+
+  detail.innerHTML = html;
   attachStarHandlers(detail);
 }
 
@@ -326,6 +374,56 @@ function renderFavoris() {
     ? '<div class="empty">Aucun favori pour le moment. Appuie sur l\'étoile d\'un événement pour l\'ajouter.</div>'
     : favEvents.map(e => eventCard(e)).join('');
    attachStarHandlers(container, true);
+}
+
+function renderUpcomingRegistrations(events) {
+  const now = new Date();
+  const limit = new Date(now.getTime() + 15 * 24 * 3600 * 1000);
+  const upcoming = events
+    .filter(e => e.dejaInscrit && e.dateDebut && new Date(e.dateDebut) >= now && new Date(e.dateDebut) <= limit)
+    .sort((a, b) => new Date(a.dateDebut) - new Date(b.dateDebut));
+
+  const container = document.getElementById('liste-inscriptions-proches');
+  container.innerHTML = upcoming.length === 0
+    ? '<div class="empty">Aucune inscription dans les 15 prochains jours.</div>'
+    : upcoming.map(e => `
+      <div class="event-row">
+        <div>
+          <div class="event-title">[${e.tag}] ${e.titre}</div>
+          <div class="event-meta">${formatDate(e.dateDebut)} · ${e.lieu || ''}</div>
+        </div>
+        <span class="badge badge-blue">Inscrit</span>
+      </div>
+    `).join('');
+}
+
+function renderInscriptions() {
+  const registered = allEvents
+    .filter(e => e.dejaInscrit && e.dateDebut)
+    .sort((a, b) => new Date(a.dateDebut) - new Date(b.dateDebut));
+
+  const container = document.getElementById('liste-inscriptions-globales');
+  if (registered.length === 0) {
+    container.innerHTML = '<div class="empty">Aucune inscription à venir.</div>';
+    return;
+  }
+
+  const groups = {};
+  registered.forEach(e => {
+    const d = new Date(e.dateDebut);
+    const key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+    (groups[key] ||= []).push(e);
+  });
+
+  container.innerHTML = Object.keys(groups).sort().map(key => {
+    const label = new Date(key + '-01').toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+    return `
+      <div class="insc-section-title">${label.charAt(0).toUpperCase() + label.slice(1)}</div>
+      ${groups[key].map(e => eventCard(e)).join('')}
+    `;
+  }).join('');
+
+  attachStarHandlers(container);
 }
 
 function groupSuggestionsByMonth(suggestions) {
@@ -390,13 +488,16 @@ async function loadData() {
     fetch('data/suggestions.json').then(r => r.json())
   ]);
 
-  allEvents = events;
+ allEvents = events;
+  allSuggestions = suggestions;
 
   const nouveautes = events.filter(e => e.nouveau);
   const inscrits = events.filter(e => e.dejaInscrit);
 
   document.getElementById('kpi-nouveautes').textContent = nouveautes.length;
   document.getElementById('kpi-inscrits').textContent = inscrits.length;
+
+  renderUpcomingRegistrations(events);
 
   const listeNouveautes = document.getElementById('liste-nouveautes');
   listeNouveautes.innerHTML = nouveautes.length === 0
