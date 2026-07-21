@@ -9,12 +9,30 @@
     "tag": "DPS",
     "score": 15,
     "reasons": [
-      "Mois sans DPS planifié",
-      "Jour très favorable (samedi)",
-      "Créneau fin d'après-midi / soirée",
-      "Durée raisonnable",
-      "Très proche (9.4 km)",
-      "Espacement confortable (16 jours)"
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour très favorable (samedi)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (9.4 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (16 jours)",
+        "category": "positive"
+      }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1622939"
   },
@@ -28,12 +46,30 @@
     "tag": "DPS",
     "score": 15,
     "reasons": [
-      "Mois sans DPS planifié",
-      "Jour très favorable (vendredi)",
-      "Créneau fin d'après-midi / soirée",
-      "Durée raisonnable",
-      "Très proche (9.6 km)",
-      "Espacement confortable (22 jours)"
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour très favorable (vendredi)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (9.6 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (22 jours)",
+        "category": "positive"
+      }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1558867"
   },
@@ -47,12 +83,30 @@
     "tag": "DPS",
     "score": 15,
     "reasons": [
-      "Mois sans DPS planifié",
-      "Jour très favorable (samedi)",
-      "Créneau fin d'après-midi / soirée",
-      "Durée raisonnable",
-      "Très proche (5 km)",
-      "Espacement confortable (23 jours)"
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour très favorable (samedi)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (5 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (23 jours)",
+        "category": "positive"
+      }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1609269"
   },
@@ -66,12 +120,30 @@
     "tag": "DPS",
     "score": 15,
     "reasons": [
-      "Mois sans DPS planifié",
-      "Jour très favorable (samedi)",
-      "Créneau fin d'après-midi / soirée",
-      "Durée raisonnable",
-      "Très proche (9.6 km)",
-      "Espacement confortable (23 jours)"
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour très favorable (samedi)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (9.6 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (23 jours)",
+        "category": "positive"
+      }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1558868"
   },
@@ -85,12 +157,30 @@
     "tag": "DPS",
     "score": 15,
     "reasons": [
-      "Mois sans DPS planifié",
-      "Jour très favorable (vendredi)",
-      "Créneau fin d'après-midi / soirée",
-      "Durée raisonnable",
-      "Très proche (0.2 km)",
-      "Espacement confortable (29 jours)"
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour très favorable (vendredi)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (0.2 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (29 jours)",
+        "category": "positive"
+      }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1589935"
   },
@@ -104,12 +194,30 @@
     "tag": "DPS",
     "score": 15,
     "reasons": [
-      "Mois sans DPS planifié",
-      "Jour très favorable (samedi)",
-      "Créneau fin d'après-midi / soirée",
-      "Durée raisonnable",
-      "Très proche (0.2 km)",
-      "Espacement confortable (30 jours)"
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour très favorable (samedi)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (0.2 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (30 jours)",
+        "category": "positive"
+      }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1589936"
   },
@@ -123,12 +231,30 @@
     "tag": "DPS",
     "score": 15,
     "reasons": [
-      "Mois sans DPS planifié",
-      "Jour très favorable (vendredi)",
-      "Créneau fin d'après-midi / soirée",
-      "Durée raisonnable",
-      "Très proche (9.4 km)",
-      "Espacement confortable (36 jours)"
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour très favorable (vendredi)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (9.4 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (36 jours)",
+        "category": "positive"
+      }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1627492"
   },
@@ -142,12 +268,30 @@
     "tag": "DPS",
     "score": 15,
     "reasons": [
-      "Mois sans DPS planifié",
-      "Jour très favorable (samedi)",
-      "Créneau fin d'après-midi / soirée",
-      "Durée raisonnable",
-      "Très proche (5 km)",
-      "Espacement confortable (37 jours)"
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour très favorable (samedi)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (5 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (37 jours)",
+        "category": "positive"
+      }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1609274"
   },
@@ -161,12 +305,30 @@
     "tag": "DPS",
     "score": 15,
     "reasons": [
-      "Mois sans DPS planifié",
-      "Jour très favorable (vendredi)",
-      "Créneau fin d'après-midi / soirée",
-      "Durée raisonnable",
-      "Très proche (9.4 km)",
-      "Espacement confortable (50 jours)"
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour très favorable (vendredi)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (9.4 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (50 jours)",
+        "category": "positive"
+      }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1627493"
   },
@@ -180,12 +342,30 @@
     "tag": "DPS",
     "score": 15,
     "reasons": [
-      "Mois sans DPS planifié",
-      "Jour très favorable (vendredi)",
-      "Créneau fin d'après-midi / soirée",
-      "Durée raisonnable",
-      "Très proche (5.5 km)",
-      "Espacement confortable (50 jours)"
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour très favorable (vendredi)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (5.5 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (50 jours)",
+        "category": "positive"
+      }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1628854"
   },
@@ -199,12 +379,30 @@
     "tag": "DPS",
     "score": 15,
     "reasons": [
-      "Mois sans DPS planifié",
-      "Jour très favorable (vendredi)",
-      "Créneau fin d'après-midi / soirée",
-      "Durée raisonnable",
-      "Très proche (9.4 km)",
-      "Espacement confortable (78 jours)"
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour très favorable (vendredi)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (9.4 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (78 jours)",
+        "category": "positive"
+      }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1627494"
   },
@@ -218,12 +416,30 @@
     "tag": "DPS",
     "score": 15,
     "reasons": [
-      "Mois sans DPS planifié",
-      "Jour très favorable (vendredi)",
-      "Créneau fin d'après-midi / soirée",
-      "Durée raisonnable",
-      "Très proche (9.4 km)",
-      "Espacement confortable (92 jours)"
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour très favorable (vendredi)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (9.4 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (92 jours)",
+        "category": "positive"
+      }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1627495"
   },
@@ -237,12 +453,30 @@
     "tag": "DPS",
     "score": 15,
     "reasons": [
-      "Mois sans DPS planifié",
-      "Jour très favorable (vendredi)",
-      "Créneau fin d'après-midi / soirée",
-      "Durée raisonnable",
-      "Très proche (9.4 km)",
-      "Espacement confortable (106 jours)"
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour très favorable (vendredi)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (9.4 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (106 jours)",
+        "category": "positive"
+      }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1627496"
   },
@@ -256,12 +490,30 @@
     "tag": "DPS",
     "score": 15,
     "reasons": [
-      "Mois sans DPS planifié",
-      "Jour très favorable (vendredi)",
-      "Créneau fin d'après-midi / soirée",
-      "Durée raisonnable",
-      "Très proche (9.4 km)",
-      "Espacement confortable (134 jours)"
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour très favorable (vendredi)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (9.4 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (134 jours)",
+        "category": "positive"
+      }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1627497"
   },
@@ -275,12 +527,30 @@
     "tag": "DPS",
     "score": 15,
     "reasons": [
-      "Mois sans DPS planifié",
-      "Jour très favorable (vendredi)",
-      "Créneau fin d'après-midi / soirée",
-      "Durée raisonnable",
-      "Très proche (9.4 km)",
-      "Espacement confortable (176 jours)"
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour très favorable (vendredi)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (9.4 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (176 jours)",
+        "category": "positive"
+      }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1627499"
   },
@@ -294,12 +564,30 @@
     "tag": "DPS",
     "score": 15,
     "reasons": [
-      "Mois sans DPS planifié",
-      "Jour très favorable (vendredi)",
-      "Créneau fin d'après-midi / soirée",
-      "Durée raisonnable",
-      "Très proche (9.4 km)",
-      "Espacement confortable (190 jours)"
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour très favorable (vendredi)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (9.4 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (190 jours)",
+        "category": "positive"
+      }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1627502"
   },
@@ -313,12 +601,30 @@
     "tag": "DPS",
     "score": 15,
     "reasons": [
-      "Mois sans DPS planifié",
-      "Jour très favorable (vendredi)",
-      "Créneau fin d'après-midi / soirée",
-      "Durée raisonnable",
-      "Très proche (9.4 km)",
-      "Espacement confortable (204 jours)"
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour très favorable (vendredi)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (9.4 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (204 jours)",
+        "category": "positive"
+      }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1627504"
   },
@@ -332,12 +638,30 @@
     "tag": "DPS",
     "score": 15,
     "reasons": [
-      "Mois sans DPS planifié",
-      "Jour très favorable (vendredi)",
-      "Créneau fin d'après-midi / soirée",
-      "Durée raisonnable",
-      "Très proche (9.4 km)",
-      "Espacement confortable (218 jours)"
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour très favorable (vendredi)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (9.4 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (218 jours)",
+        "category": "positive"
+      }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1627506"
   },
@@ -351,12 +675,30 @@
     "tag": "DPS",
     "score": 15,
     "reasons": [
-      "Mois sans DPS planifié",
-      "Jour très favorable (vendredi)",
-      "Créneau fin d'après-midi / soirée",
-      "Durée raisonnable",
-      "Très proche (9.4 km)",
-      "Espacement confortable (225 jours)"
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour très favorable (vendredi)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (9.4 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (225 jours)",
+        "category": "positive"
+      }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1627507"
   },
@@ -370,12 +712,30 @@
     "tag": "DPS",
     "score": 15,
     "reasons": [
-      "Mois sans DPS planifié",
-      "Jour très favorable (vendredi)",
-      "Créneau fin d'après-midi / soirée",
-      "Durée raisonnable",
-      "Très proche (9.4 km)",
-      "Espacement confortable (253 jours)"
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour très favorable (vendredi)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (9.4 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (253 jours)",
+        "category": "positive"
+      }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1627509"
   },
@@ -389,12 +749,30 @@
     "tag": "DPS",
     "score": 15,
     "reasons": [
-      "Mois sans DPS planifié",
-      "Jour très favorable (vendredi)",
-      "Créneau fin d'après-midi / soirée",
-      "Durée raisonnable",
-      "Très proche (9.4 km)",
-      "Espacement confortable (267 jours)"
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour très favorable (vendredi)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (9.4 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (267 jours)",
+        "category": "positive"
+      }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1627510"
   },
@@ -408,12 +786,30 @@
     "tag": "DPS",
     "score": 15,
     "reasons": [
-      "Mois sans DPS planifié",
-      "Jour très favorable (vendredi)",
-      "Créneau fin d'après-midi / soirée",
-      "Durée raisonnable",
-      "Très proche (9.4 km)",
-      "Espacement confortable (281 jours)"
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour très favorable (vendredi)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (9.4 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (281 jours)",
+        "category": "positive"
+      }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1627512"
   },
@@ -427,12 +823,30 @@
     "tag": "DPS",
     "score": 15,
     "reasons": [
-      "Mois sans DPS planifié",
-      "Jour très favorable (vendredi)",
-      "Créneau fin d'après-midi / soirée",
-      "Durée raisonnable",
-      "Très proche (9.4 km)",
-      "Espacement confortable (295 jours)"
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour très favorable (vendredi)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (9.4 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (295 jours)",
+        "category": "positive"
+      }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1627514"
   },
@@ -446,12 +860,30 @@
     "tag": "DPS",
     "score": 14,
     "reasons": [
-      "Mois sans DPS planifié",
-      "Jour favorable (dimanche)",
-      "Créneau fin d'après-midi / soirée",
-      "Durée raisonnable",
-      "Très proche (9.6 km)",
-      "Espacement confortable (24 jours)"
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour favorable (dimanche)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (9.6 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (24 jours)",
+        "category": "positive"
+      }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1558870"
   },
@@ -465,12 +897,30 @@
     "tag": "DPS",
     "score": 14,
     "reasons": [
-      "Mois sans DPS planifié",
-      "Jour favorable (dimanche)",
-      "Créneau fin d'après-midi / soirée",
-      "Durée raisonnable",
-      "Très proche (0.2 km)",
-      "Espacement confortable (31 jours)"
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour favorable (dimanche)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (0.2 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (31 jours)",
+        "category": "positive"
+      }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1627923"
   },
@@ -484,11 +934,26 @@
     "tag": "DPS",
     "score": 13,
     "reasons": [
-      "Mois sans DPS planifié",
-      "Jour très favorable (samedi)",
-      "Durée raisonnable",
-      "Très proche (11.3 km)",
-      "Espacement confortable (23 jours)"
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour très favorable (samedi)",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (11.3 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (23 jours)",
+        "category": "positive"
+      }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1558873"
   },
@@ -502,11 +967,26 @@
     "tag": "DPS",
     "score": 13,
     "reasons": [
-      "Mois sans DPS planifié",
-      "Jour très favorable (samedi)",
-      "Durée raisonnable",
-      "Très proche (5 km)",
-      "Espacement confortable (44 jours)"
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour très favorable (samedi)",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (5 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (44 jours)",
+        "category": "positive"
+      }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1628534"
   },
@@ -520,11 +1000,26 @@
     "tag": "DPS",
     "score": 13,
     "reasons": [
-      "Mois sans DPS planifié",
-      "Jour très favorable (samedi)",
-      "Durée raisonnable",
-      "Très proche (5 km)",
-      "Espacement confortable (58 jours)"
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour très favorable (samedi)",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (5 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (58 jours)",
+        "category": "positive"
+      }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1628539"
   },
@@ -538,12 +1033,30 @@
     "tag": "DPS",
     "score": 13,
     "reasons": [
-      "Mois sans DPS planifié",
-      "Jour très favorable (vendredi)",
-      "Créneau fin d'après-midi / soirée",
-      "Durée raisonnable",
-      "Distance raisonnable (16 km)",
-      "Espacement confortable (64 jours)"
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour très favorable (vendredi)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Distance raisonnable (16 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (64 jours)",
+        "category": "positive"
+      }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1628910"
   },
@@ -557,12 +1070,30 @@
     "tag": "DPS",
     "score": 13,
     "reasons": [
-      "Mois sans DPS planifié",
-      "Jour très favorable (samedi)",
-      "Créneau fin d'après-midi / soirée",
-      "Durée raisonnable",
-      "Distance raisonnable (16 km)",
-      "Espacement confortable (65 jours)"
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour très favorable (samedi)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Distance raisonnable (16 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (65 jours)",
+        "category": "positive"
+      }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1628911"
   }
