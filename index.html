@@ -636,8 +636,10 @@ function renderCalendar() {
     const suggestDot = daySuggestions.length > 0
       ? `<span class="cal-dot cal-dot-outline" style="border-color:${TAG_COLORS.DPS}"></span>`
       : '';
-    const hasInscrit = dayEvents.some(e => e.dejaInscrit);
+  const hasInscrit = dayEvents.some(e => e.dejaInscrit);
     const hasFavori = dayEvents.some(e => isFavori(e.uid));
+    const hasNouveau = dayEvents.some(e => e.nouveau);
+    const nouveauDot = hasNouveau ? '<span class="cal-dot" style="background:#FAC775"></span>' : '';
     const classes = ['cal-cell'];
     if (key === todayKey) classes.push('today');
     if (key < todayKey) classes.push('past');
@@ -646,7 +648,7 @@ function renderCalendar() {
     if (key === calSelectedKey) classes.push('selected');
     cells += `<div class="${classes.join(' ')}" data-day-key="${key}">
       <div class="cal-daynum">${day}</div>
-      <div class="cal-dots">${eventDots}${suggestDot}</div>
+      <div class="cal-dots">${eventDots}${suggestDot}${nouveauDot}</div>
     </div>`;
   }
 
@@ -664,6 +666,7 @@ function renderCalendar() {
         <span class="cal-legend-item"><span class="cal-dot" style="background:${color}"></span>${tag}</span>
       `).join('')}
       <span class="cal-legend-item"><span class="cal-dot cal-dot-outline" style="border-color:${TAG_COLORS.DPS}"></span>Suggestion</span>
+      <span class="cal-legend-item"><span class="cal-dot" style="background:#FAC775"></span>Nouveauté</span>
     </div>
     <div id="cal-day-detail"></div>
   `;
