@@ -202,7 +202,7 @@ function renderFavoris() {
   container.innerHTML = favEvents.length === 0
     ? '<div class="empty">Aucun favori pour le moment. Appuie sur l\'étoile d\'un événement pour l\'ajouter.</div>'
     : favEvents.map(e => eventCard(e)).join('');
-  attachStarHandlers(container);
+   attachStarHandlers(container, true);
 }
 
 async function loadData() {
