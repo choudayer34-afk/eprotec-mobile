@@ -417,11 +417,14 @@ async function main() {
   }));
   writeFileSync('data/events.json', JSON.stringify(eventsForApp, null, 2));
 
-  const suggestionsForApp = suggestions.slice(0, 30).map(s => ({
+const suggestionsForApp = suggestions.slice(0, 30).map(s => ({
     uid: s.event.uid,
     titre: s.event.summary,
     lieu: s.event.location,
     dateDebut: s.event.startDate ? s.event.startDate.toISOString() : null,
+    dateFin: s.event.endDate ? s.event.endDate.toISOString() : null,
+    description: s.event.description,
+    tag: 'DPS',
     score: s.score,
     reasons: s.reasons,
     url: s.event.url
