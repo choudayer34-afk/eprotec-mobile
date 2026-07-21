@@ -886,10 +886,14 @@ function renderDayDetail(key, events, suggestions = []) {
     return;
   }
 
-  let html = `<div class="card-title" style="margin:10px 0 6px;">${dateLabel}</div>`;
-  html += events.map(e => eventCard(e, { showStatusFrame: true })).join('');
+  const eventUids = new Set(events.map(e => e.uid));
+  const suggByUid = new Map(suggestions.map(s => [s.uid, s]));
+  const remainingSuggestions = suggestions.filter(s => !eventUids.has(s.uid));
 
-  suggestions.forEach(s => {
+  let html = `<div class="card-title" style="margin:10px 0 6px;">${dateLabel}</div>`;
+  html += events.map(e => eventCard(e, { showStatusFrame: true, suggestion: suggByUid.get(e.uid) })).join('');
+
+  remainingSuggestions.forEach(s => {
     html += `
       <div class="card card-clickable" data-uid="${s.uid}">
         <div class="card-top-row">
@@ -921,8 +925,11 @@ function eventCard(e, opts = {}) {
     else if (e.nouveau) badge = '<span class="badge badge-new">Nouveau</span>';
   }
 
-  if (opts.showScore && typeof e.score === 'number') {
+ if (opts.showScore && typeof e.score === 'number') {
     badge += ` <span class="badge badge-ok">Score ${e.score}</span>`;
+  }
+  if (opts.suggestion) {
+    badge += ` <span class="badge badge-suggest">🎯 Suggéré · score ${opts.suggestion.score}</span>`;
   }
 
   const starActive = isFavori(e.uid) ? 'active' : '';
