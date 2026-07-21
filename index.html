@@ -199,7 +199,10 @@
   .detail-label { color: #9FB3D6; font-size: 11px; }
   .detail-value { color: #fff; font-size: 15px; margin-top: 2px; }
   .detail-desc { color: #9FB3D6; font-size: 13px; line-height: 1.6; white-space: pre-wrap; }
-  .reason-list { padding-left: 18px; color: #9FB3D6; font-size: 13px; line-height: 1.7; }
+  .reason-list { padding-left: 18px; font-size: 13px; line-height: 1.7; }
+  .reason-list li.reason-positive { color: #97C459; }
+  .reason-list li.reason-negative { color: #F0997B; }
+  .reason-list li.reason-neutral { color: #9FB3D6; }
   .detail-actions { display: flex; gap: 8px; margin-top: 4px; }
   .detail-action-btn {
     flex: 1; background: #16274A; border: none; color: #fff; font-size: 13px;
@@ -703,7 +706,7 @@ const dureeLabel = formatDuree(evt.dureeHeures);
     html += `
       <div class="card highlight">
         <div class="card-title">🎯 Analyse OAD · score ${suggestion.score}</div>
-        <ul class="reason-list">${suggestion.reasons.map(r => `<li>${r}</li>`).join('')}</ul>
+        <ul class="reason-list">${suggestion.reasons.map(r => `<li class="reason-${r.category || 'neutral'}">${r.text}</li>`).join('')}</ul>
       </div>
     `;
   }
