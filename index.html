@@ -1084,9 +1084,7 @@ function renderUpdateStatus(lastUpdateIso) {
     return;
   }
   const last = new Date(lastUpdateIso);
-  const next = new Date(last);
-  next.setHours(next.getHours() + 1, 0, 0, 0);
-  if (next <= last) next.setHours(next.getHours() + 1);
+  const next = new Date(last.getTime() + 3600000);
   const fmt = (d) => d.toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
   el.textContent = `Mise à jour : ${fmt(last)} · Prochaine : ${fmt(next)}`;
 }
