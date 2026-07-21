@@ -314,7 +314,7 @@ async function sendPushNotification(newEvents) {
 
   const titles = newEvents.slice(0, 3).map(e => `[${e.tag}] ${e.summary}`).join('\n');
   const suffix = newEvents.length > 3 ? `\n...et ${newEvents.length - 3} autre(s)` : '';
-  const appUrl = 'https://TON-NOM-UTILISATEUR.github.io/eprotec-mobile/#nouveautes';
+  const appUrl = 'https://choudayer34-afk.github.io/eprotec-mobile/#nouveautes';
 
   try {
     await fetch(`https://ntfy.sh/${topic}`, {
