@@ -143,6 +143,8 @@
   .cal-cell.has-favori { border: 1.5px solid #EF9F27; }
   .cal-cell.has-inscrit { border: 1.5px solid #639922; }
   .cal-cell.selected { background: #223258; }
+  .cal-cell.past { opacity: 0.5; }
+  .cal-cell.past.today { opacity: 1; }
   .cal-cell .cal-daynum { font-size: 11px; color: #fff; }
   .cal-dots { display: flex; justify-content: center; gap: 2px; margin-top: 2px; flex-wrap: wrap; }
   .cal-dot { width: 5px; height: 5px; border-radius: 50%; }
@@ -598,6 +600,7 @@ function renderCalendar() {
     const hasFavori = dayEvents.some(e => isFavori(e.uid));
     const classes = ['cal-cell'];
     if (key === todayKey) classes.push('today');
+    if (key < todayKey) classes.push('past');
     if (hasFavori) classes.push('has-favori');
     if (hasInscrit) classes.push('has-inscrit');
     if (key === calSelectedKey) classes.push('selected');
@@ -679,13 +682,15 @@ function renderDayDetail(key, events, suggestions = []) {
 
 function eventCard(e, opts = {}) {
   let badge = '';
-  if (e.dejaInscrit) badge = '<span class="badge badge-blue">Déjà inscrit</span>';
-  else if (e.nouveau) badge = '<span class="badge badge-new">Nouveau</span>';
-
   let statusFrame = '';
+
   if (opts.showStatusFrame) {
     if (e.dejaInscrit) statusFrame = '<span class="status-frame status-frame-green">Inscrit</span>';
     else if (isFavori(e.uid)) statusFrame = '<span class="status-frame status-frame-yellow">Favori</span>';
+    if (e.nouveau) badge = '<span class="badge badge-new">Nouveau</span>';
+  } else {
+    if (e.dejaInscrit) badge = '<span class="badge badge-blue">Déjà inscrit</span>';
+    else if (e.nouveau) badge = '<span class="badge badge-new">Nouveau</span>';
   }
 
   const starActive = isFavori(e.uid) ? 'active' : '';
