@@ -311,9 +311,9 @@ function renderDayDetail(key, events, suggestions = []) {
   let html = `<div class="card-title" style="margin:10px 0 6px;">${dateLabel}</div>`;
   html += events.map(e => eventCard(e)).join('');
 
-  suggestions.forEach(s => {
+ suggestions.forEach(s => {
     html += `
-      <div class="card">
+      <div class="card" data-url="${s.url || ''}">
         <div class="card-header-row">
           <div>
             <div class="event-title">[DPS] ${s.titre}</div>
@@ -327,6 +327,7 @@ function renderDayDetail(key, events, suggestions = []) {
 
   detail.innerHTML = html;
   attachStarHandlers(detail);
+  attachCardLinkHandlers(detail);
 }
 
 function eventCard(e, opts = {}) {
@@ -338,7 +339,7 @@ function eventCard(e, opts = {}) {
   const starIcon = isFavori(e.uid) ? '★' : '☆';
 
   return `
-    <div class="card" data-uid="${e.uid}">
+    <div class="card" data-uid="${e.uid}" data-url="${e.url || ''}">
       <div class="card-header-row">
         <div>
           <div class="event-title">[${e.tag}] ${e.titre}</div>
@@ -351,9 +352,22 @@ function eventCard(e, opts = {}) {
   `;
 }
 
+function attachCardLinkHandlers(container) {
+  container.querySelectorAll('[data-url]').forEach(card => {
+    const url = card.dataset.url;
+    if (!url) return;
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('.star-btn')) return;
+      window.open(url, '_blank');
+    });
+  });
+}
+
 function attachStarHandlers(container, removeOnUnfav = false) {
   container.querySelectorAll('[data-fav-uid]').forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (evt) => {
+      evt.stopPropagation();
       toggleFavori(btn.dataset.favUid);
       const active = isFavori(btn.dataset.favUid);
       btn.classList.toggle('active', active);
@@ -373,7 +387,8 @@ function renderFavoris() {
   container.innerHTML = favEvents.length === 0
     ? '<div class="empty">Aucun favori pour le moment. Appuie sur l\'étoile d\'un événement pour l\'ajouter.</div>'
     : favEvents.map(e => eventCard(e)).join('');
-   attachStarHandlers(container, true);
+  attachStarHandlers(container, true);
+  attachCardLinkHandlers(container);
 }
 
 function renderUpcomingRegistrations(events) {
@@ -418,12 +433,30 @@ function renderInscriptions() {
   container.innerHTML = Object.keys(groups).sort().map(key => {
     const label = new Date(key + '-01').toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
     return `
-      <div class="insc-section-title">${label.charAt(0).toUpperCase() + label.slice(1)}</div>
-      ${groups[key].map(e => eventCard(e)).join('')}
+      <div class="month-group">
+        <button class="month-toggle" data-month-key="${key}">
+          <span>${label.charAt(0).toUpperCase() + label.slice(1)} (${groups[key].length})</span>
+          <span class="month-chevron">▾</span>
+        </button>
+        <div class="month-body" data-month-body="${key}" style="display:block">
+          ${groups[key].map(e => eventCard(e)).join('')}
+        </div>
+      </div>
     `;
   }).join('');
 
+  container.querySelectorAll('.month-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const body = container.querySelector(`[data-month-body="${btn.dataset.monthKey}"]`);
+      const chevron = btn.querySelector('.month-chevron');
+      const isHidden = body.style.display === 'none';
+      body.style.display = isHidden ? 'block' : 'none';
+      chevron.textContent = isHidden ? '▾' : '▸';
+    });
+  });
+
   attachStarHandlers(container);
+  attachCardLinkHandlers(container);
 }
 
 function groupSuggestionsByMonth(suggestions) {
@@ -450,15 +483,15 @@ function renderSuggestions(suggestions) {
     return;
   }
 
-  container.innerHTML = monthGroups.map((g, gi) => `
+  container.innerHTML = monthGroups.map((g) => `
     <div class="month-group">
       <button class="month-toggle" data-month-key="${g.key}">
         <span>${g.label.charAt(0).toUpperCase() + g.label.slice(1)} (${g.items.length})</span>
-        <span class="month-chevron">${gi === 0 ? '▾' : '▸'}</span>
+        <span class="month-chevron">▾</span>
       </button>
-      <div class="month-body" data-month-body="${g.key}" style="display:${gi === 0 ? 'block' : 'none'}">
+      <div class="month-body" data-month-body="${g.key}" style="display:block">
         ${g.items.map((s, i) => `
-          <div class="card ${i === 0 ? 'highlight' : ''}">
+          <div class="card ${i === 0 ? 'highlight' : ''}" data-url="${s.url || ''}">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
               <span class="badge ${i === 0 ? 'badge-new' : 'badge-ok'}">${i === 0 ? 'Prioritaire' : 'Score ' + s.score}</span>
               ${i === 0 ? `<span style="color:#F5821F; font-weight:500;">${s.score} pts</span>` : ''}
@@ -480,6 +513,8 @@ function renderSuggestions(suggestions) {
       chevron.textContent = isHidden ? '▾' : '▸';
     });
   });
+
+  attachCardLinkHandlers(container);
 }
 
 async function loadData() {
@@ -499,11 +534,11 @@ async function loadData() {
 
   renderUpcomingRegistrations(events);
 
-  const listeNouveautes = document.getElementById('liste-nouveautes');
+const listeNouveautes = document.getElementById('liste-nouveautes');
   listeNouveautes.innerHTML = nouveautes.length === 0
     ? '<div class="empty">Aucune nouveauté pour le moment.</div>'
     : nouveautes.slice(0, 5).map(e => `
-      <div class="event-row">
+      <div class="event-row" data-url="${e.url || ''}">
         <div>
           <div class="event-title">[${e.tag}] ${e.titre}</div>
           <div class="event-meta">${formatDate(e.dateDebut)} · ${e.lieu || ''}</div>
@@ -511,8 +546,9 @@ async function loadData() {
         <span class="badge badge-new">Nouveau</span>
       </div>
     `).join('');
+  attachCardLinkHandlers(listeNouveautes);
 
-  const topSuggestion = document.getElementById('top-suggestion');
+const topSuggestion = document.getElementById('top-suggestion');
   if (suggestions.length === 0) {
     topSuggestion.innerHTML = '<div class="empty">Aucune suggestion disponible.</div>';
   } else {
@@ -524,13 +560,19 @@ async function loadData() {
         <span class="badge badge-ok">Score ${s.score}</span>
       </div>
     `;
+    if (s.url) {
+      topSuggestion.style.cursor = 'pointer';
+      topSuggestion.addEventListener('click', () => window.open(s.url, '_blank'));
+    }
   }
 
-  const listeEvenements = document.getElementById('liste-evenements');
+const listeEvenements = document.getElementById('liste-evenements');
   listeEvenements.innerHTML = events.slice(0, 40).map(e => eventCard(e)).join('');
   attachStarHandlers(listeEvenements);
+  attachCardLinkHandlers(listeEvenements);
 
-renderSuggestions(suggestions);}
+  renderSuggestions(suggestions);
+} 
 
 loadData().catch(err => {
   document.querySelectorAll('.empty').forEach(el => el.textContent = 'Erreur de chargement des données.');
