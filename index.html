@@ -415,6 +415,128 @@ function formatDateFull(iso) {
   return d.toLocaleString('fr-FR', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 }
 
+function formatDuree(h) {
+  if (h == null) return null;
+  const hrs = Math.floor(h);
+  const mins = Math.round((h - hrs) * 60);
+  return mins ? `${hrs} h ${String(mins).padStart(2, '0')}` : `${hrs} h`;
+}
+
+function cleanTitleForSearch(titre) {
+  let t = (titre || '').replace(/\[[^\]]+\]/g, '');
+  t = t.replace(/\b(DPS|FOR|PC\d+|Sécurité|Dispositif)\b/gi, '');
+  return t.replace(/\s{2,}/g, ' ').trim();
+}
+
+function buildGoogleSearchUrl(evt) {
+  const cleanTitle = cleanTitleForSearch(evt.titre);
+  let datePart = '', yearPart = '';
+  if (evt.dateDebut) {
+    const d = new Date(evt.dateDebut);
+    datePart = d.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+    yearPart = String(d.getFullYear());
+  }
+  const locationQuery = (evt.lieu || '') + ' Hérault Occitanie';
+  const query = [cleanTitle, locationQuery, datePart, yearPart, 'événement'].filter(Boolean).join(' ');
+  return 'https://www.google.com/search?q=' + encodeURIComponent(query);
+}
+
+function buildMapsDirectionsUrl(lieu) {
+  if (!lieu) return null;
+  return 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(lieu + ', Hérault, France');
+}
+
+function promptText(label, defaultValue) {
+  return new Promise(resolve => {
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999;display:flex;align-items:center;justify-content:center;padding:20px;';
+    overlay.innerHTML = `
+      <div style="background:#16274A;border-radius:16px;padding:20px;width:100%;max-width:320px;">
+        <div style="color:#fff;font-size:14px;margin-bottom:10px;">${label}</div>
+        <input id="prompt-input" type="text" value="${defaultValue || ''}" style="width:100%;padding:10px;border-radius:8px;border:none;font-size:14px;margin-bottom:14px;box-sizing:border-box;">
+        <div style="display:flex;gap:8px;">
+          <button id="prompt-cancel" class="detail-action-btn" style="flex:1;">Annuler</button>
+          <button id="prompt-ok" class="detail-action-btn primary" style="flex:1;">OK</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+    const input = overlay.querySelector('#prompt-input');
+    input.focus();
+    overlay.querySelector('#prompt-cancel').addEventListener('click', () => { overlay.remove(); resolve(null); });
+    overlay.querySelector('#prompt-ok').addEventListener('click', () => { const v = input.value; overlay.remove(); resolve(v); });
+  });
+}
+
+function promptChoice(label, options) {
+  return new Promise(resolve => {
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999;display:flex;align-items:center;justify-content:center;padding:20px;';
+    const buttonsHtml = options.map(o => `<button class="detail-action-btn" data-choice="${o}" style="margin-bottom:8px;">${o}</button>`).join('');
+    overlay.innerHTML = `
+      <div style="background:#16274A;border-radius:16px;padding:20px;width:100%;max-width:320px;">
+        <div style="color:#fff;font-size:14px;margin-bottom:14px;">${label}</div>
+        <div style="display:flex;flex-direction:column;gap:6px;">${buttonsHtml}</div>
+        <button id="choice-cancel" class="detail-action-btn" style="margin-top:10px;">Annuler</button>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+    overlay.querySelectorAll('[data-choice]').forEach(btn => {
+      btn.addEventListener('click', () => { const v = btn.dataset.choice; overlay.remove(); resolve(v); });
+    });
+    overlay.querySelector('#choice-cancel').addEventListener('click', () => { overlay.remove(); resolve(null); });
+  });
+}
+
+async function handleSignalAbsence(evt) {
+  const start = new Date(evt.dateDebut);
+  const jours = Math.floor((start - new Date()) / 86400000);
+  const dateJJMM = start.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const urgence = jours < 8 ? '⚠️ Délai court. ' : '';
+
+  const remplacant = await promptText(
+    "Qui est ton remplaçant ? Laisse vide si aucun, écris '?' si inconnu, ou 'recherche' si tu en cherches un.",
+    'recherche'
+  );
+  if (remplacant === null) return;
+
+  let mode;
+  if (remplacant === 'recherche') {
+    mode = 'recherche';
+  } else {
+    mode = await promptChoice('Comment veux-tu prévenir ?', ['WhatsApp', 'Mail', 'WhatsApp + Mail']);
+    if (!mode) return;
+  }
+
+  let remplacementText = '';
+  if (remplacant && remplacant.trim() !== '') {
+    remplacementText = remplacant === '?'
+      ? "Je n'ai pas trouvé de remplaçant à ce stade."
+      : `Mon remplaçant sera ${remplacant}.`;
+  }
+
+  const titre = evt.titre;
+  const lieu = evt.lieu || '';
+
+  if (mode === 'Mail' || mode === 'WhatsApp + Mail') {
+    const subject = `Absence - ${titre} - ${dateJJMM}`;
+    const body = `${urgence}Bonjour,\n\nJe souhaitais vous informer que malheureusement je ne pourrai être présent à l'évènement ${titre} du ${dateJJMM}, qui a lieu dans ${jours} jours.\n\n${remplacementText}\n\nBonne journée.`;
+    window.location.href = `mailto:herault@protection-civile.org?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  }
+
+  if (mode === 'WhatsApp' || mode === 'WhatsApp + Mail' || mode === 'recherche') {
+    let message, waUrl;
+    if (mode === 'recherche') {
+      message = `${urgence}Bonjour,\n\nJe suis inscrit à l'évènement *${titre}* qui a lieu dans *${jours} jours* (${dateJJMM}) à *${lieu}*, mais je ne pourrai finalement pas y être.\n\n👉 Je cherche un remplaçant. Quelqu'un serait-il disponible ?\n\n${evt.url ? '🔗 ' + evt.url : ''}\n\nBonne journée.`;
+      waUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+    } else {
+      message = `${urgence}Bonjour,\n\nJe ne pourrai pas être présent à l'évènement *${titre}* du *${dateJJMM}*, dans *${jours} jours*.\n${remplacementText}\n\n${evt.url ? 'Lien : ' + evt.url : ''}\n\nBonne journée.`;
+      waUrl = `https://wa.me/33665201846?text=${encodeURIComponent(message)}`;
+    }
+    window.open(waUrl, '_blank');
+  }
+}
+
 function escapeHtml(str) {
   const div = document.createElement('div');
   div.textContent = str;
@@ -544,10 +666,11 @@ function renderDetail(uid) {
   if (evt.dejaInscrit) statusBadge = '<span class="badge badge-blue" style="margin-left:6px;">Déjà inscrit</span>';
   else if (evt.nouveau) statusBadge = '<span class="badge badge-new" style="margin-left:6px;">Nouveau</span>';
 
+const dureeLabel = formatDuree(evt.dureeHeures);
   let html = `
     <div class="card">
       <span class="tag-badge">${evt.tag}</span>${statusBadge}
-      <div class="detail-title">${evt.titre}</div>
+      <div class="detail-title card-clickable" id="detail-title-link">${evt.titre}</div>
       <div class="detail-row">
         <span class="meta-icon">▶</span>
         <div><div class="detail-label">Début</div><div class="detail-value">${formatDateFull(evt.dateDebut)}</div></div>
@@ -556,7 +679,12 @@ function renderDetail(uid) {
         <span class="meta-icon">■</span>
         <div><div class="detail-label">Fin</div><div class="detail-value">${formatDateFull(evt.dateFin)}</div></div>
       </div>
-      <div class="detail-row" style="margin-bottom:0;">
+      ${dureeLabel ? `
+      <div class="detail-row">
+        <span class="meta-icon">⏱</span>
+        <div><div class="detail-label">Durée</div><div class="detail-value">${dureeLabel}</div></div>
+      </div>` : ''}
+      <div class="detail-row card-clickable" id="detail-lieu-link" style="margin-bottom:0;">
         <span class="meta-icon">📍</span>
         <div><div class="detail-label">Lieu</div><div class="detail-value">${evt.lieu || 'Non renseigné'}</div></div>
       </div>
@@ -577,12 +705,14 @@ function renderDetail(uid) {
     `;
   }
 
-  const favActive = isFavori(uid);
+ const favActive = isFavori(uid);
+  const showAbsence = evt.dejaInscrit && evt.dateDebut && new Date(evt.dateDebut) > new Date();
   html += `
     <div class="detail-actions">
       <button class="detail-action-btn" id="detail-fav-btn">${favActive ? '★ Retirer des favoris' : '☆ Ajouter aux favoris'}</button>
       ${evt.url ? `<a class="detail-action-btn primary" href="${evt.url}" target="_blank">Ouvrir sur eProtec</a>` : ''}
     </div>
+    ${showAbsence ? `<div class="detail-actions"><button class="detail-action-btn" id="detail-absence-btn">🚫 Signaler mon absence</button></div>` : ''}
   `;
 
   container.innerHTML = html;
@@ -591,6 +721,21 @@ function renderDetail(uid) {
     toggleFavori(uid);
     document.getElementById('detail-fav-btn').textContent = isFavori(uid) ? '★ Retirer des favoris' : '☆ Ajouter aux favoris';
   });
+
+  document.getElementById('detail-title-link').addEventListener('click', () => {
+    window.open(buildGoogleSearchUrl(evt), '_blank');
+  });
+
+  const lieuLink = document.getElementById('detail-lieu-link');
+  if (evt.lieu) {
+    lieuLink.addEventListener('click', () => {
+      window.open(buildMapsDirectionsUrl(evt.lieu), '_blank');
+    });
+  }
+
+  if (showAbsence) {
+    document.getElementById('detail-absence-btn').addEventListener('click', () => handleSignalAbsence(evt));
+  }
 }
 
 let calMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
