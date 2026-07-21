@@ -88,3 +88,104 @@ function updateRegistrationsHistory(events) {
 
     history[e.uid] = {
       uid: e.uid,
+      tag: e.tag,
+      titre: e.summary,
+      lieu: e.location,
+      dateDebut: e.startDate ? e.startDate.toISOString() : null,
+      dureeHeures: e.startDate && e.endDate
+        ? Math.round((e.endDate - e.startDate) / 3600000 * 10) / 10
+        : null,
+      statut: 'Inscrit'
+    };
+  }
+
+  writeFileSync(HISTORY_PATH, JSON.stringify(history, null, 2));
+  return history;
+}
+
+async function sendMail(newEvents) {
+  const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT),
+    secure: false,
+    requireTLS: true,
+    auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
+  });
+
+  const items = newEvents.map(e => `
+    <div style="margin-bottom:14px;padding:10px;border:1px solid #ddd;border-radius:6px;">
+      <b>[${e.tag}] ${e.summary}</b><br>
+      Date : ${formatDate(e.startDate)}<br>
+      Lieu : ${e.location || 'non renseigné'}<br>
+      ${e.dejaInscrit ? '✅ Vous êtes déjà inscrit<br>' : ''}
+      ${e.url ? `<a href="${e.url}">Voir l'événement</a>` : ''}
+    </div>
+  `).join('');
+
+  await transporter.sendMail({
+    from: process.env.MAIL_FROM,
+    to: process.env.MAIL_TO,
+    subject: `[Protection Civile] ${newEvents.length} nouvelle(s) activité(s) détectée(s)`,
+    html: `<p>Bonjour,</p><p>Voici les nouveautés détectées :</p>${items}`
+  });
+}
+
+async function fetchIcs(url) {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`Échec du téléchargement ICS (${res.status}) : ${url}`);
+  return res.text();
+}
+
+async function main() {
+  const [icsText, persoText] = await Promise.all([
+    fetchIcs(process.env.EPROTEC_ICS_URL),
+    fetchIcs(process.env.EPROTEC_PERSO_URL)
+  ]);
+
+  const persoEvents = parseIcs(persoText);
+  const registeredUids = new Set(persoEvents.map(e => e.uid).filter(Boolean));
+
+  const rawEvents = parseIcs(icsText);
+  const events = rawEvents
+    .filter(e => e.uid)
+    .map(e => ({
+      ...e,
+      tag: getTag(e.summary),
+      startDate: parseIcsDate(e.dtstart),
+      endDate: parseIcsDate(e.dtend),
+      dejaInscrit: registeredUids.has(e.uid)
+    }));
+
+  console.log(`Événements trouvés : ${events.length}`);
+
+  const registered = events.filter(e => e.dejaInscrit);
+  console.log(`Dont déjà inscrits : ${registered.length}`);
+  const parTag = {};
+  for (const e of registered) parTag[e.tag] = (parTag[e.tag] || 0) + 1;
+  console.log('Répartition par type :', parTag);
+
+  updateRegistrationsHistory(events);
+
+  const isFirstRun = !existsSync(KNOWN_UIDS_PATH);
+  const knownUids = isFirstRun ? [] : JSON.parse(readFileSync(KNOWN_UIDS_PATH, 'utf8'));
+  const knownSet = new Set(knownUids);
+
+  const newEvents = events.filter(e => !knownSet.has(e.uid));
+
+  if (isFirstRun) {
+    console.log("Premier lancement : initialisation, aucun mail envoyé.");
+  } else if (newEvents.length > 0) {
+    console.log(`${newEvents.length} nouveauté(s), envoi du mail...`);
+    await sendMail(newEvents);
+    console.log('Mail envoyé.');
+  } else {
+    console.log('Aucune nouveauté aujourd\'hui.');
+  }
+
+  writeFileSync(KNOWN_UIDS_PATH, JSON.stringify(events.map(e => e.uid), null, 2));
+}
+
+main().catch(err => {
+  console.error('ERREUR :', err.message);
+  process.exit(1);
+});
