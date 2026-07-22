@@ -1,5 +1,13 @@
 [
   {
+    "version": "2.1",
+    "date": "2026-07-22T14:05:59.291Z",
+    "title": "Affichage du numéro de version sur l'Accueil",
+    "items": [
+      "Affichage du numéro de version sur l'Accueil"
+    ]
+  },
+  {
     "version": "2.0",
     "date": "2026-07-22T14:02:23.819Z",
     "title": "Fiches gestes repliées par défaut",
