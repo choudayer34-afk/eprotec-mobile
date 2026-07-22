@@ -1,5 +1,15 @@
 [
   {
+    "version": "4.8",
+    "date": "2026-07-22T20:59:50.965Z",
+    "title": "Suggestions d'action selon les valeurs du bilan + fiche AVC",
+    "items": [
+      "Chaque mesure anormale du bilan (FR, FC, amplitude, régularité, coloration, TRC, TA, glycémie, température, SpO2, Glasgow, AVC) affiche désormais une suggestion de conduite à tenir directement sous le champ",
+      "Boutons de renvoi direct vers les fiches Hémorragie, LVA, AVC, Hypoglycémie et Hyperthermie selon le contexte",
+      "Nouvelle fiche geste complète : Accident Vasculaire Cérébral (méthode F.A.S.T.)"
+    ]
+  },
+  {
     "version": "4.7",
     "date": "2026-07-22T20:42:31.135Z",
     "title": "Alerte visuelle sur la tension artérielle",
