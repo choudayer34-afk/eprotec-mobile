@@ -1,5 +1,14 @@
 [
   {
+    "version": "2.8",
+    "date": "2026-07-22T15:01:00.653Z",
+    "title": "Douleurs multiples avec exemples de vocabulaire",
+    "items": [
+      "La section Douleur permet désormais d'ajouter plusieurs douleurs distinctes, chacune avec sa propre réglette 0-10",
+      "Boutons (i) sur Origine, Qualité et Région avec des exemples de vocabulaire à utiliser"
+    ]
+  },
+  {
     "version": "2.7",
     "date": "2026-07-22T14:57:58.100Z",
     "title": "Bilan patient : blocs stables + Glasgow rapide",
