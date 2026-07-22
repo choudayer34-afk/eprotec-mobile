@@ -2559,6 +2559,69 @@ document.querySelectorAll('[data-bilan-mode]').forEach(btn => {
 });
 
 const GESTE_ILLUSTRATIONS = {
+  echarpeSimple: `<svg viewBox="0 0 200 140" style="width:100%;max-width:260px;display:block;margin:10px auto;">
+    <circle cx="100" cy="30" r="16" fill="none" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="100" y1="46" x2="100" y2="100" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="100" y1="55" x2="130" y2="50" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="100" y1="100" x2="85" y2="132" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="100" y1="100" x2="115" y2="132" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="100" y1="58" x2="65" y2="70" stroke="#9FB3D6" stroke-width="2"/>
+    <polygon points="65,70 100,58 78,95" fill="none" stroke="#F5821F" stroke-width="3"/>
+    <line x1="100" y1="58" x2="88" y2="30" stroke="#F5821F" stroke-width="2" stroke-dasharray="3,3"/>
+  </svg>`,
+  echarpeContre: `<svg viewBox="0 0 200 140" style="width:100%;max-width:260px;display:block;margin:10px auto;">
+    <circle cx="100" cy="30" r="16" fill="none" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="100" y1="46" x2="100" y2="100" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="100" y1="55" x2="130" y2="50" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="100" y1="100" x2="85" y2="132" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="100" y1="100" x2="115" y2="132" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="100" y1="58" x2="65" y2="70" stroke="#9FB3D6" stroke-width="2"/>
+    <polygon points="65,70 100,58 78,95" fill="none" stroke="#F5821F" stroke-width="3"/>
+    <line x1="100" y1="58" x2="88" y2="30" stroke="#F5821F" stroke-width="2" stroke-dasharray="3,3"/>
+    <ellipse cx="100" cy="75" rx="42" ry="52" fill="none" stroke="#F5821F" stroke-width="2" stroke-dasharray="5,4"/>
+  </svg>`,
+  retournement1: `<svg viewBox="0 0 200 140" style="width:100%;max-width:260px;display:block;margin:10px auto;">
+    <circle cx="30" cy="70" r="13" fill="none" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="42" y1="70" x2="130" y2="72" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="90" y1="72" x2="95" y2="55" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="90" y1="72" x2="95" y2="90" stroke="#9FB3D6" stroke-width="2"/>
+    <circle cx="145" cy="40" r="8" fill="#F5821F"/>
+    <line x1="145" y1="48" x2="90" y2="70" stroke="#F5821F" stroke-width="2"/>
+    <circle cx="150" cy="95" r="8" fill="#F5821F"/>
+    <line x1="150" y1="95" x2="105" y2="80" stroke="#F5821F" stroke-width="2"/>
+    <path d="M 100 30 A 40 40 0 0 1 100 20" fill="none" stroke="#F5821F" stroke-width="2" marker-end="url(#arrow1)"/>
+    <text x="130" y="20" font-size="11" fill="#9FB3D6">roule</text>
+  </svg>`,
+  retournement2: `<svg viewBox="0 0 200 140" style="width:100%;max-width:260px;display:block;margin:10px auto;">
+    <circle cx="30" cy="70" r="13" fill="none" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="42" y1="70" x2="130" y2="72" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="90" y1="72" x2="95" y2="55" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="90" y1="72" x2="95" y2="90" stroke="#9FB3D6" stroke-width="2"/>
+    <circle cx="20" cy="30" r="8" fill="#639922"/>
+    <line x1="20" y1="38" x2="30" y2="70" stroke="#639922" stroke-width="3"/>
+    <text x="0" y="20" font-size="10" fill="#9FB3D6">tient la tête</text>
+    <circle cx="150" cy="95" r="8" fill="#F5821F"/>
+    <line x1="150" y1="95" x2="105" y2="80" stroke="#F5821F" stroke-width="2"/>
+    <line x1="150" y1="95" x2="90" y2="70" stroke="#F5821F" stroke-width="2"/>
+    <text x="130" y="120" font-size="10" fill="#9FB3D6">retourne</text>
+  </svg>`,
+  plsPosition: `<svg viewBox="0 0 200 140" style="width:100%;max-width:260px;display:block;margin:10px auto;">
+    <circle cx="40" cy="55" r="15" fill="none" stroke="#F5821F" stroke-width="2"/>
+    <line x1="40" y1="70" x2="43" y2="60" stroke="#F5821F" stroke-width="2"/>
+    <line x1="52" y1="72" x2="130" y2="80" stroke="#F5821F" stroke-width="2"/>
+    <line x1="70" y1="76" x2="55" y2="95" stroke="#F5821F" stroke-width="2"/>
+    <line x1="130" y1="80" x2="150" y2="60" stroke="#F5821F" stroke-width="2"/>
+    <line x1="130" y1="80" x2="120" y2="115" stroke="#F5821F" stroke-width="2"/>
+    <line x1="120" y1="115" x2="150" y2="120" stroke="#F5821F" stroke-width="3"/>
+    <line x1="55" y1="95" x2="30" y2="90" stroke="#F5821F" stroke-width="2"/>
+  </svg>`,
+  rcpMains: `<svg viewBox="0 0 200 140" style="width:100%;max-width:260px;display:block;margin:10px auto;">
+    <ellipse cx="100" cy="110" rx="70" ry="18" fill="none" stroke="#9FB3D6" stroke-width="2"/>
+    <ellipse cx="100" cy="65" rx="26" ry="14" fill="none" stroke="#F5821F" stroke-width="3"/>
+    <line x1="60" y1="20" x2="90" y2="60" stroke="#F5821F" stroke-width="3"/>
+    <line x1="140" y1="20" x2="110" y2="60" stroke="#F5821F" stroke-width="3"/>
+    <line x1="100" y1="83" x2="100" y2="105" stroke="#F5821F" stroke-width="2" stroke-dasharray="3,3"/>
+  </svg>`,
   compression: `<svg viewBox="0 0 200 140" style="width:100%;max-width:260px;display:block;margin:10px auto;">
     <circle cx="60" cy="30" r="14" fill="none" stroke="#9FB3D6" stroke-width="2"/>
     <line x1="60" y1="44" x2="60" y2="95" stroke="#9FB3D6" stroke-width="2"/>
@@ -2770,6 +2833,7 @@ const GESTES_DATA = [
       },
       {
         title: 'Compressions thoraciques',
+        illustration: 'rcpMains',
         items: [
           "Victime sur le dos, de préférence sur un plan dur — sans retarder la réanimation pour autant",
           "Dégager ou couper les vêtements sur la poitrine si nécessaire",
@@ -2829,8 +2893,9 @@ const GESTES_DATA = [
           "Si elle respire normalement : retirer lunettes et objets dangereux à proximité, dégager l'espace autour du corps"
         ]
       },
-      {
+   {
         title: 'Technique, étape par étape',
+        illustration: 'plsPosition',
         items: [
           "Bras côté sauveteur à angle droit du corps, coude plié, paume vers le ciel",
           "Autre bras en travers du thorax, dos de la main plaqué contre la joue côté sauveteur — maintenir cette main plaquée pendant tout le mouvement",
@@ -3339,6 +3404,7 @@ const GESTES_DATA = [
     sections: [
       {
         title: 'Écharpe simple — avant-bras, poignet, main',
+        illustration: 'echarpeSimple',
         items: [
           "Utilisée pour soutenir l'avant-bras, le poignet ou la main",
           "Faire passer la pointe de l'écharpe sous le membre traumatisé",
@@ -3357,6 +3423,7 @@ const GESTES_DATA = [
       },
       {
         title: 'Pour l\'épaule : ajouter une contre-écharpe',
+        illustration: 'echarpeContre',
         items: [
           "L'écharpe simple seule ne suffit pas à immobiliser complètement une épaule",
           "Ajouter une bande large (contre-écharpe) autour du thorax, par-dessus l'écharpe, pour plaquer le bras contre le corps"
@@ -3388,8 +3455,9 @@ const GESTES_DATA = [
           "Ou secouriste isolé, quel que soit le contexte"
         ]
       },
-      {
+{
         title: 'Retournement à 1 secouriste — technique',
+        illustration: 'retournement1',
         items: [
           "Placer le bras de la victime du côté du retournement au-dessus de sa tête",
           "Se placer en position stable (genoux ou trépied) du côté du retournement, à bonne distance",
@@ -3399,8 +3467,9 @@ const GESTES_DATA = [
           "Tirer sur la hanche pour terminer le retournement sur le dos, la main à la nuque accompagne le mouvement puis se retire prudemment"
         ]
       },
-      {
+   {
         title: 'Retournement à 2 secouristes — suspicion de traumatisme',
+        illustration: 'retournement2',
         items: [
           "1er secouriste : se place dans l'axe, derrière la tête, la maintient à deux mains en continu",
           "2e secouriste : place le bras du côté du retournement à angle droit, coude plié, paume vers le haut",
