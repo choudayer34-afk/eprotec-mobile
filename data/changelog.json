@@ -1,5 +1,17 @@
 [
   {
+    "version": "1.5",
+    "date": "2026-07-22T13:02:47.175Z",
+    "title": "Bilan patient PSE1 : référence et saisie terrain",
+    "items": [
+      "Nouvel outil Bilan patient conforme au référentiel PSE1 (3S, XABCDE, bilan complémentaire, douleur)",
+      "Mode Référence : rappel des valeurs normales à consulter rapidement",
+      "Mode Remplir : formulaire de saisie en intervention, sauvegardé sur l'appareil",
+      "Résumé généré automatiquement, copiable pour relecture à la régulation",
+      "Emplacement réservé pour les futures fiches gestes illustrées"
+    ]
+  },
+  {
     "version": "1.4",
     "date": "2026-07-22T11:09:39.820Z",
     "title": "Rechargement complet à l'actualisation",
