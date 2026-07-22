@@ -471,6 +471,14 @@
         <div class="tile-icon">📚</div>
         <div class="tile-title">Fiches gestes</div>
       </div>
+      <div class="tile" data-open="plus-psychologie">
+        <div class="tile-icon">🧠</div>
+        <div class="tile-title">Psychologie & relationnel</div>
+      </div>
+      <div class="tile" data-open="plus-materiel">
+        <div class="tile-icon">🧰</div>
+        <div class="tile-title">Matériel</div>
+      </div>
     </div>
   </section>
 
@@ -491,7 +499,84 @@
       <button class="plus-back" data-target="plus-secourisme">‹</button>
       <span>Fiches gestes</span>
     </div>
-    <div id="gestes-content"></div>
+    <div class="tile-grid">
+      <div class="tile" data-open="plus-gestes-urgences">
+        <div class="tile-icon">🚨</div>
+        <div class="tile-title">Urgences vitales</div>
+      </div>
+      <div class="tile" data-open="plus-gestes-trauma">
+        <div class="tile-icon">🤕</div>
+        <div class="tile-title">Traumatologie</div>
+      </div>
+      <div class="tile" data-open="plus-gestes-malaises">
+        <div class="tile-icon">💊</div>
+        <div class="tile-title">Malaises médicaux</div>
+      </div>
+      <div class="tile" data-open="plus-gestes-plaies">
+        <div class="tile-icon">🔥</div>
+        <div class="tile-title">Plaies et brûlures</div>
+      </div>
+      <div class="tile span-2" data-open="plus-gestes-degagement">
+        <div class="tile-icon">🏃</div>
+        <div class="tile-title">Dégagements d'urgence</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="plus-gestes-urgences">
+    <div class="detail-header">
+      <button class="plus-back" data-target="plus-gestes">‹</button>
+      <span>Urgences vitales</span>
+    </div>
+    <div id="gestes-urgences-content"><div class="empty">Chargement...</div></div>
+  </section>
+
+  <section id="plus-gestes-trauma">
+    <div class="detail-header">
+      <button class="plus-back" data-target="plus-gestes">‹</button>
+      <span>Traumatologie</span>
+    </div>
+    <div id="gestes-trauma-content"><div class="empty">Chargement...</div></div>
+  </section>
+
+  <section id="plus-gestes-malaises">
+    <div class="detail-header">
+      <button class="plus-back" data-target="plus-gestes">‹</button>
+      <span>Malaises médicaux</span>
+    </div>
+    <div id="gestes-malaises-content"><div class="empty">Chargement...</div></div>
+  </section>
+
+  <section id="plus-gestes-plaies">
+    <div class="detail-header">
+      <button class="plus-back" data-target="plus-gestes">‹</button>
+      <span>Plaies et brûlures</span>
+    </div>
+    <div id="gestes-plaies-content"><div class="empty">Chargement...</div></div>
+  </section>
+
+  <section id="plus-gestes-degagement">
+    <div class="detail-header">
+      <button class="plus-back" data-target="plus-gestes">‹</button>
+      <span>Dégagements d'urgence</span>
+    </div>
+    <div id="gestes-degagement-content"><div class="empty">Chargement...</div></div>
+  </section>
+
+  <section id="plus-psychologie">
+    <div class="detail-header">
+      <button class="plus-back" data-target="plus-secourisme">‹</button>
+      <span>Psychologie & relationnel</span>
+    </div>
+    <div id="psychologie-content"><div class="empty">Chargement...</div></div>
+  </section>
+
+  <section id="plus-materiel">
+    <div class="detail-header">
+      <button class="plus-back" data-target="plus-secourisme">‹</button>
+      <span>Matériel</span>
+    </div>
+    <div id="materiel-content"><div class="empty">Chargement...</div></div>
   </section>
 
   <section id="plus-liens">
@@ -1040,7 +1125,13 @@ if (subId === 'plus-nouveautes') renderNouveautesCompletes(allEvents);
 if (subId === 'plus-parametres') renderParametres();
   if (subId === 'plus-changelog') renderChangelogScreen();
   if (subId === 'plus-bilan') renderBilan();
-  if (subId === 'plus-gestes') renderGestes();
+  if (subId === 'plus-gestes-urgences') renderGestesList('gestes-urgences-content', ['urgences']);
+  if (subId === 'plus-gestes-trauma') renderGestesList('gestes-trauma-content', ['trauma']);
+  if (subId === 'plus-gestes-malaises') renderGestesList('gestes-malaises-content', ['malaises']);
+  if (subId === 'plus-gestes-plaies') renderGestesList('gestes-plaies-content', ['plaies_brulures']);
+  if (subId === 'plus-gestes-degagement') renderGestesList('gestes-degagement-content', ['degagement']);
+  if (subId === 'plus-psychologie') renderGestesList('psychologie-content', ['psychologie']);
+  if (subId === 'plus-materiel') renderGestesList('materiel-content', ['materiel']);
 }
 
 document.getElementById('kpi-inscrits-box').addEventListener('click', () => {
@@ -3869,15 +3960,41 @@ const GESTES_DATA = [
   }
 ];
 
-function renderGestes() {
-  const container = document.getElementById('gestes-content');
+const GESTE_CATEGORIES_MAP = {
+  lva: 'urgences',
+  hemorragie: 'urgences',
+  rcp: 'urgences',
+  pls: 'urgences',
+  pfsmu: 'psychologie',
+  palpation: 'trauma',
+  malaise: 'malaises',
+  convulsion: 'malaises',
+  asthme: 'malaises',
+  hypoglycemie: 'malaises',
+  allergie: 'malaises',
+  oxygenotherapie: 'malaises',
+  traumatismes: 'trauma',
+  echarpe: 'trauma',
+  retournement: 'trauma',
+  plaies: 'plaies_brulures',
+  brulures: 'plaies_brulures',
+  degagement: 'degagement',
+  aspirateur: 'materiel',
+  saturometre: 'materiel',
+  glycemiemetre: 'materiel',
+  ecg12: 'materiel'
+};
 
-  if (GESTES_DATA.length === 0) {
+function renderGestesList(containerId, categories) {
+  const container = document.getElementById(containerId);
+  const filtered = GESTES_DATA.filter(g => categories.includes(GESTE_CATEGORIES_MAP[g.key]));
+
+  if (filtered.length === 0) {
     container.innerHTML = '<div class="empty">Aucune fiche disponible pour le moment.</div>';
     return;
   }
 
-  container.innerHTML = GESTES_DATA.map(geste => `
+  container.innerHTML = filtered.map(geste => `
     <div class="geste-group">
       <button class="month-toggle">
         <span>${geste.title}</span>
@@ -3909,7 +4026,7 @@ function renderGestes() {
         </div>
       </div>
     </div>
-  `).join('') + `<div class="empty">D'autres fiches (RCP/DEA, PLS, PFSMU) arrivent prochainement.</div>`;
+  `).join('');
 
   setupAccordion(container, '.geste-group');
   setupAccordion(container);
