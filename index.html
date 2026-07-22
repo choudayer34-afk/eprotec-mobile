@@ -2481,11 +2481,11 @@ function renderBilanField(f) {
   const infoBtn = f.info ? `<button class="icon-btn" style="width:22px;height:22px;font-size:11px;margin-left:6px;" data-info="${f.info}">i</button>` : '';
   const timerBtn = f.timer ? `<button class="timer-icon-btn" data-timer-field="${f.key}">⏱ 1 min</button>` : '';
 
-  if (f.type === 'age-display') {
+if (f.type === 'age-display') {
     return `
       <div class="bilan-field-row">
         <label>${f.label}</label>
-        <div style="color:#fff;font-size:15px;padding:10px 0;">${computeAge(bilanData.dateNaissance) !== '' ? computeAge(bilanData.dateNaissance) + ' ans' : 'Renseigne la date de naissance'}</div>
+        <div id="age-display-value" style="color:#fff;font-size:15px;padding:10px 0;">${computeAge(bilanData.dateNaissance) !== '' ? computeAge(bilanData.dateNaissance) + ' ans' : 'Renseigne la date de naissance'}</div>
       </div>
     `;
   }
@@ -2511,26 +2511,38 @@ function renderBilanField(f) {
     `;
   }
 
-  if (f.type === 'ta') {
-    const cote = bilanData.taCote || '';
-    const sys = bilanData.taSys || '';
-    const dia = bilanData.taDia || '';
+if (f.type === 'ta') {
+    const gSys = bilanData.taGaucheSys || '';
+    const gDia = bilanData.taGaucheDia || '';
+    const gHeure = bilanData.taGaucheHeure ? formatHeureCourte(bilanData.taGaucheHeure) : '';
+    const dSys = bilanData.taDroitSys || '';
+    const dDia = bilanData.taDroitDia || '';
+    const dHeure = bilanData.taDroitHeure ? formatHeureCourte(bilanData.taDroitHeure) : '';
     const complement = bilanData.taComplement || '';
-    const heure = bilanData.taHeure ? formatHeureCourte(bilanData.taHeure) : '';
     return `
       <div class="bilan-field-row">
-        <label>${f.label}</label>
-        <div class="bilan-chip-row" style="margin-bottom:8px;">
-          ${['Bras gauche', 'Bras droit'].map(o => `<button class="bilan-chip ${cote === o ? 'active' : ''}" data-bilan-chip="taCote" data-value="${o}">${o}</button>`).join('')}
-        </div>
+        <label>${f.label} — Bras gauche</label>
         <div style="display:flex;align-items:center;gap:6px;">
-          <input type="number" data-bilan-field="taSys" placeholder="Sys." value="${sys}" style="width:70px;text-align:center;">
+          <input type="number" data-bilan-field="taGaucheSys" placeholder="Sys." value="${gSys}" style="width:70px;text-align:center;">
           <span style="color:#9FB3D6;font-size:16px;">/</span>
-          <input type="number" data-bilan-field="taDia" placeholder="Dia." value="${dia}" style="width:70px;text-align:center;">
+          <input type="number" data-bilan-field="taGaucheDia" placeholder="Dia." value="${gDia}" style="width:70px;text-align:center;">
           <span style="color:#9FB3D6;font-size:12px;">mmHg</span>
         </div>
-        ${heure ? `<div style="color:#9FB3D6;font-size:11px;margin-top:4px;">Saisi à ${heure}</div>` : ''}
-        <input type="text" data-bilan-field="taComplement" placeholder="Complément (ex : aux 2 bras...)" value="${complement}" style="margin-top:8px;">
+        ${gHeure ? `<div style="color:#9FB3D6;font-size:11px;margin-top:4px;">Saisi à ${gHeure}</div>` : ''}
+      </div>
+      <div class="bilan-field-row">
+        <label>${f.label} — Bras droit</label>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <input type="number" data-bilan-field="taDroitSys" placeholder="Sys." value="${dSys}" style="width:70px;text-align:center;">
+          <span style="color:#9FB3D6;font-size:16px;">/</span>
+          <input type="number" data-bilan-field="taDroitDia" placeholder="Dia." value="${dDia}" style="width:70px;text-align:center;">
+          <span style="color:#9FB3D6;font-size:12px;">mmHg</span>
+        </div>
+        ${dHeure ? `<div style="color:#9FB3D6;font-size:11px;margin-top:4px;">Saisi à ${dHeure}</div>` : ''}
+      </div>
+      <div class="bilan-field-row">
+        <label>Complément</label>
+        <input type="text" data-bilan-field="taComplement" placeholder="Ex : position, contexte..." value="${complement}">
       </div>
     `;
   }
@@ -2756,6 +2768,12 @@ function buildSuiviHtml() {
           <input type="number" data-suivi-field="spo2" data-suivi-idx="${idx}" value="${s.spo2 || ''}">
         </div>
         <div class="bilan-field-row">
+          <label>Bras pour la tension</label>
+          <div class="bilan-chip-row">
+            ${['Gauche', 'Droit'].map(o => `<button class="bilan-chip ${s.cote === o ? 'active' : ''}" data-suivi-chip="${idx}" data-value="${o}">${o}</button>`).join('')}
+          </div>
+        </div>
+        <div class="bilan-field-row">
           <label>Tension (Sys / Dia)</label>
           <div style="display:flex;align-items:center;gap:6px;">
             <input type="number" data-suivi-field="taSys" data-suivi-idx="${idx}" placeholder="Sys." value="${s.taSys || ''}" style="width:70px;text-align:center;">
@@ -2763,6 +2781,10 @@ function buildSuiviHtml() {
             <input type="number" data-suivi-field="taDia" data-suivi-idx="${idx}" placeholder="Dia." value="${s.taDia || ''}" style="width:70px;text-align:center;">
             <span style="color:#9FB3D6;font-size:12px;">mmHg</span>
           </div>
+        </div>
+        <div class="bilan-field-row">
+          <label>Complément / évolution</label>
+          <input type="text" data-suivi-field="complement" data-suivi-idx="${idx}" value="${s.complement || ''}">
         </div>
       </div>
     `).join('')}
@@ -2782,11 +2804,20 @@ function attachSuiviListeners() {
     });
   });
 
-  body.querySelectorAll('[data-suivi-field]').forEach(input => {
+body.querySelectorAll('[data-suivi-field]').forEach(input => {
     input.addEventListener('input', () => {
       const idx = parseInt(input.dataset.suiviIdx, 10);
       bilanData.suivi[idx][input.dataset.suiviField] = input.value;
       saveBilanData();
+    });
+  });
+
+  body.querySelectorAll('[data-suivi-chip]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = parseInt(btn.dataset.suiviChip, 10);
+      bilanData.suivi[idx].cote = btn.dataset.value;
+      saveBilanData();
+      renderSuiviBody();
     });
   });
 
@@ -2841,8 +2872,14 @@ function buildBilanSummaryText() {
       }
       catText += `- ${f.label.split(' (')[0]} : ${displayValue}\n`;
     });
-    if (cat.key === 'c' && (bilanData.taSys || bilanData.taDia)) {
-      catText += `- TA : ${bilanData.taSys || '?'}/${bilanData.taDia || '?'} mmHg${bilanData.taCote ? ' (' + bilanData.taCote + ')' : ''}${bilanData.taComplement ? ' — ' + bilanData.taComplement : ''}${bilanData.taHeure ? ' à ' + formatHeureCourte(bilanData.taHeure) : ''}\n`;
+if (cat.key === 'c') {
+      if (bilanData.taGaucheSys || bilanData.taGaucheDia) {
+        catText += `- TA bras gauche : ${bilanData.taGaucheSys || '?'}/${bilanData.taGaucheDia || '?'} mmHg${bilanData.taGaucheHeure ? ' à ' + formatHeureCourte(bilanData.taGaucheHeure) : ''}\n`;
+      }
+      if (bilanData.taDroitSys || bilanData.taDroitDia) {
+        catText += `- TA bras droit : ${bilanData.taDroitSys || '?'}/${bilanData.taDroitDia || '?'} mmHg${bilanData.taDroitHeure ? ' à ' + formatHeureCourte(bilanData.taDroitHeure) : ''}\n`;
+      }
+      if (bilanData.taComplement) catText += `- Complément TA : ${bilanData.taComplement}\n`;
     }
     if (cat.key === 'd') {
       if (bilanData.glycemie) catText += `- Glycémie : ${bilanData.glycemie} ${bilanData.glycemieUnite || 'g/L'}\n`;
@@ -2870,8 +2907,8 @@ function buildBilanSummaryText() {
   const suivi = bilanData.suivi || [];
   if (suivi.length > 0) {
     text += `Suivi (relevé toutes les ${bilanData.suiviVital === 'Oui' ? '5' : '15'} min)\n`;
-    suivi.forEach(s => {
-      text += `${formatDateHeureCourte(s.heure)} — SpO2 : ${s.spo2 || '?'}% — TA : ${s.taSys || '?'}/${s.taDia || '?'}\n`;
+suivi.forEach(s => {
+      text += `${formatDateHeureCourte(s.heure)} — SpO2 : ${s.spo2 || '?'}% — TA (${s.cote || '?'}) : ${s.taSys || '?'}/${s.taDia || '?'}${s.complement ? ' — ' + s.complement : ''}\n`;
     });
     text += '\n';
   }
@@ -2984,22 +3021,26 @@ function renderBilanFill() {
   container.querySelectorAll('input[data-bilan-field]').forEach(input => {
     if (BILAN_ABNORMAL_RANGES[input.dataset.bilanField]) applyFieldWarning(input, input.dataset.bilanField);
 
-    input.addEventListener('input', () => {
+  input.addEventListener('input', () => {
       bilanData[input.dataset.bilanField] = input.value;
       saveBilanData();
       if (BILAN_ABNORMAL_RANGES[input.dataset.bilanField]) applyFieldWarning(input, input.dataset.bilanField);
-      if (input.dataset.bilanField === 'taSys' || input.dataset.bilanField === 'taDia') {
-        if (!bilanData.taHeure) { bilanData.taHeure = new Date().toISOString(); saveBilanData(); }
+      if (input.dataset.bilanField === 'dateNaissance') {
+        const el = document.getElementById('age-display-value');
+        if (el) {
+          const age = computeAge(bilanData.dateNaissance);
+          el.textContent = age !== '' ? age + ' ans' : 'Renseigne la date de naissance';
+        }
+      }
+      if (input.dataset.bilanField === 'taGaucheSys' || input.dataset.bilanField === 'taGaucheDia') {
+        if (!bilanData.taGaucheHeure) { bilanData.taGaucheHeure = new Date().toISOString(); saveBilanData(); }
+      }
+      if (input.dataset.bilanField === 'taDroitSys' || input.dataset.bilanField === 'taDroitDia') {
+        if (!bilanData.taDroitHeure) { bilanData.taDroitHeure = new Date().toISOString(); saveBilanData(); }
       }
     });
 
-    if (input.type === 'date') {
-      input.addEventListener('change', () => {
-        bilanData[input.dataset.bilanField] = input.value;
-        saveBilanData();
-        renderBilanFill();
-      });
-    }
+ 
   });
 
   container.querySelectorAll('select[data-bilan-field]').forEach(select => {
