@@ -2286,6 +2286,19 @@ function applyFieldWarning(input, key) {
   input.style.background = abnormal ? '#3A1F1F' : '#0B2A5C';
 }
 
+function applyTaWarning(side) {
+  const sysInput = document.getElementById(`ta-${side}-sys`);
+  const diaInput = document.getElementById(`ta-${side}-dia`);
+  if (!sysInput || !diaInput) return;
+  const sys = parseFloat(sysInput.value);
+  const dia = parseFloat(diaInput.value);
+  const abnormal = (!isNaN(sys) && (sys < 90 || sys > 140)) || (!isNaN(dia) && (dia < 60 || dia > 90));
+  [sysInput, diaInput].forEach(input => {
+    input.style.borderLeft = abnormal ? '4px solid #E24B4A' : 'none';
+    input.style.background = abnormal ? '#3A1F1F' : '#0B2A5C';
+  });
+}
+
 function applyGlycemieWarning() {
   const input = document.getElementById('glycemie-input');
   const select = document.getElementById('glycemie-unite-select');
@@ -2531,12 +2544,12 @@ if (f.type === 'ta') {
     const dHeure = bilanData.taDroitHeure ? formatHeureCourte(bilanData.taDroitHeure) : '';
     const complement = bilanData.taComplement || '';
     return `
-      <div class="bilan-field-row">
+  <div class="bilan-field-row">
         <label>${f.label} — Bras gauche</label>
         <div style="display:flex;align-items:center;gap:6px;">
-          <input type="number" data-bilan-field="taGaucheSys" placeholder="Sys." value="${gSys}" style="width:70px;text-align:center;">
+          <input type="number" id="ta-gauche-sys" data-bilan-field="taGaucheSys" placeholder="Sys." value="${gSys}" style="width:70px;text-align:center;">
           <span style="color:#9FB3D6;font-size:16px;">/</span>
-          <input type="number" data-bilan-field="taGaucheDia" placeholder="Dia." value="${gDia}" style="width:70px;text-align:center;">
+          <input type="number" id="ta-gauche-dia" data-bilan-field="taGaucheDia" placeholder="Dia." value="${gDia}" style="width:70px;text-align:center;">
           <span style="color:#9FB3D6;font-size:12px;">mmHg</span>
         </div>
         ${gHeure ? `<div style="color:#9FB3D6;font-size:11px;margin-top:4px;">Saisi à ${gHeure}</div>` : ''}
@@ -2544,9 +2557,9 @@ if (f.type === 'ta') {
       <div class="bilan-field-row">
         <label>${f.label} — Bras droit</label>
         <div style="display:flex;align-items:center;gap:6px;">
-          <input type="number" data-bilan-field="taDroitSys" placeholder="Sys." value="${dSys}" style="width:70px;text-align:center;">
+          <input type="number" id="ta-droit-sys" data-bilan-field="taDroitSys" placeholder="Sys." value="${dSys}" style="width:70px;text-align:center;">
           <span style="color:#9FB3D6;font-size:16px;">/</span>
-          <input type="number" data-bilan-field="taDroitDia" placeholder="Dia." value="${dDia}" style="width:70px;text-align:center;">
+          <input type="number" id="ta-droit-dia" data-bilan-field="taDroitDia" placeholder="Dia." value="${dDia}" style="width:70px;text-align:center;">
           <span style="color:#9FB3D6;font-size:12px;">mmHg</span>
         </div>
         ${dHeure ? `<div style="color:#9FB3D6;font-size:11px;margin-top:4px;">Saisi à ${dHeure}</div>` : ''}
@@ -3030,6 +3043,8 @@ function renderBilanFill() {
   renderBilanIcons();
 
 applyGlycemieWarning();
+  applyTaWarning('gauche');
+  applyTaWarning('droit');
 
   container.querySelectorAll('input[data-bilan-field]').forEach(input => {
     if (BILAN_ABNORMAL_RANGES[input.dataset.bilanField]) applyFieldWarning(input, input.dataset.bilanField);
@@ -3039,6 +3054,8 @@ applyGlycemieWarning();
       saveBilanData();
       if (BILAN_ABNORMAL_RANGES[input.dataset.bilanField]) applyFieldWarning(input, input.dataset.bilanField);
       if (input.dataset.bilanField === 'glycemie') applyGlycemieWarning();
+      if (input.dataset.bilanField === 'taGaucheSys' || input.dataset.bilanField === 'taGaucheDia') applyTaWarning('gauche');
+      if (input.dataset.bilanField === 'taDroitSys' || input.dataset.bilanField === 'taDroitDia') applyTaWarning('droit');
       if (input.dataset.bilanField === 'dateNaissance') {
         const el = document.getElementById('age-display-value');
         if (el) {
