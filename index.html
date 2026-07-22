@@ -2110,8 +2110,9 @@ const BILAN_CATEGORIES = [
     { key: 'taSystolique', label: 'TA systolique', type: 'number' },
     { key: 'taDiastolique', label: 'TA diastolique', type: 'number' }
   ]},
-  { key: 'd', label: '🧠 D — Neurologique (Glasgow)', fields: [
+{ key: 'd', label: '🧠 D — Neurologique (Glasgow)', fields: [
     { key: 'conscience', label: 'Conscience (EVDA)', type: 'chip', options: ['Éveillé', 'Verbal', 'Douleur', 'Aréactif'] },
+    { key: 'glasgowQuick', label: 'Sélection rapide', type: 'glasgowQuick' },
     { key: 'glasgowY', label: 'Ouverture des yeux', type: 'select', options: GLASGOW_OPTIONS.glasgowY },
     { key: 'glasgowV', label: 'Réponse verbale', type: 'select', options: GLASGOW_OPTIONS.glasgowV },
     { key: 'glasgowM', label: 'Réponse motrice', type: 'select', options: GLASGOW_OPTIONS.glasgowM },
@@ -2202,6 +2203,18 @@ function renderBilanField(f) {
     `;
   }
 
+  if (f.type === 'glasgowQuick') {
+    return `
+      <div class="bilan-field-row">
+        <label>${f.label}</label>
+        <div class="bilan-chip-row">
+          <button class="bilan-chip" id="glasgow-set-15">Glasgow 15 (normal)</button>
+          <button class="bilan-chip" id="glasgow-set-3">Glasgow 3 (minimum)</button>
+        </div>
+      </div>
+    `;
+  }
+
   if (f.type === 'select') {
     return `
       <div class="bilan-field-row">
@@ -2210,7 +2223,7 @@ function renderBilanField(f) {
           <option value="">—</option>
           ${f.options.map(o => `<option value="${o.value}" ${String(o.value) === String(value) ? 'selected' : ''}>${o.label}</option>`).join('')}
         </select>
-        ${(f.key === 'glasgowM') ? `<div style="color:#F5821F;font-size:12px;margin-top:6px;">Score Glasgow total : ${glasgowTotal()} / 15</div>` : ''}
+        ${(f.key === 'glasgowM') ? `<div id="glasgow-total-display" style="color:#F5821F;font-size:12px;margin-top:6px;">Score Glasgow total : ${glasgowTotal()} / 15</div>` : ''}
       </div>
     `;
   }
@@ -2240,6 +2253,34 @@ if (f.type === 'painscale') {
   `;
 }
 
+function updateGlasgowTotalDisplay() {
+  const el = document.getElementById('glasgow-total-display');
+  if (el) el.textContent = `Score Glasgow total : ${glasgowTotal()} / 15`;
+}
+
+function refreshChipGroup(container, key) {
+  const value = bilanData[key];
+  container.querySelectorAll(`[data-bilan-chip="${key}"]`).forEach(btn => {
+    const match = String(btn.dataset.value) === String(value);
+    if (btn.classList.contains('pain-seg')) btn.classList.toggle('selected', match);
+    else btn.classList.toggle('active', match);
+  });
+}
+
+function setGlasgowQuick(container, y, v, m) {
+  bilanData.glasgowY = y;
+  bilanData.glasgowV = v;
+  bilanData.glasgowM = m;
+  saveBilanData();
+  const selY = container.querySelector('select[data-bilan-field="glasgowY"]');
+  const selV = container.querySelector('select[data-bilan-field="glasgowV"]');
+  const selM = container.querySelector('select[data-bilan-field="glasgowM"]');
+  if (selY) selY.value = y;
+  if (selV) selV.value = v;
+  if (selM) selM.value = m;
+  updateGlasgowTotalDisplay();
+}
+
 function renderBilanFill() {
   const container = document.getElementById('bilan-content');
   container.innerHTML = BILAN_CATEGORIES.map(cat => `
@@ -2261,16 +2302,18 @@ function renderBilanFill() {
 
   setupAccordion(container);
 
-  container.querySelectorAll('[data-bilan-field]').forEach(input => {
+  container.querySelectorAll('input[data-bilan-field]').forEach(input => {
     input.addEventListener('input', () => {
       bilanData[input.dataset.bilanField] = input.value;
       saveBilanData();
-      if (input.dataset.bilanField.startsWith('glasgow')) renderBilanFill();
     });
-    input.addEventListener('change', () => {
-      bilanData[input.dataset.bilanField] = input.value;
+  });
+
+  container.querySelectorAll('select[data-bilan-field]').forEach(select => {
+    select.addEventListener('change', () => {
+      bilanData[select.dataset.bilanField] = select.value;
       saveBilanData();
-      if (input.dataset.bilanField.startsWith('glasgow')) renderBilanFill();
+      if (select.dataset.bilanField.startsWith('glasgow')) updateGlasgowTotalDisplay();
     });
   });
 
@@ -2280,7 +2323,7 @@ function renderBilanFill() {
       const value = chip.dataset.value;
       bilanData[key] = bilanData[key] === value ? '' : value;
       saveBilanData();
-      renderBilanFill();
+      refreshChipGroup(container, key);
     });
   });
 
@@ -2291,6 +2334,11 @@ function renderBilanFill() {
       if (info) showInfoModal(info.title, info.html);
     });
   });
+
+  const set15 = container.querySelector('#glasgow-set-15');
+  if (set15) set15.addEventListener('click', () => setGlasgowQuick(container, 4, 5, 6));
+  const set3 = container.querySelector('#glasgow-set-3');
+  if (set3) set3.addEventListener('click', () => setGlasgowQuick(container, 1, 1, 1));
 
   container.querySelector('#bilan-new').addEventListener('click', async () => {
     const confirmClear = await promptChoice('Effacer le bilan en cours ?', ['Oui, effacer', 'Annuler']);
@@ -2304,7 +2352,7 @@ function renderBilanFill() {
   container.querySelector('#bilan-summary').addEventListener('click', () => {
     let text = '';
     BILAN_CATEGORIES.forEach(cat => {
-      const filled = cat.fields.filter(f => bilanData[f.key]);
+      const filled = cat.fields.filter(f => f.type !== 'glasgowQuick' && bilanData[f.key]);
       if (filled.length === 0) return;
       text += cat.label.replace(/^\S+\s/, '') + '\n';
       filled.forEach(f => {
