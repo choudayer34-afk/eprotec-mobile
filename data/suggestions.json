@@ -74,43 +74,6 @@
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1558867"
   },
   {
-    "uid": "evt15588681@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] Fete du Cres",
-    "lieu": "Rue de la Monnaie 34920 Le Cres",
-    "dateDebut": "2026-08-15T18:30:00.000Z",
-    "dateFin": "2026-08-15T23:00:00.000Z",
-    "description": "20h30-21h30 : Bandidos rue des aiguerelles  21h30-1h : bal - Hotel de ville<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1558868'>Lien vers l'activité</a>",
-    "tag": "DPS",
-    "score": 15,
-    "reasons": [
-      {
-        "text": "Mois sans DPS planifié",
-        "category": "positive"
-      },
-      {
-        "text": "Jour : Samedi (+3)",
-        "category": "positive"
-      },
-      {
-        "text": "Créneau fin d'après-midi / soirée",
-        "category": "positive"
-      },
-      {
-        "text": "Durée raisonnable",
-        "category": "positive"
-      },
-      {
-        "text": "Très proche (9.6 km)",
-        "category": "positive"
-      },
-      {
-        "text": "Espacement confortable (23 jours)",
-        "category": "positive"
-      }
-    ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1558868"
-  },
-  {
     "uid": "evt16092691@https://eprotec.protection-civile.org",
     "titre": "[DPS 34] Feu d'artifice",
     "lieu": "16 Boulevard Marechal Joffre 34250 Palavas-les-Flots",
@@ -146,6 +109,43 @@
       }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1609269"
+  },
+  {
+    "uid": "evt15588681@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] Fete du Cres",
+    "lieu": "Rue de la Monnaie 34920 Le Cres",
+    "dateDebut": "2026-08-15T18:30:00.000Z",
+    "dateFin": "2026-08-15T23:00:00.000Z",
+    "description": "20h30-21h30 : Bandidos rue des aiguerelles  21h30-1h : bal - Hotel de ville<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1558868'>Lien vers l'activité</a>",
+    "tag": "DPS",
+    "score": 15,
+    "reasons": [
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour : Samedi (+3)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (9.6 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (23 jours)",
+        "category": "positive"
+      }
+    ],
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1558868"
   },
   {
     "uid": "evt15899351@https://eprotec.protection-civile.org",
