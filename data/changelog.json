@@ -1,5 +1,20 @@
 [
   {
+    "version": "1.1",
+    "date": "2026-07-22",
+    "title": "Une navigation plus rapide et un moteur sur-mesure",
+    "items": [
+      "Accès directs à Calendrier, Inscriptions, Suggestions et Favoris depuis la barre du bas",
+      "Réglages du moteur de suggestion (OAD) personnalisables par toi-même, par catégorie (jours, horaires, distance, durée, espacement)",
+      "Mise à jour du moteur en un tap depuis l'app, sans passer par GitHub",
+      "Balaye une suggestion pour l'écarter définitivement si tu sais que tu seras absent",
+      "Détail d'un événement repensé : recherche, itinéraire et actions accessibles d'un coup d'œil en haut de l'écran",
+      "Historique de toutes les mises à jour de l'app, consultable dans Liens utiles"
+    ]
+  },
+  {
+    "version": "1.0",
+  {
     "version": "1.0",
     "date": "2026-07-22",
     "title": "Une app bien plus rapide et personnalisée",
