@@ -2043,12 +2043,24 @@ pouls_regularite: {
     title: 'Régularité du pouls',
     html: `<p><b>Régulier</b> — intervalles constants entre les battements</p><p style="margin-top:8px;"><b>Irrégulier</b> — intervalles variables, peut évoquer un trouble du rythme</p>`
   },
-  pupilles: {
+pupilles: {
     title: 'Pupilles',
     html: `<p><b>Normales</b> — taille égale des deux côtés, réactives à la lumière</p>
       <p style="margin-top:8px;"><b>Asymétriques</b> — une pupille plus dilatée que l'autre, peut évoquer une atteinte neurologique</p>
       <p style="margin-top:8px;"><b>Mydriase</b> — pupilles dilatées, plus larges que la normale</p>
       <p style="margin-top:8px;"><b>Myosis</b> — pupilles resserrées, plus petites que la normale</p>`
+  },
+  douleur_origine: {
+    title: 'Origine de la douleur — exemples',
+    html: `<p>Traumatique (chute, coup)</p><p style="margin-top:6px;">Mécanique (effort, mouvement)</p><p style="margin-top:6px;">Spontanée, sans cause apparente</p><p style="margin-top:6px;">Digestive, cardiaque, autre origine médicale</p>`
+  },
+  douleur_qualite: {
+    title: 'Qualité de la douleur — exemples',
+    html: `<p>Brûlure</p><p style="margin-top:6px;">Piqûre</p><p style="margin-top:6px;">Crampe</p><p style="margin-top:6px;">Pesanteur</p><p style="margin-top:6px;">Décharge électrique</p><p style="margin-top:6px;">En étau, qui serre</p>`
+  },
+  douleur_region: {
+    title: 'Région — comment décrire',
+    html: `<p>Localisation précise (ex : thorax, abdomen, membre)</p><p style="margin-top:8px;">Ne pas oublier une éventuelle irradiation (ex : douleur thoracique qui irradie dans le bras gauche)</p>`
   }
 };
 
@@ -2281,6 +2293,132 @@ function setGlasgowQuick(container, y, v, m) {
   updateGlasgowTotalDisplay();
 }
 
+function updateGlasgowTotalDisplay() {
+  const el = document.getElementById('glasgow-total-display');
+  if (el) el.textContent = `Score Glasgow total : ${glasgowTotal()} / 15`;
+}
+
+function refreshChipGroup(container, key) {
+  const value = bilanData[key];
+  container.querySelectorAll(`[data-bilan-chip="${key}"]`).forEach(btn => {
+    const match = String(btn.dataset.value) === String(value);
+    if (btn.classList.contains('pain-seg')) btn.classList.toggle('selected', match);
+    else btn.classList.toggle('active', match);
+  });
+}
+
+function setGlasgowQuick(container, y, v, m) {
+  bilanData.glasgowY = y;
+  bilanData.glasgowV = v;
+  bilanData.glasgowM = m;
+  saveBilanData();
+  const selY = container.querySelector('select[data-bilan-field="glasgowY"]');
+  const selV = container.querySelector('select[data-bilan-field="glasgowV"]');
+  const selM = container.querySelector('select[data-bilan-field="glasgowM"]');
+  if (selY) selY.value = y;
+  if (selV) selV.value = v;
+  if (selM) selM.value = m;
+  updateGlasgowTotalDisplay();
+}
+
+function buildDouleurCardsHtml() {
+  if (!Array.isArray(bilanData.douleurs) || bilanData.douleurs.length === 0) {
+    bilanData.douleurs = [{}];
+  }
+  const painColors = ['#97C459','#A9C15A','#BDBE5B','#D4C459','#E8B84A','#EF9F27','#E88C34','#E67A38','#E86A3C','#E5573F','#E24B4A'];
+  return bilanData.douleurs.map((d, idx) => `
+    <div class="card" style="margin-bottom:10px;">
+      <div class="card-top-row" style="margin-bottom:8px;">
+        <span class="tag-badge">Douleur ${idx + 1}</span>
+        ${bilanData.douleurs.length > 1 ? `<button class="icon-btn" style="width:26px;height:26px;font-size:13px;" data-douleur-remove="${idx}">✕</button>` : ''}
+      </div>
+      <div class="bilan-field-row">
+        <label>Origine <button class="icon-btn" style="width:22px;height:22px;font-size:11px;" data-info="douleur_origine">i</button></label>
+        <input type="text" data-douleur-field="origine" data-douleur-idx="${idx}" value="${d.origine || ''}">
+      </div>
+      <div class="bilan-field-row">
+        <label>Provoqué par</label>
+        <input type="text" data-douleur-field="provoquePar" data-douleur-idx="${idx}" value="${d.provoquePar || ''}">
+      </div>
+      <div class="bilan-field-row">
+        <label>Qualité <button class="icon-btn" style="width:22px;height:22px;font-size:11px;" data-info="douleur_qualite">i</button></label>
+        <input type="text" data-douleur-field="qualite" data-douleur-idx="${idx}" value="${d.qualite || ''}">
+      </div>
+      <div class="bilan-field-row">
+        <label>Région <button class="icon-btn" style="width:22px;height:22px;font-size:11px;" data-info="douleur_region">i</button></label>
+        <input type="text" data-douleur-field="region" data-douleur-idx="${idx}" value="${d.region || ''}">
+      </div>
+      <div class="bilan-field-row">
+        <label>Sévérité (0 à 10)</label>
+        <div class="pain-faces"><span>😀</span><span>🙂</span><span>😐</span><span>😟</span><span>😖</span><span>😭</span></div>
+        <div class="pain-bar">
+          ${[0,1,2,3,4,5,6,7,8,9,10].map(n => `<button class="pain-seg ${String(d.severite) === String(n) ? 'selected' : ''}" data-douleur-pain="${idx}" data-value="${n}" style="background:${painColors[n]};">${n}</button>`).join('')}
+        </div>
+        <div class="pain-labels"><span>Pas de douleur</span><span>Pire douleur possible</span></div>
+      </div>
+      <div class="bilan-field-row">
+        <label>Temps</label>
+        <input type="text" data-douleur-field="temps" data-douleur-idx="${idx}" value="${d.temps || ''}">
+      </div>
+    </div>
+  `).join('') + `<button class="detail-action-btn" data-douleur-add="1">➕ Ajouter une douleur</button>`;
+}
+
+function attachDouleurListeners() {
+  const body = document.getElementById('douleur-body');
+  if (!body) return;
+
+  body.querySelectorAll('[data-douleur-field]').forEach(input => {
+    input.addEventListener('input', () => {
+      const idx = parseInt(input.dataset.douleurIdx, 10);
+      bilanData.douleurs[idx][input.dataset.douleurField] = input.value;
+      saveBilanData();
+    });
+  });
+
+  body.querySelectorAll('[data-douleur-pain]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = parseInt(btn.dataset.douleurPain, 10);
+      bilanData.douleurs[idx].severite = btn.dataset.value;
+      saveBilanData();
+      renderDouleurBody();
+    });
+  });
+
+  body.querySelectorAll('[data-douleur-remove]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = parseInt(btn.dataset.douleurRemove, 10);
+      bilanData.douleurs.splice(idx, 1);
+      saveBilanData();
+      renderDouleurBody();
+    });
+  });
+
+  const addBtn = body.querySelector('[data-douleur-add]');
+  if (addBtn) {
+    addBtn.addEventListener('click', () => {
+      bilanData.douleurs.push({});
+      saveBilanData();
+      renderDouleurBody();
+    });
+  }
+
+  body.querySelectorAll('[data-info]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const info = INFO_CONTENT[btn.dataset.info];
+      if (info) showInfoModal(info.title, info.html);
+    });
+  });
+}
+
+function renderDouleurBody() {
+  const body = document.getElementById('douleur-body');
+  if (!body) return;
+  body.innerHTML = buildDouleurCardsHtml();
+  attachDouleurListeners();
+}
+
 function renderBilanFill() {
   const container = document.getElementById('bilan-content');
   container.innerHTML = BILAN_CATEGORIES.map(cat => `
@@ -2289,8 +2427,8 @@ function renderBilanFill() {
         <span>${cat.label}</span>
         <span class="month-chevron">▸</span>
       </button>
-      <div class="month-body" style="display:none">
-        ${cat.fields.map(f => renderBilanField(f)).join('')}
+      <div class="month-body" ${cat.key === 'douleur' ? 'id="douleur-body"' : ''} style="display:none">
+        ${cat.key === 'douleur' ? buildDouleurCardsHtml() : cat.fields.map(f => renderBilanField(f)).join('')}
       </div>
     </div>
   `).join('') + `
@@ -2301,6 +2439,7 @@ function renderBilanFill() {
   `;
 
   setupAccordion(container);
+  attachDouleurListeners();
 
   container.querySelectorAll('input[data-bilan-field]').forEach(input => {
     input.addEventListener('input', () => {
@@ -2352,6 +2491,22 @@ function renderBilanFill() {
   container.querySelector('#bilan-summary').addEventListener('click', () => {
     let text = '';
     BILAN_CATEGORIES.forEach(cat => {
+      if (cat.key === 'douleur') {
+        const douleurs = (bilanData.douleurs || []).filter(d => Object.values(d).some(v => v));
+        if (douleurs.length === 0) return;
+        text += 'Douleur\n';
+        douleurs.forEach((d, i) => {
+          text += `Douleur ${i + 1} :\n`;
+          if (d.origine) text += `- Origine : ${d.origine}\n`;
+          if (d.provoquePar) text += `- Provoqué par : ${d.provoquePar}\n`;
+          if (d.qualite) text += `- Qualité : ${d.qualite}\n`;
+          if (d.region) text += `- Région : ${d.region}\n`;
+          if (d.severite != null && d.severite !== '') text += `- Sévérité : ${d.severite}/10\n`;
+          if (d.temps) text += `- Temps : ${d.temps}\n`;
+        });
+        text += '\n';
+        return;
+      }
       const filled = cat.fields.filter(f => f.type !== 'glasgowQuick' && bilanData[f.key]);
       if (filled.length === 0) return;
       text += cat.label.replace(/^\S+\s/, '') + '\n';
