@@ -1,5 +1,14 @@
 [
   {
+    "version": "3.3",
+    "date": "2026-07-22T15:16:22.044Z",
+    "title": "Nouveautés regroupées par date d'apparition",
+    "items": [
+      "Les nouveautés sur l'Accueil et dans Plus → Nouveautés sont désormais regroupées par jour de détection (Aujourd'hui, Hier, puis par date)",
+      "Remplace le regroupement par type d'événement, pour un vrai fil chronologique"
+    ]
+  },
+  {
     "version": "3.2",
     "date": "2026-07-22T15:13:01.178Z",
     "title": "Illustrations supplémentaires pour les gestes techniques",
