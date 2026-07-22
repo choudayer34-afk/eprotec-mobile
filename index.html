@@ -2048,11 +2048,15 @@ async function triggerWorkflow() {
       return;
     }
 
-    const run = await pollWorkflowRun(token, sinceMs);
-    await loadData();
+const run = await pollWorkflowRun(token, sinceMs);
 
-    setUpdateIcon(run && run.conclusion !== 'success' ? 'error' : 'done');
-    setTimeout(() => setUpdateIcon('idle'), 3000);
+    if (run && run.conclusion !== 'success') {
+      setUpdateIcon('error');
+      setTimeout(() => setUpdateIcon('idle'), 3000);
+    } else {
+      setUpdateIcon('done');
+      setTimeout(() => window.location.reload(), 800);
+    }
   } catch (err) {
     setUpdateIcon('error');
     setTimeout(() => setUpdateIcon('idle'), 3000);
@@ -2251,14 +2255,10 @@ buildCalendarEvents();
   document.addEventListener('touchend', () => {
     if (!pulling) return;
     const height = parseInt(indicator.style.height) || 0;
-    if (height >= threshold) {
+if (height >= threshold) {
       indicator.textContent = 'Actualisation...';
       indicator.style.height = '40px';
-      loadData().then(() => {
-        indicator.style.height = '0px';
-      }).catch(() => {
-        indicator.style.height = '0px';
-      });
+      window.location.reload();
     } else {
       indicator.style.height = '0px';
     }
