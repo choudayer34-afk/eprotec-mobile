@@ -1029,8 +1029,8 @@ function renderDetail(uid) {
   if (showAbsence) {
     iconsHtml += `<button class="icon-btn" id="detail-absence-btn" aria-label="Signaler mon absence">🚫</button>`;
   }
-  if (evt.url) {
-    iconsHtml += `<button class="icon-btn" id="detail-open-btn" aria-label="Ouvrir sur eProtec">⇗</button>`;
+if (evt.url) {
+    iconsHtml += `<button class="icon-btn" id="detail-open-btn" aria-label="Ouvrir sur eProtec"><svg width="16" height="16" viewBox="0 0 100 100"><polygon points="50,12 90,85 10,85" fill="#F5821F"/></svg></button>`;
   }
   iconsContainer.innerHTML = iconsHtml;
 
@@ -2053,7 +2053,7 @@ function showChangelogModal(entries) {
         <span class="changelog-badge">Version ${e.version}</span>
         <div class="changelog-entry-title">${e.title}</div>
         <ul class="changelog-list">${e.items.map(i => `<li>${i}</li>`).join('')}</ul>
-        <div class="changelog-date">${new Date(e.date).toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' })}</div>
+        <div class="changelog-date">${new Date(e.date).toLocaleString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</div>
         <div style="height:16px;"></div>
       `).join('')}
       <button class="detail-action-btn primary" id="changelog-close-btn">C'est noté</button>
@@ -2099,7 +2099,7 @@ function renderChangelogScreen() {
       <span class="changelog-badge">Version ${e.version}</span>
       <div class="changelog-entry-title">${e.title}</div>
       <ul class="changelog-list">${e.items.map(i => `<li>${i}</li>`).join('')}</ul>
-      <div class="changelog-date">${new Date(e.date).toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' })}</div>
+      <div class="changelog-date">${new Date(e.date).toLocaleString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</div>
     </div>
   `).join('');
 }
