@@ -1,5 +1,13 @@
 [
   {
+    "version": "1.8",
+    "date": "2026-07-22T13:54:58.404Z",
+    "title": "Correction structure fiches gestes",
+    "items": [
+      "Correction d'une erreur de syntaxe qui bloquait le chargement de toute l'application"
+    ]
+  },
+  {
     "version": "1.7",
     "date": "2026-07-22T13:48:14.370Z",
     "title": "Regroupement Secourisme + fiche Hémorragie externe",
