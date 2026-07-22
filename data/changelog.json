@@ -1,5 +1,15 @@
 [
   {
+    "version": "1.9",
+    "date": "2026-07-22T13:57:20.994Z",
+    "title": "Résumé express sur les fiches gestes",
+    "items": [
+      "Chaque fiche affiche désormais un résumé express en 3-4 points essentiels, visible immédiatement",
+      "Le détail complet (reconnaissance, cas particuliers, illustrations) reste disponible en un tap, replié par défaut",
+      "Pensé pour une consultation rapide en intervention réelle, sans tout relire"
+    ]
+  },
+  {
     "version": "1.8",
     "date": "2026-07-22T13:54:58.404Z",
     "title": "Correction structure fiches gestes",
