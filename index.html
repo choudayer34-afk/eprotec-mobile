@@ -2776,10 +2776,15 @@ function renderBilanField(f) {
   const timerBtn = f.timer ? `<button class="timer-icon-btn" data-timer-field="${f.key}">⏱ 1 min</button>` : '';
 
 if (f.type === 'age-display') {
+    const age = computeAge(bilanData.dateNaissance);
+    const label = age !== '' ? `${age} ans` : 'Renseigne la date de naissance';
+    const cat = bilanData.dateNaissance ? AGE_LABELS[computeAgeCategory()] : '';
     return `
       <div class="bilan-field-row">
         <label>${f.label}</label>
-        <div id="age-display-value" style="color:#fff;font-size:15px;padding:10px 0;">${computeAge(bilanData.dateNaissance) !== '' ? computeAge(bilanData.dateNaissance) + ' ans' : 'Renseigne la date de naissance'}</div>
+        <div id="age-display-value" style="color:#fff;font-size:15px;padding:10px 0;">
+          ${label}${cat ? ` <span class="tag-badge" style="margin-left:6px;">${cat}</span>` : ''}
+        </div>
       </div>
     `;
   }
@@ -3343,7 +3348,9 @@ if (input.dataset.bilanField === 'dateNaissance') {
         const el = document.getElementById('age-display-value');
         if (el) {
           const age = computeAge(bilanData.dateNaissance);
-          el.textContent = age !== '' ? age + ' ans' : 'Renseigne la date de naissance';
+          const label = age !== '' ? age + ' ans' : 'Renseigne la date de naissance';
+          const cat = bilanData.dateNaissance ? AGE_LABELS[computeAgeCategory()] : '';
+          el.innerHTML = `${label}${cat ? ` <span class="tag-badge" style="margin-left:6px;">${cat}</span>` : ''}`;
         }
         const frInput = document.querySelector('[data-bilan-field="freqRespi"]');
         const fcInput = document.querySelector('[data-bilan-field="freqCardiaque"]');
