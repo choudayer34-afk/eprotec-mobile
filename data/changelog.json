@@ -1,5 +1,14 @@
 [
   {
+    "version": "3.2",
+    "date": "2026-07-22T15:13:01.178Z",
+    "title": "Illustrations supplémentaires pour les gestes techniques",
+    "items": [
+      "Ajout de schémas pour l'écharpe simple, la contre-écharpe (épaule), le retournement d'urgence à 1 et 2 secouristes, la position finale de la PLS, et la position des mains pour la RCP",
+      "Rend les fiches à manipulation plus rapides à comprendre visuellement"
+    ]
+  },
+  {
     "version": "3.1",
     "date": "2026-07-22T15:09:01.361Z",
     "title": "Correction : séparation moteur / envoi des notifications",
