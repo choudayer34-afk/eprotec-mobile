@@ -1,5 +1,15 @@
 [
   {
+    "version": "3.8",
+    "date": "2026-07-22T16:42:31.895Z",
+    "title": "Réorganisation du Secourisme en catégories",
+    "items": [
+      "\"Fiches gestes\" devient un sous-menu à tuiles : Urgences vitales, Traumatologie, Malaises médicaux, Plaies et brûlures, Dégagements d'urgence",
+      "Psychologie & relationnel et Matériel remontent au niveau de Secourisme, comme des rubriques à part entière",
+      "Navigation retour cohérente à chaque niveau"
+    ]
+  },
+  {
     "version": "3.7",
     "date": "2026-07-22T15:26:13.007Z",
     "title": "Correction fiche ECG : C1-C6, mnémotechnique, illustrations",
