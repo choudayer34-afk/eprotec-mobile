@@ -380,13 +380,9 @@
         <div class="tile-icon">📊</div>
         <div class="tile-title">Rapport</div>
       </div>
-      <div class="tile" data-open="plus-bilan">
-        <div class="tile-icon">🩺</div>
-        <div class="tile-title">Bilan patient</div>
-      </div>
-      <div class="tile" data-open="plus-gestes">
-        <div class="tile-icon">📚</div>
-        <div class="tile-title">Fiches gestes</div>
+<div class="tile" data-open="plus-secourisme">
+        <div class="tile-icon">🚨</div>
+        <div class="tile-title">Secourisme</div>
       </div>
 <div class="tile" data-open="plus-parametres">
         <div class="tile-icon">⚙️</div>
@@ -448,9 +444,26 @@
     <div id="changelog-content"><div class="empty">Chargement...</div></div>
   </section>
 
- <section id="plus-bilan">
+<section id="plus-secourisme">
     <div class="detail-header">
       <button class="plus-back">‹</button>
+      <span>Secourisme</span>
+    </div>
+    <div class="tile-grid">
+      <div class="tile" data-open="plus-bilan">
+        <div class="tile-icon">🩺</div>
+        <div class="tile-title">Bilan patient</div>
+      </div>
+      <div class="tile" data-open="plus-gestes">
+        <div class="tile-icon">📚</div>
+        <div class="tile-title">Fiches gestes</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="plus-bilan">
+    <div class="detail-header">
+      <button class="plus-back" data-target="plus-secourisme">‹</button>
       <span>Bilan patient</span>
     </div>
     <div class="metric-toggle">
@@ -460,9 +473,9 @@
     <div id="bilan-content"></div>
   </section>
 
-  <section id="plus-gestes">
+<section id="plus-gestes">
     <div class="detail-header">
-      <button class="plus-back">‹</button>
+      <button class="plus-back" data-target="plus-secourisme">‹</button>
       <span>Fiches gestes</span>
     </div>
     <div id="gestes-content"></div>
@@ -997,8 +1010,9 @@ document.querySelectorAll('.tile[data-open]').forEach(tile => {
 
 document.querySelectorAll('.plus-back').forEach(btn => {
   btn.addEventListener('click', () => {
+    const target = btn.dataset.target || 'plus';
     document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
-    document.getElementById('plus').classList.add('active');
+    document.getElementById(target).classList.add('active');
   });
 });
 
@@ -2163,6 +2177,16 @@ document.querySelectorAll('[data-bilan-mode]').forEach(btn => {
 });
 
 const GESTE_ILLUSTRATIONS = {
+  compression: `<svg viewBox="0 0 200 140" style="width:100%;max-width:260px;display:block;margin:10px auto;">
+    <circle cx="60" cy="30" r="14" fill="none" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="60" y1="44" x2="60" y2="95" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="60" y1="60" x2="100" y2="75" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="60" y1="95" x2="50" y2="130" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="60" y1="95" x2="72" y2="130" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="130" y1="80" x2="170" y2="95" stroke="#F5821F" stroke-width="3"/>
+    <circle cx="102" cy="75" r="8" fill="#F0997B"/>
+    <circle cx="102" cy="75" r="4" fill="#E24B4A"/>
+  </svg>`,
   claques: `<svg viewBox="0 0 200 140" style="width:100%;max-width:260px;display:block;margin:10px auto;">
     <circle cx="70" cy="30" r="14" fill="none" stroke="#9FB3D6" stroke-width="2"/>
     <line x1="70" y1="44" x2="70" y2="90" stroke="#9FB3D6" stroke-width="2"/>
@@ -2253,6 +2277,69 @@ const GESTES_DATA = [
           "Interrompre dès l'apparition d'une toux, de cris/pleurs, ou la reprise de la respiration",
           "Si efficace : installer confortablement, réconforter, desserrer les vêtements, avis médical (15) obligatoire, surveiller",
           "Si perte de connaissance : accompagner au sol, faire alerter le 15, débuter la RCP, vérifier la présence du corps étranger dans la bouche à la fin de chaque cycle de compressions thoraciques et le retirer prudemment si accessible"
+        },
+  {
+    key: 'hemorragie',
+    title: '🩸 Hémorragie externe',
+    sections: [
+      {
+        title: 'Reconnaissance',
+        items: [
+          "Constater l'hémorragie, en écartant les vêtements si nécessaire",
+          'Un saignement abondant et continu est une urgence vitale'
+        ]
+      },
+      {
+        title: 'Compression directe (geste immédiat)',
+        illustration: 'compression',
+        items: [
+          "Appuyer fortement sur l'endroit qui saigne, avec les doigts ou la paume",
+          'Interposer une épaisseur de tissu propre si possible (mouchoir, torchon, vêtement)',
+          'En l\'absence de tissu, appuyer directement avec la main',
+          'Allonger la victime (retarde la détresse liée à la perte de sang)',
+          "Faire alerter les secours (15) par un témoin si présent"
+        ]
+      },
+      {
+        title: 'Relais par un pansement compressif',
+        items: [
+          "Si tu dois te libérer les mains : remplace la compression manuelle par une épaisseur de tissu propre recouvrant toute la plaie",
+          "Fixer avec une bande élastique ou un lien large, assez serré pour arrêter le saignement",
+          "En l'absence de pansement compressif : relayer avec la main de la victime elle-même",
+          "S'assurer que le saignement s'arrête, sans relâcher la compression"
+        ]
+      },
+      {
+        title: 'Si le saignement continue',
+        items: [
+          'Reprendre la compression manuelle directe, par-dessus le pansement compressif',
+          "Si ça persiste sur un membre : envisager la pose d'un garrot (voir plus bas)"
+        ]
+      },
+      {
+        title: 'Garrot — quand et comment',
+        items: [
+          "Uniquement sur un membre (bras, avant-bras, cuisse, jambe) — jamais cou, aisselle, aine, abdomen, thorax, périnée",
+          "Indications : saignement d'un membre non contrôlé par compression directe, fracture ouverte avec os visible, corps étranger visible dans la plaie, ou contexte à nombreuses victimes",
+          "Lien large et solide, non élastique, 3 à 5 cm de large, posé au-dessus de la plaie (jamais sur une articulation)",
+          "Serrer jusqu'à l'arrêt complet du saignement — un garrot mal serré est inefficace et douloureux pour rien",
+          "Noter l'heure de pose, ne plus jamais desserrer avant l'arrivée des secours médicalisés"
+        ]
+      },
+      {
+        title: 'Zones non « garrotables » (cou, aisselle, aine, thorax...)',
+        items: [
+          "Compression directe maintenue, si possible avec un coussin hémostatique",
+          "Ne jamais tenter de garrot sur ces zones"
+        ]
+      },
+      {
+        title: 'Surveillance dans tous les cas',
+        items: [
+          'Rassurer la victime, lui parler régulièrement',
+          'Protéger contre la chaleur, le froid, les intempéries',
+          "Surveiller les signes d'aggravation circulatoire : sueurs abondantes, sensation de froid, pâleur intense",
+          "Avis médical (15) systématique"
         ]
       }
     ]
