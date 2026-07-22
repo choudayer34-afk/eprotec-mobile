@@ -836,7 +836,12 @@ function renderParametres() {
         body: JSON.stringify(currentOadSettings)
       });
       btn.textContent = '✓ Enregistré';
-      setTimeout(() => { btn.textContent = 'Enregistrer'; }, 2000);
+
+      document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === 'accueil'));
+      document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+      document.getElementById('accueil').classList.add('active');
+
+      triggerWorkflow();
     } catch (err) {
       btn.textContent = 'Erreur, réessaie';
     }
@@ -2032,7 +2037,7 @@ async function loadChangelog() {
     const res = await fetch('data/changelog.json?t=' + Date.now(), { cache: 'no-store' });
     const data = await res.json();
     if (Array.isArray(data)) {
-      allChangelog = [...data].sort((a, b) => new Date(b.date) - new Date(a.date));
+      allChangelog = data;
     }
   } catch (err) {
     console.error('Erreur chargement changelog :', err);
@@ -2056,21 +2061,22 @@ function showChangelogModal(entries) {
   `;
   document.body.appendChild(overlay);
   overlay.querySelector('#changelog-close-btn').addEventListener('click', () => {
-    localStorage.setItem(CHANGELOG_SEEN_KEY, entries[0].date);
+    localStorage.setItem(CHANGELOG_SEEN_KEY, allChangelog[0].version);
     overlay.remove();
   });
 }
 
 function checkForNewChangelog() {
   if (allChangelog.length === 0) return;
-  const lastSeen = localStorage.getItem(CHANGELOG_SEEN_KEY);
+  const lastSeenVersion = localStorage.getItem(CHANGELOG_SEEN_KEY);
 
-  if (!lastSeen) {
-    localStorage.setItem(CHANGELOG_SEEN_KEY, allChangelog[0].date);
+  if (!lastSeenVersion) {
+    localStorage.setItem(CHANGELOG_SEEN_KEY, allChangelog[0].version);
     return;
   }
 
-  const unseen = allChangelog.filter(e => e.date > lastSeen);
+  const lastSeenIndex = allChangelog.findIndex(e => e.version === lastSeenVersion);
+  const unseen = lastSeenIndex === -1 ? allChangelog : allChangelog.slice(0, lastSeenIndex);
   if (unseen.length > 0) {
     showChangelogModal(unseen);
   }
