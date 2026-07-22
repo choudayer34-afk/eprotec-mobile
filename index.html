@@ -2162,9 +2162,125 @@ document.querySelectorAll('[data-bilan-mode]').forEach(btn => {
   });
 });
 
+const GESTE_ILLUSTRATIONS = {
+  claques: `<svg viewBox="0 0 200 140" style="width:100%;max-width:260px;display:block;margin:10px auto;">
+    <circle cx="70" cy="30" r="14" fill="none" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="70" y1="44" x2="70" y2="90" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="70" y1="55" x2="50" y2="80" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="70" y1="55" x2="90" y2="75" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="70" y1="90" x2="58" y2="125" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="70" y1="90" x2="82" y2="125" stroke="#9FB3D6" stroke-width="2"/>
+    <circle cx="135" cy="35" r="14" fill="none" stroke="#F5821F" stroke-width="2"/>
+    <line x1="135" y1="49" x2="130" y2="95" stroke="#F5821F" stroke-width="2"/>
+    <line x1="130" y1="65" x2="95" y2="60" stroke="#F5821F" stroke-width="3"/>
+    <line x1="130" y1="65" x2="150" y2="80" stroke="#F5821F" stroke-width="2"/>
+    <line x1="130" y1="95" x2="118" y2="130" stroke="#F5821F" stroke-width="2"/>
+    <line x1="130" y1="95" x2="142" y2="130" stroke="#F5821F" stroke-width="2"/>
+  </svg>`,
+  heimlich: `<svg viewBox="0 0 200 140" style="width:100%;max-width:260px;display:block;margin:10px auto;">
+    <circle cx="80" cy="30" r="14" fill="none" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="80" y1="44" x2="80" y2="95" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="80" y1="60" x2="60" y2="75" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="80" y1="60" x2="100" y2="75" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="80" y1="95" x2="68" y2="130" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="80" y1="95" x2="92" y2="130" stroke="#9FB3D6" stroke-width="2"/>
+    <circle cx="115" cy="25" r="14" fill="none" stroke="#F5821F" stroke-width="2"/>
+    <line x1="115" y1="39" x2="112" y2="90" stroke="#F5821F" stroke-width="2"/>
+    <line x1="112" y1="65" x2="70" y2="82" stroke="#F5821F" stroke-width="3"/>
+    <line x1="112" y1="65" x2="70" y2="88" stroke="#F5821F" stroke-width="3"/>
+    <circle cx="70" cy="85" r="6" fill="#F5821F"/>
+    <line x1="112" y1="90" x2="100" y2="128" stroke="#F5821F" stroke-width="2"/>
+    <line x1="112" y1="90" x2="124" y2="128" stroke="#F5821F" stroke-width="2"/>
+  </svg>`
+};
+
+const GESTES_DATA = [
+  {
+    key: 'lva',
+    title: '🫁 Désobstruction des voies aériennes',
+    sections: [
+      {
+        title: 'Reconnaissance',
+        items: [
+          'Obstruction partielle : la victime tousse, peut encore parler ou respirer (même difficilement)',
+          "Obstruction totale : ne peut plus tousser, parler, ni respirer — porte souvent les mains à la gorge (signe universel d'étouffement)"
+        ]
+      },
+      {
+        title: 'Obstruction PARTIELLE — Conduite à tenir',
+        items: [
+          'Ne jamais pratiquer de manœuvre de désobstruction',
+          "Installer la victime dans la position où elle se sent le mieux",
+          'Encourager à tousser',
+          'Demander un avis médical (15) et appliquer les consignes',
+          'Surveiller attentivement',
+          'Si ça devient une obstruction totale → passer à la conduite à tenir correspondante'
+        ]
+      },
+      {
+        title: 'Obstruction TOTALE — Claques dans le dos',
+        illustration: 'claques',
+        items: [
+          'Se placer sur le côté et légèrement en arrière de la victime',
+          "Soutenir son thorax d'une main, la pencher en avant",
+          'Donner jusqu\'à 5 claques vigoureuses dans le dos, entre les omoplates, avec le talon de la main',
+          "Vérifier après chaque claque si le corps étranger est rejeté"
+        ]
+      },
+      {
+        title: 'Si inefficace — Compressions abdominales (adulte / enfant)',
+        illustration: 'heimlich',
+        items: [
+          'Se placer derrière la victime, contre son dos',
+          "Passer les bras sous les siens, de part et d'autre du haut de l'abdomen",
+          "Poing fermé au-dessus du nombril, en dessous du sternum ; l'autre main par-dessus",
+          "Tirer franchement vers l'arrière et vers le haut, sans appuyer sur les côtes",
+          'Effectuer jusqu\'à 5 compressions, en relâchant entre chacune'
+        ]
+      },
+      {
+        title: 'Cas particuliers : compressions THORACIQUES',
+        items: [
+          'À utiliser à la place des compressions abdominales pour : nourrisson, adulte obèse, femme enceinte (fin de grossesse)',
+          'Poing au milieu du sternum, compression vers l\'arrière en protégeant les côtes',
+          'Nourrisson : claques dans le dos avant-bras soutenant la tête, nourrisson face vers le ciel'
+        ]
+      },
+      {
+        title: "Suite de la prise en charge",
+        items: [
+          "Répéter le cycle claques + compressions jusqu'à évacuation du corps étranger ou perte de connaissance",
+          "Interrompre dès l'apparition d'une toux, de cris/pleurs, ou la reprise de la respiration",
+          "Si efficace : installer confortablement, réconforter, desserrer les vêtements, avis médical (15) obligatoire, surveiller",
+          "Si perte de connaissance : accompagner au sol, faire alerter le 15, débuter la RCP, vérifier la présence du corps étranger dans la bouche à la fin de chaque cycle de compressions thoraciques et le retirer prudemment si accessible"
+        ]
+      }
+    ]
+  }
+];
+
 function renderGestes() {
   const container = document.getElementById('gestes-content');
-  container.innerHTML = `<div class="empty">Les fiches gestes arrivent prochainement : LVA, PLS, RCP/DEA, hémorragies, PFSMU...</div>`;
+
+  if (GESTES_DATA.length === 0) {
+    container.innerHTML = '<div class="empty">Aucune fiche disponible pour le moment.</div>';
+    return;
+  }
+
+  container.innerHTML = GESTES_DATA.map(geste => `
+    <div class="card">
+      <div class="card-title" style="font-size:16px;">${geste.title}</div>
+      ${geste.sections.map(sec => `
+        <div style="margin-top:14px;">
+          <div style="color:#F5821F;font-size:13px;font-weight:500;margin-bottom:6px;">${sec.title}</div>
+          ${sec.illustration ? GESTE_ILLUSTRATIONS[sec.illustration] : ''}
+          <ul class="reason-list reason-neutral" style="color:#fff;">
+            ${sec.items.map(i => `<li style="margin-bottom:4px;">${i}</li>`).join('')}
+          </ul>
+        </div>
+      `).join('')}
+    </div>
+  `).join('') + `<div class="empty">D'autres fiches (RCP/DEA, PLS, hémorragies, PFSMU) arrivent prochainement.</div>`;
 }
 
 function renderTypeFilterChips() {
