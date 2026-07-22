@@ -266,6 +266,11 @@
   .pain-seg:last-child { border-right: none; }
   .pain-seg.selected { outline: 3px solid #fff; position: relative; z-index: 1; }
   .pain-labels { display: flex; justify-content: space-between; color: #9FB3D6; font-size: 10px; margin-top: 6px; }
+  .suggestion-box:empty { display: none; }
+  .suggestion-box {
+    background: #3A2A0E; color: #FAC775; font-size: 12px; padding: 10px 12px;
+    border-radius: 8px; margin-top: 8px; margin-bottom: 4px; line-height: 1.5;
+  }
 
   .tile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .tile {
@@ -2264,6 +2269,136 @@ const GLASGOW_OPTIONS = {
   ]
 };
 
+function goToGesteFiche(sectionId, contentId, categories, gesteKey) {
+  document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === 'plus'));
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  document.getElementById(sectionId).classList.add('active');
+  renderGestesList(contentId, categories);
+  setTimeout(() => {
+    const container = document.getElementById(contentId);
+    const target = container.querySelector(`.geste-group[data-geste-key="${gesteKey}"] .month-toggle`);
+    if (target) target.click();
+  }, 50);
+}
+
+function goToHemorragieFiche() { goToGesteFiche('plus-gestes-urgences', 'gestes-urgences-content', ['urgences'], 'hemorragie'); }
+function goToLvaFiche() { goToGesteFiche('plus-gestes-urgences', 'gestes-urgences-content', ['urgences'], 'lva'); }
+function goToAvcFiche() { goToGesteFiche('plus-gestes-urgences', 'gestes-urgences-content', ['urgences'], 'avc'); }
+function goToHypoglycemieFiche() { goToGesteFiche('plus-gestes-malaises', 'gestes-malaises-content', ['malaises'], 'hypoglycemie'); }
+function goToHyperthermieFiche() { goToGesteFiche('plus-gestes-malaises', 'gestes-malaises-content', ['malaises'], 'hyperthermie'); }
+
+const SUGGESTION_FIELDS = new Set([
+  'hemorragie', 'voiesAeriennes', 'freqRespi', 'amplitudeRespi', 'freqCardiaque',
+  'amplitudePouls', 'regularite', 'coloration', 'trc', 'spo2', 'temperature',
+  'glasgowM', 'avcSpeech'
+]);
+
+function suggestionBox(text, btnLabel, btnFn) {
+  return `<div>${text}</div>${btnLabel ? `<button class="detail-action-btn" style="margin-top:8px;" onclick="${btnFn}()">${btnLabel}</button>` : ''}`;
+}
+
+function getSuggestionHtml(key) {
+  const d = bilanData;
+  switch (key) {
+    case 'hemorragie':
+      if (d.hemorragie === 'Oui') return suggestionBox('🩸 Compression immédiate, alerter le 15', '→ Voir la fiche Hémorragie', 'goToHemorragieFiche');
+      return '';
+    case 'voiesAeriennes':
+      if (d.voiesAeriennes === 'Obstruées') return suggestionBox('🫁 Désobstruction immédiate', '→ Voir la fiche LVA', 'goToLvaFiche');
+      return '';
+    case 'freqRespi': {
+      const v = parseFloat(d.freqRespi);
+      if (isNaN(v)) return '';
+      if (v < 12) return suggestionBox('⚠️ Bradypnée : surveiller étroitement, alerte 15, se préparer à ventiler');
+      if (v > 20) return suggestionBox('⚠️ Tachypnée : rechercher une détresse respiratoire, alerte 15');
+      return '';
+    }
+    case 'amplitudeRespi':
+      if (d.amplitudeRespi === 'Superficielle') return suggestionBox('⚠️ Signe possible de détresse respiratoire, surveiller');
+      if (d.amplitudeRespi === 'Ample') return suggestionBox('⚠️ Peut évoquer une hyperventilation, avis médical');
+      return '';
+    case 'freqCardiaque': {
+      const v = parseFloat(d.freqCardiaque);
+      if (isNaN(v)) return '';
+      if (v < 60) return suggestionBox('⚠️ Bradycardie : surveiller, alerte 15, DAE à proximité');
+      if (v > 100) return suggestionBox('⚠️ Tachycardie : rechercher la cause (douleur, choc, hémorragie...), alerte 15');
+      return '';
+    }
+    case 'amplitudePouls':
+      if (d.amplitudePouls === 'Filant') return suggestionBox('⚠️ Signe possible de choc : allonger, jambes surélevées, alerte urgente');
+      return '';
+    case 'regularite':
+      if (d.regularite === 'Irrégulier') return suggestionBox('⚠️ Possible trouble du rythme : ECG si disponible, alerte 15');
+      return '';
+    case 'coloration':
+      if (d.coloration === 'Pâle') return suggestionBox('⚠️ Signe possible de choc : allonger la victime');
+      if (d.coloration === 'Marbrée') return suggestionBox('🚨 Mauvaise circulation : urgence, alerte 15');
+      if (d.coloration === 'Cyanosée') return suggestionBox("🚨 Manque d'oxygène : oxygénothérapie si disponible, urgence");
+      return '';
+    case 'trc':
+      if (d.trc === '≥ 2s') return suggestionBox('⚠️ Signe de mauvaise circulation périphérique : surveiller, alerte 15');
+      return '';
+    case 'spo2': {
+      const v = parseFloat(d.spo2);
+      if (isNaN(v)) return '';
+      if (v < 94) return suggestionBox('⚠️ Détresse respiratoire possible : oxygénothérapie si disponible, alerte 15');
+      return '';
+    }
+    case 'temperature': {
+      const v = parseFloat(d.temperature);
+      if (isNaN(v)) return '';
+      if (v < 35) return suggestionBox('⚠️ Hypothermie : réchauffer, alerte 15');
+      if (v >= 38.5) return suggestionBox('⚠️ Fièvre élevée', '→ Voir la fiche Hyperthermie', 'goToHyperthermieFiche');
+      return '';
+    }
+    case 'glasgowM': {
+      const total = glasgowTotal();
+      if (!bilanData.glasgowY && !bilanData.glasgowV && !bilanData.glasgowM) return '';
+      if (total === 15) return '';
+      if (total >= 13) return suggestionBox('⚠️ Altération légère de la conscience : surveiller');
+      if (total >= 9) return suggestionBox('🚨 Altération significative : alerte 15');
+      return suggestionBox('🚨 Détresse vitale : alerte urgente, se préparer à la RCP');
+    }
+    case 'avcSpeech':
+      if (d.avcFace === 'Oui' || d.avcArm === 'Oui' || d.avcSpeech === 'Oui') {
+        return suggestionBox("🚨 Suspicion d'AVC : alerter le 15 immédiatement en précisant l'heure de début des signes, ne rien donner à manger ni boire, garder au repos", '→ Voir la fiche AVC', 'goToAvcFiche');
+      }
+      return '';
+  }
+  return '';
+}
+
+function getTaSuggestionHtml(side) {
+  const sys = parseFloat(bilanData[`ta${side}Sys`]);
+  const dia = parseFloat(bilanData[`ta${side}Dia`]);
+  if (isNaN(sys) && isNaN(dia)) return '';
+  const abnormal = (!isNaN(sys) && (sys < 90 || sys > 140)) || (!isNaN(dia) && (dia < 60 || dia > 90));
+  if (!abnormal) return '';
+  return suggestionBox('⚠️ Tension anormale : rechercher un contexte de choc ou d\'hypertension, alerte 15');
+}
+
+function getGlycemieSuggestionHtml() {
+  const v = parseFloat(bilanData.glycemie);
+  if (isNaN(v)) return '';
+  const unite = bilanData.glycemieUnite || 'g/L';
+  const low = unite === 'g/L' ? v < 0.60 : v < 3.3;
+  if (low) return suggestionBox('🚨 Hypoglycémie : resucrer si consciente', '→ Voir la fiche Hypoglycémie', 'goToHypoglycemieFiche');
+  return '';
+}
+
+function updateFieldSuggestion(key) {
+  const el = document.getElementById(`suggestion-${key}`);
+  if (el) el.innerHTML = getSuggestionHtml(key);
+}
+function updateTaSuggestion(side) {
+  const el = document.getElementById(`suggestion-ta${side}`);
+  if (el) el.innerHTML = getTaSuggestionHtml(side);
+}
+function updateGlycemieSuggestion() {
+  const el = document.getElementById('suggestion-glycemie');
+  if (el) el.innerHTML = getGlycemieSuggestionHtml();
+}
+
 const BILAN_ABNORMAL_RANGES = {
   freqRespi: { min: 12, max: 20 },
   freqCardiaque: { min: 60, max: 100 },
@@ -2535,7 +2670,9 @@ if (f.type === 'age-display') {
     `;
   }
 
-if (f.type === 'ta') {
+const suggestionDiv = SUGGESTION_FIELDS.has(f.key) ? `<div class="suggestion-box" id="suggestion-${f.key}">${getSuggestionHtml(f.key)}</div>` : '';
+
+  if (f.type === 'ta') {
     const gSys = bilanData.taGaucheSys || '';
     const gDia = bilanData.taGaucheDia || '';
     const gHeure = bilanData.taGaucheHeure ? formatHeureCourte(bilanData.taGaucheHeure) : '';
@@ -2564,6 +2701,8 @@ if (f.type === 'ta') {
         </div>
         ${dHeure ? `<div style="color:#9FB3D6;font-size:11px;margin-top:4px;">Saisi à ${dHeure}</div>` : ''}
       </div>
+<div class="suggestion-box" id="suggestion-taGauche">${getTaSuggestionHtml('Gauche')}</div>
+      <div class="suggestion-box" id="suggestion-taDroit">${getTaSuggestionHtml('Droit')}</div>
       <div class="bilan-field-row">
         <label>Complément</label>
         <input type="text" data-bilan-field="taComplement" placeholder="Ex : position, contexte..." value="${complement}">
@@ -2582,8 +2721,9 @@ if (f.type === 'glycemie') {
           <select data-bilan-field="glycemieUnite" id="glycemie-unite-select" style="background:#0B2A5C;border:none;color:#fff;font-size:13px;padding:10px;border-radius:8px;">
             <option value="g/L" ${unite === 'g/L' ? 'selected' : ''}>g/L</option>
             <option value="mmol/L" ${unite === 'mmol/L' ? 'selected' : ''}>mmol/L</option>
-          </select>
+</select>
         </div>
+        <div class="suggestion-box" id="suggestion-glycemie">${getGlycemieSuggestionHtml()}</div>
       </div>
     `;
   }
@@ -2593,8 +2733,9 @@ if (f.type === 'glycemie') {
       <div class="bilan-field-row">
         <label>${f.label}${infoBtn}</label>
         <div class="bilan-chip-row">
-          ${f.options.map(o => `<button class="bilan-chip ${value === o ? 'active' : ''}" data-bilan-chip="${f.key}" data-value="${o}">${o}</button>`).join('')}
+${f.options.map(o => `<button class="bilan-chip ${value === o ? 'active' : ''}" data-bilan-chip="${f.key}" data-value="${o}">${o}</button>`).join('')}
         </div>
+        ${suggestionDiv}
       </div>
     `;
   }
@@ -2619,7 +2760,8 @@ if (f.type === 'glycemie') {
           <option value="">—</option>
           ${f.options.map(o => `<option value="${o.value}" ${String(o.value) === String(value) ? 'selected' : ''}>${o.label}</option>`).join('')}
         </select>
-        ${(f.key === 'glasgowM') ? `<div id="glasgow-total-display" style="color:#F5821F;font-size:12px;margin-top:6px;">Score Glasgow total : ${glasgowTotal()} / 15</div>` : ''}
+${(f.key === 'glasgowM') ? `<div id="glasgow-total-display" style="color:#F5821F;font-size:12px;margin-top:6px;">Score Glasgow total : ${glasgowTotal()} / 15</div>` : ''}
+        ${suggestionDiv}
       </div>
     `;
   }
@@ -2628,6 +2770,7 @@ if (f.type === 'glycemie') {
     <div class="bilan-field-row">
       <label>${f.label}${infoBtn}${timerBtn}</label>
       <input type="${f.type}" data-bilan-field="${f.key}" value="${value}">
+      ${suggestionDiv}
     </div>
   `;
 }
@@ -3053,9 +3196,10 @@ applyGlycemieWarning();
       bilanData[input.dataset.bilanField] = input.value;
       saveBilanData();
       if (BILAN_ABNORMAL_RANGES[input.dataset.bilanField]) applyFieldWarning(input, input.dataset.bilanField);
-      if (input.dataset.bilanField === 'glycemie') applyGlycemieWarning();
-      if (input.dataset.bilanField === 'taGaucheSys' || input.dataset.bilanField === 'taGaucheDia') applyTaWarning('gauche');
-      if (input.dataset.bilanField === 'taDroitSys' || input.dataset.bilanField === 'taDroitDia') applyTaWarning('droit');
+if (input.dataset.bilanField === 'glycemie') { applyGlycemieWarning(); updateGlycemieSuggestion(); }
+      if (input.dataset.bilanField === 'taGaucheSys' || input.dataset.bilanField === 'taGaucheDia') { applyTaWarning('gauche'); updateTaSuggestion('Gauche'); }
+      if (input.dataset.bilanField === 'taDroitSys' || input.dataset.bilanField === 'taDroitDia') { applyTaWarning('droit'); updateTaSuggestion('Droit'); }
+      if (SUGGESTION_FIELDS.has(input.dataset.bilanField)) updateFieldSuggestion(input.dataset.bilanField);
       if (input.dataset.bilanField === 'dateNaissance') {
         const el = document.getElementById('age-display-value');
         if (el) {
@@ -3078,8 +3222,8 @@ container.querySelectorAll('select[data-bilan-field]').forEach(select => {
     select.addEventListener('change', () => {
       bilanData[select.dataset.bilanField] = select.value;
       saveBilanData();
-      if (select.dataset.bilanField.startsWith('glasgow')) updateGlasgowTotalDisplay();
-      if (select.dataset.bilanField === 'glycemieUnite') applyGlycemieWarning();
+if (select.dataset.bilanField.startsWith('glasgow')) { updateGlasgowTotalDisplay(); updateFieldSuggestion('glasgowM'); }
+      if (select.dataset.bilanField === 'glycemieUnite') { applyGlycemieWarning(); updateGlycemieSuggestion(); }
     });
   });
 
@@ -3087,9 +3231,11 @@ container.querySelectorAll('select[data-bilan-field]').forEach(select => {
     chip.addEventListener('click', () => {
       const key = chip.dataset.bilanChip;
       const value = chip.dataset.value;
-      bilanData[key] = bilanData[key] === value ? '' : value;
+bilanData[key] = bilanData[key] === value ? '' : value;
       saveBilanData();
       refreshChipGroup(container, key);
+      if (SUGGESTION_FIELDS.has(key)) updateFieldSuggestion(key);
+      if (key === 'avcFace' || key === 'avcArm' || key === 'avcSpeech') updateFieldSuggestion('avcSpeech');
     });
   });
 
@@ -3106,9 +3252,9 @@ container.querySelectorAll('select[data-bilan-field]').forEach(select => {
   });
 
   const set15 = container.querySelector('#glasgow-set-15');
-  if (set15) set15.addEventListener('click', () => setGlasgowQuick(container, 4, 5, 6));
+if (set15) set15.addEventListener('click', () => { setGlasgowQuick(container, 4, 5, 6); updateFieldSuggestion('glasgowM'); });
   const set3 = container.querySelector('#glasgow-set-3');
-  if (set3) set3.addEventListener('click', () => setGlasgowQuick(container, 1, 1, 1));
+  if (set3) set3.addEventListener('click', () => { setGlasgowQuick(container, 1, 1, 1); updateFieldSuggestion('glasgowM'); });
 
   const geolocBtn = container.querySelector('#geoloc-btn-situation');
   if (geolocBtn) {
@@ -4604,6 +4750,47 @@ const GESTES_DATA = [
         `
       }
     ]
+  },
+  {
+    key: 'avc',
+    title: '🧠 Accident Vasculaire Cérébral (AVC)',
+    summary: [
+      "Méthode F.A.S.T. : Face, Arm, Speech, Time — un seul signe présent suffit à alerter",
+      "Alerter le 15 immédiatement en précisant l'heure de début des signes (essentiel pour le traitement)",
+      "Ne rien donner à manger ni boire, garder au repos strict",
+      "Toute amélioration rapide des signes ne dispense pas d'alerter"
+    ],
+    sections: [
+      {
+        title: 'Reconnaissance — méthode F.A.S.T.',
+        items: [
+          "Face : asymétrie du visage, sourire de travers, une commissure des lèvres qui tombe",
+          "Arm (bras) : faiblesse ou incapacité à maintenir un bras levé, ou une jambe",
+          "Speech (parole) : trouble soudain de la parole, discours confus ou incompréhensible",
+          "Time (temps) : noter précisément l'heure d'apparition des premiers signes",
+          "Autres signes possibles : trouble soudain de la vision, mal de tête violent et inhabituel, trouble de l'équilibre"
+        ]
+      },
+      {
+        title: 'Conduite à tenir',
+        items: [
+          "Alerter le 15 sans délai, en précisant l'heure exacte de début des signes",
+          "Installer la victime au repos strict, allongée ou en position semi-assise selon son confort",
+          "Ne rien donner à manger ni à boire (risque de fausse route si troubles de la déglutition)",
+          "Desserrer les vêtements",
+          "Rassurer, ne jamais laisser seule",
+          "Surveiller en continu la conscience et la respiration",
+          "Même si les signes s'améliorent ou disparaissent rapidement, l'alerte reste indispensable"
+        ]
+      },
+      {
+        title: 'Si aggravation',
+        items: [
+          "Perte de connaissance qui respire → PLS",
+          "Ne respire plus → RCP immédiate"
+        ]
+      }
+    ]
   }
 
 ];
@@ -4765,8 +4952,8 @@ function renderGestesList(containerId, categories) {
     return;
   }
 
-  container.innerHTML = filtered.map(geste => `
-    <div class="geste-group">
+container.innerHTML = filtered.map(geste => `
+    <div class="geste-group" data-geste-key="${geste.key}">
       <button class="month-toggle">
         <span>${geste.title}</span>
         <span class="month-chevron">▸</span>
