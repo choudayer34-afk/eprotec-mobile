@@ -58,7 +58,11 @@
     padding: 16px; position: sticky; top: 0; background: #0B2A5C; z-index: 5;
   }
   header h1 { font-size: 17px; font-weight: 500; }
-  .update-status { font-size: 11px; color: #9FB3D6; text-align: center; padding: 0 14px 10px; }
+  .update-status { font-size: 11px; color: #9FB3D6; text-align: center; padding: 0 14px 4px; }
+  .force-update-btn {
+    display: block; margin: 0 auto 10px; background: none; border: none;
+    color: #F5821F; font-size: 11px; text-decoration: underline;
+  }
   #pull-indicator {
     position: fixed; top: 0; left: 0; right: 0; z-index: 20;
     display: flex; align-items: center; justify-content: center;
@@ -250,6 +254,7 @@
 <div id="pull-indicator">↓ Tire pour actualiser</div>
 <header><h1>eProtec Mobile</h1></header>
 <div class="update-status" id="update-status">Chargement...</div>
+<button class="force-update-btn" id="force-update-btn">🔄 Forcer une mise à jour</button>
 
 <main>
 
@@ -1652,7 +1657,64 @@ document.getElementById('date-to').addEventListener('change', (e) => {
   renderEvenements();
 });
 
+  const GITHUB_OWNER = 'choudayer34-afk';
+const GITHUB_REPO = 'eprotec-mobile';
+const GH_TOKEN_KEY = 'eprotec_gh_token';
+
+async function getGithubToken() {
+  let token = localStorage.getItem(GH_TOKEN_KEY);
+  if (token) return token;
+  token = await promptText(
+    "Colle ton token GitHub (créé pour cron-job.org). Il ne sera jamais visible dans le code, seulement stocké sur cet appareil.",
+    ''
+  );
+  if (token && token.trim()) {
+    localStorage.setItem(GH_TOKEN_KEY, token.trim());
+    return token.trim();
+  }
+  return null;
+}
+
+async function triggerWorkflow() {
+  const btn = document.getElementById('force-update-btn');
+  const originalText = btn.textContent;
+  const token = await getGithubToken();
+  if (!token) return;
+
+  btn.textContent = 'Déclenchement...';
+  try {
+    const res = await fetch(
+      `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/actions/workflows/daily-check.yml/dispatches`,
+      {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/vnd.github+json'
+        },
+        body: JSON.stringify({ ref: 'main' })
+      }
+    );
+    if (res.status === 204) {
+      btn.textContent = '✓ Déclenché, patiente ~1 minute';
+      setTimeout(() => { btn.textContent = originalText; }, 4000);
+    } else if (res.status === 401 || res.status === 403) {
+      localStorage.removeItem(GH_TOKEN_KEY);
+      btn.textContent = 'Token invalide, réessaie';
+      setTimeout(() => { btn.textContent = originalText; }, 3000);
+    } else {
+      btn.textContent = 'Erreur (' + res.status + ')';
+      setTimeout(() => { btn.textContent = originalText; }, 3000);
+    }
+  } catch (err) {
+    btn.textContent = 'Erreur réseau';
+    setTimeout(() => { btn.textContent = originalText; }, 3000);
+  }
+}
+
+document.getElementById('force-update-btn').addEventListener('click', triggerWorkflow);
+
 function renderUpdateStatus(lastUpdateIso) {
+  
   const el = document.getElementById('update-status');
   if (!lastUpdateIso) {
     el.textContent = 'Heure de mise à jour inconnue';
