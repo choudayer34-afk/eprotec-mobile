@@ -2222,6 +2222,12 @@ const GESTES_DATA = [
   {
     key: 'lva',
     title: '🫁 Désobstruction des voies aériennes',
+    summary: [
+      "Obstruction PARTIELLE : ne rien faire, encourager à tousser, avis médical (15)",
+      "Obstruction TOTALE : jusqu'à 5 claques dans le dos, puis jusqu'à 5 compressions abdominales (thoraciques si nourrisson / obèse / femme enceinte)",
+      "Répéter le cycle jusqu'à évacuation du corps étranger ou perte de connaissance",
+      "Perte de connaissance : RCP + vérifier le corps étranger à la fin de chaque cycle"
+    ],
     sections: [
       {
         title: 'Reconnaissance',
@@ -2247,7 +2253,7 @@ const GESTES_DATA = [
         items: [
           'Se placer sur le côté et légèrement en arrière de la victime',
           "Soutenir son thorax d'une main, la pencher en avant",
-          'Donner jusqu\'à 5 claques vigoureuses dans le dos, entre les omoplates, avec le talon de la main',
+          "Donner jusqu'à 5 claques vigoureuses dans le dos, entre les omoplates, avec le talon de la main",
           "Vérifier après chaque claque si le corps étranger est rejeté"
         ]
       },
@@ -2259,14 +2265,14 @@ const GESTES_DATA = [
           "Passer les bras sous les siens, de part et d'autre du haut de l'abdomen",
           "Poing fermé au-dessus du nombril, en dessous du sternum ; l'autre main par-dessus",
           "Tirer franchement vers l'arrière et vers le haut, sans appuyer sur les côtes",
-          'Effectuer jusqu\'à 5 compressions, en relâchant entre chacune'
+          "Effectuer jusqu'à 5 compressions, en relâchant entre chacune"
         ]
       },
       {
         title: 'Cas particuliers : compressions THORACIQUES',
         items: [
           'À utiliser à la place des compressions abdominales pour : nourrisson, adulte obèse, femme enceinte (fin de grossesse)',
-          'Poing au milieu du sternum, compression vers l\'arrière en protégeant les côtes',
+          "Poing au milieu du sternum, compression vers l'arrière en protégeant les côtes",
           'Nourrisson : claques dans le dos avant-bras soutenant la tête, nourrisson face vers le ciel'
         ]
       },
@@ -2276,7 +2282,7 @@ const GESTES_DATA = [
           "Répéter le cycle claques + compressions jusqu'à évacuation du corps étranger ou perte de connaissance",
           "Interrompre dès l'apparition d'une toux, de cris/pleurs, ou la reprise de la respiration",
           "Si efficace : installer confortablement, réconforter, desserrer les vêtements, avis médical (15) obligatoire, surveiller",
-"Si perte de connaissance : accompagner au sol, faire alerter le 15, débuter la RCP, vérifier la présence du corps étranger dans la bouche à la fin de chaque cycle de compressions thoraciques et le retirer prudemment si accessible"
+          "Si perte de connaissance : accompagner au sol, faire alerter le 15, débuter la RCP, vérifier la présence du corps étranger dans la bouche à la fin de chaque cycle de compressions thoraciques et le retirer prudemment si accessible"
         ]
       }
     ]
@@ -2284,12 +2290,18 @@ const GESTES_DATA = [
   {
     key: 'hemorragie',
     title: '🩸 Hémorragie externe',
+    summary: [
+      "Compression directe immédiate (main ou tissu propre)",
+      "Allonger la victime, alerter le 15",
+      "Relais possible par pansement compressif ; si ça saigne encore, reprendre la compression par-dessus",
+      "Garrot uniquement sur un membre si compression inefficace — jamais sur cou / aisselle / aine / thorax"
+    ],
     sections: [
       {
         title: 'Reconnaissance',
         items: [
           "Constater l'hémorragie, en écartant les vêtements si nécessaire",
-          'Un saignement abondant et continu est une urgence vitale'
+          "Un saignement abondant et continu est une urgence vitale"
         ]
       },
       {
@@ -2298,7 +2310,7 @@ const GESTES_DATA = [
         items: [
           "Appuyer fortement sur l'endroit qui saigne, avec les doigts ou la paume",
           'Interposer une épaisseur de tissu propre si possible (mouchoir, torchon, vêtement)',
-          'En l\'absence de tissu, appuyer directement avec la main',
+          "En l'absence de tissu, appuyer directement avec la main",
           'Allonger la victime (retarde la détresse liée à la perte de sang)',
           "Faire alerter les secours (15) par un témoin si présent"
         ]
@@ -2360,17 +2372,33 @@ function renderGestes() {
   container.innerHTML = GESTES_DATA.map(geste => `
     <div class="card">
       <div class="card-title" style="font-size:16px;">${geste.title}</div>
-      ${geste.sections.map(sec => `
-        <div style="margin-top:14px;">
-          <div style="color:#F5821F;font-size:13px;font-weight:500;margin-bottom:6px;">${sec.title}</div>
-          ${sec.illustration ? GESTE_ILLUSTRATIONS[sec.illustration] : ''}
-          <ul class="reason-list reason-neutral" style="color:#fff;">
-            ${sec.items.map(i => `<li style="margin-bottom:4px;">${i}</li>`).join('')}
-          </ul>
+      <div class="card highlight" style="margin-bottom:12px;">
+        <div class="card-title">⚡ Résumé express</div>
+        <ul class="reason-list" style="color:#fff;">
+          ${geste.summary.map(i => `<li style="margin-bottom:4px;">${i}</li>`).join('')}
+        </ul>
+      </div>
+      <div class="month-group">
+        <button class="month-toggle">
+          <span>📖 Détails complets</span>
+          <span class="month-chevron">▸</span>
+        </button>
+        <div class="month-body" style="display:none">
+          ${geste.sections.map(sec => `
+            <div style="margin-top:14px;">
+              <div style="color:#F5821F;font-size:13px;font-weight:500;margin-bottom:6px;">${sec.title}</div>
+              ${sec.illustration ? GESTE_ILLUSTRATIONS[sec.illustration] : ''}
+              <ul class="reason-list" style="color:#fff;">
+                ${sec.items.map(i => `<li style="margin-bottom:4px;">${i}</li>`).join('')}
+              </ul>
+            </div>
+          `).join('')}
         </div>
-      `).join('')}
+      </div>
     </div>
-  `).join('') + `<div class="empty">D'autres fiches (RCP/DEA, PLS, hémorragies, PFSMU) arrivent prochainement.</div>`;
+  `).join('') + `<div class="empty">D'autres fiches (RCP/DEA, PLS, PFSMU) arrivent prochainement.</div>`;
+
+  setupAccordion(container);
 }
 
 function renderTypeFilterChips() {
