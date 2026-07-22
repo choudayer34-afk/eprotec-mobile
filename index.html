@@ -637,27 +637,59 @@ const DEFAULT_OAD_SETTINGS = {
   longDurationHours: 8, minGapDays: 14
 };
 
-const OAD_SETTINGS_FIELDS = [
-  { key: 'monthEmpty', label: 'Bonus si le mois est encore libre' },
-  { key: 'friday', label: 'Bonus le vendredi' },
-  { key: 'saturday', label: 'Bonus le samedi' },
-  { key: 'sunday', label: 'Bonus le dimanche' },
-  { key: 'weekday', label: 'Bonus un jour de semaine' },
-  { key: 'eveningSlot', label: "Bonus fin d'après-midi / soirée (à partir de 16h)" },
-  { key: 'longDurationHours', label: 'Durée (h) à partir de laquelle un DPS est considéré long' },
-  { key: 'goodDuration', label: 'Bonus si durée raisonnable' },
-  { key: 'badDuration', label: 'Malus si DPS long' },
-  { key: 'veryCloseKm', label: 'Distance (km) considérée "très proche"' },
-  { key: 'veryClose', label: 'Bonus si très proche' },
-  { key: 'closeKm', label: 'Distance (km) considérée "raisonnable"' },
-  { key: 'close', label: 'Bonus si distance raisonnable' },
-  { key: 'farKm', label: 'Distance (km) considérée "assez éloignée"' },
-  { key: 'far', label: 'Malus si assez éloigné' },
-  { key: 'veryFar', label: 'Malus si trop éloigné' },
-  { key: 'minGapDays', label: "Nombre de jours minimum entre 2 DPS" },
-  { key: 'gapComfortable', label: 'Bonus si espacement confortable' },
-  { key: 'gapTooClosePenalty', label: "Malus si trop proche d'un DPS déjà planifié" }
+const OAD_SETTINGS_CATEGORIES = [
+  {
+    key: 'calendrier',
+    label: '📅 Calendrier',
+    fields: [
+      { key: 'monthEmpty', label: 'Bonus si le mois est encore libre' },
+      { key: 'friday', label: 'Bonus le vendredi' },
+      { key: 'saturday', label: 'Bonus le samedi' },
+      { key: 'sunday', label: 'Bonus le dimanche' },
+      { key: 'weekday', label: 'Bonus un jour de semaine' }
+    ]
+  },
+  {
+    key: 'horaire',
+    label: '🕒 Horaire',
+    fields: [
+      { key: 'eveningSlot', label: "Bonus fin d'après-midi / soirée (à partir de 16h)" }
+    ]
+  },
+  {
+    key: 'duree',
+    label: '⏱ Durée',
+    fields: [
+      { key: 'longDurationHours', label: 'Durée (h) à partir de laquelle un DPS est considéré long' },
+      { key: 'goodDuration', label: 'Bonus si durée raisonnable' },
+      { key: 'badDuration', label: 'Malus si DPS long' }
+    ]
+  },
+  {
+    key: 'distance',
+    label: '📍 Distance',
+    fields: [
+      { key: 'veryCloseKm', label: 'Distance (km) considérée "très proche"' },
+      { key: 'veryClose', label: 'Bonus si très proche' },
+      { key: 'closeKm', label: 'Distance (km) considérée "raisonnable"' },
+      { key: 'close', label: 'Bonus si distance raisonnable' },
+      { key: 'farKm', label: 'Distance (km) considérée "assez éloignée"' },
+      { key: 'far', label: 'Malus si assez éloigné' },
+      { key: 'veryFar', label: 'Malus si trop éloigné' }
+    ]
+  },
+  {
+    key: 'espacement',
+    label: '↔️ Espacement entre DPS',
+    fields: [
+      { key: 'minGapDays', label: 'Nombre de jours minimum entre 2 DPS' },
+      { key: 'gapComfortable', label: 'Bonus si espacement confortable' },
+      { key: 'gapTooClosePenalty', label: "Malus si trop proche d'un DPS déjà planifié" }
+    ]
+  }
 ];
+
+const OAD_SETTINGS_FIELDS = OAD_SETTINGS_CATEGORIES.flatMap(c => c.fields);
 
 let currentOadSettings = { ...DEFAULT_OAD_SETTINGS };
 
