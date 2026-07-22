@@ -1,14 +1,5 @@
 {
-  "newEvents": [
-    {
-      "tag": "DPS",
-      "titre": "[DPS 34] Festival Danse Country",
-      "lieu": "Espace Bessede, St Aunes",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1578633",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-07-25T14:00:00.000Z"
-    }
-  ],
+  "newEvents": [],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Pau",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
