@@ -591,6 +591,56 @@ function buildGoogleSearchUrl(evt) {
   return 'https://duckduckgo.com/?q=' + encodeURIComponent(query);
 }
 
+  function toIcsDate(iso) {
+  if (!iso) return null;
+  const d = new Date(iso);
+  return d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+}
+
+function escapeIcsText(str) {
+  return (str || '').replace(/\\/g, '\\\\').replace(/,/g, '\\,').replace(/;/g, '\\;').replace(/\n/g, '\\n');
+}
+
+function addEventToCalendar(evt) {
+  const appDetailUrl = window.location.origin + window.location.pathname + '#event-' + encodeURIComponent(evt.uid);
+  const dtStart = toIcsDate(evt.dateDebut);
+  const dtEnd = toIcsDate(evt.dateFin) || dtStart;
+
+  let description = (evt.description || '').replace(/<br\s*\/?>/gi, '\\n').replace(/<[^>]+>/g, '');
+  description += `\\n\\nVoir dans l'app : ${appDetailUrl}`;
+  if (evt.url) description += `\\nLien eProtec : ${evt.url}`;
+
+  const ics = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Mon eProtec//FR',
+    'CALSCALE:GREGORIAN',
+    'BEGIN:VEVENT',
+    `UID:${evt.uid}`,
+    `DTSTAMP:${toIcsDate(new Date().toISOString())}`,
+    `DTSTART:${dtStart}`,
+    `DTEND:${dtEnd}`,
+    `SUMMARY:${escapeIcsText(evt.titre)}`,
+    `LOCATION:${escapeIcsText(evt.lieu || '')}`,
+    `DESCRIPTION:${escapeIcsText(description)}`,
+    `URL:${appDetailUrl}`,
+    'CATEGORIES:ProtecCivile',
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ].join('\r\n');
+
+  const blob = new Blob([ics], { type: 'text/calendar' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'evenement.ics';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+
+
 function buildMapsDirectionsUrl(lieu) {
   if (!lieu) return null;
   return 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(lieu + ', Hérault, France');
@@ -1023,6 +1073,9 @@ function renderDetail(uid) {
   const showAbsence = evt.dejaInscrit && evt.dateDebut && new Date(evt.dateDebut) > new Date();
 
   let iconsHtml = `<button class="icon-btn ${favActive ? 'active' : ''}" id="detail-fav-btn" aria-label="Favori">${favActive ? '★' : '☆'}</button>`;
+  if (evt.dateDebut) {
+    iconsHtml += `<button class="icon-btn" id="detail-calendar-btn" aria-label="Ajouter au calendrier">📅</button>`;
+  }
   if (suggestion) {
     iconsHtml += `<button class="icon-btn" id="detail-delete-btn" aria-label="Supprimer la suggestion">🗑</button>`;
   }
@@ -1034,13 +1087,17 @@ if (evt.url) {
   }
   iconsContainer.innerHTML = iconsHtml;
 
-  document.getElementById('detail-fav-btn').addEventListener('click', () => {
+document.getElementById('detail-fav-btn').addEventListener('click', () => {
     toggleFavori(uid);
     const btn = document.getElementById('detail-fav-btn');
     const active = isFavori(uid);
     btn.classList.toggle('active', active);
     btn.textContent = active ? '★' : '☆';
   });
+
+  if (evt.dateDebut) {
+    document.getElementById('detail-calendar-btn').addEventListener('click', () => addEventToCalendar(evt));
+  }
 
   if (suggestion) {
     document.getElementById('detail-delete-btn').addEventListener('click', () => {
@@ -2213,6 +2270,10 @@ loadData()
   .then(() => {
     if (window.location.hash === '#nouveautes') {
       openPlusSection('plus-nouveautes');
+      history.replaceState(null, '', window.location.pathname);
+    } else if (window.location.hash.startsWith('#event-')) {
+      const uid = decodeURIComponent(window.location.hash.replace('#event-', ''));
+      openDetail(uid);
       history.replaceState(null, '', window.location.pathname);
     }
   })
