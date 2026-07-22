@@ -64,11 +64,26 @@
   .update-status { font-size: 11px; color: #9FB3D6; text-align: center; padding: 0 0 12px; }
   .swipe-wrap { position: relative; margin-bottom: 12px; }
   .swipe-wrap .card { margin-bottom: 0; position: relative; z-index: 1; }
-  .swipe-label {
+.swipe-label {
     position: absolute; inset: 0; background: #4A1B0C; color: #F0997B;
     border-radius: 16px; display: flex; align-items: center; justify-content: center;
     font-size: 13px; font-weight: 500; padding: 0 20px; text-align: center;
   }
+  .changelog-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 998;
+    display: flex; align-items: flex-end; justify-content: center;
+  }
+  .changelog-modal {
+    background: #163C74; border-radius: 20px 20px 0 0; padding: 24px 20px calc(20px + env(safe-area-inset-bottom));
+    width: 100%; max-width: 500px; max-height: 80vh; overflow-y: auto;
+  }
+  .changelog-badge {
+    display: inline-block; background: #F5821F; color: #4A1B0C; font-size: 11px;
+    font-weight: 500; padding: 4px 10px; border-radius: 20px; margin-bottom: 10px;
+  }
+  .changelog-entry-title { color: #fff; font-size: 17px; font-weight: 500; margin-bottom: 12px; }
+  .changelog-list { padding-left: 18px; color: #fff; font-size: 14px; line-height: 1.8; }
+  .changelog-date { color: #9FB3D6; font-size: 11px; margin-top: 4px; }
   .icon-btn {
     background: #163C74; border: none; color: #fff; font-size: 17px;
     width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
@@ -352,7 +367,14 @@
         <div class="tile-icon">⚙️</div>
         <div class="tile-title">Paramètres OAD</div>
       </div>
-<div class="tile span-2" data-open="plus-liens">
+
+  <div class="tile" data-open="plus-changelog">
+        <div class="tile-icon">🆕</div>
+        <div class="tile-title">Nouveautés de l'app</div>
+      </div>
+      <div class="tile span-2" data-open="plus-liens">
+        
+
         <div class="tile-icon">🔗</div>
         <div class="tile-title">Liens utiles</div>
       </div>
@@ -391,6 +413,14 @@
       <span>Rapport</span>
     </div>
     <div id="rapport-content"><div class="empty">Chargement...</div></div>
+  </section>
+
+<section id="plus-changelog">
+    <div class="detail-header">
+      <button class="plus-back">‹</button>
+      <span>Nouveautés de l'app</span>
+    </div>
+    <div id="changelog-content"><div class="empty">Chargement...</div></div>
   </section>
 
   <section id="plus-liens">
@@ -857,7 +887,8 @@ function openPlusSection(subId) {
 if (subId === 'plus-nouveautes') renderNouveautesCompletes(allEvents);
   if (subId === 'plus-evenements') renderEvenements();
   if (subId === 'plus-rapport') renderRapport(allHistory);
-  if (subId === 'plus-parametres') renderParametres();
+if (subId === 'plus-parametres') renderParametres();
+  if (subId === 'plus-changelog') renderChangelogScreen();
 }
 
 document.getElementById('kpi-inscrits-box').addEventListener('click', () => {
@@ -1920,10 +1951,85 @@ async function loadOadSettings() {
   }
 }
 
+let allChangelog = [];
+const CHANGELOG_SEEN_KEY = 'eprotec_last_seen_changelog';
+
+async function loadChangelog() {
+  try {
+    const res = await fetch('data/changelog.json?t=' + Date.now(), { cache: 'no-store' });
+    const data = await res.json();
+    if (Array.isArray(data)) {
+      allChangelog = [...data].sort((a, b) => new Date(b.date) - new Date(a.date));
+    }
+  } catch (err) {
+    console.error('Erreur chargement changelog :', err);
+  }
+}
+
+function showChangelogModal(entries) {
+  const overlay = document.createElement('div');
+  overlay.className = 'changelog-overlay';
+  overlay.innerHTML = `
+    <div class="changelog-modal">
+      ${entries.map(e => `
+        <span class="changelog-badge">Version ${e.version}</span>
+        <div class="changelog-entry-title">${e.title}</div>
+        <ul class="changelog-list">${e.items.map(i => `<li>${i}</li>`).join('')}</ul>
+        <div class="changelog-date">${new Date(e.date).toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' })}</div>
+        <div style="height:16px;"></div>
+      `).join('')}
+      <button class="detail-action-btn primary" id="changelog-close-btn">C'est noté</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.querySelector('#changelog-close-btn').addEventListener('click', () => {
+    localStorage.setItem(CHANGELOG_SEEN_KEY, entries[0].date);
+    overlay.remove();
+  });
+}
+
+function checkForNewChangelog() {
+  if (allChangelog.length === 0) return;
+  const lastSeen = localStorage.getItem(CHANGELOG_SEEN_KEY);
+
+  if (!lastSeen) {
+    localStorage.setItem(CHANGELOG_SEEN_KEY, allChangelog[0].date);
+    return;
+  }
+
+  const unseen = allChangelog.filter(e => e.date > lastSeen);
+  if (unseen.length > 0) {
+    showChangelogModal(unseen);
+  }
+}
+
+function renderChangelogScreen() {
+  const container = document.getElementById('changelog-content');
+  const cutoff = new Date();
+  cutoff.setMonth(cutoff.getMonth() - 2);
+
+  const recent = allChangelog.filter(e => new Date(e.date) >= cutoff);
+
+  if (recent.length === 0) {
+    container.innerHTML = '<div class="empty">Aucune mise à jour ces 2 derniers mois.</div>';
+    return;
+  }
+
+  container.innerHTML = recent.map(e => `
+    <div class="card">
+      <span class="changelog-badge">Version ${e.version}</span>
+      <div class="changelog-entry-title">${e.title}</div>
+      <ul class="changelog-list">${e.items.map(i => `<li>${i}</li>`).join('')}</ul>
+      <div class="changelog-date">${new Date(e.date).toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' })}</div>
+    </div>
+  `).join('');
+}
+
 async function loadData() {
   await initFavoris();
   await initDismissed();
   await loadOadSettings();
+  await loadChangelog();
   renderParametres();
 
   const bust = Date.now();
@@ -1975,11 +2081,12 @@ async function loadData() {
 
  renderTopSuggestion();
 
-  buildCalendarEvents();
+buildCalendarEvents();
 
   renderTypeFilterChips();
   renderEvenements();
   renderNouveautesCompletes(events);
+  checkForNewChangelog();
 }
 
 (function setupPullToRefresh() {
