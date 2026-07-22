@@ -1,5 +1,15 @@
 [
   {
+    "version": "1.2",
+    "date": "2026-07-22T11:01:39.839Z",
+    "title": "Ajout au calendrier iPhone depuis l'app",
+    "items": [
+      "Ajouter un événement directement à ton calendrier Apple, avec titre, lieu, horaires et description",
+      "Catégorie \"ProtecCivile\" appliquée automatiquement",
+      "Un lien dans l'événement du calendrier te ramène directement sur sa fiche dans l'app"
+    ]
+  },
+  {
     "version": "1.1",
     "date": "2026-07-22T14:30:00",
     "title": "Une navigation plus rapide et un moteur sur-mesure",
