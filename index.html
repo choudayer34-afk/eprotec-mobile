@@ -12,7 +12,7 @@
   canvas.width = 180; canvas.height = 180;
   const ctx = canvas.getContext('2d');
   const r = 40;
-  ctx.fillStyle = '#0E1E3A';
+  ctx.fillStyle = '#0B2A5C';
   ctx.beginPath();
   ctx.moveTo(r, 0);
   ctx.arcTo(180, 0, 180, 180, r);
@@ -49,13 +49,13 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: -apple-system, "Segoe UI", sans-serif;
-    background: #0E1E3A;
+    background: #0B2A5C;
     color: #fff;
     padding-bottom: 90px;
   }
   header {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 16px; position: sticky; top: 0; background: #0E1E3A; z-index: 5;
+    padding: 16px; position: sticky; top: 0; background: #0B2A5C; z-index: 5;
   }
   header h1 { font-size: 17px; font-weight: 500; }
   .update-status { font-size: 11px; color: #9FB3D6; text-align: center; padding: 0 14px 10px; }
@@ -63,16 +63,16 @@
     position: fixed; top: 0; left: 0; right: 0; z-index: 20;
     display: flex; align-items: center; justify-content: center;
     height: 0; overflow: hidden; color: #F5821F; font-size: 13px;
-    background: #0E1E3A; transition: height 0.15s ease;
+    background: #0B2A5C; transition: height 0.15s ease;
   }
   main { padding: 0 14px; }
   .kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
-  .kpi { background: #16274A; border-radius: 12px; padding: 12px; cursor: pointer; }
+  .kpi { background: #163C74; border-radius: 12px; padding: 12px; cursor: pointer; }
   .kpi .value { color: #F5821F; font-size: 24px; font-weight: 500; }
   .kpi .label { color: #9FB3D6; font-size: 12px; margin-top: 2px; }
 
   .card {
-    background: #16274A; border-radius: 16px; padding: 16px; margin-bottom: 12px;
+    background: #163C74; border-radius: 16px; padding: 16px; margin-bottom: 12px;
   }
   .card.highlight { border: 1.5px solid #F5821F; }
   .card-title { font-size: 14px; font-weight: 500; margin-bottom: 8px; }
@@ -112,7 +112,7 @@
   .star-btn.active { color: #F5821F; }
 
   .search-box {
-    background: #16274A; border-radius: 20px; padding: 10px 14px;
+    background: #163C74; border-radius: 20px; padding: 10px 14px;
     display: flex; align-items: center; gap: 8px; margin-bottom: 10px;
   }
   .search-box input {
@@ -122,23 +122,31 @@
 
   .date-filter-row { display: flex; gap: 6px; margin-bottom: 8px; }
   .date-filter-row input[type=date] {
-    flex: 1; background: #16274A; border: none; color: #fff; font-size: 12px;
+    flex: 1; background: #163C74; border: none; color: #fff; font-size: 12px;
     padding: 9px 10px; border-radius: 10px;
   }
 
   .filter-chips { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 14px; }
   .filter-chips button {
-    background: #16274A; color: #9FB3D6; border: none; font-size: 12px;
+    background: #163C74; color: #9FB3D6; border: none; font-size: 12px;
     padding: 7px 14px; border-radius: 20px; white-space: nowrap;
   }
   .filter-chips button.active { background: #F5821F; color: #4A1B0C; font-weight: 500; }
 
+  .cal-filter-row { margin-bottom: 10px; }
+  .cal-filter-btn {
+    background: #163C74; color: #fff; border: none; font-size: 12px;
+    padding: 8px 16px; border-radius: 20px; font-weight: 500;
+  }
+  .cal-filter-btn.has-active { color: #F5821F; }
+  .cal-filter-panel { margin-bottom: 10px; }
+
   .cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-  .cal-header button { background: #16274A; border: none; color: #fff; font-size: 16px; padding: 6px 14px; border-radius: 10px; }
+  .cal-header button { background: #163C74; border: none; color: #fff; font-size: 16px; padding: 6px 14px; border-radius: 10px; }
   .cal-header .cal-title { font-size: 14px; font-weight: 500; }
   .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 12px; }
   .cal-daylabel { text-align: center; font-size: 10px; color: #9FB3D6; padding-bottom: 4px; }
-  .cal-cell { background: #16274A; border-radius: 8px; padding: 4px 2px; min-height: 40px; text-align: center; }
+  .cal-cell { background: #163C74; border-radius: 8px; padding: 4px 2px; min-height: 40px; text-align: center; }
   .cal-cell.empty { background: transparent; }
   .cal-cell.today { border: 1px solid #F5821F; }
   .cal-cell.has-favori { border: 1.5px solid #EF9F27; }
@@ -155,7 +163,7 @@
 
   .month-group { margin-bottom: 12px; }
   .month-toggle {
-    width: 100%; background: #16274A; border: none; color: #fff;
+    width: 100%; background: #163C74; border: none; color: #fff;
     display: flex; justify-content: space-between; align-items: center;
     padding: 12px 14px; border-radius: 12px; font-size: 13px; font-weight: 500;
   }
@@ -164,31 +172,27 @@
   .insc-section-title { font-size: 11px; color: #9FB3D6; margin: 14px 0 6px; text-transform: uppercase; letter-spacing: 0.5px; }
   .stat-bar-row { margin-bottom: 10px; }
   .stat-bar-head { display: flex; justify-content: space-between; font-size: 12px; color: #9FB3D6; margin-bottom: 4px; }
-  .stat-bar-track { background: #0E1E3A; border-radius: 6px; height: 10px; overflow: hidden; }
+  .stat-bar-track { background: #0B2A5C; border-radius: 6px; height: 10px; overflow: hidden; }
   .stat-bar-fill { height: 100%; border-radius: 6px; background: #F5821F; }
   .metric-toggle { display: flex; gap: 6px; margin-bottom: 12px; }
   .metric-toggle button {
-    flex: 1; background: #0E1E3A; color: #9FB3D6; border: none; font-size: 12px;
+    flex: 1; background: #0B2A5C; color: #9FB3D6; border: none; font-size: 12px;
     padding: 8px; border-radius: 10px;
   }
   .metric-toggle button.active { background: #F5821F; color: #4A1B0C; font-weight: 500; }
 
-  .sub-nav { display: flex; gap: 6px; margin-bottom: 14px; overflow-x: auto; }
-  .sub-nav button {
-    background: #16274A; color: #9FB3D6; border: none; font-size: 12px;
-    padding: 8px 14px; border-radius: 20px; white-space: nowrap;
+  .tile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .tile {
+    background: #163C74; border-radius: 16px; padding: 16px; text-align: center;
+    text-decoration: none; color: #fff; position: relative; cursor: pointer;
   }
-  .sub-nav button.active { background: #F5821F; color: #4A1B0C; }
-  .sub-section { display: none; }
-  .sub-section.active { display: block; }
-
-  .link-card {
-    display: flex; align-items: center; gap: 12px;
-    background: #16274A; border-radius: 14px; padding: 14px; margin-bottom: 10px;
-    text-decoration: none; color: #fff;
+  .tile.span-2 { grid-column: span 2; }
+  .tile .tile-icon { font-size: 24px; margin-bottom: 8px; }
+  .tile .tile-title { font-size: 13px; font-weight: 500; }
+  .tile .tile-badge {
+    position: absolute; top: 8px; right: 8px; background: #97C459; color: #0B2A5C;
+    font-size: 10px; padding: 2px 7px; border-radius: 20px; font-weight: 500;
   }
-  .link-card .link-icon { font-size: 22px; }
-  .link-card .link-title { font-size: 14px; font-weight: 500; }
 
   .detail-header {
     display: flex; align-items: center; gap: 14px; padding: 4px 0 16px;
@@ -199,10 +203,10 @@
   .detail-header span { font-size: 17px; font-weight: 500; }
   .detail-title { color: #fff; font-size: 19px; font-weight: 500; margin: 12px 0 14px; }
   .detail-title.card-clickable { display: inline; border-bottom: 1.5px dashed #9FB3D6; padding-bottom: 2px; }
-  .detail-row.card-clickable .detail-value { border-bottom: 1.5px dashed #9FB3D6; display: inline-block; padding-bottom: 1px; }
-  .detail-link-icon { font-size: 12px; color: #F5821F; margin-left: 6px; }
   .detail-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
   .detail-row .meta-icon { font-size: 17px; margin-top: 2px; color: #9FB3D6; }
+  .detail-row.card-clickable .detail-value { border-bottom: 1.5px dashed #9FB3D6; display: inline-block; padding-bottom: 1px; }
+  .detail-link-icon { font-size: 12px; color: #F5821F; margin-left: 6px; }
   .detail-label { color: #9FB3D6; font-size: 11px; }
   .detail-value { color: #fff; font-size: 15px; margin-top: 2px; }
   .detail-desc { color: #9FB3D6; font-size: 13px; line-height: 1.6; white-space: pre-wrap; }
@@ -212,14 +216,14 @@
   .reason-list li.reason-neutral { color: #9FB3D6; }
   .detail-actions { display: flex; gap: 8px; margin-top: 4px; }
   .detail-action-btn {
-    flex: 1; background: #16274A; border: none; color: #fff; font-size: 13px;
+    flex: 1; background: #163C74; border: none; color: #fff; font-size: 13px;
     padding: 13px; border-radius: 12px; text-align: center; text-decoration: none; display: block;
   }
   .detail-action-btn.primary { background: #F5821F; color: #4A1B0C; font-weight: 500; }
 
   nav {
     position: fixed; bottom: 0; left: 0; right: 0;
-    background: #16274A; display: flex; justify-content: space-around;
+    background: #163C74; display: flex; justify-content: space-around;
     padding: 10px 4px calc(10px + env(safe-area-inset-bottom));
   }
   nav button {
@@ -283,45 +287,86 @@
   </section>
 
   <section id="plus">
-<div class="sub-nav">
-      <button data-sub="plus-suggestions" class="active">Suggestions</button>
-      <button data-sub="plus-inscriptions">Inscriptions</button>
-      <button data-sub="plus-nouveautes">Nouveautés</button>
-      <button data-sub="plus-rapport">Rapport</button>
-      <button data-sub="plus-liens">Liens utiles</button>
+    <div class="tile-grid">
+      <div class="tile" data-open="plus-suggestions">
+        <div class="tile-icon">🎯</div>
+        <div class="tile-title">Suggestions</div>
+      </div>
+      <div class="tile" data-open="plus-inscriptions">
+        <div class="tile-icon">📋</div>
+        <div class="tile-title">Inscriptions</div>
+      </div>
+      <div class="tile" data-open="plus-nouveautes">
+        <span class="tile-badge" id="plus-badge-nouveautes" style="display:none;">0</span>
+        <div class="tile-icon">🔔</div>
+        <div class="tile-title">Nouveautés</div>
+      </div>
+      <div class="tile" data-open="plus-rapport">
+        <div class="tile-icon">📊</div>
+        <div class="tile-title">Rapport</div>
+      </div>
+      <div class="tile span-2" data-open="plus-liens">
+        <div class="tile-icon">🔗</div>
+        <div class="tile-title">Liens utiles</div>
+      </div>
     </div>
+  </section>
 
-    <div id="plus-suggestions" class="sub-section active">
-      <div id="liste-suggestions"><div class="empty">Chargement...</div></div>
+  <section id="plus-suggestions">
+    <div class="detail-header">
+      <button class="plus-back">‹</button>
+      <span>Suggestions</span>
     </div>
+    <div id="liste-suggestions"><div class="empty">Chargement...</div></div>
+  </section>
 
-    <div id="plus-inscriptions" class="sub-section">
-      <div id="liste-inscriptions-globales"><div class="empty">Chargement...</div></div>
+  <section id="plus-inscriptions">
+    <div class="detail-header">
+      <button class="plus-back">‹</button>
+      <span>Inscriptions</span>
     </div>
+    <div id="liste-inscriptions-globales"><div class="empty">Chargement...</div></div>
+  </section>
 
-    <div id="plus-nouveautes" class="sub-section">
-      <div id="liste-nouveautes-completes"><div class="empty">Chargement...</div></div>
+  <section id="plus-nouveautes">
+    <div class="detail-header">
+      <button class="plus-back">‹</button>
+      <span>Nouveautés</span>
     </div>
+    <div id="liste-nouveautes-completes"><div class="empty">Chargement...</div></div>
+  </section>
 
-    <div id="plus-rapport" class="sub-section">
-      <div id="rapport-content"><div class="empty">Chargement...</div></div>
+  <section id="plus-rapport">
+    <div class="detail-header">
+      <button class="plus-back">‹</button>
+      <span>Rapport</span>
     </div>
+    <div id="rapport-content"><div class="empty">Chargement...</div></div>
+  </section>
 
-    <div id="plus-liens" class="sub-section">
-      <a class="link-card" href="https://academy.protection-civile-herault.org/" target="_blank">
-        <span class="link-icon">📘</span><span class="link-title">Formation</span>
+  <section id="plus-liens">
+    <div class="detail-header">
+      <button class="plus-back">‹</button>
+      <span>Liens utiles</span>
+    </div>
+    <div class="tile-grid">
+      <a class="tile" href="https://eprotec.protection-civile.org" target="_blank">
+        <div class="tile-icon">🚑</div><div class="tile-title">eProtec</div>
       </a>
-      <a class="link-card" href="https://drive.google.com/drive/folders/1SuSx23UacBrhPFYWF1W1R7Y6Pq2YK93_" target="_blank">
-        <span class="link-icon">☁️</span><span class="link-title">Cloud Formation</span>
+      <a class="tile" href="https://academy.protection-civile-herault.org/" target="_blank">
+        <div class="tile-icon">📘</div><div class="tile-title">Formation</div>
       </a>
-      <a class="link-card" href="https://cloud.protection-civile-herault.org/index.php/apps/dashboard/" target="_blank">
-        <span class="link-icon">📷</span><span class="link-title">Photo</span>
+      <a class="tile" href="https://drive.google.com/drive/folders/1SuSx23UacBrhPFYWF1W1R7Y6Pq2YK93_" target="_blank">
+        <div class="tile-icon">☁️</div><div class="tile-title">Cloud Formation</div>
       </a>
-      <a class="link-card" href="https://eprotec.protection-civile.org" target="_blank">
-        <span class="link-icon">🚑</span><span class="link-title">eProtec</span>
+      <a class="tile" href="https://cloud.protection-civile-herault.org/index.php/apps/dashboard/" target="_blank">
+        <div class="tile-icon">📷</div><div class="tile-title">Photo</div>
       </a>
-      <a class="link-card" href="https://boutique.protection-civile.org/fr/" target="_blank">
-        <span class="link-icon">🛒</span><span class="link-title">Boutique</span>
+      <a class="tile" href="https://boutique.protection-civile.org/fr/" target="_blank">
+        <div class="tile-icon">🛒</div><div class="tile-title">Boutique</div>
+      </a>
+      <a class="tile" href="https://apps.apple.com/fr/app/oasis-apc34/id6749535338" target="_blank">
+        <div class="tile-icon">📱</div><div class="tile-title">OASIS</div>
       </a>
     </div>
   </section>
@@ -464,7 +509,7 @@ function promptText(label, defaultValue) {
     const overlay = document.createElement('div');
     overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999;display:flex;align-items:center;justify-content:center;padding:20px;';
     overlay.innerHTML = `
-      <div style="background:#16274A;border-radius:16px;padding:20px;width:100%;max-width:320px;">
+      <div style="background:#163C74;border-radius:16px;padding:20px;width:100%;max-width:320px;">
         <div style="color:#fff;font-size:14px;margin-bottom:10px;">${label}</div>
         <input id="prompt-input" type="text" value="${defaultValue || ''}" style="width:100%;padding:10px;border-radius:8px;border:none;font-size:14px;margin-bottom:14px;box-sizing:border-box;">
         <div style="display:flex;gap:8px;">
@@ -487,7 +532,7 @@ function promptChoice(label, options) {
     overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999;display:flex;align-items:center;justify-content:center;padding:20px;';
     const buttonsHtml = options.map(o => `<button class="detail-action-btn" data-choice="${o}" style="margin-bottom:8px;">${o}</button>`).join('');
     overlay.innerHTML = `
-      <div style="background:#16274A;border-radius:16px;padding:20px;width:100%;max-width:320px;">
+      <div style="background:#163C74;border-radius:16px;padding:20px;width:100%;max-width:320px;">
         <div style="color:#fff;font-size:14px;margin-bottom:14px;">${label}</div>
         <div style="display:flex;flex-direction:column;gap:6px;">${buttonsHtml}</div>
         <button id="choice-cancel" class="detail-action-btn" style="margin-top:10px;">Annuler</button>
@@ -556,8 +601,6 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
-
-
 let allEvents = [];
 let allSuggestions = [];
 let allHistory = {};
@@ -602,7 +645,7 @@ let searchQuery = '';
 let dateFrom = null;
 let dateTo = null;
 
-let detailReturn = { tab: 'accueil', sub: null };
+let detailReturn = { tab: 'accueil' };
 
 document.querySelectorAll('nav button').forEach(btn => {
   btn.addEventListener('click', () => {
@@ -613,43 +656,37 @@ document.querySelectorAll('nav button').forEach(btn => {
     if (btn.dataset.tab === 'favoris') renderFavoris();
     if (btn.dataset.tab === 'calendrier') renderCalendar();
     if (btn.dataset.tab === 'evenements') renderEvenements();
-    if (btn.dataset.tab === 'plus') { renderInscriptions(); renderSuggestions(allSuggestions); renderNouveautesCompletes(allEvents); renderRapport(allHistory); }
   });
 });
 
-document.querySelectorAll('.sub-nav button').forEach(btn => {
+document.querySelectorAll('.tile[data-open]').forEach(tile => {
+  tile.addEventListener('click', () => openPlusSection(tile.dataset.open));
+});
+
+document.querySelectorAll('.plus-back').forEach(btn => {
   btn.addEventListener('click', () => {
-    document.querySelectorAll('.sub-nav button').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.sub-section').forEach(s => s.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById(btn.dataset.sub).classList.add('active');
+    document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+    document.getElementById('plus').classList.add('active');
   });
 });
 
-document.getElementById('kpi-inscrits-box').addEventListener('click', () => goToPlusSub('plus-inscriptions'));
-document.getElementById('kpi-nouveautes-box').addEventListener('click', () => goToPlusSub('plus-nouveautes'));
-
-function goToPlusSub(subId) {
-  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+function openPlusSection(subId) {
+  document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === 'plus'));
   document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
-  document.querySelector('nav button[data-tab="plus"]').classList.add('active');
-  document.getElementById('plus').classList.add('active');
-  document.querySelectorAll('.sub-nav button').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.sub-section').forEach(s => s.classList.remove('active'));
-  document.querySelector(`.sub-nav button[data-sub="${subId}"]`).classList.add('active');
   document.getElementById(subId).classList.add('active');
-  renderInscriptions();
-  renderSuggestions(allSuggestions);
-  renderNouveautesCompletes(allEvents);
-  renderRapport(allHistory);
+
+  if (subId === 'plus-suggestions') renderSuggestions(allSuggestions);
+  if (subId === 'plus-inscriptions') renderInscriptions();
+  if (subId === 'plus-nouveautes') renderNouveautesCompletes(allEvents);
+  if (subId === 'plus-rapport') renderRapport(allHistory);
 }
 
+document.getElementById('kpi-inscrits-box').addEventListener('click', () => openPlusSection('plus-inscriptions'));
+document.getElementById('kpi-nouveautes-box').addEventListener('click', () => openPlusSection('plus-nouveautes'));
 
 function openDetail(uid) {
   const activeTab = document.querySelector('nav button.active');
   detailReturn.tab = activeTab ? activeTab.dataset.tab : 'accueil';
-  const activeSub = document.querySelector('.sub-nav button.active');
-  detailReturn.sub = activeSub ? activeSub.dataset.sub : null;
 
   renderDetail(uid);
 
@@ -662,10 +699,6 @@ document.getElementById('detail-back').addEventListener('click', () => {
   document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
   document.getElementById(detailReturn.tab).classList.add('active');
   document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === detailReturn.tab));
-  if (detailReturn.tab === 'plus' && detailReturn.sub) {
-    document.querySelectorAll('.sub-nav button').forEach(b => b.classList.toggle('active', b.dataset.sub === detailReturn.sub));
-    document.querySelectorAll('.sub-section').forEach(s => s.classList.toggle('active', s.id === detailReturn.sub));
-  }
 });
 
 function renderDetail(uid) {
@@ -681,7 +714,7 @@ function renderDetail(uid) {
   if (evt.dejaInscrit) statusBadge = '<span class="badge badge-blue" style="margin-left:6px;">Déjà inscrit</span>';
   else if (evt.nouveau) statusBadge = '<span class="badge badge-new" style="margin-left:6px;">Nouveau</span>';
 
-const dureeLabel = formatDuree(evt.dureeHeures);
+  const dureeLabel = formatDuree(evt.dureeHeures);
   let html = `
     <div class="card">
       <span class="tag-badge">${evt.tag}</span>${statusBadge}
@@ -699,7 +732,7 @@ const dureeLabel = formatDuree(evt.dureeHeures);
         <span class="meta-icon">⏱</span>
         <div><div class="detail-label">Durée</div><div class="detail-value">${dureeLabel}</div></div>
       </div>` : ''}
- <div class="detail-row card-clickable" id="detail-lieu-link" style="margin-bottom:0;">
+      <div class="detail-row card-clickable" id="detail-lieu-link" style="margin-bottom:0;">
         <span class="meta-icon">📍</span>
         <div><div class="detail-label">Lieu</div><div class="detail-value">${evt.lieu || 'Non renseigné'}</div>${evt.lieu ? '<span class="detail-link-icon">🧭 itinéraire</span>' : ''}</div>
       </div>
@@ -720,7 +753,7 @@ const dureeLabel = formatDuree(evt.dureeHeures);
     `;
   }
 
- const favActive = isFavori(uid);
+  const favActive = isFavori(uid);
   const showAbsence = evt.dejaInscrit && evt.dateDebut && new Date(evt.dateDebut) > new Date();
   html += `
     <div class="detail-actions">
@@ -756,6 +789,7 @@ const dureeLabel = formatDuree(evt.dureeHeures);
 let calMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
 let calSelectedKey = null;
 let calStatusFilters = new Set();
+let calFilterPanelOpen = false;
 
 const CAL_FILTER_LABELS = {
   inscrit: '✅ Inscrits',
@@ -837,12 +871,16 @@ function renderCalendar() {
 
   const dayLabels = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'].map(l => `<div class="cal-daylabel">${l}</div>`).join('');
 
+  const activeCount = calStatusFilters.size;
   const filterChipsHtml = Object.entries(CAL_FILTER_LABELS).map(([key, label]) => `
     <button data-cal-filter="${key}" class="${calStatusFilters.has(key) ? 'active' : ''}">${label}</button>
   `).join('');
 
   container.innerHTML = `
-    <div class="filter-chips">${filterChipsHtml}</div>
+    <div class="cal-filter-row">
+      <button id="cal-filter-toggle" class="cal-filter-btn ${activeCount > 0 ? 'has-active' : ''}">Filtre${activeCount > 0 ? ' (' + activeCount + ')' : ''}</button>
+    </div>
+    <div class="filter-chips cal-filter-panel" id="cal-filter-panel" style="display:${calFilterPanelOpen ? 'flex' : 'none'};">${filterChipsHtml}</div>
     <div class="cal-header">
       <button id="cal-prev">‹</button>
       <span class="cal-title">${monthLabel}</span>
@@ -858,6 +896,11 @@ function renderCalendar() {
     </div>
     <div id="cal-day-detail"></div>
   `;
+
+  document.getElementById('cal-filter-toggle').addEventListener('click', () => {
+    calFilterPanelOpen = !calFilterPanelOpen;
+    renderCalendar();
+  });
 
   container.querySelectorAll('[data-cal-filter]').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -937,7 +980,7 @@ function eventCard(e, opts = {}) {
     else if (e.nouveau) badge = '<span class="badge badge-new">Nouveau</span>';
   }
 
- if (opts.showScore && typeof e.score === 'number') {
+  if (opts.showScore && typeof e.score === 'number') {
     badge += ` <span class="badge badge-ok">Score ${e.score}</span>`;
   }
   if (opts.suggestion) {
@@ -1107,7 +1150,7 @@ function renderSuggestions(suggestions) {
     { showScore: true }
   );
 }
-  
+
 function getMonthlyDpsStats(entries, year) {
   const hours = new Array(12).fill(0);
   const counts = new Array(12).fill(0);
@@ -1246,7 +1289,7 @@ function renderRapport(history) {
   const moyenneMensuelle = Math.round((nbDps / monthsElapsed) * 10) / 10;
   const projection = Math.round((totalHeures / monthsElapsed) * 12 * 10) / 10;
 
-let html = `
+  let html = `
     <div class="kpi-grid">
       <div class="kpi"><div class="value">${nbDps}</div><div class="label">DPS réalisés ${yearNow}</div></div>
       <div class="kpi"><div class="value">${totalHeures} h</div><div class="label">Heures cumulées</div></div>
@@ -1343,7 +1386,7 @@ let html = `
     </div>
   `;
 
- container.innerHTML = html;
+  container.innerHTML = html;
 
   container.querySelectorAll('.month-toggle').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -1460,6 +1503,14 @@ async function loadData() {
   document.getElementById('kpi-nouveautes').textContent = nouveautes.length;
   document.getElementById('kpi-inscrits').textContent = inscrits.length;
 
+  const plusBadge = document.getElementById('plus-badge-nouveautes');
+  if (nouveautes.length > 0) {
+    plusBadge.textContent = nouveautes.length;
+    plusBadge.style.display = 'block';
+  } else {
+    plusBadge.style.display = 'none';
+  }
+
   renderUpcomingRegistrations(events);
 
   const listeNouveautes = document.getElementById('liste-nouveautes');
@@ -1501,7 +1552,7 @@ async function loadData() {
   renderNouveautesCompletes(events);
 }
 
-  (function setupPullToRefresh() {
+(function setupPullToRefresh() {
   const indicator = document.getElementById('pull-indicator');
   let startY = 0;
   let pulling = false;
@@ -1543,11 +1594,11 @@ async function loadData() {
     pulling = false;
   });
 })();
-  
+
 loadData()
   .then(() => {
     if (window.location.hash === '#nouveautes') {
-      goToPlusSub('plus-nouveautes');
+      openPlusSection('plus-nouveautes');
       history.replaceState(null, '', window.location.pathname);
     }
   })
