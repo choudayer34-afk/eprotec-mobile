@@ -1,5 +1,16 @@
 [
   {
+    "version": "3.7",
+    "date": "2026-07-22T15:26:13.007Z",
+    "title": "Correction fiche ECG : C1-C6, mnémotechnique, illustrations",
+    "items": [
+      "Fiche ECG mise à jour avec les positions exactes du référentiel utilisateur (C1 à C6, pas V1-V6)",
+      "Mnémotechnique officielle \"Rien Ne Va Jamais\" pour les électrodes de membres",
+      "Deux nouvelles illustrations : positions périphériques et précordiales",
+      "Procédures complètes pour les deux types de matériel (électrodes individuelles / ceinture)"
+    ]
+  },
+  {
     "version": "3.6",
     "date": "2026-07-22T15:23:48.365Z",
     "title": "Fiches Matériel : aspirateur, saturomètre, glycémie, ECG 12 dérivations",
