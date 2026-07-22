@@ -1,5 +1,13 @@
 [
   {
+    "version": "4.7",
+    "date": "2026-07-22T20:42:31.135Z",
+    "title": "Alerte visuelle sur la tension artérielle",
+    "items": [
+      "La tension artérielle (bras gauche et bras droit) se colore désormais en rouge si systolique < 90 ou > 140, ou diastolique < 60 ou > 90"
+    ]
+  },
+  {
     "version": "4.6",
     "date": "2026-07-22T20:39:48.899Z",
     "title": "Correction : alerte visuelle et bouton (i) sur la glycémie",
