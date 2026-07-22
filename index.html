@@ -259,8 +259,11 @@
       <div class="kpi" id="kpi-inscrits-box"><div class="value" id="kpi-inscrits">-</div><div class="label">Déjà inscrits</div></div>
     </div>
 
-    <div class="card">
-      <div class="card-title">Dernières nouveautés</div>
+<div class="card">
+      <button class="month-toggle" id="accueil-nouveautes-toggle" style="margin-bottom:8px;">
+        <span>Dernières nouveautés</span>
+        <span class="month-chevron" id="accueil-nouveautes-chevron">▾</span>
+      </button>
       <div id="liste-nouveautes"><div class="empty">Chargement...</div></div>
     </div>
 
@@ -629,7 +632,9 @@ let rapportChartInstance = null;
 let rapportMetric = 'heures';
 
 const DEFAULT_OAD_SETTINGS = {
-  monthEmpty: 3, friday: 3, saturday: 3, sunday: 2, weekday: 0,
+  monthEmpty: 3,
+  monday: 0, tuesday: 0, wednesday: 0, thursday: 0,
+  friday: 3, saturday: 3, sunday: 2,
   eveningSlot: 2, badDuration: -2, goodDuration: 1,
   veryClose: 4, close: 2, far: -1, veryFar: -3,
   gapTooClosePenalty: -5, gapComfortable: 2,
@@ -643,10 +648,13 @@ const OAD_SETTINGS_CATEGORIES = [
     label: '📅 Calendrier',
     fields: [
       { key: 'monthEmpty', label: 'Bonus si le mois est encore libre' },
+      { key: 'monday', label: 'Bonus le lundi' },
+      { key: 'tuesday', label: 'Bonus le mardi' },
+      { key: 'wednesday', label: 'Bonus le mercredi' },
+      { key: 'thursday', label: 'Bonus le jeudi' },
       { key: 'friday', label: 'Bonus le vendredi' },
       { key: 'saturday', label: 'Bonus le samedi' },
-      { key: 'sunday', label: 'Bonus le dimanche' },
-      { key: 'weekday', label: 'Bonus un jour de semaine' }
+      { key: 'sunday', label: 'Bonus le dimanche' }
     ]
   },
   {
@@ -669,13 +677,13 @@ const OAD_SETTINGS_CATEGORIES = [
     key: 'distance',
     label: '📍 Distance',
     fields: [
-      { key: 'veryCloseKm', label: 'Distance (km) considérée "très proche"' },
+      { key: 'veryCloseKm', label: "Distance (km) jusqu'à laquelle c'est \"très proche\"" },
       { key: 'veryClose', label: 'Bonus si très proche' },
-      { key: 'closeKm', label: 'Distance (km) considérée "raisonnable"' },
+      { key: 'closeKm', label: "Distance (km) jusqu'à laquelle c'est \"raisonnable\"" },
       { key: 'close', label: 'Bonus si distance raisonnable' },
-      { key: 'farKm', label: 'Distance (km) considérée "assez éloignée"' },
-      { key: 'far', label: 'Malus si assez éloigné' },
-      { key: 'veryFar', label: 'Malus si trop éloigné' }
+      { key: 'farKm', label: "Distance (km) jusqu'à laquelle c'est \"assez éloigné\"" },
+      { key: 'far', label: 'Malus si assez éloigné (entre "raisonnable" et cette limite)' },
+      { key: 'veryFar', label: 'Malus si trop éloigné (au-delà de cette limite)' }
     ]
   },
   {
@@ -718,15 +726,7 @@ function renderParametres() {
     </div>
   `;
 
-  container.querySelectorAll('.month-toggle').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const body = container.querySelector(`[data-cat-body="${btn.dataset.catKey}"]`);
-      const chevron = btn.querySelector('.month-chevron');
-      const isHidden = body.style.display === 'none';
-      body.style.display = isHidden ? 'block' : 'none';
-      chevron.textContent = isHidden ? '▾' : '▸';
-    });
-  });
+ setupAccordion(container);
 
   container.querySelector('#settings-reset').addEventListener('click', () => {
     currentOadSettings = { ...DEFAULT_OAD_SETTINGS };
@@ -829,6 +829,13 @@ if (subId === 'plus-rapport') renderRapport(allHistory);
 document.getElementById('kpi-inscrits-box').addEventListener('click', () => openPlusSection('plus-inscriptions'));
 document.getElementById('kpi-nouveautes-box').addEventListener('click', () => openPlusSection('plus-nouveautes'));
 
+document.getElementById('accueil-nouveautes-toggle').addEventListener('click', () => {
+  const body = document.getElementById('liste-nouveautes');
+  const chevron = document.getElementById('accueil-nouveautes-chevron');
+  const isHidden = body.style.display === 'none';
+  body.style.display = isHidden ? 'block' : 'none';
+  chevron.textContent = isHidden ? '▾' : '▸';
+});
 function openDetail(uid) {
   const activeTab = document.querySelector('nav button.active');
   detailReturn.tab = activeTab ? activeTab.dataset.tab : 'accueil';
@@ -1178,6 +1185,29 @@ function attachStarHandlers(container, removeOnUnfav = false) {
   });
 }
 
+function setupAccordion(container, groupSelector = '.month-group') {
+  const groups = container.querySelectorAll(groupSelector);
+  groups.forEach(group => {
+    const toggle = group.querySelector('.month-toggle');
+    const body = group.querySelector('.month-body');
+    const chevron = group.querySelector('.month-chevron');
+    if (!toggle || !body) return;
+    toggle.addEventListener('click', () => {
+      const isHidden = body.style.display === 'none';
+      groups.forEach(g => {
+        const b = g.querySelector('.month-body');
+        const c = g.querySelector('.month-chevron');
+        if (b) b.style.display = 'none';
+        if (c) c.textContent = '▸';
+      });
+      if (isHidden) {
+        body.style.display = 'block';
+        if (chevron) chevron.textContent = '▾';
+      }
+    });
+  });
+}
+
 function groupByMonth(items) {
   const groups = {};
   items.forEach(item => {
@@ -1211,16 +1241,7 @@ function renderMonthGroupedCards(container, monthGroups, emptyMessage, itemOpts 
     </div>
   `).join('');
 
-  container.querySelectorAll('.month-toggle').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const body = container.querySelector(`[data-month-body="${btn.dataset.monthKey}"]`);
-      const chevron = btn.querySelector('.month-chevron');
-      const isHidden = body.style.display === 'none';
-      body.style.display = isHidden ? 'block' : 'none';
-      chevron.textContent = isHidden ? '▾' : '▸';
-    });
-  });
-
+ setupAccordion(container);
   attachCardHandlers(container);
 }
 
@@ -1262,15 +1283,42 @@ function renderUpcomingRegistrations(events) {
   });
 }
 
+function groupByTag(items) {
+  const groups = {};
+  items.forEach(item => {
+    const key = item.tag || 'AUTRE';
+    (groups[key] ||= []).push(item);
+  });
+  return TAG_ORDER.filter(t => t !== 'ALL' && groups[t]).map(key => ({
+    key,
+    label: key,
+    items: groups[key].sort((a, b) => new Date(a.dateDebut) - new Date(b.dateDebut))
+  }));
+}
+
 function renderNouveautesCompletes(events) {
-  const nouveautes = events
-    .filter(e => e.nouveau && e.dateDebut)
-    .sort((a, b) => new Date(a.dateDebut) - new Date(b.dateDebut));
+  const nouveautes = events.filter(e => e.nouveau && e.dateDebut);
 
   const container = document.getElementById('liste-nouveautes-completes');
-  container.innerHTML = nouveautes.length === 0
-    ? '<div class="empty">Aucune nouveauté pour le moment.</div>'
-    : nouveautes.map(e => eventCard(e)).join('');
+  if (nouveautes.length === 0) {
+    container.innerHTML = '<div class="empty">Aucune nouveauté pour le moment.</div>';
+    return;
+  }
+
+  const groups = groupByTag(nouveautes);
+  container.innerHTML = groups.map(g => `
+    <div class="month-group">
+      <button class="month-toggle">
+        <span>${g.label} (${g.items.length})</span>
+        <span class="month-chevron">▸</span>
+      </button>
+      <div class="month-body" style="display:none">
+        ${g.items.map(item => eventCard(item)).join('')}
+      </div>
+    </div>
+  `).join('');
+
+  setupAccordion(container);
   attachCardHandlers(container);
 }
 
@@ -1533,15 +1581,7 @@ function renderRapport(history) {
 
   container.innerHTML = html;
 
-  container.querySelectorAll('.month-toggle').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const body = container.querySelector(`[data-month-body="${btn.dataset.monthKey}"]`);
-      const chevron = btn.querySelector('.month-chevron');
-      const isHidden = body.style.display === 'none';
-      body.style.display = isHidden ? 'block' : 'none';
-      chevron.textContent = isHidden ? '▾' : '▸';
-    });
-  });
+setupAccordion(container);
 
   container.querySelectorAll('.metric-toggle button').forEach(btn => {
     btn.addEventListener('click', () => {
