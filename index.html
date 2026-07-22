@@ -511,6 +511,10 @@
         <div class="tile-icon">👥</div>
         <div class="tile-title">Nombreuses victimes</div>
       </div>
+      <div class="tile span-2" data-open="plus-secourisme-recherche">
+        <div class="tile-icon">🔍</div>
+        <div class="tile-title">Rechercher dans Secourisme</div>
+      </div>
       <div class="tile span-2" data-open="plus-lexique">
         <div class="tile-icon">📖</div>
         <div class="tile-title">Lexique</div>
@@ -622,6 +626,18 @@
       <span>Nombreuses victimes</span>
     </div>
     <div id="novi-content"><div class="empty">Chargement...</div></div>
+  </section>
+
+  <section id="plus-secourisme-recherche">
+    <div class="detail-header">
+      <button class="plus-back" data-target="plus-secourisme">‹</button>
+      <span>Rechercher</span>
+    </div>
+    <div class="search-box">
+      <span>🔍</span>
+      <input type="text" id="secourisme-search" placeholder="Ex : garrot, AVC, aspirateur...">
+    </div>
+    <div id="secourisme-search-results"></div>
   </section>
 
   <section id="plus-lexique">
@@ -2281,6 +2297,67 @@ function goToGesteFiche(sectionId, contentId, categories, gesteKey) {
   }, 50);
 }
 
+const CATEGORY_SCREENS = {
+  urgences: { section: 'plus-gestes-urgences', content: 'gestes-urgences-content', cats: ['urgences'] },
+  trauma: { section: 'plus-gestes-trauma', content: 'gestes-trauma-content', cats: ['trauma'] },
+  malaises: { section: 'plus-gestes-malaises', content: 'gestes-malaises-content', cats: ['malaises'] },
+  plaies_brulures: { section: 'plus-gestes-plaies', content: 'gestes-plaies-content', cats: ['plaies_brulures'] },
+  degagement: { section: 'plus-gestes-degagement', content: 'gestes-degagement-content', cats: ['degagement'] },
+  psychologie: { section: 'plus-psychologie', content: 'psychologie-content', cats: ['psychologie'] },
+  materiel: { section: 'plus-materiel', content: 'materiel-content', cats: ['materiel'] },
+  novi: { section: 'plus-novi', content: 'novi-content', cats: ['novi'] }
+};
+
+function goToGesteByKey(gesteKey) {
+  const cat = GESTE_CATEGORIES_MAP[gesteKey];
+  const screen = CATEGORY_SCREENS[cat];
+  if (!screen) return;
+  goToGesteFiche(screen.section, screen.content, screen.cats, gesteKey);
+}
+
+function searchSecourisme(query) {
+  const q = normalizeText(query);
+  if (!q) return [];
+  const results = [];
+  GESTES_DATA.forEach(g => {
+    let snippet = null;
+    if (normalizeText(g.title).includes(q)) snippet = g.title;
+    if (!snippet) {
+      for (const s of g.summary) { if (normalizeText(s).includes(q)) { snippet = s; break; } }
+    }
+    if (!snippet) {
+      outer:
+      for (const sec of g.sections) {
+        if (normalizeText(sec.title).includes(q)) { snippet = sec.title; break; }
+        for (const item of sec.items) { if (normalizeText(item).includes(q)) { snippet = item; break outer; } }
+      }
+    }
+    if (snippet) results.push({ key: g.key, title: g.title, snippet });
+  });
+  return results;
+}
+
+function renderSecourismeSearch(query) {
+  const container = document.getElementById('secourisme-search-results');
+  if (!query) { container.innerHTML = ''; return; }
+  const results = searchSecourisme(query);
+  container.innerHTML = results.length === 0
+    ? '<div class="empty">Aucune fiche ne correspond à ta recherche.</div>'
+    : results.map(r => `
+      <div class="card card-clickable" data-search-key="${r.key}">
+        <div class="card-title" style="margin-bottom:4px;">${r.title}</div>
+        <div style="color:#9FB3D6;font-size:12px;">${r.snippet}</div>
+      </div>
+    `).join('');
+  container.querySelectorAll('[data-search-key]').forEach(card => {
+    card.addEventListener('click', () => goToGesteByKey(card.dataset.searchKey));
+  });
+}
+
+document.getElementById('secourisme-search').addEventListener('input', (e) => {
+  renderSecourismeSearch(e.target.value);
+});
+
 function goToHemorragieFiche() { goToGesteFiche('plus-gestes-urgences', 'gestes-urgences-content', ['urgences'], 'hemorragie'); }
 function goToLvaFiche() { goToGesteFiche('plus-gestes-urgences', 'gestes-urgences-content', ['urgences'], 'lva'); }
 function goToAvcFiche() { goToGesteFiche('plus-gestes-urgences', 'gestes-urgences-content', ['urgences'], 'avc'); }
@@ -2324,22 +2401,24 @@ function getSuggestionHtml(key) {
     case 'voiesAeriennes':
       if (d.voiesAeriennes === 'Obstruées') return suggestionBox('🫁 Désobstruction immédiate', '→ Voir la fiche LVA', 'goToLvaFiche');
       return '';
-    case 'freqRespi': {
+case 'freqRespi': {
       const v = parseFloat(d.freqRespi);
       if (isNaN(v)) return '';
-      if (v < 12) return suggestionBox('⚠️ Bradypnée : surveiller étroitement, alerte 15, se préparer à ventiler');
-      if (v > 20) return suggestionBox('⚠️ Tachypnée : rechercher une détresse respiratoire, alerte 15');
+      const r = getAbnormalRanges().freqRespi;
+      if (v < r.min) return suggestionBox(`⚠️ Bradypnée (réf. ${AGE_LABELS[computeAgeCategory()]} : ${r.min}-${r.max}/min) : surveiller étroitement, alerte 15, se préparer à ventiler`);
+      if (v > r.max) return suggestionBox(`⚠️ Tachypnée (réf. ${AGE_LABELS[computeAgeCategory()]} : ${r.min}-${r.max}/min) : rechercher une détresse respiratoire, alerte 15`);
       return '';
     }
     case 'amplitudeRespi':
       if (d.amplitudeRespi === 'Superficielle') return suggestionBox('⚠️ Signe possible de détresse respiratoire, surveiller');
       if (d.amplitudeRespi === 'Ample') return suggestionBox('⚠️ Peut évoquer une hyperventilation, avis médical');
       return '';
-    case 'freqCardiaque': {
+case 'freqCardiaque': {
       const v = parseFloat(d.freqCardiaque);
       if (isNaN(v)) return '';
-      if (v < 60) return suggestionBox('⚠️ Bradycardie : surveiller, alerte 15, DAE à proximité');
-      if (v > 100) return suggestionBox('⚠️ Tachycardie : rechercher la cause (douleur, choc, hémorragie...), alerte 15');
+      const r = getAbnormalRanges().freqCardiaque;
+      if (v < r.min) return suggestionBox(`⚠️ Bradycardie (réf. ${AGE_LABELS[computeAgeCategory()]} : ${r.min}-${r.max}/min) : surveiller, alerte 15, DAE à proximité`);
+      if (v > r.max) return suggestionBox(`⚠️ Tachycardie (réf. ${AGE_LABELS[computeAgeCategory()]} : ${r.min}-${r.max}/min) : rechercher la cause (douleur, choc, hémorragie...), alerte 15`);
       return '';
     }
     case 'amplitudePouls':
@@ -2432,15 +2511,38 @@ function updateGlycemieSuggestion() {
   if (el) el.innerHTML = getGlycemieSuggestionHtml();
 }
 
-const BILAN_ABNORMAL_RANGES = {
-  freqRespi: { min: 12, max: 20 },
-  freqCardiaque: { min: 60, max: 100 },
-  spo2: { min: 94, max: 100 },
-  temperature: { min: 35, max: 38.4 }
-};
+function computeAgeCategory() {
+  const dateNaissance = bilanData.dateNaissance;
+  if (!dateNaissance) return 'adulte';
+  const dob = new Date(dateNaissance);
+  if (isNaN(dob)) return 'adulte';
+  const diffDays = (new Date() - dob) / 86400000;
+  if (diffDays < 30) return 'nouveau-ne';
+  if (diffDays < 730) return 'nourrisson';
+  if (diffDays < 4380) return 'enfant';
+  return 'adulte';
+}
+
+const AGE_LABELS = { 'nouveau-ne': 'nouveau-né', nourrisson: 'nourrisson', enfant: 'enfant', adulte: 'adulte' };
+
+function getAbnormalRanges() {
+  const cat = computeAgeCategory();
+  const byCategory = {
+    'nouveau-ne': { freqRespi: { min: 40, max: 60 }, freqCardiaque: { min: 120, max: 160 } },
+    nourrisson: { freqRespi: { min: 30, max: 40 }, freqCardiaque: { min: 100, max: 160 } },
+    enfant: { freqRespi: { min: 20, max: 30 }, freqCardiaque: { min: 70, max: 140 } },
+    adulte: { freqRespi: { min: 12, max: 20 }, freqCardiaque: { min: 60, max: 100 } }
+  };
+  return {
+    freqRespi: byCategory[cat].freqRespi,
+    freqCardiaque: byCategory[cat].freqCardiaque,
+    spo2: { min: 94, max: 100 },
+    temperature: { min: 35, max: 38.4 }
+  };
+}
 
 function isAbnormal(key, value) {
-  const range = BILAN_ABNORMAL_RANGES[key];
+  const range = getAbnormalRanges()[key];
   if (!range || value === '' || value == null) return false;
   const v = parseFloat(value);
   if (isNaN(v)) return false;
@@ -2448,7 +2550,7 @@ function isAbnormal(key, value) {
 }
 
 function applyFieldWarning(input, key) {
-  if (!BILAN_ABNORMAL_RANGES[key]) return;
+  if (!getAbnormalRanges()[key]) return;
   const abnormal = isAbnormal(key, input.value);
   input.style.borderLeft = abnormal ? '4px solid #E24B4A' : 'none';
   input.style.background = abnormal ? '#3A1F1F' : '#0B2A5C';
@@ -3227,22 +3329,26 @@ applyGlycemieWarning();
   applyTaWarning('droit');
 
   container.querySelectorAll('input[data-bilan-field]').forEach(input => {
-    if (BILAN_ABNORMAL_RANGES[input.dataset.bilanField]) applyFieldWarning(input, input.dataset.bilanField);
+    if (getAbnormalRanges()[input.dataset.bilanField]) applyFieldWarning(input, input.dataset.bilanField);
 
     input.addEventListener('input', () => {
       bilanData[input.dataset.bilanField] = input.value;
       saveBilanData();
-      if (BILAN_ABNORMAL_RANGES[input.dataset.bilanField]) applyFieldWarning(input, input.dataset.bilanField);
+      if (getAbnormalRanges()[input.dataset.bilanField]) applyFieldWarning(input, input.dataset.bilanField);
 if (input.dataset.bilanField === 'glycemie') { applyGlycemieWarning(); updateGlycemieSuggestion(); }
 if (input.dataset.bilanField === 'taGaucheSys' || input.dataset.bilanField === 'taGaucheDia') { applyTaWarning('gauche'); updateTaSuggestion('Gauche'); updateTaDiffSuggestion(); }
       if (input.dataset.bilanField === 'taDroitSys' || input.dataset.bilanField === 'taDroitDia') { applyTaWarning('droit'); updateTaSuggestion('Droit'); updateTaDiffSuggestion(); }
       if (SUGGESTION_FIELDS.has(input.dataset.bilanField)) updateFieldSuggestion(input.dataset.bilanField);
-      if (input.dataset.bilanField === 'dateNaissance') {
+if (input.dataset.bilanField === 'dateNaissance') {
         const el = document.getElementById('age-display-value');
         if (el) {
           const age = computeAge(bilanData.dateNaissance);
           el.textContent = age !== '' ? age + ' ans' : 'Renseigne la date de naissance';
         }
+        const frInput = document.querySelector('[data-bilan-field="freqRespi"]');
+        const fcInput = document.querySelector('[data-bilan-field="freqCardiaque"]');
+        if (frInput) { applyFieldWarning(frInput, 'freqRespi'); updateFieldSuggestion('freqRespi'); }
+        if (fcInput) { applyFieldWarning(fcInput, 'freqCardiaque'); updateFieldSuggestion('freqCardiaque'); }
       }
       if (input.dataset.bilanField === 'taGaucheSys' || input.dataset.bilanField === 'taGaucheDia') {
         if (!bilanData.taGaucheHeure) { bilanData.taGaucheHeure = new Date().toISOString(); saveBilanData(); }
@@ -4931,11 +5037,15 @@ const LEXIQUE_DATA = [
   { term: 'SAMPLE', def: 'Signes, Allergies, Médicaments, Passé médical, dernier repas (Last meal), Évènements' }
 ];
 
+function normalizeLexique(str) {
+  return normalizeText(str).replace(/[.\s]/g, '');
+}
+
 function renderLexique(filter = '') {
   const container = document.getElementById('lexique-content');
-  const q = normalizeText(filter);
+  const q = normalizeLexique(filter);
   const filtered = q
-    ? LEXIQUE_DATA.filter(l => normalizeText(l.term).includes(q) || normalizeText(l.def).includes(q))
+    ? LEXIQUE_DATA.filter(l => normalizeLexique(l.term).includes(q) || normalizeText(l.def).includes(normalizeText(filter)))
     : LEXIQUE_DATA;
 
   const sorted = [...filtered].sort((a, b) => a.term.localeCompare(b.term, 'fr'));
