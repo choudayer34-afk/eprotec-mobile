@@ -1,5 +1,13 @@
 [
   {
+    "version": "2.5",
+    "date": "2026-07-22T14:50:14.552Z",
+    "title": "Ajout d'une explication (i) pour les pupilles",
+    "items": [
+      "Bouton (i) sur le champ Pupilles du bilan patient : définitions de Normales, Asymétriques, Mydriase, Myosis"
+    ]
+  },
+  {
     "version": "2.4",
     "date": "2026-07-22T14:43:51.334Z",
     "title": "Bilan patient enrichi : Glasgow, AVC, douleur illustrée, références",
