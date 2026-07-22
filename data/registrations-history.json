@@ -310,7 +310,7 @@
     "tag": "DPS",
     "titre": "[DPS 34] Jeudis festifs",
     "lieu": "Parcours de Sante, Maurin",
-    "dateDebut": "2026-07-23T18:00:00.000Z",
+    "dateDebut": "2026-07-23T16:00:00.000Z",
     "dureeHeures": 6,
     "statut": "Inscrit"
   },
@@ -319,7 +319,7 @@
     "tag": "FOR",
     "titre": "[FOR 34] {Benevole} -  Formation PSE2 partie 1/4",
     "lieu": "Centre de formation de Montpellier",
-    "dateDebut": "2026-11-21T08:00:00.000Z",
+    "dateDebut": "2026-11-21T07:00:00.000Z",
     "dureeHeures": 9,
     "statut": "Inscrit"
   },
@@ -328,7 +328,7 @@
     "tag": "FOR",
     "titre": "[FOR 34] {Benevole} -  Formation PSE2 partie 2/4",
     "lieu": "Centre de formation de Montpellier",
-    "dateDebut": "2026-11-22T08:00:00.000Z",
+    "dateDebut": "2026-11-22T07:00:00.000Z",
     "dureeHeures": 9,
     "statut": "Inscrit"
   },
@@ -337,7 +337,7 @@
     "tag": "FOR",
     "titre": "[FOR 34] {Benevole} -  Formation PSE2 partie 3/4",
     "lieu": "Centre de formation de Montpellier",
-    "dateDebut": "2026-11-23T08:00:00.000Z",
+    "dateDebut": "2026-11-23T07:00:00.000Z",
     "dureeHeures": 9,
     "statut": "Inscrit"
   },
@@ -346,7 +346,7 @@
     "tag": "FOR",
     "titre": "[FOR 34] {Benevole} -  Formation PSE2 partie 4/4",
     "lieu": "Centre de formation de Montpellier",
-    "dateDebut": "2026-11-24T08:00:00.000Z",
+    "dateDebut": "2026-11-24T07:00:00.000Z",
     "dureeHeures": 9,
     "statut": "Inscrit"
   },
