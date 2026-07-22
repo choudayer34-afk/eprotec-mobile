@@ -1,0 +1,25 @@
+name: Générer le changelog automatiquement
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'scripts/**'
+
+permissions:
+  contents: write
+
+jobs:
+  changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Générer l'entrée de changelog
+        run: node scripts/generate-changelog.js
+        env:
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Mise a jour automatique du changelog"
+          file_pattern: data/changelog.json
