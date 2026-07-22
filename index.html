@@ -2075,10 +2075,8 @@ function checkForNewChangelog() {
     return;
   }
 
-  const lastSeenIndex = allChangelog.findIndex(e => e.version === lastSeenVersion);
-  const unseen = lastSeenIndex === -1 ? allChangelog : allChangelog.slice(0, lastSeenIndex);
-  if (unseen.length > 0) {
-    showChangelogModal(unseen);
+  if (allChangelog[0].version !== lastSeenVersion) {
+    showChangelogModal([allChangelog[0]]);
   }
 }
 
