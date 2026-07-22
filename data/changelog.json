@@ -1,5 +1,17 @@
 [
   {
+    "version": "2.4",
+    "date": "2026-07-22T14:43:51.334Z",
+    "title": "Bilan patient enrichi : Glasgow, AVC, douleur illustrée, références",
+    "items": [
+      "Ajout des 4 regards au bilan circonstanciel",
+      "Score de Glasgow en listes déroulantes avec signification et calcul automatique du total",
+      "Nouvelle section suspicion AVC (méthode F.A.S.T.)",
+      "Échelle de douleur transformée en réglette visuelle 0 à 4",
+      "Boutons (i) sur les champs clés : références par âge (FR, FC), SpO2, glycémie (deux unités), coloration illustrée, amplitude/régularité du pouls"
+    ]
+  },
+  {
     "version": "2.3",
     "date": "2026-07-22T14:12:43.971Z",
     "title": "Fiche geste : Premiers secours en santé mentale (PSSM)",
