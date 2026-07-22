@@ -181,6 +181,14 @@
   }
   .metric-toggle button.active { background: #F5821F; color: #4A1B0C; font-weight: 500; }
 
+  .settings-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 10px; }
+  .settings-row label { font-size: 13px; color: #fff; flex: 1; }
+  .settings-row input {
+    width: 70px; background: #0B2A5C; border: none; color: #fff; font-size: 13px;
+    padding: 8px 10px; border-radius: 8px; text-align: center;
+  }
+  .settings-actions { display: flex; gap: 8px; margin-top: 10px; }
+
   .tile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .tile {
     background: #163C74; border-radius: 16px; padding: 16px; text-align: center;
@@ -305,7 +313,11 @@
         <div class="tile-icon">📊</div>
         <div class="tile-title">Rapport</div>
       </div>
-      <div class="tile span-2" data-open="plus-liens">
+<div class="tile" data-open="plus-parametres">
+        <div class="tile-icon">⚙️</div>
+        <div class="tile-title">Paramètres OAD</div>
+      </div>
+      <div class="tile" data-open="plus-liens">
         <div class="tile-icon">🔗</div>
         <div class="tile-title">Liens utiles</div>
       </div>
@@ -369,6 +381,14 @@
         <img src="data/oasis-logo.png" style="width:40px;height:40px;border-radius:12px;object-fit:cover;margin:0 auto 8px;display:block;" alt="OASIS">
         <div class="tile-title">OASIS</div>
       </a>
+  </section>
+
+  <section id="plus-parametres">
+    <div class="detail-header">
+      <button class="plus-back">‹</button>
+      <span>Paramètres OAD</span>
+    </div>
+    <div id="parametres-content"></div>
   </section>
 
   <section id="detail">
@@ -608,6 +628,81 @@ let calendarEvents = [];
 let rapportChartInstance = null;
 let rapportMetric = 'heures';
 
+const DEFAULT_OAD_SETTINGS = {
+  monthEmpty: 3, friday: 3, saturday: 3, sunday: 2, weekday: 0,
+  eveningSlot: 2, badDuration: -2, goodDuration: 1,
+  veryClose: 4, close: 2, far: -1, veryFar: -3,
+  gapTooClosePenalty: -5, gapComfortable: 2,
+  veryCloseKm: 15, closeKm: 30, farKm: 50,
+  longDurationHours: 8, minGapDays: 14
+};
+
+const OAD_SETTINGS_FIELDS = [
+  { key: 'monthEmpty', label: 'Bonus si le mois est encore libre' },
+  { key: 'friday', label: 'Bonus le vendredi' },
+  { key: 'saturday', label: 'Bonus le samedi' },
+  { key: 'sunday', label: 'Bonus le dimanche' },
+  { key: 'weekday', label: 'Bonus un jour de semaine' },
+  { key: 'eveningSlot', label: "Bonus fin d'après-midi / soirée (à partir de 16h)" },
+  { key: 'longDurationHours', label: 'Durée (h) à partir de laquelle un DPS est considéré long' },
+  { key: 'goodDuration', label: 'Bonus si durée raisonnable' },
+  { key: 'badDuration', label: 'Malus si DPS long' },
+  { key: 'veryCloseKm', label: 'Distance (km) considérée "très proche"' },
+  { key: 'veryClose', label: 'Bonus si très proche' },
+  { key: 'closeKm', label: 'Distance (km) considérée "raisonnable"' },
+  { key: 'close', label: 'Bonus si distance raisonnable' },
+  { key: 'farKm', label: 'Distance (km) considérée "assez éloignée"' },
+  { key: 'far', label: 'Malus si assez éloigné' },
+  { key: 'veryFar', label: 'Malus si trop éloigné' },
+  { key: 'minGapDays', label: "Nombre de jours minimum entre 2 DPS" },
+  { key: 'gapComfortable', label: 'Bonus si espacement confortable' },
+  { key: 'gapTooClosePenalty', label: "Malus si trop proche d'un DPS déjà planifié" }
+];
+
+let currentOadSettings = { ...DEFAULT_OAD_SETTINGS };
+
+function renderParametres() {
+  const container = document.getElementById('parametres-content');
+  container.innerHTML = `
+    <div class="card">
+      <div class="card-title">Poids et critères du scoring OAD</div>
+      ${OAD_SETTINGS_FIELDS.map(f => `
+        <div class="settings-row">
+          <label>${f.label}</label>
+          <input type="number" step="0.5" data-setting="${f.key}" value="${currentOadSettings[f.key]}">
+        </div>
+      `).join('')}
+      <div class="settings-actions">
+        <button class="detail-action-btn" id="settings-reset">Réinitialiser</button>
+        <button class="detail-action-btn primary" id="settings-save">Enregistrer</button>
+      </div>
+    </div>
+  `;
+
+  container.querySelector('#settings-reset').addEventListener('click', () => {
+    currentOadSettings = { ...DEFAULT_OAD_SETTINGS };
+    renderParametres();
+  });
+
+  container.querySelector('#settings-save').addEventListener('click', async () => {
+    container.querySelectorAll('[data-setting]').forEach(input => {
+      currentOadSettings[input.dataset.setting] = parseFloat(input.value) || 0;
+    });
+    const btn = container.querySelector('#settings-save');
+    btn.textContent = 'Enregistrement...';
+    try {
+      await fetch(FIREBASE_URL + '/oad-settings.json', {
+        method: 'PUT',
+        body: JSON.stringify(currentOadSettings)
+      });
+      btn.textContent = '✓ Enregistré';
+      setTimeout(() => { btn.textContent = 'Enregistrer'; }, 2000);
+    } catch (err) {
+      btn.textContent = 'Erreur, réessaie';
+    }
+  });
+}
+
 function buildCalendarEvents() {
   const now = new Date();
   const cutoff = new Date(now.getTime() - 60 * 24 * 3600 * 1000);
@@ -678,7 +773,8 @@ function openPlusSection(subId) {
   if (subId === 'plus-suggestions') renderSuggestions(allSuggestions);
   if (subId === 'plus-inscriptions') renderInscriptions();
   if (subId === 'plus-nouveautes') renderNouveautesCompletes(allEvents);
-  if (subId === 'plus-rapport') renderRapport(allHistory);
+if (subId === 'plus-rapport') renderRapport(allHistory);
+  if (subId === 'plus-parametres') renderParametres();
 }
 
 document.getElementById('kpi-inscrits-box').addEventListener('click', () => openPlusSection('plus-inscriptions'));
@@ -1479,8 +1575,22 @@ function renderUpdateStatus(lastUpdateIso) {
   el.textContent = `Mise à jour : ${fmt(last)} · Prochaine : ${fmt(next)}`;
 }
 
+async function loadOadSettings() {
+  try {
+    const res = await fetch(FIREBASE_URL + '/oad-settings.json?t=' + Date.now(), { cache: 'no-store' });
+    const remote = await res.json();
+    if (remote && typeof remote === 'object') {
+      currentOadSettings = { ...DEFAULT_OAD_SETTINGS, ...remote };
+    }
+  } catch (err) {
+    console.error('Erreur chargement réglages OAD :', err);
+  }
+}
+
 async function loadData() {
   await initFavoris();
+  await loadOadSettings();
+  renderParametres();
 
   const bust = Date.now();
   const [events, suggestions, status, history] = await Promise.all([
