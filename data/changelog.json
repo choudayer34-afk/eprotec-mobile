@@ -1,5 +1,15 @@
 [
   {
+    "version": "5.2",
+    "date": "2026-07-22T21:19:27.904Z",
+    "title": "Valeurs adaptées à l'âge + recherche transversale Secourisme + lexique amélioré",
+    "items": [
+      "Les seuils de fréquence respiratoire et cardiaque s'adaptent automatiquement selon l'âge (nouveau-né, nourrisson, enfant, adulte), calculé depuis la date de naissance saisie",
+      "Le lexique se recherche désormais aussi sans les points dans les sigles (ex : \"avc\" trouve \"A.V.C.\")",
+      "Nouvelle recherche transversale dans Secourisme : un mot-clé retrouve directement toutes les fiches gestes/matériel qui en parlent, avec accès direct"
+    ]
+  },
+  {
     "version": "5.1",
     "date": "2026-07-22T21:14:33.694Z",
     "title": "Suggestions douleur sévère et asymétrie tensionnelle",
