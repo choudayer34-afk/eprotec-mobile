@@ -2582,6 +2582,28 @@ document.querySelectorAll('[data-bilan-mode]').forEach(btn => {
 });
 
 const GESTE_ILLUSTRATIONS = {
+  ecgMembres: `<svg viewBox="0 0 200 160" style="width:100%;max-width:260px;display:block;margin:10px auto;">
+    <ellipse cx="100" cy="50" rx="18" ry="20" fill="none" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="100" y1="70" x2="100" y2="120" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="100" y1="80" x2="50" y2="75" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="100" y1="80" x2="150" y2="75" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="100" y1="120" x2="75" y2="155" stroke="#9FB3D6" stroke-width="2"/>
+    <line x1="100" y1="120" x2="125" y2="155" stroke="#9FB3D6" stroke-width="2"/>
+    <circle cx="150" cy="75" r="8" fill="#E24B4A"/><text x="158" y="79" font-size="11" fill="#E24B4A">R</text>
+    <circle cx="50" cy="75" r="8" fill="#EFC94C"/><text x="18" y="79" font-size="11" fill="#EFC94C">J</text>
+    <circle cx="125" cy="155" r="8" fill="#222"/><text x="133" y="159" font-size="11" fill="#9FB3D6">N</text>
+    <circle cx="75" cy="155" r="8" fill="#639922"/><text x="45" y="159" font-size="11" fill="#639922">V</text>
+  </svg>`,
+  ecgPrecordial: `<svg viewBox="0 0 200 160" style="width:100%;max-width:260px;display:block;margin:10px auto;">
+    <ellipse cx="100" cy="50" rx="18" ry="20" fill="none" stroke="#9FB3D6" stroke-width="2"/>
+    <path d="M 55 75 Q 100 65 145 75 L 145 150 Q 100 160 55 150 Z" fill="none" stroke="#9FB3D6" stroke-width="2"/>
+    <circle cx="100" cy="88" r="6" fill="#E24B4A"/><text x="108" y="92" font-size="10" fill="#9FB3D6">C1</text>
+    <circle cx="85" cy="88" r="6" fill="#EFC94C"/><text x="60" y="92" font-size="10" fill="#9FB3D6">C2</text>
+    <circle cx="82" cy="105" r="6" fill="#639922"/><text x="55" y="109" font-size="10" fill="#9FB3D6">C3</text>
+    <circle cx="80" cy="122" r="6" fill="#7C5A3A"/><text x="53" y="126" font-size="10" fill="#9FB3D6">C4</text>
+    <circle cx="70" cy="122" r="6" fill="#8A5FBF"/><text x="35" y="126" font-size="10" fill="#9FB3D6">C5</text>
+    <circle cx="60" cy="122" r="6" fill="#3F8FC4"/><text x="20" y="140" font-size="10" fill="#9FB3D6">C6</text>
+  </svg>`,
   echarpeSimple: `<svg viewBox="0 0 200 140" style="width:100%;max-width:260px;display:block;margin:10px auto;">
     <circle cx="100" cy="30" r="16" fill="none" stroke="#9FB3D6" stroke-width="2"/>
     <line x1="100" y1="46" x2="100" y2="100" stroke="#9FB3D6" stroke-width="2"/>
@@ -3776,48 +3798,76 @@ const GESTES_DATA = [
     key: 'ecg12',
     title: '🧰 Matériel — ECG 12 dérivations',
     summary: [
-      "4 électrodes membres : Rouge = bras droit, Jaune = bras gauche, Vert = jambe gauche, Noir = jambe droite",
-      "6 électrodes précordiales : V1 à V6 sur le thorax",
-      "Mnémotechnique de pose : V4 → V2 → V1 → V3 → V5 → V6"
+      "Mnémotechnique : « Rien Ne Va Jamais » → Rouge poignet droit, Noir cheville droite, Vert cheville gauche, Jaune poignet gauche",
+      "6 électrodes précordiales C1 à C6 sur le thorax",
+      "Rassurer la victime : elle doit rester calme et sans parler pendant l'enregistrement",
+      "Réalisé sur prescription du médecin régulateur ou du médecin présent sur les lieux"
     ],
     sections: [
       {
-        title: 'Électrodes des membres (4)',
+        title: 'Dérivations périphériques (membres)',
+        illustration: 'ecgMembres',
         items: [
-          "Rouge : bras droit",
-          "Jaune : bras gauche",
-          "Vert : jambe gauche",
-          "Noir : jambe droite (masse, ne participe pas au tracé)"
+          "Mnémotechnique : « Rien Ne Va Jamais » (Rouge, Noir, Vert, Jaune)",
+          "R (rouge) : membre supérieur droit, face postérieure du poignet",
+          "N (noir) : membre inférieur droit, face interne de la cheville",
+          "J (jaune) : membre supérieur gauche, face interne du poignet",
+          "V (vert) : membre inférieur gauche, face interne de la cheville"
         ]
       },
       {
-        title: 'Électrodes précordiales (6) — placement',
+        title: 'Dérivations précordiales (C1 à C6)',
+        illustration: 'ecgPrecordial',
         items: [
-          "V1 : 4ᵉ espace intercostal, bord droit du sternum",
-          "V2 : 4ᵉ espace intercostal, bord gauche du sternum",
-          "V3 : à mi-distance entre V2 et V4",
-          "V4 : 5ᵉ espace intercostal, ligne médio-claviculaire",
-          "V5 : même horizontale que V4, ligne axillaire antérieure",
-          "V6 : même horizontale que V4 et V5, ligne axillaire moyenne"
+          "C1 : 4e espace intercostal droit, au bord droit du sternum",
+          "C2 : 4e espace intercostal gauche, au bord gauche du sternum",
+          "C3 : au milieu de la ligne C2-C4",
+          "C4 : 5e espace intercostal gauche, sur la ligne médioclaviculaire",
+          "C5 : au milieu de la ligne entre C4 et C6",
+          "C6 : 5e espace intercostal, même niveau que C4"
         ]
       },
       {
-        title: 'Mnémotechnique de pose',
+        title: 'Il existe 2 types de matériel',
         items: [
-          "Ordre à suivre : V4 → V2 → V1 → V3 → V5 → V6",
-          "Repère de départ : angle de Louis (relief osseux entre manubrium et corps du sternum) pour localiser le 2ᵉ espace intercostal, puis descendre au 4ᵉ (V1/V2) et au 5ᵉ (V4)"
+          "ECG avec électrodes individuelles",
+          "ECG avec ceinture d'électrodes"
         ]
       },
       {
-        title: 'Points de vigilance',
+        title: 'Procédure — ECG avec électrodes',
         items: [
-          "Peau propre et sans poils pour une bonne adhésion",
-          "Une électrode mal placée peut fausser complètement la lecture (ex : V1/V2 trop hautes imitent un trouble de conduction)",
-          "Pour le DEA et son utilisation en réanimation, voir la fiche RCP / DAE"
+          "Raser les poils des zones où seront collées les électrodes",
+          "Positionner les électrodes périphériques (extrémités des membres), puis les électrodes précordiales",
+          "Brancher les câbles correspondants",
+          "Allumer l'appareil et s'assurer d'être sur le mode ECG",
+          "Réaliser l'enregistrement"
+        ]
+      },
+      {
+        title: 'Procédure — ECG avec ceinture d\'électrodes',
+        items: [
+          "Brancher les câbles sur les électrodes selon les couleurs",
+          "Humidifier les électrodes si besoin",
+          "Positionner la ceinture",
+          "Bloquer la ceinture à l'aide de la sangle ou des anses",
+          "Vérifier que toutes les électrodes sont bien en contact avec le corps",
+          "Allumer l'appareil et s'assurer d'être sur le mode ECG",
+          "Réaliser l'enregistrement"
+        ]
+      },
+      {
+        title: 'À retenir',
+        items: [
+          "Un ECG est réalisé sur prescription du médecin régulateur ou du médecin présent sur les lieux, ou pour la surveillance de la victime",
+          "Rassurer la victime : elle doit rester calme et sans parler pendant l'enregistrement",
+          "La télétransmission de l'ECG se fait pendant l'intervention",
+          "Un exemplaire (électronique ou papier) peut être laissé à l'équipe-relais"
         ]
       }
     ]
   }
+];
 ];
 
 function renderGestes() {
