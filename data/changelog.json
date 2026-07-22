@@ -1,5 +1,14 @@
 [
   {
+    "version": "2.7",
+    "date": "2026-07-22T14:57:58.100Z",
+    "title": "Bilan patient : blocs stables + Glasgow rapide",
+    "items": [
+      "Les catégories du bilan ne se referment plus toute seules pendant la saisie",
+      "Deux boutons de sélection rapide : Glasgow 15 (normal) et Glasgow 3 (minimum)"
+    ]
+  },
+  {
     "version": "2.6",
     "date": "2026-07-22T14:53:06.890Z",
     "title": "Réglette de douleur visuelle en dégradé (style Wong-Baker)",
