@@ -233,6 +233,13 @@
   .bilan-chip.active { background: #F5821F; color: #4A1B0C; font-weight: 500; }
 .bilan-ref-item { font-size: 13px; color: #fff; padding: 6px 0; border-top: 0.5px solid #223258; }
   .bilan-ref-item:first-child { border-top: none; }
+  .timer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 999; display: flex; align-items: center; justify-content: center; }
+  .timer-box { text-align: center; }
+  .timer-label { color: #fff; font-size: 14px; margin-bottom: 18px; }
+  .timer-circle { width: 140px; height: 140px; border-radius: 50%; background: #163C74; border: 4px solid #F5821F; color: #fff; font-size: 34px; font-weight: 600; }
+  @keyframes timerBlink { 0%, 100% { background: #163C74; } 50% { background: #E24B4A; } }
+  .timer-circle.timer-blink { animation: timerBlink 0.6s infinite; border-color: #E24B4A; }
+  .timer-icon-btn { background: none; border: none; color: #F5821F; font-size: 15px; margin-left: 6px; }
   .lexique-item { padding: 10px 0; border-top: 0.5px solid #223258; }
   .lexique-item:first-child { border-top: none; }
   .lexique-term { color: #F5821F; font-size: 14px; font-weight: 500; }
@@ -506,10 +513,11 @@
     </div>
   </section>
 
-  <section id="plus-bilan">
+<section id="plus-bilan">
     <div class="detail-header">
       <button class="plus-back" data-target="plus-secourisme">‹</button>
       <span>Bilan patient</span>
+      <div class="detail-icons" id="bilan-icons"></div>
     </div>
     <div class="metric-toggle">
       <button data-bilan-mode="reference" class="active">Référence</button>
@@ -644,7 +652,10 @@
       <a class="tile" href="https://boutique.protection-civile.org/fr/" target="_blank">
         <div class="tile-icon">🛒</div><div class="tile-title">Boutique</div>
       </a>
-<a class="tile" href="https://apps.apple.com/fr/app/oasis-apc34/id6749535338" target="_blank">
+<a class="tile" href="https://apps.apple.com/fr/app/staying-alive/id403117516" target="_blank">
+        <div class="tile-icon">❤️</div><div class="tile-title">Staying Alive</div>
+      </a>
+      <a class="tile" href="https://apps.apple.com/fr/app/oasis-apc34/id6749535338" target="_blank">
         <img src="data/oasis-logo.png" style="width:40px;height:40px;border-radius:12px;object-fit:cover;margin:0 auto 8px;display:block;" alt="OASIS">
         <div class="tile-title">OASIS</div>
       </a>
@@ -2167,7 +2178,7 @@ const INFO_CONTENT = {
       <tr style="color:#9FB3D6;border-top:0.5px solid #223258;"><td style="padding:4px 0;">Nouveau-né</td><td style="text-align:right;">40 à 60 / min</td></tr>
     </table>`
   },
-  freqPouls: {
+  freqCardiaque: {
     title: 'Fréquence cardiaque — références par âge',
     html: `<table style="width:100%;border-collapse:collapse;">
       <tr style="color:#9FB3D6;"><td style="padding:4px 0;">Adulte</td><td style="text-align:right;">60 à 100 / min</td></tr>
@@ -2182,9 +2193,13 @@ const INFO_CONTENT = {
   },
   glycemie: {
     title: 'Glycémie — références',
-    html: `<p>Normale à jeun : 0,60 à 1,10 g/L (3,3 à 5,8 mmol/L)</p>
+    html: `<p>Normale à jeun : 0,70 à 1,10 g/L (3,9 à 6,1 mmol/L)</p>
       <p style="margin-top:8px;color:#F0997B;"><b>Seuil bas : &lt; 0,60 g/L (&lt; 3,3 mmol/L) → resucrer</b></p>
       <p style="margin-top:8px;color:#9FB3D6;font-size:12px;">Conversion : g/L × 5,5 = mmol/L</p>`
+  },
+  temperature: {
+    title: 'Température — repères',
+    html: `<p>Normale : environ 36 à 37,5°C</p><p style="margin-top:8px;color:#F0997B;">Fièvre élevée : à partir de 38,5°C</p><p style="margin-top:8px;color:#F0997B;">Hypothermie : en dessous de 35°C</p>`
   },
   coloration: {
     title: 'Coloration / aspect de la peau',
@@ -2199,11 +2214,11 @@ const INFO_CONTENT = {
     title: 'Amplitude du pouls',
     html: `<p><b>Bien frappé</b> — facilement perçu, franc</p><p style="margin-top:8px;"><b>Filant</b> — faible, difficile à percevoir, signe de gravité</p>`
   },
-pouls_regularite: {
+  pouls_regularite: {
     title: 'Régularité du pouls',
     html: `<p><b>Régulier</b> — intervalles constants entre les battements</p><p style="margin-top:8px;"><b>Irrégulier</b> — intervalles variables, peut évoquer un trouble du rythme</p>`
   },
-pupilles: {
+  pupilles: {
     title: 'Pupilles',
     html: `<p><b>Normales</b> — taille égale des deux côtés, réactives à la lumière</p>
       <p style="margin-top:8px;"><b>Asymétriques</b> — une pupille plus dilatée que l'autre, peut évoquer une atteinte neurologique</p>
@@ -2248,11 +2263,62 @@ const GLASGOW_OPTIONS = {
   ]
 };
 
+const BILAN_ABNORMAL_RANGES = {
+  freqRespi: { min: 12, max: 20 },
+  freqCardiaque: { min: 60, max: 100 },
+  spo2: { min: 94, max: 100 },
+  temperature: { min: 35, max: 38.4 }
+};
+
+function isAbnormal(key, value) {
+  const range = BILAN_ABNORMAL_RANGES[key];
+  if (!range || value === '' || value == null) return false;
+  const v = parseFloat(value);
+  if (isNaN(v)) return false;
+  return v < range.min || v > range.max;
+}
+
+function applyFieldWarning(input, key) {
+  if (!BILAN_ABNORMAL_RANGES[key]) return;
+  const abnormal = isAbnormal(key, input.value);
+  input.style.borderLeft = abnormal ? '4px solid #E24B4A' : 'none';
+  input.style.background = abnormal ? '#3A1F1F' : '#0B2A5C';
+}
+
+function computeAge(dateNaissance) {
+  if (!dateNaissance) return '';
+  const dob = new Date(dateNaissance);
+  if (isNaN(dob)) return '';
+  const now = new Date();
+  let age = now.getFullYear() - dob.getFullYear();
+  const m = now.getMonth() - dob.getMonth();
+  if (m < 0 || (m === 0 && now.getDate() < dob.getDate())) age--;
+  return age >= 0 ? age : '';
+}
+
+function formatHeureCourte(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  return d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+}
+
+function formatDateHeureCourte(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  return d.toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+}
+
 const BILAN_CATEGORIES = [
+  { key: 'identite', label: '🪪 Identité', fields: [
+    { key: 'nom', label: 'Nom', type: 'text' },
+    { key: 'prenom', label: 'Prénom', type: 'text' },
+    { key: 'dateNaissance', label: 'Date de naissance', type: 'date' },
+    { key: 'age', label: 'Âge', type: 'age-display' }
+  ]},
   { key: 'circonstanciel', label: '🎬 Bilan circonstanciel (3S)', fields: [
     { key: 'scene', label: 'Scène', type: 'text' },
     { key: 'securite', label: 'Sécurité', type: 'text' },
-    { key: 'situation', label: 'Situation', type: 'text' }
+    { key: 'situation', label: 'Situation (lieu)', type: 'geoloc' }
   ]},
   { key: 'regards', label: '👀 Les 4 regards', fields: [
     { key: 'regard1', label: "1er regard — vue d'ensemble en arrivant", type: 'text' },
@@ -2268,21 +2334,20 @@ const BILAN_CATEGORIES = [
     { key: 'voiesAeriennes', label: 'État des voies aériennes', type: 'chip', options: ['Libres', 'Obstruées'] }
   ]},
   { key: 'b', label: '💨 B — Respiration', fields: [
-    { key: 'freqRespi', label: 'Fréquence (par minute)', type: 'number', info: 'freqRespi' },
+    { key: 'freqRespi', label: 'Fréquence (par minute)', type: 'number', info: 'freqRespi', timer: true },
     { key: 'amplitudeRespi', label: 'Amplitude', type: 'chip', options: ['Normale', 'Superficielle', 'Ample'] },
     { key: 'spo2', label: 'SpO2 %', type: 'number', info: 'spo2' },
     { key: 'auscultation', label: 'Auscultation / bruits anormaux', type: 'text' }
   ]},
   { key: 'c', label: '❤️ C — Circulation', fields: [
-    { key: 'freqPouls', label: 'Fréquence pouls (par minute)', type: 'number', info: 'freqPouls' },
+    { key: 'freqCardiaque', label: 'Fréquence cardiaque (par minute)', type: 'number', info: 'freqCardiaque', timer: true },
     { key: 'amplitudePouls', label: 'Amplitude', type: 'chip', options: ['Bien frappé', 'Filant'], info: 'pouls_amplitude' },
     { key: 'regularite', label: 'Régularité', type: 'chip', options: ['Régulier', 'Irrégulier'], info: 'pouls_regularite' },
     { key: 'coloration', label: 'Coloration / aspect peau', type: 'chip', options: ['Normale', 'Pâle', 'Marbrée', 'Cyanosée'], info: 'coloration' },
     { key: 'trc', label: 'TRC (réf. < 2s)', type: 'chip', options: ['< 2s', '≥ 2s'] },
-    { key: 'taSystolique', label: 'TA systolique', type: 'number' },
-    { key: 'taDiastolique', label: 'TA diastolique', type: 'number' }
+    { key: 'ta', label: 'Tension artérielle', type: 'ta' }
   ]},
-{ key: 'd', label: '🧠 D — Neurologique (Glasgow)', fields: [
+  { key: 'd', label: '🧠 D — Neurologique (Glasgow)', fields: [
     { key: 'conscience', label: 'Conscience (EVDA)', type: 'chip', options: ['Éveillé', 'Verbal', 'Douleur', 'Aréactif'] },
     { key: 'glasgowQuick', label: 'Sélection rapide', type: 'glasgowQuick' },
     { key: 'glasgowY', label: 'Ouverture des yeux', type: 'select', options: GLASGOW_OPTIONS.glasgowY },
@@ -2290,7 +2355,7 @@ const BILAN_CATEGORIES = [
     { key: 'glasgowM', label: 'Réponse motrice', type: 'select', options: GLASGOW_OPTIONS.glasgowM },
     { key: 'pupilles', label: 'Pupilles', type: 'chip', options: ['Normales', 'Asymétriques', 'Mydriase', 'Myosis'], info: 'pupilles' },
     { key: 'motricite', label: 'Motricité / sensibilité', type: 'text' },
-    { key: 'glycemie', label: 'Glycémie (g/L)', type: 'number', info: 'glycemie' }
+    { key: 'glycemie', label: 'Glycémie', type: 'glycemie' }
   ]},
   { key: 'avc', label: '🧠 Suspicion AVC (F.A.S.T.)', fields: [
     { key: 'avcFace', label: 'Face — asymétrie faciale', type: 'chip', options: ['Non', 'Oui'] },
@@ -2299,7 +2364,7 @@ const BILAN_CATEGORIES = [
     { key: 'avcTime', label: 'Time — heure d\'apparition des signes', type: 'text' }
   ]},
   { key: 'e', label: '🌡 E — Environnement', fields: [
-    { key: 'temperature', label: 'Température (°C)', type: 'number' },
+    { key: 'temperature', label: 'Température (°C)', type: 'number', info: 'temperature' },
     { key: 'environnement', label: 'Remarques environnement', type: 'text' }
   ]},
   { key: 'complementaire', label: '📋 Bilan complémentaire', fields: [
@@ -2310,16 +2375,10 @@ const BILAN_CATEGORIES = [
     { key: 'dernierRepas', label: 'Dernier repas', type: 'text' },
     { key: 'evenements', label: 'Évènements', type: 'text' },
     { key: 'risque', label: 'Risque', type: 'text' }
-  ]},
-  { key: 'douleur', label: '⚡ Douleur', fields: [
-    { key: 'origine', label: 'Origine', type: 'text' },
-    { key: 'provoquePar', label: 'Provoqué par', type: 'text' },
-    { key: 'qualite', label: 'Qualité', type: 'text' },
-    { key: 'region', label: 'Région', type: 'text' },
-    { key: 'severite', label: 'Sévérité', type: 'painscale' },
-    { key: 'temps', label: 'Temps', type: 'text' }
   ]}
 ];
+
+const DOULEUR_QUALITE_OPTIONS = ['Brûlure', 'Piqûre', 'Crampe', 'Pesanteur', 'Décharge électrique', 'En étau / qui serre', 'Autre'];
 
 const BILAN_STORAGE_KEY = 'eprotec_bilan_current';
 let bilanMode = 'reference';
@@ -2360,9 +2419,137 @@ function glasgowTotal() {
   return y + v + m;
 }
 
+function showFieldTimer(fieldKey) {
+  const overlay = document.createElement('div');
+  overlay.className = 'timer-overlay';
+  overlay.innerHTML = `
+    <div class="timer-box">
+      <div class="timer-label">Chrono 1 minute</div>
+      <button class="timer-circle" id="timer-btn">60</button>
+      <div><button class="detail-action-btn" id="timer-close" style="margin-top:20px;">Fermer</button></div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  let remaining = 60;
+  let interval = null;
+  let state = 'idle';
+  const btn = overlay.querySelector('#timer-btn');
+
+  function startTimer() {
+    remaining = 60;
+    state = 'running';
+    btn.classList.remove('timer-blink');
+    btn.textContent = remaining;
+    if (interval) clearInterval(interval);
+    interval = setInterval(() => {
+      remaining--;
+      if (remaining <= 0) {
+        clearInterval(interval);
+        interval = null;
+        state = 'done';
+        btn.textContent = '⏰';
+        btn.classList.add('timer-blink');
+      } else {
+        btn.textContent = remaining;
+      }
+    }, 1000);
+  }
+
+  btn.addEventListener('click', () => {
+    if (state === 'idle' || state === 'running') {
+      startTimer();
+    } else if (state === 'done') {
+      overlay.remove();
+      const field = document.querySelector(`[data-bilan-field="${fieldKey}"]`);
+      if (field) {
+        field.focus();
+        field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  });
+
+  overlay.querySelector('#timer-close').addEventListener('click', () => {
+    if (interval) clearInterval(interval);
+    overlay.remove();
+  });
+}
+
 function renderBilanField(f) {
   const value = bilanData[f.key] || '';
   const infoBtn = f.info ? `<button class="icon-btn" style="width:22px;height:22px;font-size:11px;margin-left:6px;" data-info="${f.info}">i</button>` : '';
+  const timerBtn = f.timer ? `<button class="timer-icon-btn" data-timer-field="${f.key}">⏱ 1 min</button>` : '';
+
+  if (f.type === 'age-display') {
+    return `
+      <div class="bilan-field-row">
+        <label>${f.label}</label>
+        <div style="color:#fff;font-size:15px;padding:10px 0;">${computeAge(bilanData.dateNaissance) !== '' ? computeAge(bilanData.dateNaissance) + ' ans' : 'Renseigne la date de naissance'}</div>
+      </div>
+    `;
+  }
+
+  if (f.type === 'date') {
+    return `
+      <div class="bilan-field-row">
+        <label>${f.label}</label>
+        <input type="date" data-bilan-field="${f.key}" value="${value}">
+      </div>
+    `;
+  }
+
+  if (f.type === 'geoloc') {
+    return `
+      <div class="bilan-field-row">
+        <label>${f.label}</label>
+        <div style="display:flex;gap:6px;">
+          <input type="text" data-bilan-field="${f.key}" value="${value}" style="flex:1;">
+          <button class="icon-btn" id="geoloc-btn-${f.key}" style="width:44px;flex-shrink:0;">📍</button>
+        </div>
+      </div>
+    `;
+  }
+
+  if (f.type === 'ta') {
+    const cote = bilanData.taCote || '';
+    const sys = bilanData.taSys || '';
+    const dia = bilanData.taDia || '';
+    const complement = bilanData.taComplement || '';
+    const heure = bilanData.taHeure ? formatHeureCourte(bilanData.taHeure) : '';
+    return `
+      <div class="bilan-field-row">
+        <label>${f.label}</label>
+        <div class="bilan-chip-row" style="margin-bottom:8px;">
+          ${['Bras gauche', 'Bras droit'].map(o => `<button class="bilan-chip ${cote === o ? 'active' : ''}" data-bilan-chip="taCote" data-value="${o}">${o}</button>`).join('')}
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <input type="number" data-bilan-field="taSys" placeholder="Sys." value="${sys}" style="width:70px;text-align:center;">
+          <span style="color:#9FB3D6;font-size:16px;">/</span>
+          <input type="number" data-bilan-field="taDia" placeholder="Dia." value="${dia}" style="width:70px;text-align:center;">
+          <span style="color:#9FB3D6;font-size:12px;">mmHg</span>
+        </div>
+        ${heure ? `<div style="color:#9FB3D6;font-size:11px;margin-top:4px;">Saisi à ${heure}</div>` : ''}
+        <input type="text" data-bilan-field="taComplement" placeholder="Complément (ex : aux 2 bras...)" value="${complement}" style="margin-top:8px;">
+      </div>
+    `;
+  }
+
+  if (f.type === 'glycemie') {
+    const gval = bilanData.glycemie || '';
+    const unite = bilanData.glycemieUnite || 'g/L';
+    return `
+      <div class="bilan-field-row">
+        <label>${f.label}${infoBtn}</label>
+        <div style="display:flex;gap:8px;">
+          <input type="number" step="0.01" data-bilan-field="glycemie" value="${gval}" style="flex:1;">
+          <select data-bilan-field="glycemieUnite" style="background:#0B2A5C;border:none;color:#fff;font-size:13px;padding:10px;border-radius:8px;">
+            <option value="g/L" ${unite === 'g/L' ? 'selected' : ''}>g/L</option>
+            <option value="mmol/L" ${unite === 'mmol/L' ? 'selected' : ''}>mmol/L</option>
+          </select>
+        </div>
+      </div>
+    `;
+  }
 
   if (f.type === 'chip') {
     return `
@@ -2391,7 +2578,7 @@ function renderBilanField(f) {
     return `
       <div class="bilan-field-row">
         <label>${f.label}${infoBtn}</label>
-        <select data-bilan-field="${f.key}" style="width:100%;background:#0B2A5C;border:none;color:#fff;font-size:14px;padding:10px 12px;border-radius:8px;">
+        <select data-bilan-field="${f.key}">
           <option value="">—</option>
           ${f.options.map(o => `<option value="${o.value}" ${String(o.value) === String(value) ? 'selected' : ''}>${o.label}</option>`).join('')}
         </select>
@@ -2400,26 +2587,9 @@ function renderBilanField(f) {
     `;
   }
 
-if (f.type === 'painscale') {
-    const painColors = ['#97C459','#A9C15A','#BDBE5B','#D4C459','#E8B84A','#EF9F27','#E88C34','#E67A38','#E86A3C','#E5573F','#E24B4A'];
-    return `
-      <div class="bilan-field-row">
-        <label>${f.label} (0 à 10)</label>
-        <div class="pain-faces">
-          <span>😀</span><span>🙂</span><span>😐</span><span>😟</span><span>😖</span><span>😭</span>
-        </div>
-        <div class="pain-bar">
-          ${[0,1,2,3,4,5,6,7,8,9,10].map(n => `<button class="pain-seg ${String(value) === String(n) ? 'selected' : ''}" data-bilan-chip="${f.key}" data-value="${n}" style="background:${painColors[n]};">${n}</button>`).join('')}
-        </div>
-        <div class="pain-labels">
-          <span>Pas de douleur</span><span>Pire douleur possible</span>
-        </div>
-      </div>
-    `;
-  }
   return `
     <div class="bilan-field-row">
-      <label>${f.label}${infoBtn}</label>
+      <label>${f.label}${infoBtn}${timerBtn}</label>
       <input type="${f.type}" data-bilan-field="${f.key}" value="${value}">
     </div>
   `;
@@ -2433,37 +2603,7 @@ function updateGlasgowTotalDisplay() {
 function refreshChipGroup(container, key) {
   const value = bilanData[key];
   container.querySelectorAll(`[data-bilan-chip="${key}"]`).forEach(btn => {
-    const match = String(btn.dataset.value) === String(value);
-    if (btn.classList.contains('pain-seg')) btn.classList.toggle('selected', match);
-    else btn.classList.toggle('active', match);
-  });
-}
-
-function setGlasgowQuick(container, y, v, m) {
-  bilanData.glasgowY = y;
-  bilanData.glasgowV = v;
-  bilanData.glasgowM = m;
-  saveBilanData();
-  const selY = container.querySelector('select[data-bilan-field="glasgowY"]');
-  const selV = container.querySelector('select[data-bilan-field="glasgowV"]');
-  const selM = container.querySelector('select[data-bilan-field="glasgowM"]');
-  if (selY) selY.value = y;
-  if (selV) selV.value = v;
-  if (selM) selM.value = m;
-  updateGlasgowTotalDisplay();
-}
-
-function updateGlasgowTotalDisplay() {
-  const el = document.getElementById('glasgow-total-display');
-  if (el) el.textContent = `Score Glasgow total : ${glasgowTotal()} / 15`;
-}
-
-function refreshChipGroup(container, key) {
-  const value = bilanData[key];
-  container.querySelectorAll(`[data-bilan-chip="${key}"]`).forEach(btn => {
-    const match = String(btn.dataset.value) === String(value);
-    if (btn.classList.contains('pain-seg')) btn.classList.toggle('selected', match);
-    else btn.classList.toggle('active', match);
+    btn.classList.toggle('active', String(btn.dataset.value) === String(value));
   });
 }
 
@@ -2502,7 +2642,11 @@ function buildDouleurCardsHtml() {
       </div>
       <div class="bilan-field-row">
         <label>Qualité <button class="icon-btn" style="width:22px;height:22px;font-size:11px;" data-info="douleur_qualite">i</button></label>
-        <input type="text" data-douleur-field="qualite" data-douleur-idx="${idx}" value="${d.qualite || ''}">
+        <select data-douleur-select="qualite" data-douleur-idx="${idx}">
+          <option value="">—</option>
+          ${DOULEUR_QUALITE_OPTIONS.map(o => `<option value="${o}" ${d.qualite === o ? 'selected' : ''}>${o}</option>`).join('')}
+        </select>
+        ${d.qualite === 'Autre' ? `<input type="text" data-douleur-field="qualiteAutre" data-douleur-idx="${idx}" placeholder="Préciser" value="${d.qualiteAutre || ''}" style="margin-top:6px;">` : ''}
       </div>
       <div class="bilan-field-row">
         <label>Région <button class="icon-btn" style="width:22px;height:22px;font-size:11px;" data-info="douleur_region">i</button></label>
@@ -2533,6 +2677,15 @@ function attachDouleurListeners() {
       const idx = parseInt(input.dataset.douleurIdx, 10);
       bilanData.douleurs[idx][input.dataset.douleurField] = input.value;
       saveBilanData();
+    });
+  });
+
+  body.querySelectorAll('[data-douleur-select]').forEach(select => {
+    select.addEventListener('change', () => {
+      const idx = parseInt(select.dataset.douleurIdx, 10);
+      bilanData.douleurs[idx][select.dataset.douleurSelect] = select.value;
+      saveBilanData();
+      renderDouleurBody();
     });
   });
 
@@ -2579,33 +2732,273 @@ function renderDouleurBody() {
   attachDouleurListeners();
 }
 
+function buildSuiviHtml() {
+  if (!Array.isArray(bilanData.suivi)) bilanData.suivi = [];
+  const vital = bilanData.suiviVital || 'Non';
+  const interval = vital === 'Oui' ? '5 minutes' : '15 minutes';
+  return `
+    <div class="bilan-field-row">
+      <label>Situation jugée vitale ?</label>
+      <div class="bilan-chip-row">
+        ${['Non', 'Oui'].map(o => `<button class="bilan-chip ${vital === o ? 'active' : ''}" data-suivi-vital="${o}">${o}</button>`).join('')}
+      </div>
+      <div style="color:#9FB3D6;font-size:12px;margin-top:6px;">Fréquence de relevé recommandée : toutes les ${interval}</div>
+    </div>
+    ${bilanData.suivi.map((s, idx) => `
+      <div class="card" style="margin-bottom:8px;">
+        <div class="card-top-row" style="margin-bottom:8px;">
+          <span class="tag-badge">${s.heure ? formatDateHeureCourte(s.heure) : ''}</span>
+          <button class="icon-btn" style="width:26px;height:26px;font-size:13px;" data-suivi-remove="${idx}">✕</button>
+        </div>
+        <div class="bilan-field-row">
+          <label>SpO2 %</label>
+          <input type="number" data-suivi-field="spo2" data-suivi-idx="${idx}" value="${s.spo2 || ''}">
+        </div>
+        <div class="bilan-field-row">
+          <label>Tension (Sys / Dia)</label>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <input type="number" data-suivi-field="taSys" data-suivi-idx="${idx}" placeholder="Sys." value="${s.taSys || ''}" style="width:70px;text-align:center;">
+            <span style="color:#9FB3D6;">/</span>
+            <input type="number" data-suivi-field="taDia" data-suivi-idx="${idx}" placeholder="Dia." value="${s.taDia || ''}" style="width:70px;text-align:center;">
+            <span style="color:#9FB3D6;font-size:12px;">mmHg</span>
+          </div>
+        </div>
+      </div>
+    `).join('')}
+    <button class="detail-action-btn" id="suivi-add">➕ Ajouter un relevé</button>
+  `;
+}
+
+function attachSuiviListeners() {
+  const body = document.getElementById('suivi-body');
+  if (!body) return;
+
+  body.querySelectorAll('[data-suivi-vital]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      bilanData.suiviVital = btn.dataset.suiviVital;
+      saveBilanData();
+      renderSuiviBody();
+    });
+  });
+
+  body.querySelectorAll('[data-suivi-field]').forEach(input => {
+    input.addEventListener('input', () => {
+      const idx = parseInt(input.dataset.suiviIdx, 10);
+      bilanData.suivi[idx][input.dataset.suiviField] = input.value;
+      saveBilanData();
+    });
+  });
+
+  body.querySelectorAll('[data-suivi-remove]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = parseInt(btn.dataset.suiviRemove, 10);
+      bilanData.suivi.splice(idx, 1);
+      saveBilanData();
+      renderSuiviBody();
+    });
+  });
+
+  const addBtn = body.querySelector('#suivi-add');
+  if (addBtn) {
+    addBtn.addEventListener('click', () => {
+      bilanData.suivi.push({ heure: new Date().toISOString() });
+      saveBilanData();
+      renderSuiviBody();
+    });
+  }
+}
+
+function renderSuiviBody() {
+  const body = document.getElementById('suivi-body');
+  if (!body) return;
+  body.innerHTML = buildSuiviHtml();
+  attachSuiviListeners();
+}
+
+function buildBilanSummaryText() {
+  let text = '';
+
+  if (bilanData.dateHeureOuverture) {
+    text += `Bilan ouvert à ${formatDateHeureCourte(bilanData.dateHeureOuverture)}\n\n`;
+  }
+  if (bilanData.nom || bilanData.prenom) {
+    text += `Identité : ${bilanData.prenom || ''} ${bilanData.nom || ''}`.trim();
+    const age = computeAge(bilanData.dateNaissance);
+    if (age !== '') text += ` (${age} ans)`;
+    text += '\n\n';
+  }
+
+  BILAN_CATEGORIES.forEach(cat => {
+    if (cat.key === 'identite') return;
+    const filled = cat.fields.filter(f => f.type !== 'glasgowQuick' && f.type !== 'age-display' && bilanData[f.key]);
+    let catText = '';
+    filled.forEach(f => {
+      let displayValue = bilanData[f.key];
+      if (f.type === 'select') {
+        const opt = f.options.find(o => String(o.value) === String(displayValue));
+        if (opt) displayValue = opt.label;
+      }
+      catText += `- ${f.label.split(' (')[0]} : ${displayValue}\n`;
+    });
+    if (cat.key === 'c' && (bilanData.taSys || bilanData.taDia)) {
+      catText += `- TA : ${bilanData.taSys || '?'}/${bilanData.taDia || '?'} mmHg${bilanData.taCote ? ' (' + bilanData.taCote + ')' : ''}${bilanData.taComplement ? ' — ' + bilanData.taComplement : ''}${bilanData.taHeure ? ' à ' + formatHeureCourte(bilanData.taHeure) : ''}\n`;
+    }
+    if (cat.key === 'd') {
+      if (bilanData.glycemie) catText += `- Glycémie : ${bilanData.glycemie} ${bilanData.glycemieUnite || 'g/L'}\n`;
+      catText += `- Score Glasgow total : ${glasgowTotal()} / 15\n`;
+    }
+    if (catText) text += cat.label.replace(/^\S+\s/, '') + '\n' + catText + '\n';
+  });
+
+  const douleurs = (bilanData.douleurs || []).filter(d => Object.values(d).some(v => v));
+  if (douleurs.length > 0) {
+    text += 'Douleur\n';
+    douleurs.forEach((d, i) => {
+      text += `Douleur ${i + 1} :\n`;
+      if (d.origine) text += `- Origine : ${d.origine}\n`;
+      if (d.provoquePar) text += `- Provoqué par : ${d.provoquePar}\n`;
+      const qualite = d.qualite === 'Autre' ? d.qualiteAutre : d.qualite;
+      if (qualite) text += `- Qualité : ${qualite}\n`;
+      if (d.region) text += `- Région : ${d.region}\n`;
+      if (d.severite != null && d.severite !== '') text += `- Sévérité : ${d.severite}/10\n`;
+      if (d.temps) text += `- Temps : ${d.temps}\n`;
+    });
+    text += '\n';
+  }
+
+  const suivi = bilanData.suivi || [];
+  if (suivi.length > 0) {
+    text += `Suivi (relevé toutes les ${bilanData.suiviVital === 'Oui' ? '5' : '15'} min)\n`;
+    suivi.forEach(s => {
+      text += `${formatDateHeureCourte(s.heure)} — SpO2 : ${s.spo2 || '?'}% — TA : ${s.taSys || '?'}/${s.taDia || '?'}\n`;
+    });
+    text += '\n';
+  }
+
+  return text || 'Aucune donnée saisie pour le moment.';
+}
+
+function showBilanSummary() {
+  const text = buildBilanSummaryText();
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999;display:flex;align-items:center;justify-content:center;padding:20px;';
+  overlay.innerHTML = `
+    <div style="background:#163C74;border-radius:16px;padding:20px;width:100%;max-width:400px;max-height:80vh;overflow-y:auto;">
+      <div style="color:#fff;font-size:14px;white-space:pre-wrap;margin-bottom:16px;">${escapeHtml(text)}</div>
+      <button class="detail-action-btn primary" id="summary-close">Fermer</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.querySelector('#summary-close').addEventListener('click', () => overlay.remove());
+}
+
+function handleBilanCopy() {
+  const text = buildBilanSummaryText();
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('bilan-icon-copy');
+    if (btn) {
+      const original = btn.textContent;
+      btn.textContent = '✓';
+      setTimeout(() => { btn.textContent = original; }, 1500);
+    }
+  });
+}
+
+function handleBilanWhatsapp() {
+  const text = buildBilanSummaryText();
+  window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
+}
+
+async function handleBilanNew() {
+  const confirmClear = await promptChoice('Effacer le bilan en cours et en commencer un nouveau ?', ['Oui, effacer', 'Annuler']);
+  if (confirmClear === 'Oui, effacer') {
+    bilanData = {};
+    saveBilanData();
+    renderBilanFill();
+  }
+}
+
+function renderBilanIcons() {
+  const iconsContainer = document.getElementById('bilan-icons');
+  if (bilanMode !== 'remplir') { iconsContainer.innerHTML = ''; return; }
+  iconsContainer.innerHTML = `
+    <button class="icon-btn" id="bilan-icon-new" aria-label="Nouveau bilan">🗑</button>
+    <button class="icon-btn" id="bilan-icon-summary" aria-label="Résumé">📋</button>
+    <button class="icon-btn" id="bilan-icon-copy" aria-label="Copier">📤</button>
+    <button class="icon-btn" id="bilan-icon-whatsapp" aria-label="Envoyer par WhatsApp">💬</button>
+  `;
+  document.getElementById('bilan-icon-new').addEventListener('click', handleBilanNew);
+  document.getElementById('bilan-icon-summary').addEventListener('click', showBilanSummary);
+  document.getElementById('bilan-icon-copy').addEventListener('click', handleBilanCopy);
+  document.getElementById('bilan-icon-whatsapp').addEventListener('click', handleBilanWhatsapp);
+}
+
 function renderBilanFill() {
+  if (!bilanData.dateHeureOuverture) {
+    bilanData.dateHeureOuverture = new Date().toISOString();
+    saveBilanData();
+  }
+
   const container = document.getElementById('bilan-content');
-  container.innerHTML = BILAN_CATEGORIES.map(cat => `
+  container.innerHTML = `
+    <div class="card" style="text-align:center;padding:10px;">
+      <span style="color:#9FB3D6;font-size:12px;">Bilan ouvert à ${formatDateHeureCourte(bilanData.dateHeureOuverture)}</span>
+    </div>
+  ` + BILAN_CATEGORIES.map(cat => `
     <div class="month-group">
       <button class="month-toggle">
         <span>${cat.label}</span>
         <span class="month-chevron">▸</span>
       </button>
       <div class="month-body" ${cat.key === 'douleur' ? 'id="douleur-body"' : ''} style="display:none">
-        ${cat.key === 'douleur' ? buildDouleurCardsHtml() : cat.fields.map(f => renderBilanField(f)).join('')}
+        ${cat.fields.map(f => renderBilanField(f)).join('')}
       </div>
     </div>
   `).join('') + `
-    <div class="settings-actions">
-      <button class="detail-action-btn" id="bilan-new">🗑 Nouveau bilan</button>
-      <button class="detail-action-btn primary" id="bilan-summary">📋 Résumé</button>
+    <div class="month-group">
+      <button class="month-toggle">
+        <span>⚡ Douleur</span>
+        <span class="month-chevron">▸</span>
+      </button>
+      <div class="month-body" id="douleur-body" style="display:none">
+        ${buildDouleurCardsHtml()}
+      </div>
+    </div>
+    <div class="month-group">
+      <button class="month-toggle">
+        <span>🔄 Suivi</span>
+        <span class="month-chevron">▸</span>
+      </button>
+      <div class="month-body" id="suivi-body" style="display:none">
+        ${buildSuiviHtml()}
+      </div>
     </div>
   `;
 
   setupAccordion(container);
   attachDouleurListeners();
+  attachSuiviListeners();
+  renderBilanIcons();
 
   container.querySelectorAll('input[data-bilan-field]').forEach(input => {
+    if (BILAN_ABNORMAL_RANGES[input.dataset.bilanField]) applyFieldWarning(input, input.dataset.bilanField);
+
     input.addEventListener('input', () => {
       bilanData[input.dataset.bilanField] = input.value;
       saveBilanData();
+      if (BILAN_ABNORMAL_RANGES[input.dataset.bilanField]) applyFieldWarning(input, input.dataset.bilanField);
+      if (input.dataset.bilanField === 'taSys' || input.dataset.bilanField === 'taDia') {
+        if (!bilanData.taHeure) { bilanData.taHeure = new Date().toISOString(); saveBilanData(); }
+      }
     });
+
+    if (input.type === 'date') {
+      input.addEventListener('change', () => {
+        bilanData[input.dataset.bilanField] = input.value;
+        saveBilanData();
+        renderBilanFill();
+      });
+    }
   });
 
   container.querySelectorAll('select[data-bilan-field]').forEach(select => {
@@ -2626,6 +3019,10 @@ function renderBilanFill() {
     });
   });
 
+  container.querySelectorAll('[data-timer-field]').forEach(btn => {
+    btn.addEventListener('click', () => showFieldTimer(btn.dataset.timerField));
+  });
+
   container.querySelectorAll('[data-info]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -2639,74 +3036,33 @@ function renderBilanFill() {
   const set3 = container.querySelector('#glasgow-set-3');
   if (set3) set3.addEventListener('click', () => setGlasgowQuick(container, 1, 1, 1));
 
-  container.querySelector('#bilan-new').addEventListener('click', async () => {
-    const confirmClear = await promptChoice('Effacer le bilan en cours ?', ['Oui, effacer', 'Annuler']);
-    if (confirmClear === 'Oui, effacer') {
-      bilanData = {};
-      saveBilanData();
-      renderBilanFill();
-    }
-  });
-
-  container.querySelector('#bilan-summary').addEventListener('click', () => {
-    let text = '';
-    BILAN_CATEGORIES.forEach(cat => {
-      if (cat.key === 'douleur') {
-        const douleurs = (bilanData.douleurs || []).filter(d => Object.values(d).some(v => v));
-        if (douleurs.length === 0) return;
-        text += 'Douleur\n';
-        douleurs.forEach((d, i) => {
-          text += `Douleur ${i + 1} :\n`;
-          if (d.origine) text += `- Origine : ${d.origine}\n`;
-          if (d.provoquePar) text += `- Provoqué par : ${d.provoquePar}\n`;
-          if (d.qualite) text += `- Qualité : ${d.qualite}\n`;
-          if (d.region) text += `- Région : ${d.region}\n`;
-          if (d.severite != null && d.severite !== '') text += `- Sévérité : ${d.severite}/10\n`;
-          if (d.temps) text += `- Temps : ${d.temps}\n`;
-        });
-        text += '\n';
-        return;
-      }
-      const filled = cat.fields.filter(f => f.type !== 'glasgowQuick' && bilanData[f.key]);
-      if (filled.length === 0) return;
-      text += cat.label.replace(/^\S+\s/, '') + '\n';
-      filled.forEach(f => {
-        let displayValue = bilanData[f.key];
-        if (f.type === 'select') {
-          const opt = f.options.find(o => String(o.value) === String(displayValue));
-          if (opt) displayValue = opt.label;
-        }
-        text += `- ${f.label.split(' (')[0]} : ${displayValue}\n`;
-      });
-      if (cat.key === 'd') text += `- Score Glasgow total : ${glasgowTotal()} / 15\n`;
-      text += '\n';
-    });
-    if (!text) text = 'Aucune donnée saisie pour le moment.';
-
-    const overlay = document.createElement('div');
-    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999;display:flex;align-items:center;justify-content:center;padding:20px;';
-    overlay.innerHTML = `
-      <div style="background:#163C74;border-radius:16px;padding:20px;width:100%;max-width:400px;max-height:80vh;overflow-y:auto;">
-        <div style="color:#fff;font-size:14px;white-space:pre-wrap;margin-bottom:16px;">${escapeHtml(text)}</div>
-        <div style="display:flex;gap:8px;">
-          <button class="detail-action-btn" id="summary-close">Fermer</button>
-          <button class="detail-action-btn primary" id="summary-copy">Copier</button>
-        </div>
-      </div>
-    `;
-    document.body.appendChild(overlay);
-    overlay.querySelector('#summary-close').addEventListener('click', () => overlay.remove());
-    overlay.querySelector('#summary-copy').addEventListener('click', () => {
-      navigator.clipboard.writeText(text).then(() => {
-        overlay.querySelector('#summary-copy').textContent = '✓ Copié';
+  const geolocBtn = container.querySelector('#geoloc-btn-situation');
+  if (geolocBtn) {
+    geolocBtn.addEventListener('click', () => {
+      if (!navigator.geolocation) { alert('Géolocalisation non disponible sur cet appareil.'); return; }
+      geolocBtn.textContent = '…';
+      navigator.geolocation.getCurrentPosition(async (pos) => {
+        const { latitude, longitude } = pos.coords;
+        let address = `${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
+        try {
+          const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`, { headers: { 'User-Agent': 'Eprotec-Mobile/1.0' } });
+          const data = await res.json();
+          if (data && data.display_name) address = data.display_name;
+        } catch {}
+        bilanData.situation = address;
+        saveBilanData();
+        renderBilanFill();
+      }, () => {
+        geolocBtn.textContent = '📍';
+        alert('Impossible de récupérer la position.');
       });
     });
-  });
+  }
 }
 
 function renderBilan() {
   loadBilanData();
-  if (bilanMode === 'reference') renderBilanReference();
+  if (bilanMode === 'reference') { renderBilanReference(); document.getElementById('bilan-icons').innerHTML = ''; }
   else renderBilanFill();
 }
 
