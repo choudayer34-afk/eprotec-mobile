@@ -419,7 +419,7 @@ function normalizeText(str) {
 function formatDate(iso) {
   if (!iso) return 'date inconnue';
   const d = new Date(iso);
-  return d.toLocaleString('fr-FR', { weekday: 'short', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+  return d.toLocaleString('fr-FR', { weekday: 'short', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 }
 
 function formatDateFull(iso) {
@@ -1099,7 +1099,7 @@ function renderInscriptions() {
 }
 
 function renderSuggestions(suggestions) {
-  const sorted = [...suggestions].sort((a, b) => new Date(a.dateDebut) - new Date(b.dateDebut));
+  const sorted = [...suggestions].sort((a, b) => b.score - a.score);
   renderMonthGroupedCards(
     document.getElementById('liste-suggestions'),
     groupByMonth(sorted),
@@ -1107,7 +1107,7 @@ function renderSuggestions(suggestions) {
     { showScore: true }
   );
 }
-
+  
 function getMonthlyDpsStats(entries, year) {
   const hours = new Array(12).fill(0);
   const counts = new Array(12).fill(0);
