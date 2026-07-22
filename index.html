@@ -475,9 +475,13 @@
         <div class="tile-icon">🧠</div>
         <div class="tile-title">Psychologie & relationnel</div>
       </div>
-      <div class="tile" data-open="plus-materiel">
+<div class="tile" data-open="plus-materiel">
         <div class="tile-icon">🧰</div>
         <div class="tile-title">Matériel</div>
+      </div>
+      <div class="tile" data-open="plus-novi">
+        <div class="tile-icon">👥</div>
+        <div class="tile-title">Nombreuses victimes</div>
       </div>
     </div>
   </section>
@@ -571,12 +575,20 @@
     <div id="psychologie-content"><div class="empty">Chargement...</div></div>
   </section>
 
-  <section id="plus-materiel">
+<section id="plus-materiel">
     <div class="detail-header">
       <button class="plus-back" data-target="plus-secourisme">‹</button>
       <span>Matériel</span>
     </div>
     <div id="materiel-content"><div class="empty">Chargement...</div></div>
+  </section>
+
+  <section id="plus-novi">
+    <div class="detail-header">
+      <button class="plus-back" data-target="plus-secourisme">‹</button>
+      <span>Nombreuses victimes</span>
+    </div>
+    <div id="novi-content"><div class="empty">Chargement...</div></div>
   </section>
 
   <section id="plus-liens">
@@ -1131,7 +1143,8 @@ if (subId === 'plus-parametres') renderParametres();
   if (subId === 'plus-gestes-plaies') renderGestesList('gestes-plaies-content', ['plaies_brulures']);
   if (subId === 'plus-gestes-degagement') renderGestesList('gestes-degagement-content', ['degagement']);
   if (subId === 'plus-psychologie') renderGestesList('psychologie-content', ['psychologie']);
-  if (subId === 'plus-materiel') renderGestesList('materiel-content', ['materiel']);
+if (subId === 'plus-materiel') renderGestesList('materiel-content', ['materiel']);
+  if (subId === 'plus-novi') renderGestesList('novi-content', ['novi']);
 }
 
 document.getElementById('kpi-inscrits-box').addEventListener('click', () => {
@@ -3957,10 +3970,64 @@ const GESTES_DATA = [
         ]
       }
     ]
+  },
+  {
+    key: 'novi',
+    title: '👥 Situation à multiples victimes (SMV / NOVI)',
+    summary: [
+      "Plus de victimes que ce que la première équipe peut prendre en charge",
+      "Rester calme, se conformer aux ordres du responsable (COS/DSM)",
+      "Repérage rapide : ne pas s'arrêter sur un blessé, sauf hémorragie (garrot/pansement compressif)",
+      "Diriger les blessés valides vers un point de rassemblement des victimes (PRV)"
+    ],
+    sections: [
+      {
+        title: 'Définition',
+        items: [
+          "Situation à Multiples Victimes (SMV) : accident ou événement avec un nombre de victimes plus élevé que ce que la première équipe de secours sur place peut prendre en charge",
+          "Causes fréquentes : accidents de circulation, incendies de grande ampleur, effondrements, mouvements de foule...",
+          "Le nombre réel de victimes est souvent difficile à évaluer au début, les blessés valides ayant tendance à se déplacer ou à se regrouper spontanément"
+        ]
+      },
+      {
+        title: 'Premiers réflexes',
+        items: [
+          "Rester calme",
+          "Effectuer une reconnaissance visuelle du sinistre avant de s'engager",
+          "Se conformer aux ordres du responsable des opérations (chef d'agrès, COS, DSM)",
+          "Ne jamais s'engager seul dans une zone non sécurisée"
+        ]
+      },
+      {
+        title: 'Repérage des victimes',
+        items: [
+          "Le repérage doit être simple et rapide, basé sur l'observation",
+          "Ne pas s'arrêter sur une victime pour un geste qui immobiliserait plusieurs minutes",
+          "Exception : arrêter une hémorragie par pansement compressif ou garrot — ce geste reste prioritaire même en contexte de multiples victimes"
+        ]
+      },
+      {
+        title: 'Point de rassemblement des victimes (PRV)',
+        items: [
+          "Diriger les blessés capables de se déplacer vers une zone sûre, à l'écart du sinistre",
+          "Si possible, les accompagner ou les faire accompagner par un équipier",
+          "Cette zone sécurisée est appelée le point de rassemblement des victimes (PRV)"
+        ]
+      },
+      {
+        title: 'Organisation des secours',
+        items: [
+          "Un dispositif renforcé (type ORSEC secours à nombreuses victimes) peut être déclenché",
+          "Un tri médical des victimes selon leur gravité est réalisé par l'encadrement médical présent",
+          "Le secouriste isolé ne décide pas seul de ce tri — il applique les consignes reçues"
+        ]
+      }
+    ]
   }
 ];
 
 const GESTE_CATEGORIES_MAP = {
+  novi: 'novi',
   lva: 'urgences',
   hemorragie: 'urgences',
   rcp: 'urgences',
