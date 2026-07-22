@@ -231,9 +231,18 @@
     padding: 7px 12px; border-radius: 20px;
   }
   .bilan-chip.active { background: #F5821F; color: #4A1B0C; font-weight: 500; }
-  .bilan-ref-item { font-size: 13px; color: #fff; padding: 6px 0; border-top: 0.5px solid #223258; }
+.bilan-ref-item { font-size: 13px; color: #fff; padding: 6px 0; border-top: 0.5px solid #223258; }
   .bilan-ref-item:first-child { border-top: none; }
   .mnemo { font-style: italic; color: #F5821F; }
+  .pain-faces { display: flex; justify-content: space-between; padding: 0 2px; margin-bottom: 4px; font-size: 22px; }
+  .pain-bar { display: flex; border-radius: 20px; overflow: hidden; }
+  .pain-seg {
+    flex: 1; text-align: center; font-size: 11px; font-weight: 600; color: #0B2A5C;
+    padding: 10px 0; border: none; border-right: 1px solid rgba(0,0,0,0.15);
+  }
+  .pain-seg:last-child { border-right: none; }
+  .pain-seg.selected { outline: 3px solid #fff; position: relative; z-index: 1; }
+  .pain-labels { display: flex; justify-content: space-between; color: #9FB3D6; font-size: 10px; margin-top: 6px; }
 
   .tile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .tile {
@@ -2208,20 +2217,21 @@ function renderBilanField(f) {
 
 if (f.type === 'painscale') {
     const painColors = ['#97C459','#A9C15A','#BDBE5B','#D4C459','#E8B84A','#EF9F27','#E88C34','#E67A38','#E86A3C','#E5573F','#E24B4A'];
-    const faces = ['😀','🙂','🙂','😐','😐','😕','😟','😣','😖','😫','😭'];
     return `
       <div class="bilan-field-row">
         <label>${f.label} (0 à 10)</label>
-        <div class="bilan-chip-row" style="flex-wrap:wrap;">
-          ${[0,1,2,3,4,5,6,7,8,9,10].map(n => `<button class="bilan-chip ${String(value) === String(n) ? 'active' : ''}" data-bilan-chip="${f.key}" data-value="${n}" style="min-width:34px;${String(value) === String(n) ? 'background:' + painColors[n] + ';color:#0B2A5C;' : ''}">${n}</button>`).join('')}
+        <div class="pain-faces">
+          <span>😀</span><span>🙂</span><span>😐</span><span>😟</span><span>😖</span><span>😭</span>
         </div>
-        <div style="display:flex;justify-content:space-between;color:#9FB3D6;font-size:10px;margin-top:6px;">
+        <div class="pain-bar">
+          ${[0,1,2,3,4,5,6,7,8,9,10].map(n => `<button class="pain-seg ${String(value) === String(n) ? 'selected' : ''}" data-bilan-chip="${f.key}" data-value="${n}" style="background:${painColors[n]};">${n}</button>`).join('')}
+        </div>
+        <div class="pain-labels">
           <span>Pas de douleur</span><span>Pire douleur possible</span>
         </div>
       </div>
     `;
   }
-
   return `
     <div class="bilan-field-row">
       <label>${f.label}${infoBtn}</label>
