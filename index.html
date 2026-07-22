@@ -2285,7 +2285,7 @@ const GLASGOW_OPTIONS = {
   ]
 };
 
-function goToGesteFiche(sectionId, contentId, categories, gesteKey) {
+function goToGesteFiche(sectionId, contentId, categories, gesteKey, fromBilan) {
   document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === 'plus'));
   document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
   document.getElementById(sectionId).classList.add('active');
@@ -2294,8 +2294,26 @@ function goToGesteFiche(sectionId, contentId, categories, gesteKey) {
     const container = document.getElementById(contentId);
     const target = container.querySelector(`.geste-group[data-geste-key="${gesteKey}"] .month-toggle`);
     if (target) target.click();
+    if (fromBilan) {
+      const banner = document.createElement('button');
+      banner.className = 'detail-action-btn primary';
+      banner.style.cssText = 'margin-bottom:12px;';
+      banner.textContent = '🩺 ‹ Retour au bilan';
+      banner.addEventListener('click', () => {
+        document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === 'plus'));
+        document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+        document.getElementById('plus-bilan').classList.add('active');
+      });
+      container.parentNode.insertBefore(banner, container);
+    }
   }, 50);
 }
+
+function goToHemorragieFiche() { goToGesteFiche('plus-gestes-urgences', 'gestes-urgences-content', ['urgences'], 'hemorragie', true); }
+function goToLvaFiche() { goToGesteFiche('plus-gestes-urgences', 'gestes-urgences-content', ['urgences'], 'lva', true); }
+function goToAvcFiche() { goToGesteFiche('plus-gestes-urgences', 'gestes-urgences-content', ['urgences'], 'avc', true); }
+function goToHypoglycemieFiche() { goToGesteFiche('plus-gestes-malaises', 'gestes-malaises-content', ['malaises'], 'hypoglycemie', true); }
+function goToHyperthermieFiche() { goToGesteFiche('plus-gestes-malaises', 'gestes-malaises-content', ['malaises'], 'hyperthermie', true); }
 
 const CATEGORY_SCREENS = {
   urgences: { section: 'plus-gestes-urgences', content: 'gestes-urgences-content', cats: ['urgences'] },
@@ -2358,12 +2376,8 @@ document.getElementById('secourisme-search').addEventListener('input', (e) => {
   renderSecourismeSearch(e.target.value);
 });
 
-function goToHemorragieFiche() { goToGesteFiche('plus-gestes-urgences', 'gestes-urgences-content', ['urgences'], 'hemorragie'); }
-function goToLvaFiche() { goToGesteFiche('plus-gestes-urgences', 'gestes-urgences-content', ['urgences'], 'lva'); }
-function goToAvcFiche() { goToGesteFiche('plus-gestes-urgences', 'gestes-urgences-content', ['urgences'], 'avc'); }
-function goToHyperthermieFiche() { goToGesteFiche('plus-gestes-malaises', 'gestes-malaises-content', ['malaises'], 'hyperthermie'); }
-function goToDouleurThoraciqueFiche() { goToGesteFiche('plus-gestes-malaises', 'gestes-malaises-content', ['malaises'], 'douleurthoracique'); }
-
+function goToDouleurThoraciqueFiche() { goToGesteFiche('plus-gestes-malaises', 'gestes-malaises-content', ['malaises'], 'douleurthoracique', true); }
+  
 function getDouleurSuggestionHtml(d) {
   const severite = parseFloat(d.severite);
   const region = normalizeText(d.region || '');
