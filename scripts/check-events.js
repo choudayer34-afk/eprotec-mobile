@@ -402,7 +402,7 @@ async function main() {
 
   const historyCutoff = new Date(now.getTime() - 60 * 24 * 3600 * 1000);
   const upcoming = events.filter(e => e.startDate && e.startDate > historyCutoff);
-  const eventsForApp = upcoming.map(e => ({
+ const eventsForApp = upcoming.map(e => ({
     uid: e.uid,
     tag: e.tag,
     titre: e.summary,
@@ -412,6 +412,7 @@ async function main() {
     dureeHeures: e.dureeHeures,
     dejaInscrit: e.dejaInscrit,
     nouveau: recentNewSet.has(e.uid),
+    nouveauDepuis: recentNewSet.has(e.uid) ? recentNew[e.uid] : null,
     url: e.url,
     description: e.description
   }));
