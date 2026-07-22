@@ -1,5 +1,14 @@
 [
   {
+    "version": "2.6",
+    "date": "2026-07-22T14:53:06.890Z",
+    "title": "Réglette de douleur visuelle en dégradé (style Wong-Baker)",
+    "items": [
+      "L'échelle de douleur devient une vraie réglette continue en dégradé vert à rouge, avec émojis",
+      "Fidèle à la présentation du référentiel officiel utilisé pour la formation"
+    ]
+  },
+  {
     "version": "2.5",
     "date": "2026-07-22T14:50:14.552Z",
     "title": "Ajout d'une explication (i) pour les pupilles",
