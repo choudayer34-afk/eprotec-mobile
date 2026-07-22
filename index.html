@@ -2284,8 +2284,26 @@ function goToGesteFiche(sectionId, contentId, categories, gesteKey) {
 function goToHemorragieFiche() { goToGesteFiche('plus-gestes-urgences', 'gestes-urgences-content', ['urgences'], 'hemorragie'); }
 function goToLvaFiche() { goToGesteFiche('plus-gestes-urgences', 'gestes-urgences-content', ['urgences'], 'lva'); }
 function goToAvcFiche() { goToGesteFiche('plus-gestes-urgences', 'gestes-urgences-content', ['urgences'], 'avc'); }
-function goToHypoglycemieFiche() { goToGesteFiche('plus-gestes-malaises', 'gestes-malaises-content', ['malaises'], 'hypoglycemie'); }
 function goToHyperthermieFiche() { goToGesteFiche('plus-gestes-malaises', 'gestes-malaises-content', ['malaises'], 'hyperthermie'); }
+function goToDouleurThoraciqueFiche() { goToGesteFiche('plus-gestes-malaises', 'gestes-malaises-content', ['malaises'], 'douleurthoracique'); }
+
+function getDouleurSuggestionHtml(d) {
+  const severite = parseFloat(d.severite);
+  const region = normalizeText(d.region || '');
+  let html = '';
+  if (region.includes('thorax') || region.includes('poitrine')) {
+    html += suggestionBox('💔 Douleur thoracique signalée', '→ Voir la fiche Douleur thoracique', 'goToDouleurThoraciqueFiche');
+  }
+  if (!isNaN(severite) && severite >= 7) {
+    html += suggestionBox("⚠️ Douleur sévère : position antalgique, ne pas donner d'antalgique sans avis médical, avis médical (15) recommandé");
+  }
+  return html;
+}
+
+function updateDouleurSuggestion(idx) {
+  const el = document.getElementById(`suggestion-douleur-${idx}`);
+  if (el) el.innerHTML = getDouleurSuggestionHtml(bilanData.douleurs[idx]);
+}
 
 const SUGGESTION_FIELDS = new Set([
   'hemorragie', 'voiesAeriennes', 'freqRespi', 'amplitudeRespi', 'freqCardiaque',
@@ -2366,6 +2384,21 @@ function getSuggestionHtml(key) {
       return '';
   }
   return '';
+}
+
+function getTaDiffSuggestionHtml() {
+  const gSys = parseFloat(bilanData.taGaucheSys);
+  const dSys = parseFloat(bilanData.taDroitSys);
+  if (isNaN(gSys) || isNaN(dSys)) return '';
+  if (Math.abs(gSys - dSys) > 20) {
+    return suggestionBox('⚠️ Différence notable entre les deux bras : avis médical (15) recommandé par précaution');
+  }
+  return '';
+}
+
+function updateTaDiffSuggestion() {
+  const el = document.getElementById('suggestion-ta-diff');
+  if (el) el.innerHTML = getTaDiffSuggestionHtml();
 }
 
 function getTaSuggestionHtml(side) {
@@ -2702,7 +2735,9 @@ const suggestionDiv = SUGGESTION_FIELDS.has(f.key) ? `<div class="suggestion-box
         ${dHeure ? `<div style="color:#9FB3D6;font-size:11px;margin-top:4px;">Saisi à ${dHeure}</div>` : ''}
       </div>
 <div class="suggestion-box" id="suggestion-taGauche">${getTaSuggestionHtml('Gauche')}</div>
+<div class="suggestion-box" id="suggestion-taGauche">${getTaSuggestionHtml('Gauche')}</div>
       <div class="suggestion-box" id="suggestion-taDroit">${getTaSuggestionHtml('Droit')}</div>
+      <div class="suggestion-box" id="suggestion-ta-diff">${getTaDiffSuggestionHtml()}</div>
       <div class="bilan-field-row">
         <label>Complément</label>
         <input type="text" data-bilan-field="taComplement" placeholder="Ex : position, contexte..." value="${complement}">
@@ -2840,6 +2875,7 @@ function buildDouleurCardsHtml() {
         </div>
         <div class="pain-labels"><span>Pas de douleur</span><span>Pire douleur possible</span></div>
       </div>
+      <div class="suggestion-box" id="suggestion-douleur-${idx}">${getDouleurSuggestionHtml(d)}</div>
       <div class="bilan-field-row">
         <label>Temps</label>
         <input type="text" data-douleur-field="temps" data-douleur-idx="${idx}" value="${d.temps || ''}">
@@ -2857,6 +2893,7 @@ function attachDouleurListeners() {
       const idx = parseInt(input.dataset.douleurIdx, 10);
       bilanData.douleurs[idx][input.dataset.douleurField] = input.value;
       saveBilanData();
+      if (input.dataset.douleurField === 'region') updateDouleurSuggestion(idx);
     });
   });
 
@@ -3197,8 +3234,8 @@ applyGlycemieWarning();
       saveBilanData();
       if (BILAN_ABNORMAL_RANGES[input.dataset.bilanField]) applyFieldWarning(input, input.dataset.bilanField);
 if (input.dataset.bilanField === 'glycemie') { applyGlycemieWarning(); updateGlycemieSuggestion(); }
-      if (input.dataset.bilanField === 'taGaucheSys' || input.dataset.bilanField === 'taGaucheDia') { applyTaWarning('gauche'); updateTaSuggestion('Gauche'); }
-      if (input.dataset.bilanField === 'taDroitSys' || input.dataset.bilanField === 'taDroitDia') { applyTaWarning('droit'); updateTaSuggestion('Droit'); }
+if (input.dataset.bilanField === 'taGaucheSys' || input.dataset.bilanField === 'taGaucheDia') { applyTaWarning('gauche'); updateTaSuggestion('Gauche'); updateTaDiffSuggestion(); }
+      if (input.dataset.bilanField === 'taDroitSys' || input.dataset.bilanField === 'taDroitDia') { applyTaWarning('droit'); updateTaSuggestion('Droit'); updateTaDiffSuggestion(); }
       if (SUGGESTION_FIELDS.has(input.dataset.bilanField)) updateFieldSuggestion(input.dataset.bilanField);
       if (input.dataset.bilanField === 'dateNaissance') {
         const el = document.getElementById('age-display-value');
