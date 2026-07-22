@@ -1,42 +1,5 @@
 [
   {
-    "uid": "evt16229391@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] MHSC - Dijon FCO",
-    "lieu": "Stade de la Mosson, 34080 Montpellier",
-    "dateDebut": "2026-08-08T17:15:00.000Z",
-    "dateFin": "2026-08-08T21:15:00.000Z",
-    "description": "1h30 avant match - 1h45 de match - 30mn apres match. Bord de terrain uniquement et dedie extraction joueurs. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1622939'>Lien vers l'activité</a>",
-    "tag": "DPS",
-    "score": 15,
-    "reasons": [
-      {
-        "text": "Mois sans DPS planifié",
-        "category": "positive"
-      },
-      {
-        "text": "Jour : Samedi (+3)",
-        "category": "positive"
-      },
-      {
-        "text": "Créneau fin d'après-midi / soirée",
-        "category": "positive"
-      },
-      {
-        "text": "Durée raisonnable",
-        "category": "positive"
-      },
-      {
-        "text": "Très proche (9.4 km)",
-        "category": "positive"
-      },
-      {
-        "text": "Espacement confortable (16 jours)",
-        "category": "positive"
-      }
-    ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1622939"
-  },
-  {
     "uid": "evt15588671@https://eprotec.protection-civile.org",
     "titre": "[DPS 34] Fete du Cres",
     "lieu": "Rue de la Monnaie 34920 Le Cres",
@@ -74,43 +37,6 @@
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1558867"
   },
   {
-    "uid": "evt15588681@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] Fete du Cres",
-    "lieu": "Rue de la Monnaie 34920 Le Cres",
-    "dateDebut": "2026-08-15T18:30:00.000Z",
-    "dateFin": "2026-08-15T23:00:00.000Z",
-    "description": "20h30-21h30 : Bandidos rue des aiguerelles  21h30-1h : bal - Hotel de ville<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1558868'>Lien vers l'activité</a>",
-    "tag": "DPS",
-    "score": 15,
-    "reasons": [
-      {
-        "text": "Mois sans DPS planifié",
-        "category": "positive"
-      },
-      {
-        "text": "Jour : Samedi (+3)",
-        "category": "positive"
-      },
-      {
-        "text": "Créneau fin d'après-midi / soirée",
-        "category": "positive"
-      },
-      {
-        "text": "Durée raisonnable",
-        "category": "positive"
-      },
-      {
-        "text": "Très proche (9.6 km)",
-        "category": "positive"
-      },
-      {
-        "text": "Espacement confortable (23 jours)",
-        "category": "positive"
-      }
-    ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1558868"
-  },
-  {
     "uid": "evt16092691@https://eprotec.protection-civile.org",
     "titre": "[DPS 34] Feu d'artifice",
     "lieu": "16 Boulevard Marechal Joffre 34250 Palavas-les-Flots",
@@ -146,6 +72,43 @@
       }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1609269"
+  },
+  {
+    "uid": "evt15588681@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] Fete du Cres",
+    "lieu": "Rue de la Monnaie 34920 Le Cres",
+    "dateDebut": "2026-08-15T18:30:00.000Z",
+    "dateFin": "2026-08-15T23:00:00.000Z",
+    "description": "20h30-21h30 : Bandidos rue des aiguerelles  21h30-1h : bal - Hotel de ville<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1558868'>Lien vers l'activité</a>",
+    "tag": "DPS",
+    "score": 15,
+    "reasons": [
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour : Samedi (+3)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (9.6 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (23 jours)",
+        "category": "positive"
+      }
+    ],
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1558868"
   },
   {
     "uid": "evt15899351@https://eprotec.protection-civile.org",
@@ -1088,5 +1051,38 @@
       }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1628540"
+  },
+  {
+    "uid": "evt16285411@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] MHR - Castres Olympique",
+    "lieu": "Avenue de Vanieres 34070 Montpellier",
+    "dateDebut": "2026-10-31T13:30:00.000Z",
+    "dateFin": "2026-10-31T20:00:00.000Z",
+    "description": "Horaires non definitives - 2h avant match - 1h45 de match - 2h de post match (pour 8 IS seulement). En general, match a 16h30 le samedi. Peut etre a 14h30, 21h ou exceptionnellement le dimanche a 21h. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628541'>Lien vers l'activité</a>",
+    "tag": "DPS",
+    "score": 13,
+    "reasons": [
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour : Samedi (+3)",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (5 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (100 jours)",
+        "category": "positive"
+      }
+    ],
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1628541"
   }
 ]
