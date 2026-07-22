@@ -2370,34 +2370,40 @@ function renderGestes() {
   }
 
   container.innerHTML = GESTES_DATA.map(geste => `
-    <div class="card">
-      <div class="card-title" style="font-size:16px;">${geste.title}</div>
-      <div class="card highlight" style="margin-bottom:12px;">
-        <div class="card-title">⚡ Résumé express</div>
-        <ul class="reason-list" style="color:#fff;">
-          ${geste.summary.map(i => `<li style="margin-bottom:4px;">${i}</li>`).join('')}
-        </ul>
-      </div>
-      <div class="month-group">
-        <button class="month-toggle">
-          <span>📖 Détails complets</span>
-          <span class="month-chevron">▸</span>
-        </button>
-        <div class="month-body" style="display:none">
-          ${geste.sections.map(sec => `
-            <div style="margin-top:14px;">
-              <div style="color:#F5821F;font-size:13px;font-weight:500;margin-bottom:6px;">${sec.title}</div>
-              ${sec.illustration ? GESTE_ILLUSTRATIONS[sec.illustration] : ''}
-              <ul class="reason-list" style="color:#fff;">
-                ${sec.items.map(i => `<li style="margin-bottom:4px;">${i}</li>`).join('')}
-              </ul>
-            </div>
-          `).join('')}
+    <div class="geste-group">
+      <button class="month-toggle">
+        <span>${geste.title}</span>
+        <span class="month-chevron">▸</span>
+      </button>
+      <div class="month-body" style="display:none">
+        <div class="card highlight" style="margin-bottom:12px;">
+          <div class="card-title">⚡ Résumé express</div>
+          <ul class="reason-list" style="color:#fff;">
+            ${geste.summary.map(i => `<li style="margin-bottom:4px;">${i}</li>`).join('')}
+          </ul>
+        </div>
+        <div class="month-group">
+          <button class="month-toggle">
+            <span>📖 Détails complets</span>
+            <span class="month-chevron">▸</span>
+          </button>
+          <div class="month-body" style="display:none">
+            ${geste.sections.map(sec => `
+              <div style="margin-top:14px;">
+                <div style="color:#F5821F;font-size:13px;font-weight:500;margin-bottom:6px;">${sec.title}</div>
+                ${sec.illustration ? GESTE_ILLUSTRATIONS[sec.illustration] : ''}
+                <ul class="reason-list" style="color:#fff;">
+                  ${sec.items.map(i => `<li style="margin-bottom:4px;">${i}</li>`).join('')}
+                </ul>
+              </div>
+            `).join('')}
+          </div>
         </div>
       </div>
     </div>
   `).join('') + `<div class="empty">D'autres fiches (RCP/DEA, PLS, PFSMU) arrivent prochainement.</div>`;
 
+  setupAccordion(container, '.geste-group');
   setupAccordion(container);
 }
 
