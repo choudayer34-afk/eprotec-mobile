@@ -2030,9 +2030,16 @@ const INFO_CONTENT = {
     title: 'Amplitude du pouls',
     html: `<p><b>Bien frappé</b> — facilement perçu, franc</p><p style="margin-top:8px;"><b>Filant</b> — faible, difficile à percevoir, signe de gravité</p>`
   },
-  pouls_regularite: {
+pouls_regularite: {
     title: 'Régularité du pouls',
     html: `<p><b>Régulier</b> — intervalles constants entre les battements</p><p style="margin-top:8px;"><b>Irrégulier</b> — intervalles variables, peut évoquer un trouble du rythme</p>`
+  },
+  pupilles: {
+    title: 'Pupilles',
+    html: `<p><b>Normales</b> — taille égale des deux côtés, réactives à la lumière</p>
+      <p style="margin-top:8px;"><b>Asymétriques</b> — une pupille plus dilatée que l'autre, peut évoquer une atteinte neurologique</p>
+      <p style="margin-top:8px;"><b>Mydriase</b> — pupilles dilatées, plus larges que la normale</p>
+      <p style="margin-top:8px;"><b>Myosis</b> — pupilles resserrées, plus petites que la normale</p>`
   }
 };
 
@@ -2099,7 +2106,7 @@ const BILAN_CATEGORIES = [
     { key: 'glasgowY', label: 'Ouverture des yeux', type: 'select', options: GLASGOW_OPTIONS.glasgowY },
     { key: 'glasgowV', label: 'Réponse verbale', type: 'select', options: GLASGOW_OPTIONS.glasgowV },
     { key: 'glasgowM', label: 'Réponse motrice', type: 'select', options: GLASGOW_OPTIONS.glasgowM },
-    { key: 'pupilles', label: 'Pupilles', type: 'chip', options: ['Normales', 'Asymétriques', 'Mydriase', 'Myosis'] },
+    { key: 'pupilles', label: 'Pupilles', type: 'chip', options: ['Normales', 'Asymétriques', 'Mydriase', 'Myosis'], info: 'pupilles' },
     { key: 'motricite', label: 'Motricité / sensibilité', type: 'text' },
     { key: 'glycemie', label: 'Glycémie (g/L)', type: 'number', info: 'glycemie' }
   ]},
