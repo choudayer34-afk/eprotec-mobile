@@ -1,5 +1,14 @@
 [
   {
+    "version": "1.4",
+    "date": "2026-07-22T11:09:39.820Z",
+    "title": "Rechargement complet à l'actualisation",
+    "items": [
+      "Tirer vers le bas ou forcer une mise à jour recharge désormais toute l'app, pas seulement les données",
+      "Garantit que les dernières fonctionnalités sont toujours visibles immédiatement sur l'icône d'écran d'accueil"
+    ]
+  },
+  {
     "version": "1.3",
     "date": "2026-07-22T11:03:47.888Z",
     "title": "Logo officiel Protection Civile sur le bouton eProtec",
