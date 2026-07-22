@@ -233,6 +233,22 @@
   .bilan-chip.active { background: #F5821F; color: #4A1B0C; font-weight: 500; }
 .bilan-ref-item { font-size: 13px; color: #fff; padding: 6px 0; border-top: 0.5px solid #223258; }
   .bilan-ref-item:first-child { border-top: none; }
+  .lexique-item { padding: 10px 0; border-top: 0.5px solid #223258; }
+  .lexique-item:first-child { border-top: none; }
+  .lexique-term { color: #F5821F; font-size: 14px; font-weight: 500; }
+  .lexique-def { color: #fff; font-size: 13px; margin-top: 2px; }
+
+  .flow-step { background: #0B2A5C; border-radius: 10px; padding: 10px 14px; margin-bottom: 6px; text-align: center; color: #fff; font-size: 13px; font-weight: 500; }
+  .flow-arrow { text-align: center; color: #9FB3D6; font-size: 16px; margin: 2px 0; }
+  .flow-branch { display: flex; gap: 8px; margin-bottom: 6px; }
+  .flow-branch-label { background: #223258; color: #9FB3D6; border-radius: 8px; padding: 8px 10px; font-size: 12px; font-weight: 500; display: flex; align-items: center; }
+  .flow-branch-content { flex: 1; }
+  .flow-action { background: #163C74; border-radius: 8px; padding: 8px 12px; font-size: 12px; color: #fff; margin-bottom: 4px; }
+  .flow-color-badge { display: inline-block; border-radius: 8px; padding: 8px 16px; font-size: 13px; font-weight: 600; margin-top: 2px; }
+  .flow-noir { background: #2C2C2A; color: #fff; }
+  .flow-rouge { background: #E24B4A; color: #501313; }
+  .flow-jaune { background: #FAC775; color: #412402; }
+  .flow-vert { background: #97C459; color: #173404; }
   .mnemo { font-style: italic; color: #F5821F; }
   .pain-faces { display: flex; justify-content: space-between; padding: 0 2px; margin-bottom: 4px; font-size: 22px; }
   .pain-bar { display: flex; border-radius: 20px; overflow: hidden; }
@@ -479,9 +495,13 @@
         <div class="tile-icon">🧰</div>
         <div class="tile-title">Matériel</div>
       </div>
-      <div class="tile" data-open="plus-novi">
+<div class="tile" data-open="plus-novi">
         <div class="tile-icon">👥</div>
         <div class="tile-title">Nombreuses victimes</div>
+      </div>
+      <div class="tile span-2" data-open="plus-lexique">
+        <div class="tile-icon">📖</div>
+        <div class="tile-title">Lexique</div>
       </div>
     </div>
   </section>
@@ -583,12 +603,24 @@
     <div id="materiel-content"><div class="empty">Chargement...</div></div>
   </section>
 
-  <section id="plus-novi">
+<section id="plus-novi">
     <div class="detail-header">
       <button class="plus-back" data-target="plus-secourisme">‹</button>
       <span>Nombreuses victimes</span>
     </div>
     <div id="novi-content"><div class="empty">Chargement...</div></div>
+  </section>
+
+  <section id="plus-lexique">
+    <div class="detail-header">
+      <button class="plus-back" data-target="plus-secourisme">‹</button>
+      <span>Lexique</span>
+    </div>
+    <div class="search-box">
+      <span>🔍</span>
+      <input type="text" id="lexique-search" placeholder="Rechercher un terme, un sigle...">
+    </div>
+    <div id="lexique-content"></div>
   </section>
 
   <section id="plus-liens">
@@ -1144,7 +1176,8 @@ if (subId === 'plus-parametres') renderParametres();
   if (subId === 'plus-gestes-degagement') renderGestesList('gestes-degagement-content', ['degagement']);
   if (subId === 'plus-psychologie') renderGestesList('psychologie-content', ['psychologie']);
 if (subId === 'plus-materiel') renderGestesList('materiel-content', ['materiel']);
-  if (subId === 'plus-novi') renderGestesList('novi-content', ['novi']);
+if (subId === 'plus-novi') renderGestesList('novi-content', ['novi']);
+  if (subId === 'plus-lexique') renderLexique();
 }
 
 document.getElementById('kpi-inscrits-box').addEventListener('click', () => {
@@ -4054,56 +4087,218 @@ const GESTES_DATA = [
     key: 'novi',
     title: '👥 Situation à multiples victimes (SMV / NOVI)',
     summary: [
-      "Plus de victimes que ce que la première équipe peut prendre en charge",
-      "Rester calme, se conformer aux ordres du responsable (COS/DSM)",
-      "Repérage rapide : ne pas s'arrêter sur un blessé, sauf hémorragie (garrot/pansement compressif)",
-      "Diriger les blessés valides vers un point de rassemblement des victimes (PRV)"
+      "1. Reconnaissance rapide du site",
+      "2. Assurer la sécurité",
+      "3. Transmettre sans délai les informations recueillies et demander moyen de renforcement",
+      "4. Procéder au repérage des victimes (tri)",
+      "5. Réaliser les gestes de secours les plus urgents"
     ],
     sections: [
       {
-        title: 'Définition',
+        title: 'Conduite à tenir (mémento officiel)',
         items: [
-          "Situation à Multiples Victimes (SMV) : accident ou événement avec un nombre de victimes plus élevé que ce que la première équipe de secours sur place peut prendre en charge",
-          "Causes fréquentes : accidents de circulation, incendies de grande ampleur, effondrements, mouvements de foule...",
-          "Le nombre réel de victimes est souvent difficile à évaluer au début, les blessés valides ayant tendance à se déplacer ou à se regrouper spontanément"
+          "1 — Reconnaissance rapide du site",
+          "2 — Assurer la sécurité",
+          "3 — Transmettre sans délai les informations recueillies et demander moyen de renforcement",
+          "4 — Procéder au repérage du nombre de victimes",
+          "5 — Réaliser les gestes de secours les plus urgents"
         ]
       },
       {
-        title: 'Premiers réflexes',
-        items: [
-          "Rester calme",
-          "Effectuer une reconnaissance visuelle du sinistre avant de s'engager",
-          "Se conformer aux ordres du responsable des opérations (chef d'agrès, COS, DSM)",
-          "Ne jamais s'engager seul dans une zone non sécurisée"
-        ]
-      },
-      {
-        title: 'Repérage des victimes',
-        items: [
-          "Le repérage doit être simple et rapide, basé sur l'observation",
-          "Ne pas s'arrêter sur une victime pour un geste qui immobiliserait plusieurs minutes",
-          "Exception : arrêter une hémorragie par pansement compressif ou garrot — ce geste reste prioritaire même en contexte de multiples victimes"
-        ]
-      },
-      {
-        title: 'Point de rassemblement des victimes (PRV)',
-        items: [
-          "Diriger les blessés capables de se déplacer vers une zone sûre, à l'écart du sinistre",
-          "Si possible, les accompagner ou les faire accompagner par un équipier",
-          "Cette zone sécurisée est appelée le point de rassemblement des victimes (PRV)"
-        ]
-      },
-      {
-        title: 'Organisation des secours',
-        items: [
-          "Un dispositif renforcé (type ORSEC secours à nombreuses victimes) peut être déclenché",
-          "Un tri médical des victimes selon leur gravité est réalisé par l'encadrement médical présent",
-          "Le secouriste isolé ne décide pas seul de ce tri — il applique les consignes reçues"
-        ]
+        title: 'Diagramme de tri — victime par victime',
+        items: [],
+        customHtml: `
+          <div class="flow-step">ENGAGEMENT</div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-step">VICTIME LA PLUS PROCHE</div>
+          <div class="flow-arrow">↓</div>
+
+          <div class="flow-branch">
+            <div class="flow-branch-label">OUI</div>
+            <div class="flow-branch-content">
+              <div style="text-align:center;color:#fff;font-size:13px;margin-bottom:6px;">Décédée ?</div>
+              <div class="flow-action">Laisser la victime sur place</div>
+              <div style="text-align:center;"><span class="flow-color-badge flow-noir">⬛ NOIR</span></div>
+            </div>
+          </div>
+          <div class="flow-arrow">NON ↓</div>
+
+          <div class="flow-branch">
+            <div class="flow-branch-label">OUI</div>
+            <div class="flow-branch-content">
+              <div style="text-align:center;color:#fff;font-size:13px;margin-bottom:6px;">Hémorragie ?</div>
+              <div class="flow-action">Traiter l'hémorragie, puis poursuivre l'évaluation</div>
+            </div>
+          </div>
+          <div class="flow-arrow">NON ↓</div>
+
+          <div class="flow-branch">
+            <div class="flow-branch-label">OUI</div>
+            <div class="flow-branch-content">
+              <div style="text-align:center;color:#fff;font-size:13px;margin-bottom:6px;">Perte de connaissance ?</div>
+              <div class="flow-action">Libération des voies aériennes → Respire ?</div>
+              <div class="flow-action">Respire NON → <b>ROUGE</b></div>
+              <div class="flow-action">Respire OUI → PLS, laisser sur place → <b>ROUGE</b></div>
+              <div style="text-align:center;"><span class="flow-color-badge flow-rouge">🟥 ROUGE</span></div>
+            </div>
+          </div>
+          <div class="flow-arrow">NON ↓</div>
+
+          <div class="flow-branch">
+            <div class="flow-branch-label">OUI</div>
+            <div class="flow-branch-content">
+              <div style="text-align:center;color:#fff;font-size:13px;margin-bottom:6px;">Détresse vitale ?<br><span style="font-size:11px;color:#9FB3D6;">(FR &gt; 30/min ou FC &gt; 120/min chez l'adulte)</span></div>
+              <div class="flow-action">Position d'attente, laisser sur place</div>
+              <div style="text-align:center;"><span class="flow-color-badge flow-rouge">🟥 ROUGE</span></div>
+            </div>
+          </div>
+          <div class="flow-arrow">NON ↓</div>
+
+          <div class="flow-branch">
+            <div class="flow-branch-label">OUI</div>
+            <div class="flow-branch-content">
+              <div style="text-align:center;color:#fff;font-size:13px;margin-bottom:6px;">Blessé physiquement ?</div>
+              <div class="flow-action">Laisser la victime sur place</div>
+              <div style="text-align:center;"><span class="flow-color-badge flow-jaune">🟨 JAUNE</span></div>
+            </div>
+          </div>
+          <div class="flow-arrow">NON ↓</div>
+
+          <div style="text-align:center;"><span class="flow-color-badge flow-vert">🟩 VERT</span></div>
+          <div class="flow-action" style="text-align:center;margin-top:6px;">Envoyer au Point de Rassemblement des Victimes (PRV)</div>
+
+          <div class="flow-arrow" style="margin-top:10px;">↓</div>
+          <div class="flow-step">CHANGER DE VICTIME → retour à "Victime la plus proche"</div>
+
+          <div style="color:#9FB3D6;font-size:11px;text-align:center;margin-top:10px;">Référence recommandations : 11AC01 ; 02FT10 — Équipe Pédagogique Nationale, Protection Civile</div>
+        `
       }
     ]
   }
 ];
+];
+
+const LEXIQUE_DATA = [
+  { term: 'A.C.T.', def: 'Attelle Cervico-Thoracique' },
+  { term: 'A.E.R.V.', def: "Accident d'Exposition à un Risque Vital" },
+  { term: 'A.V.C.', def: 'Accident Vasculaire Cérébral' },
+  { term: 'A.V.P.', def: 'Accident sur la Voie Publique' },
+  { term: 'Argos', def: 'Outil de gestion du DPS et des victimes' },
+  { term: 'Attelle', def: "Moyen d'immobilisation des membres" },
+  { term: 'Bilan XABCDE', def: 'Bilan secouriste complet' },
+  { term: 'Binôme volant (Volante)', def: 'Équipe de secours effectuant des rondes sur un poste' },
+  { term: 'C.A.I.', def: "Centre d'Accueil des Impliqués" },
+  { term: 'C.H.U.', def: 'Centre Hospitalier Universitaire' },
+  { term: 'Ciseau Gesco', def: 'Ciseau utilisé en secourisme' },
+  { term: 'C.O.D.I.S.', def: "Centre Opérationnel Départemental d'Incendie et de Secours" },
+  { term: 'C.O.S.', def: 'Commandant des Opérations de Secours' },
+  { term: 'C.R.R.A.', def: 'Centre de Réception et de Régulation des Appels (SAMU)' },
+  { term: 'C.S.', def: 'Centre de Secours' },
+  { term: 'C.U.M.P.', def: "Cellule d'Urgence Médico-Psychologique" },
+  { term: 'D.A.E.', def: 'Défibrillateur Automatisé Externe' },
+  { term: 'D.A.O.M.', def: 'Déchets Assimilables à des Ordures Ménagères' },
+  { term: 'D.A.S.R.I.', def: "Déchets d'Activités de Soins à Risques Infectieux" },
+  { term: 'D.O.S.', def: 'Directeur des Opérations de Secours' },
+  { term: 'D.P.S.', def: 'Dispositif Prévisionnel de Secours' },
+  { term: 'D.P.S - P.E.', def: 'DPS de Petite Envergure' },
+  { term: 'D.P.S - M.E.', def: 'DPS de Moyenne Envergure' },
+  { term: 'D.P.S - G.E.', def: 'DPS de Grande Envergure' },
+  { term: 'D.S.A.', def: 'Défibrillateur Semi-Automatique' },
+  { term: 'D.S.M.', def: 'Directeur des Secours Médicaux' },
+  { term: 'Disponibilité', def: 'Indication de ses disponibilités sur Eprotec' },
+  { term: 'Équipier secouriste', def: 'Personne certifiée PSE1 ou PSE2, agissant en équipe' },
+  { term: 'E.F.I.B.I.', def: 'Outil de bilan numérique lié à Argos' },
+  { term: 'E.P.I.(C)', def: 'Équipement de Protection Individuelle (et Collective)' },
+  { term: 'Eprotec', def: 'Plateforme de gestion bénévole et inscription en mission' },
+  { term: 'F.C.', def: 'Fréquence Cardiaque' },
+  { term: 'F.C. (Formation)', def: 'Formation Continue' },
+  { term: 'F.N.P.C.', def: 'Fédération Nationale de Protection Civile' },
+  { term: 'Formation initiale', def: "Apprentissage des compétences de base avant l'exercice" },
+  { term: 'G.R.I.M.P.', def: 'Groupe de Recherche et d\'Intervention en Milieu Périlleux' },
+  { term: 'H.S.E.', def: 'Hygiène Sécurité Environnement' },
+  { term: 'I.D.E.', def: "Infirmier Diplômé d'État" },
+  { term: 'Intervenant secouriste (I.S.)', def: 'Secouriste formé PSE2 en activité' },
+  { term: 'Intox OH', def: 'Intoxication alcoolique' },
+  { term: 'L.V.A.', def: 'Libération des Voies Aériennes' },
+  { term: 'Logisticien', def: 'Bénévole chargé des aspects logistiques' },
+  { term: 'Masque FFP2', def: 'Masque de protection respiratoire' },
+  { term: 'M.I.D.', def: 'Matelas Immobilisateur à Dépression' },
+  { term: 'NO.VI.', def: 'Nombreuses Victimes' },
+  { term: 'O₂', def: 'Oxygène en bouteille' },
+  { term: 'O.R.S.E.C.', def: 'Organisation de la Réponse de Sécurité Civile' },
+  { term: 'O.P.T.C.', def: 'Objets Piquants, Tranchants ou Coupants' },
+  { term: 'P.A.P.S.', def: "Point d'Alerte et de Premiers Secours" },
+  { term: 'P.C.', def: 'Poste de Commandement' },
+  { term: 'P.C.S.', def: 'Perte de Connaissance Secondaire' },
+  { term: 'P.L.S.', def: 'Position Latérale de Sécurité' },
+  { term: 'P.M.A.', def: 'Poste Médical Avancé' },
+  { term: 'P.R.V.', def: 'Point de Rassemblement des Victimes' },
+  { term: 'P.S.A.', def: 'Poste de Secours Associatif' },
+  { term: 'P.S.C.', def: 'Prévention Secours Citoyen' },
+  { term: 'P.S.E.', def: 'Premiers Secours en Équipe' },
+  { term: 'P.S.E.1', def: 'Niveau 1 – Secouriste' },
+  { term: 'P.S.E.2', def: 'Niveau 2 – Équipier secouriste' },
+  { term: 'P.S.T.', def: 'Plan Santé au Travail' },
+  { term: 'Protec Academy', def: 'Plateforme de formation interne de la Protection Civile 34' },
+  { term: 'R.C.P.', def: 'Réanimation Cardio-Pulmonaire' },
+  { term: 'Rassemblement des secouristes', def: 'Révision, cohésion et accueil des nouveaux' },
+  { term: 'R.I.S.', def: "Outil de calcul du nombre d'IS sur un DPS" },
+  { term: 'S.A.M.U.', def: "Service d'Aide Médicale Urgente" },
+  { term: 'S.A.T.', def: 'Saturation en oxygène (SpO₂)' },
+  { term: 'Sangle araignée', def: "Sangle d'arrimage pour immobilisation sur plan dur" },
+  { term: 'S.C.H.I.L.L.E.R.', def: 'Appareil multiparamétrique pour le bilan' },
+  { term: 'S.D.I.S.', def: "Service Départemental d'Incendie et de Secours" },
+  { term: 'S.I.D.P.C.', def: 'Service Interministériel de Défense et de Protection Civile' },
+  { term: 'Secouriste', def: "Personne formée assistante d'un équipier secouriste" },
+  { term: 'S.M.U.R.', def: "Service Mobile d'Urgence et de Réanimation" },
+  { term: 'S.M.V.', def: 'Situation à Multiples Victimes' },
+  { term: 'S.N.O.O.G.', def: 'Brancard souple orange utilisé sur les postes' },
+  { term: 'S.S.S.M.', def: 'Service de Santé et de Secours Médical (Pompiers)' },
+  { term: 'S.S.T.', def: 'Sauveteur Secouriste du Travail' },
+  { term: 'Stagiaire', def: 'Secouriste en cours de formation PSE1' },
+  { term: 'T.A.', def: 'Tension Artérielle' },
+  { term: 'T.R.C.', def: 'Temps de Recoloration Cutanée' },
+  { term: 'T.S.', def: 'Tentative de Suicide' },
+  { term: '2 tons', def: 'Sirène prioritaire de partage de route' },
+  { term: 'U.M.H.', def: 'Unité Mobile Hospitalière' },
+  { term: 'V.H.B.', def: "Virus de l'Hépatite B" },
+  { term: 'V.H.C.', def: "Virus de l'Hépatite C" },
+  { term: 'V.H.I.', def: "Virus de l'Immunodéficience Humaine" },
+  { term: 'V.L.', def: 'Véhicule Léger' },
+  { term: 'V.L.T.T.', def: 'Véhicule Léger Tout-Terrain (4x4)' },
+  { term: 'V.P.S. / V.P.S.P.', def: 'Véhicule de Premiers Secours à Personnes' },
+  { term: 'V.S.A.V.', def: "Véhicule de Secours et d'Assistance aux Victimes" },
+  { term: 'V.S.A.P.', def: 'Véhicule de Soutien aux Populations' },
+  { term: 'V.S.O.P.', def: 'Véhicule de Soutien Opérationnel' },
+  { term: 'Mydriase', def: 'Pupilles dilatées, plus larges que la normale' },
+  { term: 'Myosis', def: 'Pupilles resserrées, plus petites que la normale' },
+  { term: 'EVDA', def: 'Éveillé, Verbal, Douleur, Aréactif — échelle de conscience' },
+  { term: 'FAST', def: "Face, Arm, Speech, Time — méthode de repérage rapide de l'AVC" },
+  { term: 'SAMPLE', def: 'Signes, Allergies, Médicaments, Passé médical, dernier repas (Last meal), Évènements' }
+];
+
+function renderLexique(filter = '') {
+  const container = document.getElementById('lexique-content');
+  const q = normalizeText(filter);
+  const filtered = q
+    ? LEXIQUE_DATA.filter(l => normalizeText(l.term).includes(q) || normalizeText(l.def).includes(q))
+    : LEXIQUE_DATA;
+
+  const sorted = [...filtered].sort((a, b) => a.term.localeCompare(b.term, 'fr'));
+
+  container.innerHTML = sorted.length === 0
+    ? '<div class="empty">Aucun terme ne correspond à ta recherche.</div>'
+    : sorted.map(l => `
+      <div class="lexique-item">
+        <div class="lexique-term">${l.term}</div>
+        <div class="lexique-def">${l.def}</div>
+      </div>
+    `).join('');
+}
+
+document.getElementById('lexique-search').addEventListener('input', (e) => {
+  renderLexique(e.target.value);
+});
 
 const GESTE_CATEGORIES_MAP = {
   novi: 'novi',
@@ -4163,9 +4358,11 @@ function renderGestesList(containerId, categories) {
               <div style="margin-top:14px;">
                 <div style="color:#F5821F;font-size:13px;font-weight:500;margin-bottom:6px;">${sec.title}</div>
                 ${sec.illustration ? GESTE_ILLUSTRATIONS[sec.illustration] : ''}
+                ${sec.customHtml ? sec.customHtml : `
                 <ul class="reason-list" style="color:#fff;">
                   ${sec.items.map(i => `<li style="margin-bottom:4px;">${i}</li>`).join('')}
                 </ul>
+                `}
               </div>
             `).join('')}
           </div>
