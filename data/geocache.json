@@ -374,5 +374,13 @@
   "Stade de la Presidente, Beziers": {
     "lat": 43.3363914,
     "lon": 3.1948345
+  },
+  "Rue de l'Agathois 34080 Montpellier": {
+    "lat": 43.6330209,
+    "lon": 3.8246939
+  },
+  "Place de l'Eglise Puechabon": {
+    "lat": 43.7148254,
+    "lon": 3.6169369
   }
 }

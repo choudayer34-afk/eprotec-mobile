@@ -1,17 +1,42 @@
 {
-  "newEvents": [],
+  "newEvents": [
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] Journee Patrimoine TaM",
+      "lieu": "Rue de l'Agathois 34080 Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1634518",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-09-20T07:00:00.000Z"
+    },
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] Run and Bike ST BO",
+      "lieu": "boulodrome terrain lonjon",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1634516",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-09-27T06:00:00.000Z"
+    },
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] Martor Puechabon",
+      "lieu": "Place de l'Eglise Puechabon",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1634525",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-10-31T14:00:00.000Z"
+    }
+  ],
   "topSuggestion": {
-    "titre": "[DPS 34] MHSC - Dijon FCO",
+    "titre": "[DPS 34] MHSC - Pau",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
-    "dateDebutIso": "2026-08-08T17:15:00.000Z",
-    "score": 15,
+    "dateDebutIso": "2026-09-11T16:30:00.000Z",
+    "score": 16,
     "reasons": [
       {
         "text": "Mois sans DPS planifié",
         "category": "positive"
       },
       {
-        "text": "Jour très favorable (samedi)",
+        "text": "Jour : Vendredi (+3)",
         "category": "positive"
       },
       {
@@ -27,7 +52,7 @@
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (16 jours)",
+        "text": "Espacement confortable (50 jours)",
         "category": "positive"
       }
     ]
