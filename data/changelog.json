@@ -1,5 +1,14 @@
 [
   {
+    "version": "4.6",
+    "date": "2026-07-22T20:39:48.899Z",
+    "title": "Correction : alerte visuelle et bouton (i) sur la glycémie",
+    "items": [
+      "Ajout du bouton (i) manquant sur le champ Glycémie",
+      "Alerte visuelle (rouge) si la glycémie passe sous le seuil bas, en tenant compte de l'unité choisie (g/L ou mmol/L)"
+    ]
+  },
+  {
     "version": "4.5",
     "date": "2026-07-22T20:34:41.208Z",
     "title": "Corrections bilan : âge, TA bilatérale, suivi enrichi",
