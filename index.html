@@ -2286,6 +2286,17 @@ function applyFieldWarning(input, key) {
   input.style.background = abnormal ? '#3A1F1F' : '#0B2A5C';
 }
 
+function applyGlycemieWarning() {
+  const input = document.getElementById('glycemie-input');
+  const select = document.getElementById('glycemie-unite-select');
+  if (!input || !select) return;
+  const v = parseFloat(input.value);
+  const unite = select.value;
+  const abnormal = !isNaN(v) && (unite === 'g/L' ? v < 0.60 : v < 3.3);
+  input.style.borderLeft = abnormal ? '4px solid #E24B4A' : 'none';
+  input.style.background = abnormal ? '#3A1F1F' : '#0B2A5C';
+}
+
 function computeAge(dateNaissance) {
   if (!dateNaissance) return '';
   const dob = new Date(dateNaissance);
@@ -2356,7 +2367,7 @@ const BILAN_CATEGORIES = [
     { key: 'glasgowM', label: 'Réponse motrice', type: 'select', options: GLASGOW_OPTIONS.glasgowM },
     { key: 'pupilles', label: 'Pupilles', type: 'chip', options: ['Normales', 'Asymétriques', 'Mydriase', 'Myosis'], info: 'pupilles' },
     { key: 'motricite', label: 'Motricité / sensibilité', type: 'text' },
-    { key: 'glycemie', label: 'Glycémie', type: 'glycemie' }
+    { key: 'glycemie', label: 'Glycémie', type: 'glycemie', info: 'glycemie' }
   ]},
   { key: 'avc', label: '🧠 Suspicion AVC (F.A.S.T.)', fields: [
     { key: 'avcFace', label: 'Face — asymétrie faciale', type: 'chip', options: ['Non', 'Oui'] },
@@ -2547,15 +2558,15 @@ if (f.type === 'ta') {
     `;
   }
 
-  if (f.type === 'glycemie') {
+if (f.type === 'glycemie') {
     const gval = bilanData.glycemie || '';
     const unite = bilanData.glycemieUnite || 'g/L';
     return `
       <div class="bilan-field-row">
         <label>${f.label}${infoBtn}</label>
         <div style="display:flex;gap:8px;">
-          <input type="number" step="0.01" data-bilan-field="glycemie" value="${gval}" style="flex:1;">
-          <select data-bilan-field="glycemieUnite" style="background:#0B2A5C;border:none;color:#fff;font-size:13px;padding:10px;border-radius:8px;">
+          <input type="number" step="0.01" data-bilan-field="glycemie" id="glycemie-input" value="${gval}" style="flex:1;">
+          <select data-bilan-field="glycemieUnite" id="glycemie-unite-select" style="background:#0B2A5C;border:none;color:#fff;font-size:13px;padding:10px;border-radius:8px;">
             <option value="g/L" ${unite === 'g/L' ? 'selected' : ''}>g/L</option>
             <option value="mmol/L" ${unite === 'mmol/L' ? 'selected' : ''}>mmol/L</option>
           </select>
@@ -3018,13 +3029,16 @@ function renderBilanFill() {
   attachSuiviListeners();
   renderBilanIcons();
 
+applyGlycemieWarning();
+
   container.querySelectorAll('input[data-bilan-field]').forEach(input => {
     if (BILAN_ABNORMAL_RANGES[input.dataset.bilanField]) applyFieldWarning(input, input.dataset.bilanField);
 
-  input.addEventListener('input', () => {
+    input.addEventListener('input', () => {
       bilanData[input.dataset.bilanField] = input.value;
       saveBilanData();
       if (BILAN_ABNORMAL_RANGES[input.dataset.bilanField]) applyFieldWarning(input, input.dataset.bilanField);
+      if (input.dataset.bilanField === 'glycemie') applyGlycemieWarning();
       if (input.dataset.bilanField === 'dateNaissance') {
         const el = document.getElementById('age-display-value');
         if (el) {
@@ -3043,11 +3057,12 @@ function renderBilanFill() {
  
   });
 
-  container.querySelectorAll('select[data-bilan-field]').forEach(select => {
+container.querySelectorAll('select[data-bilan-field]').forEach(select => {
     select.addEventListener('change', () => {
       bilanData[select.dataset.bilanField] = select.value;
       saveBilanData();
       if (select.dataset.bilanField.startsWith('glasgow')) updateGlasgowTotalDisplay();
+      if (select.dataset.bilanField === 'glycemieUnite') applyGlycemieWarning();
     });
   });
 
