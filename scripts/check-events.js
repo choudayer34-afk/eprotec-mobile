@@ -13,10 +13,13 @@ const HOME = { lat: 43.5675, lon: 3.9010 };
 
 const DEFAULT_SETTINGS = {
   monthEmpty: 3,
+  monday: 0,
+  tuesday: 0,
+  wednesday: 0,
+  thursday: 0,
   friday: 3,
   saturday: 3,
   sunday: 2,
-  weekday: 0,
   eveningSlot: 2,
   badDuration: -2,
   goodDuration: 1,
@@ -240,12 +243,14 @@ async function evaluateDpsCandidate(evt, monthIsOpen, registeredDps, geocache, S
     push('Mois sans DPS planifié', 'positive');
   }
 
-  const day = start.getDay();
-  if (day === 5) { score += S.friday; push('Jour très favorable (vendredi)', 'positive'); }
-  else if (day === 6) { score += S.saturday; push('Jour très favorable (samedi)', 'positive'); }
-  else if (day === 0) { score += S.sunday; push('Jour favorable (dimanche)', 'positive'); }
-  else { score += S.weekday; push('Jour de semaine', 'neutral'); }
-
+ const dayNamesFr = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+  const dayKeys = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+  const jsDay = start.getDay();
+  const dayScore = S[dayKeys[jsDay]] || 0;
+  score += dayScore;
+  const dayLabel = dayNamesFr[jsDay].charAt(0).toUpperCase() + dayNamesFr[jsDay].slice(1);
+  push(`Jour : ${dayLabel} (${dayScore >= 0 ? '+' : ''}${dayScore})`, dayScore > 0 ? 'positive' : dayScore < 0 ? 'negative' : 'neutral');
+ 
   if (start.getHours() >= 16) {
     score += S.eveningSlot;
     push("Créneau fin d'après-midi / soirée", 'positive');
