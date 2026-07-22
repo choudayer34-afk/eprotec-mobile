@@ -1,5 +1,23 @@
 [
   {
+    "version": "4.3",
+    "date": "2026-07-22T20:14:19.121Z",
+    "title": "Bilan patient : identité, TA, géolocalisation, suivi, chronos, alertes visuelles",
+    "items": [
+      "Identité (nom, prénom, date de naissance, âge calculé automatiquement)",
+      "Date et heure d'ouverture du bilan automatiques",
+      "Tension artérielle simplifiée (côté bras, .../..., complément, horodatage automatique)",
+      "Bouton de géolocalisation pour la situation (adresse ou coordonnées GPS)",
+      "Glycémie avec choix d'unité (g/L ou mmol/L)",
+      "Valeurs anormales mises en évidence en couleur (FR, FC, SpO2, température)",
+      "Fréquence de pouls renommée Fréquence cardiaque",
+      "Qualité de la douleur en liste déroulante avec option \"Autre\"",
+      "Nouvelle rubrique Suivi : relevés répétés horodatés (SpO2, tension), fréquence recommandée selon gravité",
+      "Chronomètres 1 minute sur la fréquence respiratoire et cardiaque",
+      "Actions rapides en icônes : nouveau bilan, résumé, copier, envoi WhatsApp"
+    ]
+  },
+  {
     "version": "4.2",
     "date": "2026-07-22T17:17:40.212Z",
     "title": "Lexique consultable et diagramme NOVI officiel",
