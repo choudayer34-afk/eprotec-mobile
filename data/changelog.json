@@ -1,5 +1,14 @@
 [
   {
+    "version": "3.1",
+    "date": "2026-07-22T15:09:01.361Z",
+    "title": "Correction : séparation moteur / envoi des notifications",
+    "items": [
+      "Correction d'une régression qui avait réintroduit l'envoi de mail directement dans le moteur principal",
+      "Rétablit la bonne architecture : le moteur calcule et publie les données, un second script envoie les notifications 2 minutes plus tard une fois les données bien en ligne"
+    ]
+  },
+  {
     "version": "3.0",
     "date": "2026-07-22T15:06:12.108Z",
     "title": "Fiches gestes : Traumatologie (3 nouvelles fiches)",
