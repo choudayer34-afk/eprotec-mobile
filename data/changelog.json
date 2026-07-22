@@ -1,5 +1,15 @@
 [
   {
+    "version": "5.1",
+    "date": "2026-07-22T21:14:33.694Z",
+    "title": "Suggestions douleur sévère et asymétrie tensionnelle",
+    "items": [
+      "Douleur ≥ 7/10 : suggestion de position antalgique et avis médical",
+      "Région douloureuse mentionnant le thorax : renvoi direct vers la fiche Douleur thoracique",
+      "Écart de plus de 20 mmHg entre les deux bras : suggestion d'avis médical par précaution"
+    ]
+  },
+  {
     "version": "5.0",
     "date": "2026-07-22T21:10:33.052Z",
     "title": "Correction : fiches Hyperthermie et Douleur thoracique rattachées",
