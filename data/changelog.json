@@ -1,5 +1,15 @@
 [
   {
+    "version": "3.6",
+    "date": "2026-07-22T15:23:48.365Z",
+    "title": "Fiches Matériel : aspirateur, saturomètre, glycémie, ECG 12 dérivations",
+    "items": [
+      "Nouveau format Matériel, réutilisable pour chaque appareil : réglages, utilisation, points de vigilance",
+      "Aspirateur à mucosité avec tes valeurs de référence par âge",
+      "Saturomètre, lecteur de glycémie, et placement complet de l'ECG 12 dérivations avec mnémotechnique"
+    ]
+  },
+  {
     "version": "3.5",
     "date": "2026-07-22T15:19:27.204Z",
     "title": "Fiche geste : Dégagements d'urgence",
