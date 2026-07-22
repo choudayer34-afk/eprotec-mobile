@@ -1400,9 +1400,34 @@ async function pushDismissedToFirebase() {
   }
 }
 
+function renderTopSuggestion() {
+  const remaining = allSuggestions.filter(s => !isDismissed(s.uid)).sort((a, b) => b.score - a.score);
+  const topSuggestionCard = document.getElementById('top-suggestion-card');
+  const topSuggestion = document.getElementById('top-suggestion');
+
+  if (remaining.length === 0) {
+    topSuggestion.innerHTML = '<div class="empty">Aucune suggestion disponible.</div>';
+    topSuggestionCard.onclick = null;
+    topSuggestionCard.style.cursor = 'default';
+    return;
+  }
+
+  const s = remaining[0];
+  topSuggestion.innerHTML = `
+    <div class="event-title-lg" style="margin-top:0;">${s.titre}</div>
+    <div class="event-meta-row"><span class="meta-icon">🕒</span>${formatDate(s.dateDebut)}</div>
+    <div class="event-meta-row"><span class="meta-icon">📍</span>${s.lieu || 'Lieu non renseigné'}</div>
+    <div style="margin-top:8px;"><span class="badge badge-ok">Score ${s.score}</span></div>
+  `;
+  topSuggestionCard.style.cursor = 'pointer';
+  topSuggestionCard.onclick = () => openDetail(s.uid);
+}
+
 function dismissSuggestion(uid) {
   if (!dismissedCache.includes(uid)) dismissedCache.push(uid);
   pushDismissedToFirebase();
+  renderTopSuggestion();
+  renderSuggestions(allSuggestions);
 }
 
 function wrapCardsForSwipeDismiss(container) {
@@ -1948,21 +1973,7 @@ async function loadData() {
     row.addEventListener('click', () => openDetail(row.dataset.uid));
   });
 
-  const topSuggestionCard = document.getElementById('top-suggestion-card');
-  const topSuggestion = document.getElementById('top-suggestion');
-  if (suggestions.length === 0) {
-    topSuggestion.innerHTML = '<div class="empty">Aucune suggestion disponible.</div>';
-  } else {
-    const s = suggestions[0];
-    topSuggestion.innerHTML = `
-      <div class="event-title-lg" style="margin-top:0;">${s.titre}</div>
-      <div class="event-meta-row"><span class="meta-icon">🕒</span>${formatDate(s.dateDebut)}</div>
-      <div class="event-meta-row"><span class="meta-icon">📍</span>${s.lieu || 'Lieu non renseigné'}</div>
-      <div style="margin-top:8px;"><span class="badge badge-ok">Score ${s.score}</span></div>
-    `;
-    topSuggestionCard.style.cursor = 'pointer';
-    topSuggestionCard.onclick = () => openDetail(s.uid);
-  }
+ renderTopSuggestion();
 
   buildCalendarEvents();
 
