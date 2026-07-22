@@ -239,13 +239,16 @@
   .detail-header button {
     background: none; border: none; color: #fff; font-size: 24px; line-height: 1; padding: 4px;
   }
-  .detail-header span { font-size: 19px; font-weight: 500; }
+  .detail-header span { font-size: 19px; font-weight: 500; flex: 1; }
+  .detail-icons { display: flex; gap: 8px; }
+  .icon-btn.active { background: #F5821F; color: #4A1B0C; }
   .detail-title { color: #fff; font-size: 19px; font-weight: 500; margin: 12px 0 14px; }
-  .detail-title.card-clickable { display: inline; border-bottom: 1.5px dashed #9FB3D6; padding-bottom: 2px; }
+  .detail-title.card-clickable { display: inline; cursor: pointer; }
+  .detail-desc a { color: #F5821F; }
   .detail-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
   .detail-row .meta-icon { font-size: 17px; margin-top: 2px; color: #9FB3D6; }
-  .detail-row.card-clickable .detail-value { border-bottom: 1.5px dashed #9FB3D6; display: inline-block; padding-bottom: 1px; }
-  .detail-link-icon { font-size: 12px; color: #F5821F; margin-left: 6px; }
+  .detail-row.card-clickable { cursor: pointer; }
+  .detail-mini-icon { font-size: 12px; margin-left: 6px; }
   .detail-label { color: #9FB3D6; font-size: 11px; }
   .detail-value { color: #fff; font-size: 15px; margin-top: 2px; }
   .detail-desc { color: #9FB3D6; font-size: 13px; line-height: 1.6; white-space: pre-wrap; }
@@ -300,7 +303,7 @@
       <div id="liste-inscriptions-proches"><div class="empty">Chargement...</div></div>
     </div>
 
-    <div class="card highlight" id="top-suggestion-card">
+<div class="card highlight card-clickable" id="top-suggestion-card" data-uid="09I82U">
       <div class="card-title">🎯 Suggestion du mois</div>
       <div id="top-suggestion"><div class="empty">Chargement...</div></div>
     </div>
@@ -458,10 +461,11 @@
     <div id="parametres-content"></div>
   </section>
 
-  <section id="detail">
+<section id="detail">
     <div class="detail-header">
       <button id="detail-back">‹</button>
       <span>Détail</span>
+      <div class="detail-icons" id="detail-icons"></div>
     </div>
     <div id="detail-content"></div>
   </section>
@@ -584,7 +588,7 @@ function buildGoogleSearchUrl(evt) {
   }
   const locationQuery = (evt.lieu || '') + ' Hérault Occitanie';
   const query = [cleanTitle, locationQuery, datePart, yearPart, 'événement'].filter(Boolean).join(' ');
-  return 'https://www.google.com/search?q=' + encodeURIComponent(query);
+  return 'https://duckduckgo.com/?q=' + encodeURIComponent(query);
 }
 
 function buildMapsDirectionsUrl(lieu) {
@@ -682,6 +686,28 @@ async function handleSignalAbsence(evt) {
     window.open(waUrl, '_blank');
   }
 }
+
+  function linkifyDescription(desc) {
+  const withBreaks = desc.replace(/<br\s*\/?>/gi, '\n');
+  const parts = [];
+  let lastIndex = 0;
+  const anchorRe = /<a\s+href=['"]([^'"]+)['"][^>]*>([\s\S]*?)<\/a>/gi;
+  let match;
+  while ((match = anchorRe.exec(withBreaks))) {
+    parts.push(escapeHtml(withBreaks.slice(lastIndex, match.index)));
+    const href = match[1];
+    const text = match[2].replace(/<[^>]+>/g, '');
+    if (/^https?:\/\//i.test(href)) {
+      parts.push(`<a href="${href}" target="_blank" rel="noopener">${escapeHtml(text)}</a>`);
+    } else {
+      parts.push(escapeHtml(text));
+    }
+    lastIndex = anchorRe.lastIndex;
+  }
+  parts.push(escapeHtml(withBreaks.slice(lastIndex)));
+  return parts.join('');
+}
+
 
 function escapeHtml(str) {
   const div = document.createElement('div');
@@ -925,8 +951,10 @@ document.getElementById('detail-back').addEventListener('click', () => {
 function renderDetail(uid) {
   const evt = allEvents.find(e => e.uid === uid) || calendarEvents.find(e => e.uid === uid);
   const container = document.getElementById('detail-content');
+  const iconsContainer = document.getElementById('detail-icons');
   if (!evt) {
     container.innerHTML = '<div class="empty">Événement introuvable.</div>';
+    iconsContainer.innerHTML = '';
     return;
   }
   const suggestion = allSuggestions.find(s => s.uid === uid);
@@ -939,7 +967,7 @@ function renderDetail(uid) {
   let html = `
     <div class="card">
       <span class="tag-badge">${evt.tag}</span>${statusBadge}
-      <div class="detail-title card-clickable" id="detail-title-link">${evt.titre}<span class="detail-link-icon">🔍 rechercher</span></div>
+      <div class="detail-title card-clickable" id="detail-title-link">${evt.titre}<span class="detail-mini-icon">🔍</span></div>
       <div class="detail-row">
         <span class="meta-icon">▶</span>
         <div><div class="detail-label">Début</div><div class="detail-value">${formatDateFull(evt.dateDebut)}</div></div>
@@ -955,14 +983,13 @@ function renderDetail(uid) {
       </div>` : ''}
       <div class="detail-row card-clickable" id="detail-lieu-link" style="margin-bottom:0;">
         <span class="meta-icon">📍</span>
-        <div><div class="detail-label">Lieu</div><div class="detail-value">${evt.lieu || 'Non renseigné'}</div>${evt.lieu ? '<span class="detail-link-icon">🧭 itinéraire</span>' : ''}</div>
+        <div><div class="detail-label">Lieu</div><div class="detail-value">${evt.lieu || 'Non renseigné'}${evt.lieu ? '<span class="detail-mini-icon">🧭</span>' : ''}</div></div>
       </div>
     </div>
   `;
 
   if (evt.description) {
-    const desc = evt.description.replace(/<br\s*\/?>/gi, '\n');
-    html += `<div class="card"><div class="card-title">Description</div><div class="detail-desc">${escapeHtml(desc)}</div></div>`;
+    html += `<div class="card"><div class="card-title">Description</div><div class="detail-desc">${linkifyDescription(evt.description)}</div></div>`;
   }
 
   if (suggestion) {
@@ -974,22 +1001,7 @@ function renderDetail(uid) {
     `;
   }
 
-  const favActive = isFavori(uid);
-  const showAbsence = evt.dejaInscrit && evt.dateDebut && new Date(evt.dateDebut) > new Date();
-  html += `
-    <div class="detail-actions">
-      <button class="detail-action-btn" id="detail-fav-btn">${favActive ? '★ Retirer des favoris' : '☆ Ajouter aux favoris'}</button>
-      ${evt.url ? `<a class="detail-action-btn primary" href="${evt.url}" target="_blank">Ouvrir sur eProtec</a>` : ''}
-    </div>
-    ${showAbsence ? `<div class="detail-actions"><button class="detail-action-btn" id="detail-absence-btn">🚫 Signaler mon absence</button></div>` : ''}
-  `;
-
   container.innerHTML = html;
-
-  document.getElementById('detail-fav-btn').addEventListener('click', () => {
-    toggleFavori(uid);
-    document.getElementById('detail-fav-btn').textContent = isFavori(uid) ? '★ Retirer des favoris' : '☆ Ajouter aux favoris';
-  });
 
   document.getElementById('detail-title-link').addEventListener('click', () => {
     window.open(buildGoogleSearchUrl(evt), '_blank');
@@ -1002,8 +1014,44 @@ function renderDetail(uid) {
     });
   }
 
+  const favActive = isFavori(uid);
+  const showAbsence = evt.dejaInscrit && evt.dateDebut && new Date(evt.dateDebut) > new Date();
+
+  let iconsHtml = `<button class="icon-btn ${favActive ? 'active' : ''}" id="detail-fav-btn" aria-label="Favori">${favActive ? '★' : '☆'}</button>`;
+  if (suggestion) {
+    iconsHtml += `<button class="icon-btn" id="detail-delete-btn" aria-label="Supprimer la suggestion">🗑</button>`;
+  }
+  if (showAbsence) {
+    iconsHtml += `<button class="icon-btn" id="detail-absence-btn" aria-label="Signaler mon absence">🚫</button>`;
+  }
+  if (evt.url) {
+    iconsHtml += `<button class="icon-btn" id="detail-open-btn" aria-label="Ouvrir sur eProtec">⇗</button>`;
+  }
+  iconsContainer.innerHTML = iconsHtml;
+
+  document.getElementById('detail-fav-btn').addEventListener('click', () => {
+    toggleFavori(uid);
+    const btn = document.getElementById('detail-fav-btn');
+    const active = isFavori(uid);
+    btn.classList.toggle('active', active);
+    btn.textContent = active ? '★' : '☆';
+  });
+
+  if (suggestion) {
+    document.getElementById('detail-delete-btn').addEventListener('click', () => {
+      dismissSuggestion(uid);
+      document.getElementById('detail-back').click();
+    });
+  }
+
   if (showAbsence) {
     document.getElementById('detail-absence-btn').addEventListener('click', () => handleSignalAbsence(evt));
+  }
+
+  if (evt.url) {
+    document.getElementById('detail-open-btn').addEventListener('click', () => {
+      window.open(evt.url, '_blank');
+    });
   }
 }
 
@@ -1438,27 +1486,41 @@ function renderTopSuggestion() {
 
   if (remaining.length === 0) {
     topSuggestion.innerHTML = '<div class="empty">Aucune suggestion disponible.</div>';
-    topSuggestionCard.onclick = null;
-    topSuggestionCard.style.cursor = 'default';
     return;
   }
 
   const s = remaining[0];
+  topSuggestionCard.dataset.uid = s.uid;
   topSuggestion.innerHTML = `
     <div class="event-title-lg" style="margin-top:0;">${s.titre}</div>
     <div class="event-meta-row"><span class="meta-icon">🕒</span>${formatDate(s.dateDebut)}</div>
     <div class="event-meta-row"><span class="meta-icon">📍</span>${s.lieu || 'Lieu non renseigné'}</div>
     <div style="margin-top:8px;"><span class="badge badge-ok">Score ${s.score}</span></div>
   `;
-  topSuggestionCard.style.cursor = 'pointer';
-  topSuggestionCard.onclick = () => openDetail(s.uid);
+  topSuggestionCard.addEventListener('click', function handler(e) {
+    if (e.target.closest('.swipe-label')) return;
+    openDetail(topSuggestionCard.dataset.uid);
+  }, { once: false });
+
+  wrapCardsForSwipeDismiss(document.getElementById('accueil'));
+  attachSwipeToDismiss(document.getElementById('accueil'));
+}
+
+function decrementMonthGroupCount(card) {
+  const group = card.closest('.month-group');
+  if (!group) return;
+  const span = group.querySelector('.month-toggle span:first-child');
+  if (!span) return;
+  const match = span.textContent.match(/^(.*)\((\d+)\)$/);
+  if (!match) return;
+  const newCount = parseInt(match[2], 10) - 1;
+  span.textContent = newCount > 0 ? `${match[1]}(${newCount})` : match[1].trim();
 }
 
 function dismissSuggestion(uid) {
   if (!dismissedCache.includes(uid)) dismissedCache.push(uid);
   pushDismissedToFirebase();
   renderTopSuggestion();
-  renderSuggestions(allSuggestions);
 }
 
 function wrapCardsForSwipeDismiss(container) {
@@ -1477,17 +1539,27 @@ function wrapCardsForSwipeDismiss(container) {
 
 function attachSwipeToDismiss(container) {
   container.querySelectorAll('.card[data-uid]').forEach(card => {
-    let startX = 0, currentX = 0, dragging = false;
+    let startX = 0, startY = 0, currentX = 0, dragging = false, cancelled = false;
 
     card.addEventListener('touchstart', (e) => {
       startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
       dragging = true;
+      cancelled = false;
       card.style.transition = 'none';
     }, { passive: true });
 
     card.addEventListener('touchmove', (e) => {
-      if (!dragging) return;
-      currentX = e.touches[0].clientX - startX;
+      if (!dragging || cancelled) return;
+      const dx = e.touches[0].clientX - startX;
+      const dy = e.touches[0].clientY - startY;
+      if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 10) {
+        cancelled = true;
+        card.style.transform = 'translateX(0)';
+        card.style.opacity = '1';
+        return;
+      }
+      currentX = dx;
       card.style.transform = `translateX(${currentX}px)`;
       card.style.opacity = String(1 - Math.min(Math.abs(currentX) / 300, 0.6));
     }, { passive: true });
@@ -1497,11 +1569,12 @@ function attachSwipeToDismiss(container) {
       dragging = false;
       card.style.transition = 'transform 0.25s ease, opacity 0.25s ease';
       const threshold = 90;
-      if (Math.abs(currentX) > threshold) {
+      if (!cancelled && Math.abs(currentX) > threshold) {
         const dir = currentX > 0 ? 1 : -1;
         card.style.transform = `translateX(${dir * 400}px)`;
         card.style.opacity = '0';
-       const uid = card.dataset.uid;
+        const uid = card.dataset.uid;
+        decrementMonthGroupCount(card);
         setTimeout(() => {
           dismissSuggestion(uid);
           const wrap = card.closest('.swipe-wrap');
