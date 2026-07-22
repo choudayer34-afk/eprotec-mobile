@@ -1,3 +1,4 @@
+import nodemailer from 'nodemailer';
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 
 const KNOWN_UIDS_PATH = 'data/known-uids.json';
@@ -6,10 +7,11 @@ const GEOCACHE_PATH = 'data/geocache.json';
 const RECENT_NEW_PATH = 'data/recent-new.json';
 const NEW_RETENTION_HOURS = 48;
 
-const HOME = { lat: 43.5675, lon: 3.9010 };
-const MIN_GAP_DAYS = 14;
+const FIREBASE_URL = 'https://eprotec-favoris-default-rtdb.europe-west1.firebasedatabase.app';
 
-const W = {
+const HOME = { lat: 43.5675, lon: 3.9010 };
+
+const DEFAULT_SETTINGS = {
   monthEmpty: 3,
   friday: 3,
   saturday: 3,
@@ -23,8 +25,32 @@ const W = {
   far: -1,
   veryFar: -3,
   gapTooClosePenalty: -5,
-  gapComfortable: 2
+  gapComfortable: 2,
+  veryCloseKm: 15,
+  closeKm: 30,
+  farKm: 50,
+  longDurationHours: 8,
+  minGapDays: 14
 };
+
+async function loadSettings() {
+  try {
+    const res = await fetch(FIREBASE_URL + '/oad-settings.json');
+    const remote = await res.json();
+    if (remote && typeof remote === 'object') {
+      const merged = { ...DEFAULT_SETTINGS };
+      for (const key of Object.keys(DEFAULT_SETTINGS)) {
+        if (typeof remote[key] === 'number' && !Number.isNaN(remote[key])) {
+          merged[key] = remote[key];
+        }
+      }
+      return merged;
+    }
+  } catch (err) {
+    console.error('Erreur chargement réglages OAD, utilisation des valeurs par défaut :', err.message);
+  }
+  return { ...DEFAULT_SETTINGS };
+}
 
 function unfoldIcs(text) {
   return text.replace(/\r\n[ \t]/g, '').replace(/\n[ \t]/g, '');
@@ -202,7 +228,7 @@ function getMonthKey(date) {
   return `${date.getFullYear()}-${date.getMonth() + 1}`;
 }
 
-async function evaluateDpsCandidate(evt, monthIsOpen, registeredDps, geocache) {
+async function evaluateDpsCandidate(evt, monthIsOpen, registeredDps, geocache, S) {
   let score = 0;
   const reasons = [];
   const push = (text, category) => reasons.push({ text, category });
@@ -210,43 +236,43 @@ async function evaluateDpsCandidate(evt, monthIsOpen, registeredDps, geocache) {
   if (!start) return { event: evt, score: -999, reasons: [{ text: 'Date invalide', category: 'negative' }] };
 
   if (monthIsOpen) {
-    score += W.monthEmpty;
+    score += S.monthEmpty;
     push('Mois sans DPS planifié', 'positive');
   }
 
   const day = start.getDay();
-  if (day === 5) { score += W.friday; push('Jour très favorable (vendredi)', 'positive'); }
-  else if (day === 6) { score += W.saturday; push('Jour très favorable (samedi)', 'positive'); }
-  else if (day === 0) { score += W.sunday; push('Jour favorable (dimanche)', 'positive'); }
-  else { score += W.weekday; push('Jour de semaine', 'neutral'); }
+  if (day === 5) { score += S.friday; push('Jour très favorable (vendredi)', 'positive'); }
+  else if (day === 6) { score += S.saturday; push('Jour très favorable (samedi)', 'positive'); }
+  else if (day === 0) { score += S.sunday; push('Jour favorable (dimanche)', 'positive'); }
+  else { score += S.weekday; push('Jour de semaine', 'neutral'); }
 
   if (start.getHours() >= 16) {
-    score += W.eveningSlot;
+    score += S.eveningSlot;
     push("Créneau fin d'après-midi / soirée", 'positive');
   }
 
   if (evt.dureeHeures != null) {
-    if (evt.dureeHeures >= 8) { score += W.badDuration; push('DPS long (fatigue)', 'negative'); }
-    else { score += W.goodDuration; push('Durée raisonnable', 'positive'); }
+    if (evt.dureeHeures >= S.longDurationHours) { score += S.badDuration; push('DPS long (fatigue)', 'negative'); }
+    else { score += S.goodDuration; push('Durée raisonnable', 'positive'); }
   }
 
   const coord = await geocode(evt.location, geocache);
   if (coord) {
     const dist = haversineKm(HOME.lat, HOME.lon, coord.lat, coord.lon);
-    if (dist <= 15) { score += W.veryClose; push(`Très proche (${dist} km)`, 'positive'); }
-    else if (dist <= 30) { score += W.close; push(`Distance raisonnable (${dist} km)`, 'positive'); }
-    else if (dist <= 50) { score += W.far; push(`Assez éloigné (${dist} km)`, 'negative'); }
-    else { score += W.veryFar; push(`Trop éloigné (${dist} km)`, 'negative'); }
+    if (dist <= S.veryCloseKm) { score += S.veryClose; push(`Très proche (${dist} km)`, 'positive'); }
+    else if (dist <= S.closeKm) { score += S.close; push(`Distance raisonnable (${dist} km)`, 'positive'); }
+    else if (dist <= S.farKm) { score += S.far; push(`Assez éloigné (${dist} km)`, 'negative'); }
+    else { score += S.veryFar; push(`Trop éloigné (${dist} km)`, 'negative'); }
   }
 
   if (registeredDps.length > 0) {
     const gaps = registeredDps.map(r => Math.abs((new Date(r.dateDebut) - start) / 86400000));
     const minGap = Math.round(Math.min(...gaps));
-    if (minGap < MIN_GAP_DAYS) {
-      score += W.gapTooClosePenalty;
+    if (minGap < S.minGapDays) {
+      score += S.gapTooClosePenalty;
       push(`Trop proche d'un DPS déjà planifié (${minGap} jours)`, 'negative');
     } else {
-      score += W.gapComfortable;
+      score += S.gapComfortable;
       push(`Espacement confortable (${minGap} jours)`, 'positive');
     }
   }
@@ -254,7 +280,7 @@ async function evaluateDpsCandidate(evt, monthIsOpen, registeredDps, geocache) {
   return { event: evt, score, reasons };
 }
 
-async function computeOadSuggestions(events, registrationsHistory, geocache) {
+async function computeOadSuggestions(events, registrationsHistory, geocache, S) {
   const now = new Date();
   const registeredDps = Object.values(registrationsHistory).filter(r => r.tag === 'DPS');
 
@@ -281,11 +307,76 @@ async function computeOadSuggestions(events, registrationsHistory, geocache) {
     if (registeredInMonth.length > 0) continue;
 
     for (const evt of monthEvents) {
-      results.push(await evaluateDpsCandidate(evt, true, registeredDps, geocache));
+      results.push(await evaluateDpsCandidate(evt, true, registeredDps, geocache, S));
     }
   }
 
   return results.filter(r => r.score > -500).sort((a, b) => b.score - a.score);
+}
+
+async function sendMail(newEvents, suggestions) {
+  const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT),
+    secure: false,
+    requireTLS: true,
+    auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
+  });
+
+  function formatDate(d) {
+    if (!d) return 'date inconnue';
+    return d.toLocaleString('fr-FR', {
+      weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
+    });
+  }
+
+  const items = newEvents.map(e => `
+    <div style="margin-bottom:14px;padding:10px;border:1px solid #ddd;border-radius:6px;">
+      <b>[${e.tag}] ${e.summary}</b><br>
+      Date : ${formatDate(e.startDate)}<br>
+      Lieu : ${e.location || 'non renseigné'}<br>
+      ${e.dejaInscrit ? '✅ Vous êtes déjà inscrit<br>' : ''}
+      ${e.url ? `<a href="${e.url}">Voir l'événement</a>` : ''}
+    </div>
+  `).join('');
+
+  const suggestionHtml = suggestions.slice(0, 1).map(s => `
+    <div style="margin-bottom:14px;padding:10px;border:2px solid #F5821F;border-radius:6px;">
+      <b>🎯 Suggestion du mois : [DPS] ${s.event.summary}</b><br>
+      Date : ${formatDate(s.event.startDate)}<br>
+      Lieu : ${s.event.location || 'non renseigné'}<br>
+      Score : ${s.score}<br>
+      <ul>${s.reasons.map(r => `<li>${r.category === 'positive' ? '✅' : r.category === 'negative' ? '⚠️' : '•'} ${r.text}</li>`).join('')}</ul>
+    </div>
+  `).join('');
+
+  await transporter.sendMail({
+    from: process.env.MAIL_FROM,
+    to: process.env.MAIL_TO,
+    subject: `[Protection Civile] ${newEvents.length} nouvelle(s) activité(s) détectée(s)`,
+    html: `<p>Bonjour,</p><p>Voici les nouveautés détectées :</p>${items}${suggestionHtml}`
+  });
+}
+
+async function sendPushNotification(newEvents) {
+  const topic = process.env.NTFY_TOPIC;
+  if (!topic) return;
+
+  const titles = newEvents.slice(0, 3).map(e => `[${e.tag}] ${e.summary}`).join('\n');
+  const suffix = newEvents.length > 3 ? `\n...et ${newEvents.length - 3} autre(s)` : '';
+  const appUrl = 'https://choudayer34-afk.github.io/eprotec-mobile/#nouveautes';
+
+  await fetch(`https://ntfy.sh/${topic}`, {
+    method: 'POST',
+    headers: {
+      'Title': `${newEvents.length} nouvelle(s) activité(s) eProtec`,
+      'Priority': 'default',
+      'Tags': 'bell',
+      'Click': appUrl
+    },
+    body: titles + suffix
+  });
 }
 
 async function fetchIcs(url) {
@@ -295,6 +386,9 @@ async function fetchIcs(url) {
 }
 
 async function main() {
+  const settings = await loadSettings();
+  console.log('Réglages OAD utilisés :', JSON.stringify(settings));
+
   const [icsText, persoText] = await Promise.all([
     fetchIcs(process.env.EPROTEC_ICS_URL),
     fetchIcs(process.env.EPROTEC_PERSO_URL)
@@ -329,7 +423,7 @@ async function main() {
 
   const geocache = loadJson(GEOCACHE_PATH, {});
   console.log('Calcul des suggestions OAD...');
-  const suggestions = await computeOadSuggestions(events, registrationsHistory, geocache);
+  const suggestions = await computeOadSuggestions(events, registrationsHistory, geocache, settings);
   writeFileSync(GEOCACHE_PATH, JSON.stringify(geocache, null, 2));
   console.log(`Suggestions calculées : ${suggestions.length}`);
 
@@ -344,9 +438,12 @@ async function main() {
   const recentNewSet = new Set(Object.keys(recentNew));
 
   if (isFirstRun) {
-    console.log("Premier lancement : initialisation, aucune notification prévue.");
+    console.log("Premier lancement : initialisation, aucune alerte envoyée.");
   } else if (newEvents.length > 0) {
-    console.log(`${newEvents.length} nouveauté(s) détectée(s).`);
+    console.log(`${newEvents.length} nouveauté(s), envoi des alertes...`);
+    await sendMail(newEvents, suggestions);
+    await sendPushNotification(newEvents);
+    console.log('Alertes envoyées.');
   } else {
     console.log("Aucune nouveauté cette fois-ci.");
   }
@@ -387,25 +484,6 @@ async function main() {
   writeFileSync('data/status.json', JSON.stringify({
     lastUpdate: new Date().toISOString()
   }, null, 2));
-
-  const pendingNotification = {
-    newEvents: isFirstRun ? [] : newEvents.map(e => ({
-      tag: e.tag,
-      titre: e.summary,
-      lieu: e.location,
-      url: e.url,
-      dejaInscrit: e.dejaInscrit,
-      dateDebutIso: e.startDate ? e.startDate.toISOString() : null
-    })),
-    topSuggestion: suggestions[0] ? {
-      titre: suggestions[0].event.summary,
-      lieu: suggestions[0].event.location,
-      dateDebutIso: suggestions[0].event.startDate ? suggestions[0].event.startDate.toISOString() : null,
-      score: suggestions[0].score,
-      reasons: suggestions[0].reasons
-    } : null
-  };
-  writeFileSync('data/pending-notification.json', JSON.stringify(pendingNotification, null, 2));
 
   console.log(`Export terminé : ${eventsForApp.length} événements à venir, ${suggestionsForApp.length} suggestions.`);
 }
