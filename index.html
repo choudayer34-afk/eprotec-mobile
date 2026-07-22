@@ -1535,6 +1535,29 @@ function renderUpcomingRegistrations(events) {
   });
 }
 
+function groupByDetectionDate(items) {
+  const today = dateKey(new Date());
+  const yesterday = dateKey(new Date(Date.now() - 86400000));
+
+  const groups = {};
+  items.forEach(item => {
+    const key = item.nouveauDepuis ? dateKey(new Date(item.nouveauDepuis)) : today;
+    (groups[key] ||= []).push(item);
+  });
+
+  return Object.keys(groups).sort().reverse().map(key => {
+    let label;
+    if (key === today) label = "Aujourd'hui";
+    else if (key === yesterday) label = 'Hier';
+    else label = new Date(key).toLocaleDateString('fr-FR', { weekday: 'long', day: '2-digit', month: 'long' });
+    return {
+      key,
+      label: label.charAt(0).toUpperCase() + label.slice(1),
+      items: groups[key].sort((a, b) => new Date(a.dateDebut) - new Date(b.dateDebut))
+    };
+  });
+}
+
 function groupByTag(items) {
   const groups = {};
   items.forEach(item => {
@@ -1557,7 +1580,7 @@ function renderNouveautesCompletes(events) {
     return;
   }
 
-  const groups = groupByTag(nouveautes);
+  const groups = groupByDetectionDate(nouveautes);
   container.innerHTML = groups.map(g => `
     <div class="month-group">
       <button class="month-toggle">
@@ -3828,21 +3851,7 @@ async function loadData() {
 
   renderUpcomingRegistrations(events);
 
-  const listeNouveautes = document.getElementById('liste-nouveautes');
-  listeNouveautes.innerHTML = nouveautes.length === 0
-    ? '<div class="empty">Aucune nouveauté pour le moment.</div>'
-    : nouveautes.slice(0, 5).map(e => `
-      <div class="event-row" data-uid="${e.uid}">
-        <div>
-          <div class="event-title">[${e.tag}] ${e.titre}</div>
-          <div class="event-meta">${formatDate(e.dateDebut)} · ${e.lieu || ''}</div>
-        </div>
-        <span class="badge badge-new">Nouveau</span>
-      </div>
-    `).join('');
-  listeNouveautes.querySelectorAll('[data-uid]').forEach(row => {
-    row.addEventListener('click', () => openDetail(row.dataset.uid));
-  });
+ const listeNouveautes = document.getEleme
 
  renderTopSuggestion();
 
