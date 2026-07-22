@@ -1343,14 +1343,87 @@ function renderInscriptions() {
   );
 }
 
+let dismissedCache = [];
+
+async function initDismissed() {
+  try {
+    const res = await fetch(FIREBASE_URL + '/dismissed-suggestions.json?t=' + Date.now(), { cache: 'no-store' });
+    const remote = await res.json();
+    if (Array.isArray(remote)) { dismissedCache = remote; return; }
+  } catch {}
+  dismissedCache = [];
+}
+
+function isDismissed(uid) {
+  return dismissedCache.includes(uid);
+}
+
+async function pushDismissedToFirebase() {
+  try {
+    await fetch(FIREBASE_URL + '/dismissed-suggestions.json', {
+      method: 'PUT',
+      body: JSON.stringify(dismissedCache)
+    });
+  } catch (err) {
+    console.error('Erreur sauvegarde suggestions écartées :', err);
+  }
+}
+
+function dismissSuggestion(uid) {
+  if (!dismissedCache.includes(uid)) dismissedCache.push(uid);
+  pushDismissedToFirebase();
+}
+
+function attachSwipeToDismiss(container) {
+  container.querySelectorAll('.card[data-uid]').forEach(card => {
+    let startX = 0, currentX = 0, dragging = false;
+
+    card.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      dragging = true;
+      card.style.transition = 'none';
+    }, { passive: true });
+
+    card.addEventListener('touchmove', (e) => {
+      if (!dragging) return;
+      currentX = e.touches[0].clientX - startX;
+      card.style.transform = `translateX(${currentX}px)`;
+      card.style.opacity = String(1 - Math.min(Math.abs(currentX) / 300, 0.6));
+    }, { passive: true });
+
+    card.addEventListener('touchend', () => {
+      if (!dragging) return;
+      dragging = false;
+      card.style.transition = 'transform 0.25s ease, opacity 0.25s ease';
+      const threshold = 90;
+      if (Math.abs(currentX) > threshold) {
+        const dir = currentX > 0 ? 1 : -1;
+        card.style.transform = `translateX(${dir * 400}px)`;
+        card.style.opacity = '0';
+        const uid = card.dataset.uid;
+        setTimeout(() => {
+          dismissSuggestion(uid);
+          card.remove();
+        }, 220);
+      } else {
+        card.style.transform = 'translateX(0)';
+        card.style.opacity = '1';
+      }
+      currentX = 0;
+    });
+  });
+}
+
 function renderSuggestions(suggestions) {
-  const sorted = [...suggestions].sort((a, b) => b.score - a.score);
+  const sorted = [...suggestions].filter(s => !isDismissed(s.uid)).sort((a, b) => b.score - a.score);
+  const container = document.getElementById('liste-suggestions');
   renderMonthGroupedCards(
-    document.getElementById('liste-suggestions'),
+    container,
     groupByMonth(sorted),
     'Aucune suggestion disponible.',
     { showScore: true }
   );
+  attachSwipeToDismiss(container);
 }
 
 function getMonthlyDpsStats(entries, year) {
@@ -1777,6 +1850,7 @@ async function loadOadSettings() {
 
 async function loadData() {
   await initFavoris();
+  await initDismissed();
   await loadOadSettings();
   renderParametres();
 
