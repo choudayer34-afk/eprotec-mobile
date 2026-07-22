@@ -1,5 +1,13 @@
 [
   {
+    "version": "4.4",
+    "date": "2026-07-22T20:17:07.413Z",
+    "title": "Correction orientation schéma ECG membres",
+    "items": [
+      "Le schéma des dérivations périphériques respecte maintenant la vue miroir face à la victime : R (rouge, supérieur droit) et J (jaune, supérieur gauche), N (noir, inférieur droit) et V (vert, inférieur gauche) correctement positionnés"
+    ]
+  },
+  {
     "version": "4.3",
     "date": "2026-07-22T20:14:19.121Z",
     "title": "Bilan patient : identité, TA, géolocalisation, suivi, chronos, alertes visuelles",
