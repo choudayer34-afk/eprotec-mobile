@@ -233,6 +233,7 @@
   .bilan-chip.active { background: #F5821F; color: #4A1B0C; font-weight: 500; }
   .bilan-ref-item { font-size: 13px; color: #fff; padding: 6px 0; border-top: 0.5px solid #223258; }
   .bilan-ref-item:first-child { border-top: none; }
+  .mnemo { font-style: italic; color: #F5821F; }
 
   .tile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .tile {
@@ -1973,12 +1974,103 @@ setupAccordion(container);
 
   renderComparisonChart(entries);
 }
+function showInfoModal(title, html) {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999;display:flex;align-items:center;justify-content:center;padding:20px;';
+  overlay.innerHTML = `
+    <div style="background:#163C74;border-radius:16px;padding:20px;width:100%;max-width:380px;max-height:80vh;overflow-y:auto;">
+      <div style="color:#fff;font-size:15px;font-weight:500;margin-bottom:12px;">${title}</div>
+      <div style="color:#fff;font-size:13px;line-height:1.6;">${html}</div>
+      <button class="detail-action-btn primary" id="info-close" style="margin-top:16px;">Fermer</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.querySelector('#info-close').addEventListener('click', () => overlay.remove());
+}
+
+const INFO_CONTENT = {
+  freqRespi: {
+    title: 'Fréquence respiratoire — références par âge',
+    html: `<table style="width:100%;border-collapse:collapse;">
+      <tr style="color:#9FB3D6;"><td style="padding:4px 0;">Adulte</td><td style="text-align:right;">12 à 20 / min</td></tr>
+      <tr style="color:#9FB3D6;border-top:0.5px solid #223258;"><td style="padding:4px 0;">Enfant</td><td style="text-align:right;">20 à 30 / min</td></tr>
+      <tr style="color:#9FB3D6;border-top:0.5px solid #223258;"><td style="padding:4px 0;">Nourrisson</td><td style="text-align:right;">30 à 40 / min</td></tr>
+      <tr style="color:#9FB3D6;border-top:0.5px solid #223258;"><td style="padding:4px 0;">Nouveau-né</td><td style="text-align:right;">40 à 60 / min</td></tr>
+    </table>`
+  },
+  freqPouls: {
+    title: 'Fréquence cardiaque — références par âge',
+    html: `<table style="width:100%;border-collapse:collapse;">
+      <tr style="color:#9FB3D6;"><td style="padding:4px 0;">Adulte</td><td style="text-align:right;">60 à 100 / min</td></tr>
+      <tr style="color:#9FB3D6;border-top:0.5px solid #223258;"><td style="padding:4px 0;">Enfant</td><td style="text-align:right;">70 à 140 / min</td></tr>
+      <tr style="color:#9FB3D6;border-top:0.5px solid #223258;"><td style="padding:4px 0;">Nourrisson</td><td style="text-align:right;">100 à 160 / min</td></tr>
+      <tr style="color:#9FB3D6;border-top:0.5px solid #223258;"><td style="padding:4px 0;">Nouveau-né</td><td style="text-align:right;">120 à 160 / min</td></tr>
+    </table>`
+  },
+  spo2: {
+    title: 'SpO2 — références',
+    html: `<p>Normale : entre 94% et 98%</p><p style="margin-top:8px;">Insuffisant respiratoire chronique connu : à partir de 89% peut être acceptable</p>`
+  },
+  glycemie: {
+    title: 'Glycémie — références',
+    html: `<p>Normale à jeun : 0,60 à 1,10 g/L (3,3 à 5,8 mmol/L)</p>
+      <p style="margin-top:8px;color:#F0997B;"><b>Seuil bas : &lt; 0,60 g/L (&lt; 3,3 mmol/L) → resucrer</b></p>
+      <p style="margin-top:8px;color:#9FB3D6;font-size:12px;">Conversion : g/L × 5,5 = mmol/L</p>`
+  },
+  coloration: {
+    title: 'Coloration / aspect de la peau',
+    html: `
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"><span style="width:20px;height:20px;border-radius:50%;background:#E8C9A0;display:inline-block;"></span><div><b>Normale</b> — teint habituel</div></div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"><span style="width:20px;height:20px;border-radius:50%;background:#E8E0D5;display:inline-block;"></span><div><b>Pâle</b> — plus claire que d'habitude, souvent liée à un choc ou une hémorragie</div></div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"><span style="width:20px;height:20px;border-radius:50%;background:#8A7A9E;display:inline-block;"></span><div><b>Marbrée</b> — aspect tacheté violacé en réseau, souvent aux genoux, signe de mauvaise circulation</div></div>
+      <div style="display:flex;align-items:center;gap:10px;"><span style="width:20px;height:20px;border-radius:50%;background:#4A5E8C;display:inline-block;"></span><div><b>Cyanosée</b> — bleutée (lèvres, extrémités), signe de manque d'oxygène</div></div>
+    `
+  },
+  pouls_amplitude: {
+    title: 'Amplitude du pouls',
+    html: `<p><b>Bien frappé</b> — facilement perçu, franc</p><p style="margin-top:8px;"><b>Filant</b> — faible, difficile à percevoir, signe de gravité</p>`
+  },
+  pouls_regularite: {
+    title: 'Régularité du pouls',
+    html: `<p><b>Régulier</b> — intervalles constants entre les battements</p><p style="margin-top:8px;"><b>Irrégulier</b> — intervalles variables, peut évoquer un trouble du rythme</p>`
+  }
+};
+
+const GLASGOW_OPTIONS = {
+  glasgowY: [
+    { value: 4, label: '4 — Spontanée' },
+    { value: 3, label: '3 — À la demande' },
+    { value: 2, label: '2 — À la douleur' },
+    { value: 1, label: '1 — Absente' }
+  ],
+  glasgowV: [
+    { value: 5, label: '5 — Orientée' },
+    { value: 4, label: '4 — Confuse' },
+    { value: 3, label: '3 — Mots inappropriés' },
+    { value: 2, label: '2 — Sons incompréhensibles' },
+    { value: 1, label: '1 — Absente' }
+  ],
+  glasgowM: [
+    { value: 6, label: '6 — Obéit aux ordres' },
+    { value: 5, label: '5 — Localise la douleur' },
+    { value: 4, label: '4 — Évitement à la douleur' },
+    { value: 3, label: '3 — Flexion anormale' },
+    { value: 2, label: '2 — Extension anormale' },
+    { value: 1, label: '1 — Absente' }
+  ]
+};
 
 const BILAN_CATEGORIES = [
   { key: 'circonstanciel', label: '🎬 Bilan circonstanciel (3S)', fields: [
     { key: 'scene', label: 'Scène', type: 'text' },
     { key: 'securite', label: 'Sécurité', type: 'text' },
     { key: 'situation', label: 'Situation', type: 'text' }
+  ]},
+  { key: 'regards', label: '👀 Les 4 regards', fields: [
+    { key: 'regard1', label: "1er regard — vue d'ensemble en arrivant", type: 'text' },
+    { key: 'regard2', label: "2e regard — approche de la victime", type: 'text' },
+    { key: 'regard3', label: "3e regard — pendant l'examen", type: 'text' },
+    { key: 'regard4', label: "4e regard — avant de partir / relève", type: 'text' }
   ]},
   { key: 'x', label: '🩸 X — Hémorragie', fields: [
     { key: 'hemorragie', label: 'Hémorragie visible', type: 'chip', options: ['Non', 'Oui'] },
@@ -1988,28 +2080,34 @@ const BILAN_CATEGORIES = [
     { key: 'voiesAeriennes', label: 'État des voies aériennes', type: 'chip', options: ['Libres', 'Obstruées'] }
   ]},
   { key: 'b', label: '💨 B — Respiration', fields: [
-    { key: 'freqRespi', label: 'Fréquence (réf. adulte 12 à 20/min)', type: 'number' },
+    { key: 'freqRespi', label: 'Fréquence (par minute)', type: 'number', info: 'freqRespi' },
     { key: 'amplitudeRespi', label: 'Amplitude', type: 'chip', options: ['Normale', 'Superficielle', 'Ample'] },
-    { key: 'spo2', label: 'SpO2 % (réf. 94 à 98%, ≥89% si insuffisant chronique)', type: 'number' },
+    { key: 'spo2', label: 'SpO2 %', type: 'number', info: 'spo2' },
     { key: 'auscultation', label: 'Auscultation / bruits anormaux', type: 'text' }
   ]},
   { key: 'c', label: '❤️ C — Circulation', fields: [
-    { key: 'freqPouls', label: 'Fréquence pouls (réf. adulte 60 à 100/min)', type: 'number' },
-    { key: 'amplitudePouls', label: 'Amplitude', type: 'chip', options: ['Bien frappé', 'Filant'] },
-    { key: 'regularite', label: 'Régularité', type: 'chip', options: ['Régulier', 'Irrégulier'] },
-    { key: 'coloration', label: 'Coloration / aspect peau', type: 'chip', options: ['Normale', 'Pâle', 'Marbrée', 'Cyanosée'] },
+    { key: 'freqPouls', label: 'Fréquence pouls (par minute)', type: 'number', info: 'freqPouls' },
+    { key: 'amplitudePouls', label: 'Amplitude', type: 'chip', options: ['Bien frappé', 'Filant'], info: 'pouls_amplitude' },
+    { key: 'regularite', label: 'Régularité', type: 'chip', options: ['Régulier', 'Irrégulier'], info: 'pouls_regularite' },
+    { key: 'coloration', label: 'Coloration / aspect peau', type: 'chip', options: ['Normale', 'Pâle', 'Marbrée', 'Cyanosée'], info: 'coloration' },
     { key: 'trc', label: 'TRC (réf. < 2s)', type: 'chip', options: ['< 2s', '≥ 2s'] },
     { key: 'taSystolique', label: 'TA systolique', type: 'number' },
     { key: 'taDiastolique', label: 'TA diastolique', type: 'number' }
   ]},
-  { key: 'd', label: '🧠 D — Neurologique', fields: [
-    { key: 'conscience', label: 'Conscience (AVPU)', type: 'chip', options: ['Alerte', 'Verbal', 'Douleur', 'Inconscient'] },
-    { key: 'glasgowY', label: 'Glasgow — Ouverture des yeux (1 à 4)', type: 'number' },
-    { key: 'glasgowV', label: 'Glasgow — Verbal (1 à 5)', type: 'number' },
-    { key: 'glasgowM', label: 'Glasgow — Moteur (1 à 6)', type: 'number' },
+  { key: 'd', label: '🧠 D — Neurologique (Glasgow)', fields: [
+    { key: 'conscience', label: 'Conscience (EVDA)', type: 'chip', options: ['Éveillé', 'Verbal', 'Douleur', 'Aréactif'] },
+    { key: 'glasgowY', label: 'Ouverture des yeux', type: 'select', options: GLASGOW_OPTIONS.glasgowY },
+    { key: 'glasgowV', label: 'Réponse verbale', type: 'select', options: GLASGOW_OPTIONS.glasgowV },
+    { key: 'glasgowM', label: 'Réponse motrice', type: 'select', options: GLASGOW_OPTIONS.glasgowM },
     { key: 'pupilles', label: 'Pupilles', type: 'chip', options: ['Normales', 'Asymétriques', 'Mydriase', 'Myosis'] },
     { key: 'motricite', label: 'Motricité / sensibilité', type: 'text' },
-    { key: 'glycemie', label: 'Glycémie (g/L)', type: 'number' }
+    { key: 'glycemie', label: 'Glycémie (g/L)', type: 'number', info: 'glycemie' }
+  ]},
+  { key: 'avc', label: '🧠 Suspicion AVC (F.A.S.T.)', fields: [
+    { key: 'avcFace', label: 'Face — asymétrie faciale', type: 'chip', options: ['Non', 'Oui'] },
+    { key: 'avcArm', label: 'Arm — faiblesse d\'un bras', type: 'chip', options: ['Non', 'Oui'] },
+    { key: 'avcSpeech', label: 'Speech — trouble de la parole', type: 'chip', options: ['Non', 'Oui'] },
+    { key: 'avcTime', label: 'Time — heure d\'apparition des signes', type: 'text' }
   ]},
   { key: 'e', label: '🌡 E — Environnement', fields: [
     { key: 'temperature', label: 'Température (°C)', type: 'number' },
@@ -2029,7 +2127,7 @@ const BILAN_CATEGORIES = [
     { key: 'provoquePar', label: 'Provoqué par', type: 'text' },
     { key: 'qualite', label: 'Qualité', type: 'text' },
     { key: 'region', label: 'Région', type: 'text' },
-    { key: 'severite', label: 'Sévérité (0 à 4)', type: 'number' },
+    { key: 'severite', label: 'Sévérité', type: 'painscale' },
     { key: 'temps', label: 'Temps', type: 'text' }
   ]}
 ];
@@ -2059,28 +2157,67 @@ function renderBilanReference() {
         <span class="month-chevron">▸</span>
       </button>
       <div class="month-body" style="display:none">
-        ${cat.fields.map(f => `<div class="bilan-ref-item">${f.label}${f.type === 'chip' ? ' : ' + f.options.join(' / ') : ''}</div>`).join('')}
+        ${cat.fields.map(f => `<div class="bilan-ref-item">${f.label}${f.type === 'chip' ? ' : ' + f.options.join(' / ') : ''}${f.type === 'select' ? ' : ' + f.options.map(o => o.label).join(' / ') : ''}</div>`).join('')}
       </div>
     </div>
   `).join('');
   setupAccordion(container);
 }
 
+function glasgowTotal() {
+  const y = parseInt(bilanData.glasgowY, 10) || 0;
+  const v = parseInt(bilanData.glasgowV, 10) || 0;
+  const m = parseInt(bilanData.glasgowM, 10) || 0;
+  return y + v + m;
+}
+
 function renderBilanField(f) {
   const value = bilanData[f.key] || '';
+  const infoBtn = f.info ? `<button class="icon-btn" style="width:22px;height:22px;font-size:11px;margin-left:6px;" data-info="${f.info}">i</button>` : '';
+
   if (f.type === 'chip') {
     return `
       <div class="bilan-field-row">
-        <label>${f.label}</label>
+        <label>${f.label}${infoBtn}</label>
         <div class="bilan-chip-row">
           ${f.options.map(o => `<button class="bilan-chip ${value === o ? 'active' : ''}" data-bilan-chip="${f.key}" data-value="${o}">${o}</button>`).join('')}
         </div>
       </div>
     `;
   }
+
+  if (f.type === 'select') {
+    return `
+      <div class="bilan-field-row">
+        <label>${f.label}${infoBtn}</label>
+        <select data-bilan-field="${f.key}" style="width:100%;background:#0B2A5C;border:none;color:#fff;font-size:14px;padding:10px 12px;border-radius:8px;">
+          <option value="">—</option>
+          ${f.options.map(o => `<option value="${o.value}" ${String(o.value) === String(value) ? 'selected' : ''}>${o.label}</option>`).join('')}
+        </select>
+        ${(f.key === 'glasgowM') ? `<div style="color:#F5821F;font-size:12px;margin-top:6px;">Score Glasgow total : ${glasgowTotal()} / 15</div>` : ''}
+      </div>
+    `;
+  }
+
+if (f.type === 'painscale') {
+    const painColors = ['#97C459','#A9C15A','#BDBE5B','#D4C459','#E8B84A','#EF9F27','#E88C34','#E67A38','#E86A3C','#E5573F','#E24B4A'];
+    const faces = ['😀','🙂','🙂','😐','😐','😕','😟','😣','😖','😫','😭'];
+    return `
+      <div class="bilan-field-row">
+        <label>${f.label} (0 à 10)</label>
+        <div class="bilan-chip-row" style="flex-wrap:wrap;">
+          ${[0,1,2,3,4,5,6,7,8,9,10].map(n => `<button class="bilan-chip ${String(value) === String(n) ? 'active' : ''}" data-bilan-chip="${f.key}" data-value="${n}" style="min-width:34px;${String(value) === String(n) ? 'background:' + painColors[n] + ';color:#0B2A5C;' : ''}">${n}</button>`).join('')}
+        </div>
+        <div style="display:flex;justify-content:space-between;color:#9FB3D6;font-size:10px;margin-top:6px;">
+          <span>Pas de douleur</span><span>Pire douleur possible</span>
+        </div>
+      </div>
+    `;
+  }
+
   return `
     <div class="bilan-field-row">
-      <label>${f.label}</label>
+      <label>${f.label}${infoBtn}</label>
       <input type="${f.type}" data-bilan-field="${f.key}" value="${value}">
     </div>
   `;
@@ -2111,6 +2248,12 @@ function renderBilanFill() {
     input.addEventListener('input', () => {
       bilanData[input.dataset.bilanField] = input.value;
       saveBilanData();
+      if (input.dataset.bilanField.startsWith('glasgow')) renderBilanFill();
+    });
+    input.addEventListener('change', () => {
+      bilanData[input.dataset.bilanField] = input.value;
+      saveBilanData();
+      if (input.dataset.bilanField.startsWith('glasgow')) renderBilanFill();
     });
   });
 
@@ -2121,6 +2264,14 @@ function renderBilanFill() {
       bilanData[key] = bilanData[key] === value ? '' : value;
       saveBilanData();
       renderBilanFill();
+    });
+  });
+
+  container.querySelectorAll('[data-info]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const info = INFO_CONTENT[btn.dataset.info];
+      if (info) showInfoModal(info.title, info.html);
     });
   });
 
@@ -2139,7 +2290,15 @@ function renderBilanFill() {
       const filled = cat.fields.filter(f => bilanData[f.key]);
       if (filled.length === 0) return;
       text += cat.label.replace(/^\S+\s/, '') + '\n';
-      filled.forEach(f => { text += `- ${f.label.split(' (')[0]} : ${bilanData[f.key]}\n`; });
+      filled.forEach(f => {
+        let displayValue = bilanData[f.key];
+        if (f.type === 'select') {
+          const opt = f.options.find(o => String(o.value) === String(displayValue));
+          if (opt) displayValue = opt.label;
+        }
+        text += `- ${f.label.split(' (')[0]} : ${displayValue}\n`;
+      });
+      if (cat.key === 'd') text += `- Score Glasgow total : ${glasgowTotal()} / 15\n`;
       text += '\n';
     });
     if (!text) text = 'Aucune donnée saisie pour le moment.';
@@ -2571,10 +2730,73 @@ const GESTES_DATA = [
           "Donner des solutions toutes faites avant d'avoir écouté"
         ]
       },
-      {
+{
         title: "Pour rappel",
         items: [
           "Cette fiche est un repère de terrain, pas un substitut à la vraie formation PSSM (14h, mises en situation encadrées par un formateur accrédité)"
+        ]
+      }
+    ]
+  },
+  {
+    key: 'palpation',
+    title: '🖐 Recherche de lésions — palpation douce',
+    summary: [
+      "Prendre d'abord en compte les plaintes exprimées par la victime",
+      "En cas de traumatisme : maintenir la tête pour ne pas mobiliser tête et cou",
+      "Ordre à respecter : tête/cou → thorax → abdomen → dos → bassin (ne pas palper) → membres",
+      "Vérifier la présence de sang sur les gants après chaque étape"
+    ],
+    sections: [
+      {
+        title: 'Avant de commencer',
+        items: [
+          "Prendre en compte en priorité les plaintes exprimées par la victime",
+          "En cas de traumatisme, maintenir la tête pour éviter toute mobilisation de la tête et du cou",
+          "Vérifier régulièrement si des traces de sang apparaissent sur les gants après chaque zone palpée",
+          "Rechercher : contusions, plaies, ou autres anomalies cutanées"
+        ]
+      },
+      {
+        title: '1 — Tête et cou',
+        items: [
+          "Observer le cuir chevelu, la face, les narines, les oreilles, les yeux",
+          "Passer la main sous la nuque"
+        ]
+      },
+      {
+        title: '2 — Thorax',
+        items: [
+          "Palper délicatement",
+          "Remarquer toute anomalie de soulèvement lié à la respiration",
+          "Rechercher plaie, brûlure, hématome, douleur"
+        ]
+      },
+      {
+        title: '3 — Abdomen',
+        items: [
+          "Palper délicatement, rechercher une douleur ou une rigidité anormale"
+        ]
+      },
+      {
+        title: '4 — Dos',
+        items: [
+          "Glisser les mains sous la victime sans la déplacer",
+          "Rechercher d'éventuelles douleurs"
+        ]
+      },
+      {
+        title: '5 — Bassin',
+        items: [
+          "Ne pas palper le bassin : risque d'aggraver une fracture ou une hémorragie interne",
+          "Observer uniquement : plaie, brûlure, taches de sang sur les sous-vêtements"
+        ]
+      },
+      {
+        title: '6 — Membres',
+        items: [
+          "Observer et palper : gonflement, déformation, plaie, brûlure",
+          "Retirer les chaussettes si possible pour l'observation"
         ]
       }
     ]
