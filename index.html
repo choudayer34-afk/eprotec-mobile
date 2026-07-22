@@ -695,21 +695,38 @@ let currentOadSettings = { ...DEFAULT_OAD_SETTINGS };
 
 function renderParametres() {
   const container = document.getElementById('parametres-content');
-  container.innerHTML = `
-    <div class="card">
-      <div class="card-title">Poids et critères du scoring OAD</div>
-      ${OAD_SETTINGS_FIELDS.map(f => `
-        <div class="settings-row">
-          <label>${f.label}</label>
-          <input type="number" step="0.5" data-setting="${f.key}" value="${currentOadSettings[f.key]}">
-        </div>
-      `).join('')}
-      <div class="settings-actions">
-        <button class="detail-action-btn" id="settings-reset">Réinitialiser</button>
-        <button class="detail-action-btn primary" id="settings-save">Enregistrer</button>
+
+  container.innerHTML = OAD_SETTINGS_CATEGORIES.map(cat => `
+    <div class="month-group">
+      <button class="month-toggle" data-cat-key="${cat.key}">
+        <span>${cat.label} (${cat.fields.length})</span>
+        <span class="month-chevron">▸</span>
+      </button>
+      <div class="month-body" data-cat-body="${cat.key}" style="display:none">
+        ${cat.fields.map(f => `
+          <div class="settings-row">
+            <label>${f.label}</label>
+            <input type="number" step="0.5" data-setting="${f.key}" value="${currentOadSettings[f.key]}">
+          </div>
+        `).join('')}
       </div>
     </div>
+  `).join('') + `
+    <div class="settings-actions">
+      <button class="detail-action-btn" id="settings-reset">Réinitialiser</button>
+      <button class="detail-action-btn primary" id="settings-save">Enregistrer</button>
+    </div>
   `;
+
+  container.querySelectorAll('.month-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const body = container.querySelector(`[data-cat-body="${btn.dataset.catKey}"]`);
+      const chevron = btn.querySelector('.month-chevron');
+      const isHidden = body.style.display === 'none';
+      body.style.display = isHidden ? 'block' : 'none';
+      chevron.textContent = isHidden ? '▾' : '▸';
+    });
+  });
 
   container.querySelector('#settings-reset').addEventListener('click', () => {
     currentOadSettings = { ...DEFAULT_OAD_SETTINGS };
