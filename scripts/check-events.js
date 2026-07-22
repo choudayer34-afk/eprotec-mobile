@@ -285,7 +285,18 @@ async function evaluateDpsCandidate(evt, monthIsOpen, registeredDps, geocache, S
   return { event: evt, score, reasons };
 }
 
-async function computeOadSuggestions(events, registrationsHistory, geocache, S) {
+async function loadDismissedSuggestions() {
+  try {
+    const res = await fetch(FIREBASE_URL + '/dismissed-suggestions.json');
+    const remote = await res.json();
+    if (Array.isArray(remote)) return new Set(remote);
+  } catch (err) {
+    console.error('Erreur chargement suggestions écartées :', err.message);
+  }
+  return new Set();
+}
+
+async function computeOadSuggestions(events, registrationsHistory, geocache, S, dismissedSet) {
   const now = new Date();
   const registeredDps = Object.values(registrationsHistory).filter(r => r.tag === 'DPS');
 
@@ -293,7 +304,8 @@ async function computeOadSuggestions(events, registrationsHistory, geocache, S) 
     e.tag === 'DPS' &&
     !e.dejaInscrit &&
     e.startDate && e.startDate > now &&
-    !/recensement/i.test(e.summary)
+    !/recensement/i.test(e.summary) &&
+    !dismissedSet.has(e.uid)
   );
 
   const byMonth = {};
@@ -426,9 +438,11 @@ async function main() {
   const registered = events.filter(e => e.dejaInscrit);
   console.log(`Dont déjà inscrits : ${registered.length}`);
 
-  const geocache = loadJson(GEOCACHE_PATH, {});
+ const geocache = loadJson(GEOCACHE_PATH, {});
+  const dismissedSuggestions = await loadDismissedSuggestions();
+  console.log(`Suggestions écartées manuellement : ${dismissedSuggestions.size}`);
   console.log('Calcul des suggestions OAD...');
-  const suggestions = await computeOadSuggestions(events, registrationsHistory, geocache, settings);
+  const suggestions = await computeOadSuggestions(events, registrationsHistory, geocache, settings, dismissedSuggestions);
   writeFileSync(GEOCACHE_PATH, JSON.stringify(geocache, null, 2));
   console.log(`Suggestions calculées : ${suggestions.length}`);
 
