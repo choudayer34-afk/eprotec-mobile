@@ -300,9 +300,12 @@
 <main>
 
   <section id="accueil" class="active">
-  <div class="screen-header">
+<div class="screen-header">
       <div class="screen-side"></div>
-      <h2 class="screen-title">Mon eProtec</h2>
+      <div style="text-align:center;">
+        <h2 class="screen-title" style="margin-bottom:2px;">Mon eProtec</h2>
+        <div style="font-size:10px;color:#9FB3D6;" id="app-version">v...</div>
+      </div>
       <div class="screen-side"><button class="icon-btn" id="force-update-btn"><span id="force-update-icon">↻</span></button></div>
     </div>
     <div class="update-status" id="update-status">Chargement...</div>
@@ -2358,6 +2361,74 @@ const GESTES_DATA = [
         ]
       }
     ]
+  },
+  {
+    key: 'rcp',
+    title: '❤️ RCP / DAE (arrêt cardiaque)',
+    summary: [
+      "Ne répond pas + ne respire pas ou respire anormalement (gasps) → RCP immédiate, sans chercher le pouls",
+      "Alerter le 15 tout de suite, demander un DAE",
+      "30 compressions (5-6 cm, 100 à 120/min) puis 2 insufflations, en boucle",
+      "DAE dès disponible : suivre les instructions vocales, ne pas interrompre le massage plus que nécessaire",
+      "Ne jamais arrêter, sauf relève, reprise de conscience/respiration normale, ou épuisement total"
+    ],
+    sections: [
+      {
+        title: 'Reconnaissance',
+        items: [
+          "La victime ne répond pas",
+          "Elle ne respire pas, ou respire de façon anormale (gasps, respiration agonique)",
+          "Ne pas chercher le pouls — commencer la RCP immédiatement dès ce constat"
+        ]
+      },
+      {
+        title: 'Alerte',
+        items: [
+          "Alerter ou faire alerter le 15 / 18 / 112 sans délai",
+          "Faire chercher un DAE le plus proche si un témoin est disponible",
+          "La RCP ne doit jamais être retardée pour aller chercher le DAE"
+        ]
+      },
+      {
+        title: 'Compressions thoraciques',
+        items: [
+          "Victime sur le dos, de préférence sur un plan dur — sans retarder la réanimation pour autant",
+          "Dégager ou couper les vêtements sur la poitrine si nécessaire",
+          "Talon d'une main au centre du thorax, l'autre main par-dessus, doigts entrecroisés",
+          "Bras tendus, épaules au-dessus des mains",
+          "Comprimer de 5 à 6 cm de profondeur, à une fréquence de 100 à 120 par minute",
+          "Laisser le thorax se relever complètement entre deux compressions"
+        ]
+      },
+      {
+        title: 'Cycle 30:2',
+        items: [
+          "30 compressions thoraciques suivies de 2 insufflations, en boucle continue",
+          "Si les insufflations sont impossibles (répulsion, raisons d'hygiène) : compressions thoraciques continues à 100-120/min, sans insufflations",
+          "Se relayer toutes les 2 minutes si un autre sauveteur est présent, pour garder des compressions efficaces"
+        ]
+      },
+      {
+        title: 'Utilisation du DAE',
+        items: [
+          "Allumer dès qu'il est disponible, sans interrompre le massage plus que nécessaire",
+          "Dénuder et sécher le thorax si besoin",
+          "Électrodes adultes (électrodes enfant si disponibles, pour les plus jeunes) posées selon le schéma sur l'emballage",
+          "Ne plus toucher la victime pendant l'analyse du rythme (tout mouvement peut fausser l'analyse)",
+          "Si choc conseillé : écarter tout le monde, laisser l'appareil délivrer le choc ou appuyer sur le bouton « choc »",
+          "Reprendre immédiatement les compressions après le choc",
+          "Suivre ensuite les instructions vocales de l'appareil"
+        ]
+      },
+      {
+        title: 'Quand arrêter',
+        items: [
+          "Prise en charge par les secours médicalisés",
+          "Reprise de conscience et d'une respiration normale",
+          "Épuisement total du sauveteur seul, sans relais possible"
+        ]
+      }
+    ]
   }
 ];
 
@@ -2596,6 +2667,10 @@ async function loadChangelog() {
     }
   } catch (err) {
     console.error('Erreur chargement changelog :', err);
+  }
+  const versionEl = document.getElementById('app-version');
+  if (versionEl) {
+    versionEl.textContent = allChangelog[0] ? 'v' + allChangelog[0].version : 'v1.0';
   }
 }
 
