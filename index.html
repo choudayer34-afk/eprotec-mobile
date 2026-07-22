@@ -219,6 +219,20 @@
     padding: 8px 10px; border-radius: 8px; text-align: center;
   }
   .settings-actions { display: flex; gap: 8px; margin-top: 10px; }
+  .bilan-field-row { margin-bottom: 12px; }
+  .bilan-field-row label { display: block; font-size: 12px; color: #9FB3D6; margin-bottom: 5px; }
+  .bilan-field-row input[type=text], .bilan-field-row input[type=number] {
+    width: 100%; background: #0B2A5C; border: none; color: #fff; font-size: 14px;
+    padding: 10px 12px; border-radius: 8px; box-sizing: border-box;
+  }
+  .bilan-chip-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .bilan-chip {
+    background: #0B2A5C; color: #9FB3D6; border: none; font-size: 12px;
+    padding: 7px 12px; border-radius: 20px;
+  }
+  .bilan-chip.active { background: #F5821F; color: #4A1B0C; font-weight: 500; }
+  .bilan-ref-item { font-size: 13px; color: #fff; padding: 6px 0; border-top: 0.5px solid #223258; }
+  .bilan-ref-item:first-child { border-top: none; }
 
   .tile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .tile {
@@ -362,9 +376,17 @@
         <div class="tile-icon">📋</div>
         <div class="tile-title">Événements</div>
       </div>
-      <div class="tile" data-open="plus-rapport">
+<div class="tile" data-open="plus-rapport">
         <div class="tile-icon">📊</div>
         <div class="tile-title">Rapport</div>
+      </div>
+      <div class="tile" data-open="plus-bilan">
+        <div class="tile-icon">🩺</div>
+        <div class="tile-title">Bilan patient</div>
+      </div>
+      <div class="tile" data-open="plus-gestes">
+        <div class="tile-icon">📚</div>
+        <div class="tile-title">Fiches gestes</div>
       </div>
 <div class="tile" data-open="plus-parametres">
         <div class="tile-icon">⚙️</div>
@@ -424,6 +446,26 @@
       <span>Nouveautés de l'app</span>
     </div>
     <div id="changelog-content"><div class="empty">Chargement...</div></div>
+  </section>
+
+ <section id="plus-bilan">
+    <div class="detail-header">
+      <button class="plus-back">‹</button>
+      <span>Bilan patient</span>
+    </div>
+    <div class="metric-toggle">
+      <button data-bilan-mode="reference" class="active">Référence</button>
+      <button data-bilan-mode="remplir">Remplir</button>
+    </div>
+    <div id="bilan-content"></div>
+  </section>
+
+  <section id="plus-gestes">
+    <div class="detail-header">
+      <button class="plus-back">‹</button>
+      <span>Fiches gestes</span>
+    </div>
+    <div id="gestes-content"></div>
   </section>
 
   <section id="plus-liens">
@@ -970,6 +1012,8 @@ if (subId === 'plus-nouveautes') renderNouveautesCompletes(allEvents);
   if (subId === 'plus-rapport') renderRapport(allHistory);
 if (subId === 'plus-parametres') renderParametres();
   if (subId === 'plus-changelog') renderChangelogScreen();
+  if (subId === 'plus-bilan') renderBilan();
+  if (subId === 'plus-gestes') renderGestes();
 }
 
 document.getElementById('kpi-inscrits-box').addEventListener('click', () => {
@@ -1911,6 +1955,216 @@ setupAccordion(container);
   });
 
   renderComparisonChart(entries);
+}
+
+const BILAN_CATEGORIES = [
+  { key: 'circonstanciel', label: '🎬 Bilan circonstanciel (3S)', fields: [
+    { key: 'scene', label: 'Scène', type: 'text' },
+    { key: 'securite', label: 'Sécurité', type: 'text' },
+    { key: 'situation', label: 'Situation', type: 'text' }
+  ]},
+  { key: 'x', label: '🩸 X — Hémorragie', fields: [
+    { key: 'hemorragie', label: 'Hémorragie visible', type: 'chip', options: ['Non', 'Oui'] },
+    { key: 'hemorragieLieu', label: 'Localisation si oui', type: 'text' }
+  ]},
+  { key: 'a', label: '🫁 A — Voies aériennes', fields: [
+    { key: 'voiesAeriennes', label: 'État des voies aériennes', type: 'chip', options: ['Libres', 'Obstruées'] }
+  ]},
+  { key: 'b', label: '💨 B — Respiration', fields: [
+    { key: 'freqRespi', label: 'Fréquence (réf. adulte 12 à 20/min)', type: 'number' },
+    { key: 'amplitudeRespi', label: 'Amplitude', type: 'chip', options: ['Normale', 'Superficielle', 'Ample'] },
+    { key: 'spo2', label: 'SpO2 % (réf. 94 à 98%, ≥89% si insuffisant chronique)', type: 'number' },
+    { key: 'auscultation', label: 'Auscultation / bruits anormaux', type: 'text' }
+  ]},
+  { key: 'c', label: '❤️ C — Circulation', fields: [
+    { key: 'freqPouls', label: 'Fréquence pouls (réf. adulte 60 à 100/min)', type: 'number' },
+    { key: 'amplitudePouls', label: 'Amplitude', type: 'chip', options: ['Bien frappé', 'Filant'] },
+    { key: 'regularite', label: 'Régularité', type: 'chip', options: ['Régulier', 'Irrégulier'] },
+    { key: 'coloration', label: 'Coloration / aspect peau', type: 'chip', options: ['Normale', 'Pâle', 'Marbrée', 'Cyanosée'] },
+    { key: 'trc', label: 'TRC (réf. < 2s)', type: 'chip', options: ['< 2s', '≥ 2s'] },
+    { key: 'taSystolique', label: 'TA systolique', type: 'number' },
+    { key: 'taDiastolique', label: 'TA diastolique', type: 'number' }
+  ]},
+  { key: 'd', label: '🧠 D — Neurologique', fields: [
+    { key: 'conscience', label: 'Conscience (AVPU)', type: 'chip', options: ['Alerte', 'Verbal', 'Douleur', 'Inconscient'] },
+    { key: 'glasgowY', label: 'Glasgow — Ouverture des yeux (1 à 4)', type: 'number' },
+    { key: 'glasgowV', label: 'Glasgow — Verbal (1 à 5)', type: 'number' },
+    { key: 'glasgowM', label: 'Glasgow — Moteur (1 à 6)', type: 'number' },
+    { key: 'pupilles', label: 'Pupilles', type: 'chip', options: ['Normales', 'Asymétriques', 'Mydriase', 'Myosis'] },
+    { key: 'motricite', label: 'Motricité / sensibilité', type: 'text' },
+    { key: 'glycemie', label: 'Glycémie (g/L)', type: 'number' }
+  ]},
+  { key: 'e', label: '🌡 E — Environnement', fields: [
+    { key: 'temperature', label: 'Température (°C)', type: 'number' },
+    { key: 'environnement', label: 'Remarques environnement', type: 'text' }
+  ]},
+  { key: 'complementaire', label: '📋 Bilan complémentaire', fields: [
+    { key: 'signes', label: 'Signes', type: 'text' },
+    { key: 'allergies', label: 'Allergies', type: 'text' },
+    { key: 'medicaments', label: 'Médicaments', type: 'text' },
+    { key: 'passeMedical', label: 'Passé médical', type: 'text' },
+    { key: 'dernierRepas', label: 'Dernier repas', type: 'text' },
+    { key: 'evenements', label: 'Évènements', type: 'text' },
+    { key: 'risque', label: 'Risque', type: 'text' }
+  ]},
+  { key: 'douleur', label: '⚡ Douleur', fields: [
+    { key: 'origine', label: 'Origine', type: 'text' },
+    { key: 'provoquePar', label: 'Provoqué par', type: 'text' },
+    { key: 'qualite', label: 'Qualité', type: 'text' },
+    { key: 'region', label: 'Région', type: 'text' },
+    { key: 'severite', label: 'Sévérité (0 à 4)', type: 'number' },
+    { key: 'temps', label: 'Temps', type: 'text' }
+  ]}
+];
+
+const BILAN_STORAGE_KEY = 'eprotec_bilan_current';
+let bilanMode = 'reference';
+let bilanData = {};
+
+function loadBilanData() {
+  try {
+    bilanData = JSON.parse(localStorage.getItem(BILAN_STORAGE_KEY) || '{}');
+  } catch {
+    bilanData = {};
+  }
+}
+
+function saveBilanData() {
+  localStorage.setItem(BILAN_STORAGE_KEY, JSON.stringify(bilanData));
+}
+
+function renderBilanReference() {
+  const container = document.getElementById('bilan-content');
+  container.innerHTML = BILAN_CATEGORIES.map(cat => `
+    <div class="month-group">
+      <button class="month-toggle">
+        <span>${cat.label}</span>
+        <span class="month-chevron">▸</span>
+      </button>
+      <div class="month-body" style="display:none">
+        ${cat.fields.map(f => `<div class="bilan-ref-item">${f.label}${f.type === 'chip' ? ' : ' + f.options.join(' / ') : ''}</div>`).join('')}
+      </div>
+    </div>
+  `).join('');
+  setupAccordion(container);
+}
+
+function renderBilanField(f) {
+  const value = bilanData[f.key] || '';
+  if (f.type === 'chip') {
+    return `
+      <div class="bilan-field-row">
+        <label>${f.label}</label>
+        <div class="bilan-chip-row">
+          ${f.options.map(o => `<button class="bilan-chip ${value === o ? 'active' : ''}" data-bilan-chip="${f.key}" data-value="${o}">${o}</button>`).join('')}
+        </div>
+      </div>
+    `;
+  }
+  return `
+    <div class="bilan-field-row">
+      <label>${f.label}</label>
+      <input type="${f.type}" data-bilan-field="${f.key}" value="${value}">
+    </div>
+  `;
+}
+
+function renderBilanFill() {
+  const container = document.getElementById('bilan-content');
+  container.innerHTML = BILAN_CATEGORIES.map(cat => `
+    <div class="month-group">
+      <button class="month-toggle">
+        <span>${cat.label}</span>
+        <span class="month-chevron">▸</span>
+      </button>
+      <div class="month-body" style="display:none">
+        ${cat.fields.map(f => renderBilanField(f)).join('')}
+      </div>
+    </div>
+  `).join('') + `
+    <div class="settings-actions">
+      <button class="detail-action-btn" id="bilan-new">🗑 Nouveau bilan</button>
+      <button class="detail-action-btn primary" id="bilan-summary">📋 Résumé</button>
+    </div>
+  `;
+
+  setupAccordion(container);
+
+  container.querySelectorAll('[data-bilan-field]').forEach(input => {
+    input.addEventListener('input', () => {
+      bilanData[input.dataset.bilanField] = input.value;
+      saveBilanData();
+    });
+  });
+
+  container.querySelectorAll('[data-bilan-chip]').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const key = chip.dataset.bilanChip;
+      const value = chip.dataset.value;
+      bilanData[key] = bilanData[key] === value ? '' : value;
+      saveBilanData();
+      renderBilanFill();
+    });
+  });
+
+  container.querySelector('#bilan-new').addEventListener('click', async () => {
+    const confirmClear = await promptChoice('Effacer le bilan en cours ?', ['Oui, effacer', 'Annuler']);
+    if (confirmClear === 'Oui, effacer') {
+      bilanData = {};
+      saveBilanData();
+      renderBilanFill();
+    }
+  });
+
+  container.querySelector('#bilan-summary').addEventListener('click', () => {
+    let text = '';
+    BILAN_CATEGORIES.forEach(cat => {
+      const filled = cat.fields.filter(f => bilanData[f.key]);
+      if (filled.length === 0) return;
+      text += cat.label.replace(/^\S+\s/, '') + '\n';
+      filled.forEach(f => { text += `- ${f.label.split(' (')[0]} : ${bilanData[f.key]}\n`; });
+      text += '\n';
+    });
+    if (!text) text = 'Aucune donnée saisie pour le moment.';
+
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999;display:flex;align-items:center;justify-content:center;padding:20px;';
+    overlay.innerHTML = `
+      <div style="background:#163C74;border-radius:16px;padding:20px;width:100%;max-width:400px;max-height:80vh;overflow-y:auto;">
+        <div style="color:#fff;font-size:14px;white-space:pre-wrap;margin-bottom:16px;">${escapeHtml(text)}</div>
+        <div style="display:flex;gap:8px;">
+          <button class="detail-action-btn" id="summary-close">Fermer</button>
+          <button class="detail-action-btn primary" id="summary-copy">Copier</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+    overlay.querySelector('#summary-close').addEventListener('click', () => overlay.remove());
+    overlay.querySelector('#summary-copy').addEventListener('click', () => {
+      navigator.clipboard.writeText(text).then(() => {
+        overlay.querySelector('#summary-copy').textContent = '✓ Copié';
+      });
+    });
+  });
+}
+
+function renderBilan() {
+  loadBilanData();
+  if (bilanMode === 'reference') renderBilanReference();
+  else renderBilanFill();
+}
+
+document.querySelectorAll('[data-bilan-mode]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    bilanMode = btn.dataset.bilanMode;
+    document.querySelectorAll('[data-bilan-mode]').forEach(b => b.classList.toggle('active', b === btn));
+    renderBilan();
+  });
+});
+
+function renderGestes() {
+  const container = document.getElementById('gestes-content');
+  container.innerHTML = `<div class="empty">Les fiches gestes arrivent prochainement : LVA, PLS, RCP/DEA, hémorragies, PFSMU...</div>`;
 }
 
 function renderTypeFilterChips() {
