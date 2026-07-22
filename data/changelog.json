@@ -1,5 +1,14 @@
 [
   {
+    "version": "2.0",
+    "date": "2026-07-22T14:02:23.819Z",
+    "title": "Fiches gestes repliées par défaut",
+    "items": [
+      "Chaque fiche geste n'affiche plus que son titre par défaut, pour une liste plus lisible à mesure qu'elle grandit",
+      "Ouvrir une fiche révèle le résumé express, puis le détail complet reste accessible en un second tap"
+    ]
+  },
+  {
     "version": "1.9",
     "date": "2026-07-22T13:57:20.994Z",
     "title": "Résumé express sur les fiches gestes",
