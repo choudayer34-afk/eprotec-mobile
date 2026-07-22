@@ -64,12 +64,37 @@ function parseIcs(text) {
   return events;
 }
 
+function lastSundayOfMonthUTC(year, monthIndex) {
+  const d = new Date(Date.UTC(year, monthIndex + 1, 0));
+  const day = d.getUTCDay();
+  d.setUTCDate(d.getUTCDate() - day);
+  return d.getUTCDate();
+}
+
+function parisOffsetHours(year, monthIndex, day, hour, minute) {
+  const guessUTCms = Date.UTC(year, monthIndex, day, hour - 1, minute);
+  const marsDay = lastSundayOfMonthUTC(year, 2);
+  const marsSwitchMs = Date.UTC(year, 2, marsDay, 1, 0, 0);
+  const octDay = lastSundayOfMonthUTC(year, 9);
+  const octSwitchMs = Date.UTC(year, 9, octDay, 1, 0, 0);
+  if (guessUTCms >= marsSwitchMs && guessUTCms < octSwitchMs) return 2;
+  return 1;
+}
+
 function parseIcsDate(raw) {
   if (!raw) return null;
+  const isUtc = raw.endsWith('Z');
   const clean = raw.replace('Z', '');
-  const y = clean.slice(0, 4), mo = clean.slice(4, 6), d = clean.slice(6, 8);
-  const h = clean.slice(9, 11) || '00', mi = clean.slice(11, 13) || '00';
-  return new Date(`${y}-${mo}-${d}T${h}:${mi}:00`);
+  const y = parseInt(clean.slice(0, 4), 10);
+  const mo = parseInt(clean.slice(4, 6), 10);
+  const d = parseInt(clean.slice(6, 8), 10);
+  const h = parseInt(clean.slice(9, 11) || '0', 10);
+  const mi = parseInt(clean.slice(11, 13) || '0', 10);
+  if (isUtc) {
+    return new Date(Date.UTC(y, mo - 1, d, h, mi));
+  }
+  const offset = parisOffsetHours(y, mo - 1, d, h, mi);
+  return new Date(Date.UTC(y, mo - 1, d, h, mi) - offset * 3600000);
 }
 
 function getTag(summary) {
