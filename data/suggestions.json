@@ -1,79 +1,5 @@
 [
   {
-    "uid": "evt15588671@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] Fete du Cres",
-    "lieu": "Rue de la Monnaie 34920 Le Cres",
-    "dateDebut": "2026-08-14T16:30:00.000Z",
-    "dateFin": "2026-08-14T23:00:00.000Z",
-    "description": "18h30 - 20h Festival de Bandidos 2 manades - Rue de la monnaie 20h-1h soiree bodega - Arenes<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1558867'>Lien vers l'activité</a>",
-    "tag": "DPS",
-    "score": 15,
-    "reasons": [
-      {
-        "text": "Mois sans DPS planifié",
-        "category": "positive"
-      },
-      {
-        "text": "Jour : Vendredi (+3)",
-        "category": "positive"
-      },
-      {
-        "text": "Créneau fin d'après-midi / soirée",
-        "category": "positive"
-      },
-      {
-        "text": "Durée raisonnable",
-        "category": "positive"
-      },
-      {
-        "text": "Très proche (9.6 km)",
-        "category": "positive"
-      },
-      {
-        "text": "Espacement confortable (22 jours)",
-        "category": "positive"
-      }
-    ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1558867"
-  },
-  {
-    "uid": "evt16092691@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] Feu d'artifice",
-    "lieu": "16 Boulevard Marechal Joffre 34250 Palavas-les-Flots",
-    "dateDebut": "2026-08-15T16:00:00.000Z",
-    "dateFin": "2026-08-15T21:45:00.000Z",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1609269'>Lien vers l'activité</a>",
-    "tag": "DPS",
-    "score": 15,
-    "reasons": [
-      {
-        "text": "Mois sans DPS planifié",
-        "category": "positive"
-      },
-      {
-        "text": "Jour : Samedi (+3)",
-        "category": "positive"
-      },
-      {
-        "text": "Créneau fin d'après-midi / soirée",
-        "category": "positive"
-      },
-      {
-        "text": "Durée raisonnable",
-        "category": "positive"
-      },
-      {
-        "text": "Très proche (5 km)",
-        "category": "positive"
-      },
-      {
-        "text": "Espacement confortable (23 jours)",
-        "category": "positive"
-      }
-    ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1609269"
-  },
-  {
     "uid": "evt15588681@https://eprotec.protection-civile.org",
     "titre": "[DPS 34] Fete du Cres",
     "lieu": "Rue de la Monnaie 34920 Le Cres",
@@ -81,7 +7,7 @@
     "dateFin": "2026-08-15T23:00:00.000Z",
     "description": "20h30-21h30 : Bandidos rue des aiguerelles  21h30-1h : bal - Hotel de ville<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1558868'>Lien vers l'activité</a>",
     "tag": "DPS",
-    "score": 15,
+    "score": 16,
     "reasons": [
       {
         "text": "Mois sans DPS planifié",
@@ -118,7 +44,7 @@
     "dateFin": "2026-08-21T23:00:00.000Z",
     "description": "Stand de prev 2 IS + 4IS<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1589935'>Lien vers l'activité</a>",
     "tag": "DPS",
-    "score": 15,
+    "score": 16,
     "reasons": [
       {
         "text": "Mois sans DPS planifié",
@@ -155,7 +81,7 @@
     "dateFin": "2026-08-22T23:00:00.000Z",
     "description": "Stand de prev 2 IS + 4IS<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1589936'>Lien vers l'activité</a>",
     "tag": "DPS",
-    "score": 15,
+    "score": 16,
     "reasons": [
       {
         "text": "Mois sans DPS planifié",
@@ -192,7 +118,7 @@
     "dateFin": "2026-08-28T20:30:00.000Z",
     "description": "1h30 avant match - 1h45 de match - 30mn apres match. Bord de terrain uniquement et dedie extraction joueurs. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627492'>Lien vers l'activité</a>",
     "tag": "DPS",
-    "score": 15,
+    "score": 16,
     "reasons": [
       {
         "text": "Mois sans DPS planifié",
@@ -229,7 +155,7 @@
     "dateFin": "2026-08-29T21:45:00.000Z",
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1609274'>Lien vers l'activité</a>",
     "tag": "DPS",
-    "score": 15,
+    "score": 16,
     "reasons": [
       {
         "text": "Mois sans DPS planifié",
@@ -266,7 +192,7 @@
     "dateFin": "2026-09-11T20:30:00.000Z",
     "description": "1h30 avant match - 1h45 de match - 30mn apres match. Bord de terrain uniquement et dedie extraction joueurs. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627493'>Lien vers l'activité</a>",
     "tag": "DPS",
-    "score": 15,
+    "score": 16,
     "reasons": [
       {
         "text": "Mois sans DPS planifié",
@@ -303,7 +229,7 @@
     "dateFin": "2026-10-09T20:30:00.000Z",
     "description": "1h30 avant match - 1h45 de match - 30mn apres match. Bord de terrain uniquement et dedie extraction joueurs. Horaire non definitif. Matchs en majorite le vendredi soir a 20h, possiblement a 20h45 et le samedi a 14h, ou 20h. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627494'>Lien vers l'activité</a>",
     "tag": "DPS",
-    "score": 15,
+    "score": 16,
     "reasons": [
       {
         "text": "Mois sans DPS planifié",
@@ -340,7 +266,7 @@
     "dateFin": "2026-10-23T20:30:00.000Z",
     "description": "1h30 avant match - 1h45 de match - 30mn apres match. Bord de terrain uniquement et dedie extraction joueurs. Horaire non definitif. Matchs en majorite le vendredi soir a 20h, possiblement a 20h45 et le samedi a 14h, ou 20h. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627495'>Lien vers l'activité</a>",
     "tag": "DPS",
-    "score": 15,
+    "score": 16,
     "reasons": [
       {
         "text": "Mois sans DPS planifié",
@@ -377,7 +303,7 @@
     "dateFin": "2026-11-06T21:30:00.000Z",
     "description": "1h30 avant match - 1h45 de match - 30mn apres match. Bord de terrain uniquement et dedie extraction joueurs. Horaire non definitif. Matchs en majorite le vendredi soir a 20h, possiblement a 20h45 et le samedi a 14h, ou 20h. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627496'>Lien vers l'activité</a>",
     "tag": "DPS",
-    "score": 15,
+    "score": 16,
     "reasons": [
       {
         "text": "Mois sans DPS planifié",
@@ -414,7 +340,7 @@
     "dateFin": "2026-12-04T21:30:00.000Z",
     "description": "1h30 avant match - 1h45 de match - 30mn apres match. Bord de terrain uniquement et dedie extraction joueurs. Horaire non definitif. Matchs en majorite le vendredi soir a 20h, possiblement a 20h45 et le samedi a 14h, ou 20h. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627497'>Lien vers l'activité</a>",
     "tag": "DPS",
-    "score": 15,
+    "score": 16,
     "reasons": [
       {
         "text": "Mois sans DPS planifié",
@@ -451,7 +377,7 @@
     "dateFin": "2027-01-15T21:30:00.000Z",
     "description": "1h30 avant match - 1h45 de match - 30mn apres match. Bord de terrain uniquement et dedie extraction joueurs. Horaire non definitif. Matchs en majorite le vendredi soir a 20h, possiblement a 20h45 et le samedi a 14h, ou 20h. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627499'>Lien vers l'activité</a>",
     "tag": "DPS",
-    "score": 15,
+    "score": 16,
     "reasons": [
       {
         "text": "Mois sans DPS planifié",
@@ -488,7 +414,7 @@
     "dateFin": "2027-01-29T21:30:00.000Z",
     "description": "1h30 avant match - 1h45 de match - 30mn apres match. Bord de terrain uniquement et dedie extraction joueurs. Horaire non definitif. Matchs en majorite le vendredi soir a 20h, possiblement a 20h45 et le samedi a 14h, ou 20h. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627502'>Lien vers l'activité</a>",
     "tag": "DPS",
-    "score": 15,
+    "score": 16,
     "reasons": [
       {
         "text": "Mois sans DPS planifié",
@@ -525,7 +451,7 @@
     "dateFin": "2027-02-12T21:30:00.000Z",
     "description": "1h30 avant match - 1h45 de match - 30mn apres match. Bord de terrain uniquement et dedie extraction joueurs. Horaire non definitif. Matchs en majorite le vendredi soir a 20h, possiblement a 20h45 et le samedi a 14h, ou 20h. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627504'>Lien vers l'activité</a>",
     "tag": "DPS",
-    "score": 15,
+    "score": 16,
     "reasons": [
       {
         "text": "Mois sans DPS planifié",
@@ -562,7 +488,7 @@
     "dateFin": "2027-02-26T21:30:00.000Z",
     "description": "1h30 avant match - 1h45 de match - 30mn apres match. Bord de terrain uniquement et dedie extraction joueurs. Horaire non definitif. Matchs en majorite le vendredi soir a 20h, possiblement a 20h45 et le samedi a 14h, ou 20h. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627506'>Lien vers l'activité</a>",
     "tag": "DPS",
-    "score": 15,
+    "score": 16,
     "reasons": [
       {
         "text": "Mois sans DPS planifié",
@@ -599,7 +525,7 @@
     "dateFin": "2027-03-05T21:30:00.000Z",
     "description": "1h30 avant match - 1h45 de match - 30mn apres match. Bord de terrain uniquement et dedie extraction joueurs. Horaire non definitif. Matchs en majorite le vendredi soir a 20h, possiblement a 20h45 et le samedi a 14h, ou 20h. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627507'>Lien vers l'activité</a>",
     "tag": "DPS",
-    "score": 15,
+    "score": 16,
     "reasons": [
       {
         "text": "Mois sans DPS planifié",
@@ -636,7 +562,7 @@
     "dateFin": "2027-04-02T20:30:00.000Z",
     "description": "1h30 avant match - 1h45 de match - 30mn apres match. Bord de terrain uniquement et dedie extraction joueurs. Horaire non definitif. Matchs en majorite le vendredi soir a 20h, possiblement a 20h45 et le samedi a 14h, ou 20h. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627509'>Lien vers l'activité</a>",
     "tag": "DPS",
-    "score": 15,
+    "score": 16,
     "reasons": [
       {
         "text": "Mois sans DPS planifié",
@@ -673,7 +599,7 @@
     "dateFin": "2027-04-16T20:30:00.000Z",
     "description": "1h30 avant match - 1h45 de match - 30mn apres match. Bord de terrain uniquement et dedie extraction joueurs. Horaire non definitif. Matchs en majorite le vendredi soir a 20h, possiblement a 20h45 et le samedi a 14h, ou 20h. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627510'>Lien vers l'activité</a>",
     "tag": "DPS",
-    "score": 15,
+    "score": 16,
     "reasons": [
       {
         "text": "Mois sans DPS planifié",
@@ -710,7 +636,7 @@
     "dateFin": "2027-04-30T20:30:00.000Z",
     "description": "1h30 avant match - 1h45 de match - 30mn apres match. Bord de terrain uniquement et dedie extraction joueurs. Horaire non definitif. Matchs en majorite le vendredi soir a 20h, possiblement a 20h45 et le samedi a 14h, ou 20h. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627512'>Lien vers l'activité</a>",
     "tag": "DPS",
-    "score": 15,
+    "score": 16,
     "reasons": [
       {
         "text": "Mois sans DPS planifié",
@@ -747,7 +673,7 @@
     "dateFin": "2027-05-14T20:30:00.000Z",
     "description": "1h30 avant match - 1h45 de match - 30mn apres match. Bord de terrain uniquement et dedie extraction joueurs. Horaire non definitif. Matchs en majorite le vendredi soir a 20h, possiblement a 20h45 et le samedi a 14h, ou 20h. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627514'>Lien vers l'activité</a>",
     "tag": "DPS",
-    "score": 15,
+    "score": 16,
     "reasons": [
       {
         "text": "Mois sans DPS planifié",
@@ -784,7 +710,7 @@
     "dateFin": "2026-08-16T23:00:00.000Z",
     "description": "20h30-21h30 : Bandidos rue des aiguerelles  21h30-1h : bal - Hotel de ville<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1558870'>Lien vers l'activité</a>",
     "tag": "DPS",
-    "score": 14,
+    "score": 15,
     "reasons": [
       {
         "text": "Mois sans DPS planifié",
@@ -814,80 +740,14 @@
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1558870"
   },
   {
-    "uid": "evt15588731@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] Fete du Cres",
-    "lieu": "Mas du pont, Le Cres",
-    "dateDebut": "2026-08-15T07:30:00.000Z",
-    "dateFin": "2026-08-15T11:00:00.000Z",
-    "description": "9h30-11h45 : Dejeuner au pres Mas du pont Manade Vellas 12h-13h : 2 vaches 1 veau Arenes <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1558873'>Lien vers l'activité</a>",
+    "uid": "evt16260191@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] Week-end Etudiant - Pharma Toulouse",
+    "lieu": "CAMPING LE CAMARGUAIS 807 ALLEE DE TOURNEFORT, Lattes",
+    "dateDebut": "2026-09-11T16:00:00.000Z",
+    "dateFin": "2026-09-12T03:00:00.000Z",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1626019'>Lien vers l'activité</a>",
     "tag": "DPS",
-    "score": 13,
-    "reasons": [
-      {
-        "text": "Mois sans DPS planifié",
-        "category": "positive"
-      },
-      {
-        "text": "Jour : Samedi (+3)",
-        "category": "positive"
-      },
-      {
-        "text": "Durée raisonnable",
-        "category": "positive"
-      },
-      {
-        "text": "Très proche (11.3 km)",
-        "category": "positive"
-      },
-      {
-        "text": "Espacement confortable (23 jours)",
-        "category": "positive"
-      }
-    ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1558873"
-  },
-  {
-    "uid": "evt16285341@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] MHR - Section Paloise",
-    "lieu": "Avenue de Vanieres 34070 Montpellier",
-    "dateDebut": "2026-09-05T12:30:00.000Z",
-    "dateFin": "2026-09-05T19:00:00.000Z",
-    "description": "Horaires non definitives - 2h avant match - 1h45 de match - 2h de post match (pour 8 IS seulement). En general, match a 16h30 le samedi. Peut etre a 14h30, 21h ou exceptionnellement le dimanche a 21h. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628534'>Lien vers l'activité</a>",
-    "tag": "DPS",
-    "score": 13,
-    "reasons": [
-      {
-        "text": "Mois sans DPS planifié",
-        "category": "positive"
-      },
-      {
-        "text": "Jour : Samedi (+3)",
-        "category": "positive"
-      },
-      {
-        "text": "Durée raisonnable",
-        "category": "positive"
-      },
-      {
-        "text": "Très proche (5 km)",
-        "category": "positive"
-      },
-      {
-        "text": "Espacement confortable (44 jours)",
-        "category": "positive"
-      }
-    ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1628534"
-  },
-  {
-    "uid": "evt16288541@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] Beer Love Fest",
-    "lieu": "Promenade du Peyrou 34000 Montpellier",
-    "dateDebut": "2026-09-11T15:00:00.000Z",
-    "dateFin": "2026-09-11T22:00:00.000Z",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628854'>Lien vers l'activité</a>",
-    "tag": "DPS",
-    "score": 13,
+    "score": 14,
     "reasons": [
       {
         "text": "Mois sans DPS planifié",
@@ -898,11 +758,15 @@
         "category": "positive"
       },
       {
-        "text": "Durée raisonnable",
+        "text": "Créneau fin d'après-midi / soirée",
         "category": "positive"
       },
       {
-        "text": "Très proche (5.5 km)",
+        "text": "DPS long (fatigue)",
+        "category": "negative"
+      },
+      {
+        "text": "Très proche (2.3 km)",
         "category": "positive"
       },
       {
@@ -910,17 +774,17 @@
         "category": "positive"
       }
     ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1628854"
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1626019"
   },
   {
-    "uid": "evt16285391@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] MHR - USA Perpignan",
-    "lieu": "Avenue de Vanieres 34070 Montpellier",
-    "dateDebut": "2026-09-19T12:30:00.000Z",
-    "dateFin": "2026-09-19T19:00:00.000Z",
-    "description": "Horaires non definitives - 2h avant match - 1h45 de match - 2h de post match (pour 8 IS seulement). En general, match a 16h30 le samedi. Peut etre a 14h30, 21h ou exceptionnellement le dimanche a 21h. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628539'>Lien vers l'activité</a>",
+    "uid": "evt16260201@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] Week-end Etudiant - Pharma Toulouse",
+    "lieu": "CAMPING LE CAMARGUAIS 807 ALLEE DE TOURNEFORT, Lattes",
+    "dateDebut": "2026-09-12T16:00:00.000Z",
+    "dateFin": "2026-09-13T03:00:00.000Z",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1626020'>Lien vers l'activité</a>",
     "tag": "DPS",
-    "score": 13,
+    "score": 14,
     "reasons": [
       {
         "text": "Mois sans DPS planifié",
@@ -931,19 +795,23 @@
         "category": "positive"
       },
       {
-        "text": "Durée raisonnable",
+        "text": "Créneau fin d'après-midi / soirée",
         "category": "positive"
       },
       {
-        "text": "Très proche (5 km)",
+        "text": "DPS long (fatigue)",
+        "category": "negative"
+      },
+      {
+        "text": "Très proche (2.3 km)",
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (58 jours)",
+        "text": "Espacement confortable (51 jours)",
         "category": "positive"
       }
     ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1628539"
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1626020"
   },
   {
     "uid": "evt16289101@https://eprotec.protection-civile.org",
@@ -953,7 +821,7 @@
     "dateFin": "2026-09-26T00:00:00.000Z",
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628910'>Lien vers l'activité</a>",
     "tag": "DPS",
-    "score": 13,
+    "score": 14,
     "reasons": [
       {
         "text": "Mois sans DPS planifié",
@@ -990,7 +858,7 @@
     "dateFin": "2026-09-27T00:00:00.000Z",
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628911'>Lien vers l'activité</a>",
     "tag": "DPS",
-    "score": 13,
+    "score": 14,
     "reasons": [
       {
         "text": "Mois sans DPS planifié",
@@ -1020,12 +888,12 @@
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1628911"
   },
   {
-    "uid": "evt16285401@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] MHR - RC Toulon",
-    "lieu": "Avenue de Vanieres 34070 Montpellier",
-    "dateDebut": "2026-10-03T12:30:00.000Z",
-    "dateFin": "2026-10-03T19:00:00.000Z",
-    "description": "Horaires non definitives - 2h avant match - 1h45 de match - 2h de post match (pour 8 IS seulement). En general, match a 16h30 le samedi. Peut etre a 14h30, 21h ou exceptionnellement le dimanche a 21h. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628540'>Lien vers l'activité</a>",
+    "uid": "evt15588731@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] Fete du Cres",
+    "lieu": "Mas du pont, Le Cres",
+    "dateDebut": "2026-08-15T07:30:00.000Z",
+    "dateFin": "2026-08-15T11:00:00.000Z",
+    "description": "9h30-11h45 : Dejeuner au pres Mas du pont Manade Vellas 12h-13h : 2 vaches 1 veau Arenes <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1558873'>Lien vers l'activité</a>",
     "tag": "DPS",
     "score": 13,
     "reasons": [
@@ -1042,23 +910,134 @@
         "category": "positive"
       },
       {
-        "text": "Très proche (5 km)",
+        "text": "Très proche (11.3 km)",
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (72 jours)",
+        "text": "Espacement confortable (23 jours)",
         "category": "positive"
       }
     ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1628540"
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1558873"
   },
   {
-    "uid": "evt16285411@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] MHR - Castres Olympique",
+    "uid": "evt15588711@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] Fete du Cres",
+    "lieu": "Rue de la Monnaie 34920 Le Cres",
+    "dateDebut": "2026-08-17T16:30:00.000Z",
+    "dateFin": "2026-08-17T22:30:00.000Z",
+    "description": "18h30-20h00 : Bandidos rue de la monnaie 20h-23h30 : bal - Hotel de ville 23h30-00h30 : Bandidos rue des aiguerelles <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1558871'>Lien vers l'activité</a>",
+    "tag": "DPS",
+    "score": 13,
+    "reasons": [
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour : Lundi (+0)",
+        "category": "neutral"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (9.6 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (25 jours)",
+        "category": "positive"
+      }
+    ],
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1558871"
+  },
+  {
+    "uid": "evt15588721@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] Fete du Cres",
+    "lieu": "Rue de la Monnaie 34920 Le Cres",
+    "dateDebut": "2026-08-18T18:30:00.000Z",
+    "dateFin": "2026-08-18T23:00:00.000Z",
+    "description": "20h30-21h30 : Bandidos rue des aiguerelles  21h30-1h : bal - Hotel de ville<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1558872'>Lien vers l'activité</a>",
+    "tag": "DPS",
+    "score": 13,
+    "reasons": [
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour : Mardi (+0)",
+        "category": "neutral"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (9.6 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (26 jours)",
+        "category": "positive"
+      }
+    ],
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1558872"
+  },
+  {
+    "uid": "evt15899341@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] Fete de Lattes",
+    "lieu": "Lattes",
+    "dateDebut": "2026-08-20T16:00:00.000Z",
+    "dateFin": "2026-08-20T23:00:00.000Z",
+    "description": "Sans stand prev<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1589934'>Lien vers l'activité</a>",
+    "tag": "DPS",
+    "score": 13,
+    "reasons": [
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour : Jeudi (+0)",
+        "category": "neutral"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (0.2 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (28 jours)",
+        "category": "positive"
+      }
+    ],
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1589934"
+  },
+  {
+    "uid": "evt16285341@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] MHR - Section Paloise",
     "lieu": "Avenue de Vanieres 34070 Montpellier",
-    "dateDebut": "2026-10-31T13:30:00.000Z",
-    "dateFin": "2026-10-31T20:00:00.000Z",
-    "description": "Horaires non definitives - 2h avant match - 1h45 de match - 2h de post match (pour 8 IS seulement). En general, match a 16h30 le samedi. Peut etre a 14h30, 21h ou exceptionnellement le dimanche a 21h. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628541'>Lien vers l'activité</a>",
+    "dateDebut": "2026-09-05T12:30:00.000Z",
+    "dateFin": "2026-09-05T19:00:00.000Z",
+    "description": "Horaires non definitives - 2h avant match - 1h45 de match - 2h de post match (pour 8 IS seulement). En general, match a 16h30 le samedi. Peut etre a 14h30, 21h ou exceptionnellement le dimanche a 21h. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628534'>Lien vers l'activité</a>",
     "tag": "DPS",
     "score": 13,
     "reasons": [
@@ -1079,10 +1058,47 @@
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (100 jours)",
+        "text": "Espacement confortable (44 jours)",
         "category": "positive"
       }
     ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1628541"
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1628534"
+  },
+  {
+    "uid": "evt16204861@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] Rencontre des entrepreneurs de France 2026",
+    "lieu": "Domaine des grands chais, Mauguio",
+    "dateDebut": "2026-09-09T16:30:00.000Z",
+    "dateFin": "2026-09-09T21:30:00.000Z",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1620486'>Lien vers l'activité</a>",
+    "tag": "DPS",
+    "score": 13,
+    "reasons": [
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour : Mercredi (+0)",
+        "category": "neutral"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (7.2 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (48 jours)",
+        "category": "positive"
+      }
+    ],
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1620486"
   }
 ]
