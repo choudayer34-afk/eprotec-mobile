@@ -1,5 +1,13 @@
 [
   {
+    "version": "5.3",
+    "date": "2026-07-22T21:25:41.915Z",
+    "title": "Bouton de retour direct au bilan depuis une fiche geste",
+    "items": [
+      "Quand tu accèdes à une fiche geste via une suggestion du bilan (hémorragie, LVA, AVC, hypoglycémie, hyperthermie, douleur thoracique), un bandeau \"Retour au bilan\" apparaît en haut pour revenir directement, sans repasser par les menus"
+    ]
+  },
+  {
     "version": "5.2",
     "date": "2026-07-22T21:19:27.904Z",
     "title": "Valeurs adaptées à l'âge + recherche transversale Secourisme + lexique amélioré",
