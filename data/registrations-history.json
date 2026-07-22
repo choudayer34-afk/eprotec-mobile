@@ -421,5 +421,14 @@
     "dateDebut": "2026-07-11T18:15:00.000Z",
     "dureeHeures": 7.75,
     "statut": "Inscrit"
+  },
+  "evt16274931@https://eprotec.protection-civile.org": {
+    "uid": "evt16274931@https://eprotec.protection-civile.org",
+    "tag": "DPS",
+    "titre": "[DPS 34] MHSC - Pau",
+    "lieu": "Stade de la Mosson, 34080 Montpellier",
+    "dateDebut": "2026-09-11T16:30:00.000Z",
+    "dureeHeures": 4,
+    "statut": "Inscrit"
   }
 }

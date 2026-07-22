@@ -1,9 +1,9 @@
 {
   "newEvents": [],
   "topSuggestion": {
-    "titre": "[DPS 34] MHSC - Pau",
+    "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
-    "dateDebutIso": "2026-09-11T16:30:00.000Z",
+    "dateDebutIso": "2026-10-09T16:30:00.000Z",
     "score": 16,
     "reasons": [
       {
@@ -27,7 +27,7 @@
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (50 jours)",
+        "text": "Espacement confortable (28 jours)",
         "category": "positive"
       }
     ]
