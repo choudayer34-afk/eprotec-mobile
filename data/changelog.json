@@ -1,5 +1,14 @@
 [
   {
+    "version": "7.2",
+    "date": "2026-07-23T21:47:17.956Z",
+    "title": "C onsignes de sortie étendues + accès rapide par type de problème",
+    "items": [
+      "Consignes \"Avant de la laisser partir\" ajoutées à 6 fiches supplémentaires : Hypoglycémie, Allergie grave, Convulsion, Asthme, Hyperthermie, LVA",
+      "Nouveau champ \"Type de problème\" dans le Bilan circonstanciel (3S), avec accès direct à la fiche correspondante — même principe que les suggestions existantes (hémorragie, AVC...)"
+    ]
+  },
+  {
     "version": "7.1",
     "date": "2026-07-23T21:02:33.158Z",
     "title": "Consignes avant de laisser partir la victime (4 fiches)",
