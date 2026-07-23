@@ -1,5 +1,14 @@
 [
   {
+    "version": "5.6",
+    "date": "2026-07-23T13:22:31.327Z",
+    "title": "Géolocalisation enrichie : précision, coordonnées cliquables, mini-carte",
+    "items": [
+      "La géolocalisation affiche désormais la précision en mètres, les coordonnées GPS sous forme de lien cliquable vers Google Maps, et une mini-carte intégrée",
+      "Correction : la catégorie ne se referme plus après localisation"
+    ]
+  },
+  {
     "version": "5.5",
     "date": "2026-07-23T13:06:32.042Z",
     "title": "Correction : bloc Dernières nouveautés manquant sur l'Accueil",
