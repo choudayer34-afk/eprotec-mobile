@@ -2813,14 +2813,15 @@ if (f.type === 'age-display') {
     `;
   }
 
-  if (f.type === 'geoloc') {
+ if (f.type === 'geoloc') {
     return `
       <div class="bilan-field-row">
         <label>${f.label}</label>
         <div style="display:flex;gap:6px;">
-          <input type="text" data-bilan-field="${f.key}" value="${value}" style="flex:1;">
+          <input type="text" data-bilan-field="${f.key}" id="geoloc-address-input" value="${value}" style="flex:1;">
           <button class="icon-btn" id="geoloc-btn-${f.key}" style="width:44px;flex-shrink:0;">📍</button>
         </div>
+        <div id="geoloc-extra"></div>
       </div>
     `;
   }
@@ -3421,28 +3422,58 @@ if (set15) set15.addEventListener('click', () => { setGlasgowQuick(container, 4,
   const set3 = container.querySelector('#glasgow-set-3');
   if (set3) set3.addEventListener('click', () => { setGlasgowQuick(container, 1, 1, 1); updateFieldSuggestion('glasgowM'); });
 
-  const geolocBtn = container.querySelector('#geoloc-btn-situation');
+const geolocBtn = container.querySelector('#geoloc-btn-situation');
   if (geolocBtn) {
     geolocBtn.addEventListener('click', () => {
       if (!navigator.geolocation) { alert('Géolocalisation non disponible sur cet appareil.'); return; }
       geolocBtn.textContent = '…';
       navigator.geolocation.getCurrentPosition(async (pos) => {
-        const { latitude, longitude } = pos.coords;
+        const { latitude, longitude, accuracy } = pos.coords;
+        bilanData.situationLat = latitude;
+        bilanData.situationLon = longitude;
+        bilanData.situationAccuracy = Math.round(accuracy);
+
         let address = `${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
         try {
           const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`, { headers: { 'User-Agent': 'Eprotec-Mobile/1.0' } });
           const data = await res.json();
           if (data && data.display_name) address = data.display_name;
         } catch {}
+
         bilanData.situation = address;
         saveBilanData();
-        renderBilanFill();
+
+        const addrInput = document.getElementById('geoloc-address-input');
+        if (addrInput) addrInput.value = address;
+        geolocBtn.textContent = '📍';
+        renderGeolocExtra();
       }, () => {
         geolocBtn.textContent = '📍';
         alert('Impossible de récupérer la position.');
-      });
+      }, { enableHighAccuracy: true, timeout: 15000 });
     });
   }
+
+  renderGeolocExtra();
+}
+
+function renderGeolocExtra() {
+  const el = document.getElementById('geoloc-extra');
+  if (!el) return;
+  if (!bilanData.situationLat || !bilanData.situationLon) { el.innerHTML = ''; return; }
+
+  const lat = bilanData.situationLat;
+  const lon = bilanData.situationLon;
+  const mapsUrl = `https://www.google.com/maps?q=${lat},${lon}`;
+  const d = 0.004;
+  const embedUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${lon - d}%2C${lat - d * 0.7}%2C${lon + d}%2C${lat + d * 0.7}&layer=mapnik&marker=${lat}%2C${lon}`;
+
+  el.innerHTML = `
+    <a href="${mapsUrl}" target="_blank" style="display:block;color:#F5821F;font-size:12px;margin-top:6px;">
+      📍 ${lat.toFixed(5)}, ${lon.toFixed(5)} (précision ±${bilanData.situationAccuracy} m) — Ouvrir dans Maps
+    </a>
+    <iframe src="${embedUrl}" style="width:100%;height:160px;border:none;border-radius:8px;margin-top:8px;"></iframe>
+  `;
 }
 
 function renderBilan() {
@@ -5534,9 +5565,17 @@ loadData()
     if (window.location.hash === '#nouveautes') {
       openPlusSection('plus-nouveautes');
       history.replaceState(null, '', window.location.pathname);
-    } else if (window.location.hash.startsWith('#event-')) {
+} else if (window.location.hash.startsWith('#event-')) {
       const uid = decodeURIComponent(window.location.hash.replace('#event-', ''));
       openDetail(uid);
+      history.replaceState(null, '', window.location.pathname);
+    } else if (window.location.hash === '#bilan') {
+      document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === 'plus'));
+      document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+      document.getElementById('plus-bilan').classList.add('active');
+      bilanMode = 'remplir';
+      document.querySelectorAll('[data-bilan-mode]').forEach(b => b.classList.toggle('active', b.dataset.bilanMode === 'remplir'));
+      renderBilan();
       history.replaceState(null, '', window.location.pathname);
     }
   })
