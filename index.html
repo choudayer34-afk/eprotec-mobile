@@ -543,6 +543,10 @@
         <div class="tile-icon">👥</div>
         <div class="tile-title">Nombreuses victimes</div>
       </div>
+      <div class="tile" data-open="plus-pediatrie">
+        <div class="tile-icon">👶</div>
+        <div class="tile-title">Enfant / Nourrisson</div>
+      </div>
       <div class="tile span-2" data-open="plus-secourisme-recherche">
         <div class="tile-icon">🔍</div>
         <div class="tile-title">Rechercher dans Secourisme</div>
@@ -658,6 +662,14 @@
       <span>Nombreuses victimes</span>
     </div>
     <div id="novi-content"><div class="empty">Chargement...</div></div>
+  </section>
+
+  <section id="plus-pediatrie">
+    <div class="detail-header">
+      <button class="plus-back" data-target="plus-secourisme">‹</button>
+      <span>Enfant / Nourrisson</span>
+    </div>
+    <div id="pediatrie-content"><div class="empty">Chargement...</div></div>
   </section>
 
   <section id="plus-secourisme-recherche">
@@ -1242,6 +1254,7 @@ if (subId === 'plus-parametres') renderParametres();
   if (subId === 'plus-psychologie') renderGestesList('psychologie-content', ['psychologie']);
 if (subId === 'plus-materiel') renderGestesList('materiel-content', ['materiel']);
 if (subId === 'plus-novi') renderGestesList('novi-content', ['novi']);
+  if (subId === 'plus-pediatrie') renderGestesList('pediatrie-content', ['pediatrie']);
   if (subId === 'plus-lexique') renderLexique();
 }
 
@@ -2361,7 +2374,8 @@ const CATEGORY_SCREENS = {
   degagement: { section: 'plus-gestes-degagement', content: 'gestes-degagement-content', cats: ['degagement'] },
   psychologie: { section: 'plus-psychologie', content: 'psychologie-content', cats: ['psychologie'] },
   materiel: { section: 'plus-materiel', content: 'materiel-content', cats: ['materiel'] },
-  novi: { section: 'plus-novi', content: 'novi-content', cats: ['novi'] }
+  novi: { section: 'plus-novi', content: 'novi-content', cats: ['novi'] },
+  pediatrie: { section: 'plus-pediatrie', content: 'pediatrie-content', cats: ['pediatrie'] }
 };
 
 function goToGesteByKey(gesteKey) {
@@ -5155,7 +5169,7 @@ const GESTES_DATA = [
           "Même si les signes s'améliorent ou disparaissent rapidement, l'alerte reste indispensable"
         ]
       },
-      {
+{
         title: 'Si aggravation',
         items: [
           "Perte de connaissance qui respire → PLS",
@@ -5163,8 +5177,81 @@ const GESTES_DATA = [
         ]
       }
     ]
+  },
+  {
+    key: 'pediatrie',
+    title: '👶 Spécificités enfant / nourrisson',
+    summary: [
+      "Nouveau-né < 1 mois, nourrisson 1 mois à 2 ans, enfant 2 à 12 ans environ",
+      "RCP enfant/nourrisson : débuter par 5 insufflations avant les compressions",
+      "Nourrisson : 2 doigts (seul) ou 2 pouces en encerclant le thorax (à deux)",
+      "Toujours impliquer les parents/accompagnants, présents et rassurants",
+      "Interroger aussi les parents pour le bilan complémentaire"
+    ],
+    sections: [
+      {
+        title: 'Définition des tranches d\'âge',
+        items: [
+          "Nouveau-né : moins de 1 mois",
+          "Nourrisson : de 1 mois à environ 2 ans",
+          "Enfant : d'environ 2 ans à la puberté",
+          "Ces bornes sont indicatives — utilisées dans cette app pour adapter les valeurs de référence (FR, FC) affichées dans le Bilan patient"
+        ]
+      },
+      {
+        title: 'Approche et relation',
+        items: [
+          "Se mettre à hauteur de l'enfant, parler avec des mots simples et rassurants",
+          "Éviter le vocabulaire technique ou anxiogène",
+          "Impliquer les parents ou accompagnants présents — leur présence rassure l'enfant et ils peuvent aider à le maintenir calme",
+          "Expliquer chaque geste avant de le réaliser si l'enfant est conscient",
+          "Pour le bilan complémentaire (signes, allergies, antécédents...) : interroger aussi les parents, qui connaissent mieux l'enfant"
+        ]
+      },
+      {
+        title: 'RCP — enfant et nourrisson : ce qui diffère de l\'adulte',
+        items: [
+          "Si absence de respiration ou respiration anormale : débuter par 5 insufflations initiales avant de commencer les compressions thoraciques",
+          "Apprécier la respiration en observant si le ventre et la poitrine se soulèvent",
+          "Alerter ou faire alerter le 15 sans délai, comme pour l'adulte",
+          "Si les insufflations sont impossibles : compressions thoraciques continues à 100-120/min, sans insufflations"
+        ]
+      },
+      {
+        title: 'RCP — technique de compression chez l\'enfant',
+        items: [
+          "Talon d'une main (ou les deux mains selon la morphologie de l'enfant), au centre du thorax",
+          "Comprimer sur environ un tiers du diamètre du thorax",
+          "Fréquence identique à l'adulte : 100 à 120 compressions par minute"
+        ]
+      },
+      {
+        title: 'RCP — technique de compression chez le nourrisson',
+        items: [
+          "Sauveteur seul : pulpe de deux doigts, au centre du thorax, juste sous la ligne des mamelons",
+          "À deux secouristes : deux pouces placés côte à côte ou l'un sur l'autre, en encerclant le thorax avec les mains",
+          "Comprimer sur environ un tiers du diamètre du thorax",
+          "Fréquence identique : 100 à 120 compressions par minute"
+        ]
+      },
+      {
+        title: 'Utilisation du DAE chez l\'enfant/nourrisson',
+        items: [
+          "Utiliser des électrodes pédiatriques si disponibles (elles réduisent l'énergie délivrée)",
+          "En leur absence, utiliser des électrodes adultes en veillant à ce qu'elles ne se touchent pas — au besoin, en placer une sur le thorax et l'autre dans le dos",
+          "Le reste de la procédure est identique à celle de l'adulte"
+        ]
+      },
+      {
+        title: 'Rappel : d\'autres fiches ont déjà leurs spécificités enfant/nourrisson',
+        items: [
+          "LVA (désobstruction) : voir la fiche dédiée, section « Cas particuliers »",
+          "PLS : la position reste la même, en adaptant la douceur du geste à la taille de l'enfant",
+          "Bilan patient : les seuils de fréquence respiratoire et cardiaque s'adaptent automatiquement selon l'âge renseigné"
+        ]
+      }
+    ]
   }
-
 ];
 
 const LEXIQUE_DATA = [
@@ -5319,7 +5406,8 @@ const GESTE_CATEGORIES_MAP = {
   aspirateur: 'materiel',
   saturometre: 'materiel',
   glycemiemetre: 'materiel',
-  ecg12: 'materiel'
+ecg12: 'materiel',
+  pediatrie: 'pediatrie'
 };
 
 function renderGestesList(containerId, categories) {
