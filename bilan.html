@@ -4,12 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Bilan</title>
-<style>
-  html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #0B2A5C; }
-  iframe { width: 100%; height: 100%; border: none; display: block; }
-</style>
-</head>
-<body>
-<iframe src="index.html#bilan"></iframe>
-</body>
-</html>
+<script>
+(function generateBilanIcon() {
+  const canvas = document.createElement('canvas');
+  canvas.width = 180; canvas.height = 180;
+  const ctx = canvas.getContext('2d');
+  const r = 40;
+
+  ctx.fillStyle = '#0B2A5C';
+  ctx.beginPath();
+  ctx.moveTo(r, 0);
+  ctx.arcTo(180, 0, 180, 180, r);
+  ctx.arcTo(180, 180, 0, 180, r);
+  ctx.arcTo(0, 180, 0, 0, r);
+  ctx.arcTo(0, 0, 180, 0, r);
+  ctx.closePath();
+  ctx.fill();
+
+  const cx = 90, cy = 100;
+
+  ctx.strokeStyle = '#F5821F';
+  ctx.lineWidth = 6;
+  ctx.lineCap = 'round';
+  for (let i
