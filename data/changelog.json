@@ -1,5 +1,14 @@
 [
   {
+    "version": "7.3",
+    "date": "2026-07-23T22:18:12.084Z",
+    "title": "Fiche geste : Intoxication alcoolique aiguë",
+    "items": [
+      "Nouvelle fiche : reconnaissance, bilan complet systématique (peut masquer traumatisme/hypoglycémie), signes de gravité, consignes de sortie si ivresse simple",
+      "Ajoutée au menu \"Type de problème\" du bilan avec accès rapide"
+    ]
+  },
+  {
     "version": "7.2",
     "date": "2026-07-23T21:47:17.956Z",
     "title": "C onsignes de sortie étendues + accès rapide par type de problème",
