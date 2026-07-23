@@ -2889,6 +2889,17 @@ const BILAN_CATEGORIES = [
     { key: 'scene', label: 'Scène', type: 'text' },
     { key: 'securite', label: 'Sécurité', type: 'text' },
         { key: 'situation', label: 'Situation (lieu)', type: 'geoloc' },
+  const BILAN_CATEGORIES = [
+  { key: 'identite', label: '🪪 Identité', fields: [
+    { key: 'nom', label: 'Nom', type: 'text' },
+    { key: 'prenom', label: 'Prénom', type: 'text' },
+    { key: 'dateNaissance', label: 'Date de naissance', type: 'date' },
+    { key: 'age', label: 'Âge', type: 'age-display' }
+  ]},
+  { key: 'circonstanciel', label: '🎬 Bilan circonstanciel (3S)', fields: [
+    { key: 'scene', label: 'Scène', type: 'text' },
+    { key: 'securite', label: 'Sécurité', type: 'text' },
+        { key: 'situation', label: 'Situation (lieu)', type: 'geoloc' },
     { key: 'typeProbleme', label: 'Type de problème', type: 'select', options: [
       { value: 'hemorragie', label: 'Hémorragie' },
       { value: 'lva', label: 'Voies aériennes obstruées' },
@@ -2905,6 +2916,30 @@ const BILAN_CATEGORIES = [
       { value: 'brulures', label: 'Brûlure' },
       { value: 'plaies', label: 'Plaie' }
     ] }
+  ]},
+
+  { key: 'regards', label: '👀 Les 4 regards', fields: [
+    { key: 'regard1', label: "1er regard — vue d'ensemble en arrivant", type: 'text' },
+    { key: 'regard2', label: "2e regard — approche de la victime", type: 'text' },
+    { key: 'regard3', label: "3e regard — pendant l'examen", type: 'text' },
+    { key: 'regard4', label: "4e regard — avant de partir / relève", type: 'text' }
+  ]},
+{ key: 'x', label: '🩸 X — Hémorragie', fields: [
+    { key: 'hemorragie', label: 'Hémorragie visible', type: 'chip', options: ['Non', 'Oui'] },
+        { key: 'hemorragieLieu', label: 'Localisation si oui', type: 'text', map: true },
+
+    { key: 'hemorragieAction', label: 'Action réalisée', type: 'text' }
+  ]},
+  { key: 'a', label: '🫁 A — Voies aériennes', fields: [
+    { key: 'voiesAeriennes', label: 'État des voies aériennes', type: 'chip', options: ['Libres', 'Obstruées'] },
+    { key: 'voiesAeriennesAction', label: 'Action réalisée', type: 'text' }
+  ]},
+  { key: 'b', label: '💨 B — Respiration', fields: [
+    { key: 'freqRespi', label: 'Fréquence (par minute)', type: 'number', info: 'freqRespi', timer: true, slider: { min: 0, max: 60, step: 1, major: 10, minor: 5, unit: '/min' } },
+    { key: 'amplitudeRespi', label: 'Amplitude', type: 'chip', options: ['Normale', 'Superficielle', 'Ample'], info: 'amplitudeRespi' },
+    { key: 'spo2', label: 'SpO2 %', type: 'number', info: 'spo2' },
+    { key: 'auscultation', label: 'Auscultation / bruits anormaux', type: 'text' }
+  ]}
   ]},
 
   { key: 'regards', label: '👀 Les 4 regards', fields: [
