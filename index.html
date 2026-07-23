@@ -2890,22 +2890,31 @@ function formatDateHeureCourte(iso) {
     { key: 'scene', label: 'Scène', type: 'text' },
     { key: 'securite', label: 'Sécurité', type: 'text' },
         { key: 'situation', label: 'Situation (lieu)', type: 'geoloc' },
-    { key: 'typeProbleme', label: 'Type de problème', type: 'select', options: [
-      { value: 'hemorragie', label: 'Hémorragie' },
-      { value: 'lva', label: 'Voies aériennes obstruées' },
-      { value: 'douleurthoracique', label: 'Douleur thoracique' },
-      { value: 'avc', label: 'Suspicion AVC' },
-      { value: 'hypoglycemie', label: 'Hypoglycémie' },
-      { value: 'allergie', label: 'Allergie grave' },
-      { value: 'convulsion', label: 'Crise convulsive' },
-      { value: 'asthme', label: "Crise d'asthme" },
-      { value: 'hyperthermie', label: 'Hyperthermie / coup de chaleur' },
-      { value: 'malaise', label: 'Malaise général' },
-      { value: 'intoxOH', label: 'Intoxication alcoolique' },
-      { value: 'traumatismes', label: 'Traumatisme / fracture' },
-      { value: 'brulures', label: 'Brûlure' },
-      { value: 'plaies', label: 'Plaie' }
-    ] }
+    {
+key: 'typeProbleme',
+label: 'Type de problème',
+type: 'select',
+options: [
+{ type: 'optgroup', label: '🚨 Urgences vitales' },
+{ value: 'hemorragie', label: 'Hémorragie' },
+{ value: 'lva', label: 'Voies aériennes obstruées' },
+{ value: 'avc', label: 'Suspicion AVC' },
+{ value: 'douleurthoracique', label: 'Douleur thoracique' },
+{ type: 'optgroup', label: '💊 Malaises médicaux' },
+{ value: 'malaise', label: 'Malaise général' },
+{ value: 'hypoglycemie', label: 'Hypoglycémie' },
+{ value: 'allergie', label: 'Allergie grave' },
+{ value: 'convulsion', label: 'Crise convulsive' },
+{ value: 'asthme', label: "Crise d'asthme" },
+{ value: 'hyperthermie', label: 'Hyperthermie / coup de chaleur' },
+{ value: 'intoxOH', label: 'Intoxication alcoolique' },
+{ type: 'optgroup', label: '🦴 Traumatologie' },
+{ value: 'traumatismes', label: 'Traumatisme / fracture' },
+{ type: 'optgroup', label: '🩹 Plaies et brûlures' },
+{ value: 'plaies', label: 'Plaie' },
+{ value: 'brulures', label: 'Brûlure' }
+]
+}
   ]},
 
 
