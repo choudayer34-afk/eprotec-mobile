@@ -232,6 +232,20 @@
     padding: 7px 12px; border-radius: 20px;
   }
   .bilan-chip.active { background: #F5821F; color: #4A1B0C; font-weight: 500; }
+  .precise-slider-wrap { margin: 10px 0 4px; }
+  .precise-slider-value { text-align: center; font-size: 32px; font-weight: 600; color: #F5821F; margin-bottom: 4px; }
+  .precise-slider-input {
+    width: 100%; -webkit-appearance: none; appearance: none; height: 8px; border-radius: 4px;
+    background: #0B2A5C; outline: none; margin: 4px 0;
+  }
+  .precise-slider-input::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 30px; height: 30px; border-radius: 50%;
+    background: #F5821F; border: 3px solid #fff; cursor: pointer;
+  }
+  .precise-slider-ticks { position: relative; height: 22px; margin-top: 2px; }
+  .precise-tick { position: absolute; top: 0; width: 1px; height: 5px; background: #9FB3D6; opacity: 0.6; }
+  .precise-tick.major { height: 12px; background: #F5821F; opacity: 1; width: 1.5px; }
+  .precise-tick-label { position: absolute; top: 13px; font-size: 10px; color: #9FB3D6; transform: translateX(-50%); }
 .bilan-ref-item { font-size: 13px; color: #fff; padding: 6px 0; border-top: 0.5px solid #223258; }
   .bilan-ref-item:first-child { border-top: none; }
   .timer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 999; display: flex; align-items: center; justify-content: center; }
@@ -2612,6 +2626,39 @@ function formatHeureCourte(iso) {
   return d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
 }
 
+function buildSliderTicksHtml(min, max, majorStep, minorStep) {
+  let html = '';
+  const count = Math.round((max - min) / minorStep);
+  for (let i = 0; i <= count; i++) {
+    const v = Math.round((min + i * minorStep) * 100) / 100;
+    const pct = ((v - min) / (max - min)) * 100;
+    const stepsFromStart = Math.round((v - min) / majorStep);
+    const isMajor = Math.abs((v - min) - stepsFromStart * majorStep) < 1e-6;
+    html += `<div class="precise-tick ${isMajor ? 'major' : ''}" style="left:${pct}%;"></div>`;
+    if (isMajor) html += `<div class="precise-tick-label" style="left:${pct}%;">${Number.isInteger(v) ? v : v.toFixed(1)}</div>`;
+  }
+  return html;
+}
+
+function buildPreciseSlider(fieldKey, cfg, currentValue) {
+  const hasValue = currentValue !== '' && currentValue != null;
+  const value = hasValue ? parseFloat(currentValue) : (cfg.min + cfg.max) / 2;
+  return `
+    <div class="precise-slider-wrap">
+      <div class="precise-slider-value" id="slider-value-${fieldKey}">${hasValue ? value + (cfg.unit ? ' ' + cfg.unit : '') : '—'}</div>
+      <input type="range" class="precise-slider-input" id="slider-input-${fieldKey}"
+        min="${cfg.min}" max="${cfg.max}" step="${cfg.step}" value="${value}" data-slider-field="${fieldKey}">
+      <div class="precise-slider-ticks">${buildSliderTicksHtml(cfg.min, cfg.max, cfg.major, cfg.minor)}</div>
+    </div>
+  `;
+}
+
+function getGlycemieSliderConfig(unite) {
+  return unite === 'mmol/L'
+    ? { min: 0, max: 17, step: 0.1, major: 2, minor: 1, unit: 'mmol/L' }
+    : { min: 0, max: 3, step: 0.01, major: 0.5, minor: 0.25, unit: 'g/L' };
+}
+
 function formatDateHeureCourte(iso) {
   if (!iso) return '';
   const d = new Date(iso);
@@ -2644,13 +2691,13 @@ const BILAN_CATEGORIES = [
     { key: 'voiesAeriennes', label: 'État des voies aériennes', type: 'chip', options: ['Libres', 'Obstruées'] }
   ]},
   { key: 'b', label: '💨 B — Respiration', fields: [
-    { key: 'freqRespi', label: 'Fréquence (par minute)', type: 'number', info: 'freqRespi', timer: true },
+    { key: 'freqRespi', label: 'Fréquence (par minute)', type: 'number', info: 'freqRespi', timer: true, slider: { min: 0, max: 60, step: 1, major: 10, minor: 5, unit: '/min' } },
     { key: 'amplitudeRespi', label: 'Amplitude', type: 'chip', options: ['Normale', 'Superficielle', 'Ample'] },
     { key: 'spo2', label: 'SpO2 %', type: 'number', info: 'spo2' },
     { key: 'auscultation', label: 'Auscultation / bruits anormaux', type: 'text' }
   ]},
   { key: 'c', label: '❤️ C — Circulation', fields: [
-    { key: 'freqCardiaque', label: 'Fréquence cardiaque (par minute)', type: 'number', info: 'freqCardiaque', timer: true },
+    { key: 'freqCardiaque', label: 'Fréquence cardiaque (par minute)', type: 'number', info: 'freqCardiaque', timer: true, slider: { min: 20, max: 200, step: 1, major: 20, minor: 10, unit: '/min' } },
     { key: 'amplitudePouls', label: 'Amplitude', type: 'chip', options: ['Bien frappé', 'Filant'], info: 'pouls_amplitude' },
     { key: 'regularite', label: 'Régularité', type: 'chip', options: ['Régulier', 'Irrégulier'], info: 'pouls_regularite' },
     { key: 'coloration', label: 'Coloration / aspect peau', type: 'chip', options: ['Normale', 'Pâle', 'Marbrée', 'Cyanosée'], info: 'coloration' },
@@ -2674,7 +2721,7 @@ const BILAN_CATEGORIES = [
     { key: 'avcTime', label: 'Time — heure d\'apparition des signes', type: 'text' }
   ]},
   { key: 'e', label: '🌡 E — Environnement', fields: [
-    { key: 'temperature', label: 'Température (°C)', type: 'number', info: 'temperature' },
+    { key: 'temperature', label: 'Température (°C)', type: 'number', info: 'temperature', slider: { min: 34, max: 42, step: 0.1, major: 1, minor: 0.5, unit: '°C' } },
     { key: 'environnement', label: 'Remarques environnement', type: 'text' }
   ]},
   { key: 'complementaire', label: '📋 Bilan complémentaire', fields: [
@@ -2795,13 +2842,15 @@ if (f.type === 'age-display') {
     const label = age !== '' ? `${age} ans` : 'Renseigne la date de naissance';
     const cat = bilanData.dateNaissance ? AGE_LABELS[computeAgeCategory()] : '';
     return `
-      <div class="bilan-field-row">
-        <label>${f.label}</label>
-        <div id="age-display-value" style="color:#fff;font-size:15px;padding:10px 0;">
-          ${label}${cat ? ` <span class="tag-badge" style="margin-left:6px;">${cat}</span>` : ''}
-        </div>
-      </div>
-    `;
+return `
+    <div class="bilan-field-row">
+      <label>${f.label}${infoBtn}${timerBtn}</label>
+      ${f.slider ? buildPreciseSlider(f.key, f.slider, value) : ''}
+      <input type="${f.type}" data-bilan-field="${f.key}" value="${value}" ${f.slider ? 'style="margin-top:8px;"' : ''}>
+      ${suggestionDiv}
+    </div>
+  `;
+
   }
 
   if (f.type === 'date') {
@@ -2871,15 +2920,17 @@ const suggestionDiv = SUGGESTION_FIELDS.has(f.key) ? `<div class="suggestion-box
 if (f.type === 'glycemie') {
     const gval = bilanData.glycemie || '';
     const unite = bilanData.glycemieUnite || 'g/L';
+    const sliderCfg = getGlycemieSliderConfig(unite);
     return `
       <div class="bilan-field-row">
         <label>${f.label}${infoBtn}</label>
-        <div style="display:flex;gap:8px;">
+        ${buildPreciseSlider('glycemie', sliderCfg, gval)}
+        <div style="display:flex;gap:8px;margin-top:8px;">
           <input type="number" step="0.01" data-bilan-field="glycemie" id="glycemie-input" value="${gval}" style="flex:1;">
           <select data-bilan-field="glycemieUnite" id="glycemie-unite-select" style="background:#0B2A5C;border:none;color:#fff;font-size:13px;padding:10px;border-radius:8px;">
             <option value="g/L" ${unite === 'g/L' ? 'selected' : ''}>g/L</option>
             <option value="mmol/L" ${unite === 'mmol/L' ? 'selected' : ''}>mmol/L</option>
-</select>
+          </select>
         </div>
         <div class="suggestion-box" id="suggestion-glycemie">${getGlycemieSuggestionHtml()}</div>
       </div>
@@ -3352,9 +3403,18 @@ applyGlycemieWarning();
   container.querySelectorAll('input[data-bilan-field]').forEach(input => {
     if (getAbnormalRanges()[input.dataset.bilanField]) applyFieldWarning(input, input.dataset.bilanField);
 
-    input.addEventListener('input', () => {
+input.addEventListener('input', () => {
       bilanData[input.dataset.bilanField] = input.value;
       saveBilanData();
+      const pairedSlider = document.getElementById(`slider-input-${input.dataset.bilanField}`);
+      if (pairedSlider) {
+        pairedSlider.value = input.value;
+        const rv = document.getElementById(`slider-value-${input.dataset.bilanField}`);
+        if (rv) {
+          const unit = input.dataset.bilanField === 'glycemie' ? (' ' + (bilanData.glycemieUnite || 'g/L')) : (input.dataset.bilanField === 'temperature' ? ' °C' : ' /min');
+          rv.textContent = input.value !== '' ? input.value + unit : '—';
+        }
+      }
       if (getAbnormalRanges()[input.dataset.bilanField]) applyFieldWarning(input, input.dataset.bilanField);
 if (input.dataset.bilanField === 'glycemie') { applyGlycemieWarning(); updateGlycemieSuggestion(); }
 if (input.dataset.bilanField === 'taGaucheSys' || input.dataset.bilanField === 'taGaucheDia') { applyTaWarning('gauche'); updateTaSuggestion('Gauche'); updateTaDiffSuggestion(); }
@@ -3389,7 +3449,19 @@ container.querySelectorAll('select[data-bilan-field]').forEach(select => {
       bilanData[select.dataset.bilanField] = select.value;
       saveBilanData();
 if (select.dataset.bilanField.startsWith('glasgow')) { updateGlasgowTotalDisplay(); updateFieldSuggestion('glasgowM'); }
-      if (select.dataset.bilanField === 'glycemieUnite') { applyGlycemieWarning(); updateGlycemieSuggestion(); }
+      if (select.dataset.bilanField === 'glycemieUnite') {
+        applyGlycemieWarning();
+        updateGlycemieSuggestion();
+        const cfg = getGlycemieSliderConfig(select.value);
+        const sliderInput = document.getElementById('slider-input-glycemie');
+        if (sliderInput) {
+          sliderInput.min = cfg.min;
+          sliderInput.max = cfg.max;
+          sliderInput.step = cfg.step;
+          const ticksContainer = sliderInput.parentElement.querySelector('.precise-slider-ticks');
+          if (ticksContainer) ticksContainer.innerHTML = buildSliderTicksHtml(cfg.min, cfg.max, cfg.major, cfg.minor);
+        }
+      }
     });
   });
 
@@ -3422,7 +3494,25 @@ if (set15) set15.addEventListener('click', () => { setGlasgowQuick(container, 4,
   const set3 = container.querySelector('#glasgow-set-3');
   if (set3) set3.addEventListener('click', () => { setGlasgowQuick(container, 1, 1, 1); updateFieldSuggestion('glasgowM'); });
 
-const geolocBtn = container.querySelector('#geoloc-btn-situation');
+container.querySelectorAll('[data-slider-field]').forEach(slider => {
+    slider.addEventListener('input', () => {
+      const key = slider.dataset.sliderField;
+      bilanData[key] = slider.value;
+      saveBilanData();
+      const pairedInput = container.querySelector(`input[data-bilan-field="${key}"]`);
+      if (pairedInput) pairedInput.value = slider.value;
+      const rv = document.getElementById(`slider-value-${key}`);
+      if (rv) {
+        const unit = key === 'glycemie' ? (' ' + (bilanData.glycemieUnite || 'g/L')) : (key === 'temperature' ? ' °C' : ' /min');
+        rv.textContent = slider.value + unit;
+      }
+      if (getAbnormalRanges()[key] && pairedInput) applyFieldWarning(pairedInput, key);
+      if (key === 'glycemie') { applyGlycemieWarning(); updateGlycemieSuggestion(); }
+      if (SUGGESTION_FIELDS.has(key)) updateFieldSuggestion(key);
+    });
+  });
+
+  const geolocBtn = container.querySelector('#geoloc-btn-situation');
   if (geolocBtn) {
     geolocBtn.addEventListener('click', () => {
       if (!navigator.geolocation) { alert('Géolocalisation non disponible sur cet appareil.'); return; }
