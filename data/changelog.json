@@ -1,5 +1,14 @@
 [
   {
+    "version": "6.8",
+    "date": "2026-07-23T15:30:01.875Z",
+    "title": "Correction de la taille du champ Glycémie",
+    "items": [
+      "Le champ de saisie de la glycémie était compressé à cause d'un conflit d'affichage avec le sélecteur d'unité",
+      "Il occupe maintenant tout l'espace disponible, avec le sélecteur d'unité à largeur fixe"
+    ]
+  },
+  {
     "version": "6.7",
     "date": "2026-07-23T15:21:39.563Z",
     "title": "Correction du saut de défilement à l'ouverture d'une catégorie",
