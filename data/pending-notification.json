@@ -1,14 +1,5 @@
 {
-  "newEvents": [
-    {
-      "tag": "AUTRE",
-      "titre": "[TEC 34] Recup VL Fonseranes au Garage RV-ELEC",
-      "lieu": "18 Rue des Mouettes 34110 Vic-la-Gardiole",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1634966",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-07-23T15:00:00.000Z"
-    }
-  ],
+  "newEvents": [],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
