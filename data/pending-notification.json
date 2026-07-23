@@ -1,20 +1,28 @@
 {
   "newEvents": [
     {
-      "tag": "MLA",
-      "titre": "[MLA 34] Intervention Societe",
-      "lieu": "Centre de formation Beziers",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1634870",
+      "tag": "FOR",
+      "titre": "[FOR 34] IPS Enfants - Grand public com' partie 1/3",
+      "lieu": "Centre de formation de Beziers",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1634916",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-07-23T16:00:00.000Z"
+      "dateDebutIso": "2026-08-26T08:00:00.000Z"
     },
     {
-      "tag": "MLA",
-      "titre": "[MLA 34] Intervention Societe",
-      "lieu": "Centre de formation Beziers",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1634871",
+      "tag": "FOR",
+      "titre": "[FOR 34] IPS Enfants - Grand public com' partie 2/3",
+      "lieu": "Centre de formation de Beziers",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1634916",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-08-03T16:00:00.000Z"
+      "dateDebutIso": "2026-08-27T08:00:00.000Z"
+    },
+    {
+      "tag": "FOR",
+      "titre": "[FOR 34] IPS Enfants - Grand public com' partie 3/3",
+      "lieu": "Centre de formation de Beziers",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1634916",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-08-27T13:00:00.000Z"
     }
   ],
   "topSuggestion": {
