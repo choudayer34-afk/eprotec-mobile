@@ -1,5 +1,13 @@
 [
   {
+    "version": "6.3",
+    "date": "2026-07-23T14:51:21.624Z",
+    "title": "Correction : déclaration de suggestionDiv déplacée en haut de la fonction",
+    "items": [
+      "Le nouveau rendu des champs texte référençait une variable déclarée plus bas dans le code, provoquant une erreur qui bloquait tout l'affichage du bilan"
+    ]
+  },
+  {
     "version": "6.2",
     "date": "2026-07-23T14:45:59.962Z",
     "title": "Zones de texte extensibles, bouton pour vider, alignement curseur, corrections CR",
