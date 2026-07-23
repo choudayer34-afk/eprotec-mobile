@@ -1670,6 +1670,10 @@ function setupAccordion(container, groupSelector = '.month-group') {
       if (isHidden) {
         body.style.display = 'block';
         if (chevron) chevron.textContent = '▾';
+        body.querySelectorAll('.bilan-textarea').forEach(t => {
+          t.style.height = 'auto';
+          t.style.height = t.scrollHeight + 'px';
+        });
       }
     });
   });
