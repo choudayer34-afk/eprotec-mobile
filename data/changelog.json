@@ -1,5 +1,14 @@
 [
   {
+    "version": "6.7",
+    "date": "2026-07-23T15:21:39.563Z",
+    "title": "Correction du saut de défilement à l'ouverture d'une catégorie",
+    "items": [
+      "Les zones de texte extensibles avaient leur hauteur mal calculée pendant que la catégorie était encore repliée, provoquant un décalage brutal à l'ouverture",
+      "Recalcul correct de la hauteur au moment même où la catégorie s'affiche"
+    ]
+  },
+  {
     "version": "6.6",
     "date": "2026-07-23T15:15:02.629Z",
     "title": "Nouvelle rubrique Secourisme : Spécificités enfant/nourrisson",
