@@ -1,5 +1,13 @@
 [
   {
+    "version": "5.9",
+    "date": "2026-07-23T13:48:47.307Z",
+    "title": "Correction : bilan ne s'affichait plus (erreur sur l'âge)",
+    "items": [
+      "Le rendu du champ Âge référençait accidentellement du code destiné à un autre champ, provoquant une erreur qui bloquait l'affichage complet du bilan en mode Remplir"
+    ]
+  },
+  {
     "version": "5.8",
     "date": "2026-07-23T13:38:33.022Z",
     "title": "GPS et précision inclus dans le résumé du bilan",
