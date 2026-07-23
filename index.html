@@ -5456,7 +5456,29 @@ async function loadData() {
 
   renderUpcomingRegistrations(events);
 
- const listeNouveautes = document.getElementById
+ const listeNouveautes = document.getElementById('liste-nouveautes');
+  if (nouveautes.length === 0) {
+    listeNouveautes.innerHTML = '<div class="empty">Aucune nouveauté pour le moment.</div>';
+  } else {
+    const groupedNouveautes = groupByDetectionDate(nouveautes);
+    listeNouveautes.innerHTML = groupedNouveautes.map(g => `
+      <div class="insc-section-title">${g.label}</div>
+      ${g.items.map(e => `
+        <div class="event-row" data-uid="${e.uid}">
+          <div>
+            <div class="event-title">[${e.tag}] ${e.titre}</div>
+            <div class="event-meta">${formatDate(e.dateDebut)} · ${e.lieu || ''}</div>
+          </div>
+          <span class="badge badge-new">Nouveau</span>
+        </div>
+      `).join('')}
+    `).join('');
+    listeNouveautes.querySelectorAll('[data-uid]').forEach(row => {
+      row.addEventListener('click', () => openDetail(row.dataset.uid));
+    });
+  }
+
+  renderTopSuggestion();
 
  renderTopSuggestion();
 
