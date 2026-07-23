@@ -2841,15 +2841,14 @@ if (f.type === 'age-display') {
     const age = computeAge(bilanData.dateNaissance);
     const label = age !== '' ? `${age} ans` : 'Renseigne la date de naissance';
     const cat = bilanData.dateNaissance ? AGE_LABELS[computeAgeCategory()] : '';
-return `
-    <div class="bilan-field-row">
-      <label>${f.label}${infoBtn}${timerBtn}</label>
-      ${f.slider ? buildPreciseSlider(f.key, f.slider, value) : ''}
-      <input type="${f.type}" data-bilan-field="${f.key}" value="${value}" ${f.slider ? 'style="margin-top:8px;"' : ''}>
-      ${suggestionDiv}
-    </div>
-  `;
-
+    return `
+      <div class="bilan-field-row">
+        <label>${f.label}</label>
+        <div id="age-display-value" style="color:#fff;font-size:15px;padding:10px 0;">
+          ${label}${cat ? ` <span class="tag-badge" style="margin-left:6px;">${cat}</span>` : ''}
+        </div>
+      </div>
+    `;
   }
 
   if (f.type === 'date') {
