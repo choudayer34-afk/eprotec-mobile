@@ -1,5 +1,13 @@
 [
   {
+    "version": "5.4",
+    "date": "2026-07-23T09:09:51.136Z",
+    "title": "Test mise à jour",
+    "items": [
+      "Pour présentation a Diane"
+    ]
+  },
+  {
     "version": "5.3",
     "date": "2026-07-22T21:25:41.915Z",
     "title": "Bouton de retour direct au bilan depuis une fiche geste",
