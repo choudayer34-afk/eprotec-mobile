@@ -3204,13 +3204,15 @@ function buildDouleurCardsHtml() {
         </select>
         ${d.qualite === 'Autre' ? `<input type="text" data-douleur-field="qualiteAutre" data-douleur-idx="${idx}" placeholder="Préciser" value="${d.qualiteAutre || ''}" style="margin-top:6px;">` : ''}
       </div>
- <div class="bilan-field-row">
-        <label>Région <button class="icon-btn" style="width:22px;height:22px;font-size:11px;" data-info="douleur_region">i</button></label>
+       <div class="bilan-field-row">
+        <label>Région <button class="icon-btn" style="width:22px;height:22px;font-size:11px;" data-info="douleur_region">i</button> <button class="icon-btn" style="width:22px;height:22px;font-size:11px;" data-bodymap="1">🗺️</button></label>
         <div class="text-field-wrap ${d.region ? 'has-value' : ''}">
           <textarea rows="1" class="bilan-textarea" data-douleur-field="region" data-douleur-idx="${idx}">${escapeHtml(d.region || '')}</textarea>
           <button class="text-clear-btn" type="button">✕</button>
         </div>
       </div>
+
+
       <div class="bilan-field-row">
         <label>Sévérité (0 à 10)</label>
         <div class="pain-faces"><span>😀</span><span>🙂</span><span>😐</span><span>😟</span><span>😖</span><span>😭</span></div>
@@ -3287,9 +3289,17 @@ function attachDouleurListeners() {
       if (info) showInfoModal(info.title, info.html);
     });
   });
+
+  body.querySelectorAll('[data-bodymap]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showBodyMapModal();
+    });
+  });
 }
 
 function renderDouleurBody() {
+
   const body = document.getElementById('douleur-body');
   if (!body) return;
   body.innerHTML = buildDouleurCardsHtml();
