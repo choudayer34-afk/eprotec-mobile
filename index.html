@@ -2988,9 +2988,9 @@ if (f.type === 'glycemie') {
       <div class="bilan-field-row">
         <label>${f.label}${infoBtn}</label>
         ${buildPreciseSlider('glycemie', sliderCfg, gval)}
-        <div style="display:flex;gap:8px;margin-top:8px;">
-          <input type="number" step="0.01" data-bilan-field="glycemie" id="glycemie-input" value="${gval}" style="flex:1;">
-          <select data-bilan-field="glycemieUnite" id="glycemie-unite-select" style="background:#0B2A5C;border:none;color:#fff;font-size:13px;padding:10px;border-radius:8px;">
+<div style="display:flex;gap:8px;margin-top:8px;">
+          <input type="number" step="0.01" data-bilan-field="glycemie" id="glycemie-input" value="${gval}" style="flex:1 1 0%; min-width:0;">
+          <select data-bilan-field="glycemieUnite" id="glycemie-unite-select" style="width:90px; flex-shrink:0; background:#0B2A5C;border:1.5px solid rgba(255,255,255,0.18);color:#fff;font-size:13px;padding:10px;border-radius:8px;">
             <option value="g/L" ${unite === 'g/L' ? 'selected' : ''}>g/L</option>
             <option value="mmol/L" ${unite === 'mmol/L' ? 'selected' : ''}>mmol/L</option>
           </select>
