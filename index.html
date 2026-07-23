@@ -222,9 +222,12 @@
   .settings-actions { display: flex; gap: 8px; margin-top: 10px; }
   .bilan-field-row { margin-bottom: 12px; }
   .bilan-field-row label { display: block; font-size: 12px; color: #9FB3D6; margin-bottom: 5px; }
-  .bilan-field-row input[type=text], .bilan-field-row input[type=number] {
-    width: 100%; background: #0B2A5C; border: none; color: #fff; font-size: 14px;
+.bilan-field-row input[type=text], .bilan-field-row input[type=number], .bilan-field-row input[type=date], .bilan-field-row select {
+    width: 100%; background: #0B2A5C; border: 1.5px solid rgba(255,255,255,0.18); color: #fff; font-size: 14px;
     padding: 10px 12px; border-radius: 8px; box-sizing: border-box;
+  }
+  .bilan-field-row input[type=text]:focus, .bilan-field-row input[type=number]:focus {
+    border-color: #F5821F; outline: none;
   }
   .bilan-chip-row { display: flex; gap: 6px; flex-wrap: wrap; }
   .bilan-chip {
@@ -255,6 +258,7 @@
   @keyframes timerBlink { 0%, 100% { background: #163C74; } 50% { background: #E24B4A; } }
   .timer-circle.timer-blink { animation: timerBlink 0.6s infinite; border-color: #E24B4A; }
   .timer-icon-btn { background: none; border: none; color: #F5821F; font-size: 15px; margin-left: 6px; }
+  .inline-icon-btn { display: inline-flex; vertical-align: middle; }
   .lexique-item { padding: 10px 0; border-top: 0.5px solid #223258; }
   .lexique-item:first-child { border-top: none; }
   .lexique-term { color: #F5821F; font-size: 14px; font-weight: 500; }
@@ -2206,6 +2210,12 @@ function showInfoModal(title, html) {
 }
 
 const INFO_CONTENT = {
+amplitudeRespi: {
+    title: 'Amplitude respiratoire',
+    html: `<p><b>Normale</b> — mouvements respiratoires habituels</p>
+      <p style="margin-top:8px;"><b>Superficielle</b> — mouvements faibles, peu amples, signe possible de détresse</p>
+      <p style="margin-top:8px;"><b>Ample</b> — mouvements marqués, respiration profonde, peut évoquer une hyperventilation</p>`
+  },
   freqRespi: {
     title: 'Fréquence respiratoire — références par âge',
     html: `<table style="width:100%;border-collapse:collapse;">
@@ -2646,8 +2656,12 @@ function buildPreciseSlider(fieldKey, cfg, currentValue) {
   return `
     <div class="precise-slider-wrap">
       <div class="precise-slider-value" id="slider-value-${fieldKey}">${hasValue ? value + (cfg.unit ? ' ' + cfg.unit : '') : '—'}</div>
-      <input type="range" class="precise-slider-input" id="slider-input-${fieldKey}"
-        min="${cfg.min}" max="${cfg.max}" step="${cfg.step}" value="${value}" data-slider-field="${fieldKey}">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button class="icon-btn" data-slider-nudge="${fieldKey}" data-nudge-amount="-${cfg.step}" style="width:36px;flex-shrink:0;">−</button>
+        <input type="range" class="precise-slider-input" id="slider-input-${fieldKey}"
+          min="${cfg.min}" max="${cfg.max}" step="${cfg.step}" value="${value}" data-slider-field="${fieldKey}" style="flex:1;">
+        <button class="icon-btn" data-slider-nudge="${fieldKey}" data-nudge-amount="${cfg.step}" style="width:36px;flex-shrink:0;">+</button>
+      </div>
       <div class="precise-slider-ticks">${buildSliderTicksHtml(cfg.min, cfg.max, cfg.major, cfg.minor)}</div>
     </div>
   `;
@@ -2692,7 +2706,7 @@ const BILAN_CATEGORIES = [
   ]},
   { key: 'b', label: '💨 B — Respiration', fields: [
     { key: 'freqRespi', label: 'Fréquence (par minute)', type: 'number', info: 'freqRespi', timer: true, slider: { min: 0, max: 60, step: 1, major: 10, minor: 5, unit: '/min' } },
-    { key: 'amplitudeRespi', label: 'Amplitude', type: 'chip', options: ['Normale', 'Superficielle', 'Ample'] },
+    { key: 'amplitudeRespi', label: 'Amplitude', type: 'chip', options: ['Normale', 'Superficielle', 'Ample'], info: 'amplitudeRespi' },
     { key: 'spo2', label: 'SpO2 %', type: 'number', info: 'spo2' },
     { key: 'auscultation', label: 'Auscultation / bruits anormaux', type: 'text' }
   ]},
@@ -2834,22 +2848,22 @@ function showFieldTimer(fieldKey) {
 
 function renderBilanField(f) {
   const value = bilanData[f.key] || '';
-  const infoBtn = f.info ? `<button class="icon-btn" style="width:22px;height:22px;font-size:11px;margin-left:6px;" data-info="${f.info}">i</button>` : '';
-  const timerBtn = f.timer ? `<button class="timer-icon-btn" data-timer-field="${f.key}">⏱ 1 min</button>` : '';
+  const infoBtn = f.info ? `<button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;margin-left:6px;" data-info="${f.info}">i</button>` : '';
+  const timerBtn = f.timer ? `<button class="timer-icon-btn inline-icon-btn" data-timer-field="${f.key}">⏱ 1 min</button>` : '';
 
 if (f.type === 'age-display') {
     const age = computeAge(bilanData.dateNaissance);
     const label = age !== '' ? `${age} ans` : 'Renseigne la date de naissance';
     const cat = bilanData.dateNaissance ? AGE_LABELS[computeAgeCategory()] : '';
-    return `
-      <div class="bilan-field-row">
-        <label>${f.label}</label>
-        <div id="age-display-value" style="color:#fff;font-size:15px;padding:10px 0;">
-          ${label}${cat ? ` <span class="tag-badge" style="margin-left:6px;">${cat}</span>` : ''}
-        </div>
-      </div>
-    `;
-  }
+return `
+    <div class="bilan-field-row">
+      <label>${f.label}${infoBtn}${timerBtn}</label>
+      ${f.slider ? buildPreciseSlider(f.key, f.slider, value) : ''}
+      <input type="${f.type}" data-bilan-field="${f.key}" value="${value}" ${f.slider ? 'style="margin-top:8px;"' : ''}>
+      ${suggestionDiv}
+    </div>
+  `;
+}
 
   if (f.type === 'date') {
     return `
@@ -3497,7 +3511,20 @@ if (set15) set15.addEventListener('click', () => { setGlasgowQuick(container, 4,
   const set3 = container.querySelector('#glasgow-set-3');
   if (set3) set3.addEventListener('click', () => { setGlasgowQuick(container, 1, 1, 1); updateFieldSuggestion('glasgowM'); });
 
-container.querySelectorAll('[data-slider-field]').forEach(slider => {
+container.querySelectorAll('[data-slider-nudge]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const key = btn.dataset.sliderNudge;
+      const amount = parseFloat(btn.dataset.nudgeAmount);
+      const slider = document.getElementById(`slider-input-${key}`);
+      if (!slider) return;
+      let newVal = (parseFloat(slider.value) || 0) + amount;
+      newVal = Math.max(parseFloat(slider.min), Math.min(parseFloat(slider.max), newVal));
+      slider.value = Math.round(newVal * 100) / 100;
+      slider.dispatchEvent(new Event('input'));
+    });
+  });
+
+  container.querySelectorAll('[data-slider-field]').forEach(slider => {
     slider.addEventListener('input', () => {
       const key = slider.dataset.sliderField;
       bilanData[key] = slider.value;
