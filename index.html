@@ -3683,7 +3683,7 @@ bilanData[key] = bilanData[key] === value ? '' : value;
     btn.addEventListener('click', () => showFieldTimer(btn.dataset.timerField));
   });
 
-  container.querySelectorAll('[data-info]').forEach(btn => {
+   container.querySelectorAll('[data-info]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
       const info = INFO_CONTENT[btn.dataset.info];
@@ -3691,7 +3691,15 @@ bilanData[key] = bilanData[key] === value ? '' : value;
     });
   });
 
+  container.querySelectorAll('[data-bodymap-field]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showBodyMapModal();
+    });
+  });
+
   const set15 = container.querySelector('#glasgow-set-15');
+
 if (set15) set15.addEventListener('click', () => { setGlasgowQuick(container, 4, 5, 6); updateFieldSuggestion('glasgowM'); });
   const set3 = container.querySelector('#glasgow-set-3');
   if (set3) set3.addEventListener('click', () => { setGlasgowQuick(container, 1, 1, 1); updateFieldSuggestion('glasgowM'); });
@@ -5465,8 +5473,18 @@ const LEXIQUE_DATA = [
   { term: 'Myosis', def: 'Pupilles resserrées, plus petites que la normale' },
   { term: 'EVDA', def: 'Éveillé, Verbal, Douleur, Aréactif — échelle de conscience' },
   { term: 'FAST', def: "Face, Arm, Speech, Time — méthode de repérage rapide de l'AVC" },
-  { term: 'SAMPLE', def: 'Signes, Allergies, Médicaments, Passé médical, dernier repas (Last meal), Évènements' }
+  { term: 'SAMPLE', def: 'Signes, Allergies, Médicaments, Passé médical, dernier repas (Last meal), Évènements' },
+  { term: 'Aine', def: "Région située à la jonction entre l'abdomen et la cuisse" },
+  { term: 'Flanc', def: 'Partie latérale du tronc, entre les côtes et le bassin' },
+  { term: 'Contusion', def: 'Lésion sans plaie ouverte, causée par un choc (coup, chute)' },
+  { term: 'Ecchymose', def: 'Tache bleutée sous la peau due à un saignement local (familièrement : un "bleu")' },
+  { term: 'Hématome', def: 'Amas de sang sous la peau ou dans un tissu, suite à un choc' },
+  { term: 'Tuméfaction', def: "Gonflement anormal d'une zone du corps" },
+  { term: 'Auscultation', def: 'Écoute des bruits du corps (respiration, cœur), à l\'oreille ou au stéthoscope' },
+  { term: 'Score de Glasgow', def: 'Échelle chiffrée de 3 à 15 évaluant le niveau de conscience' },
+  { term: 'Garrot', def: 'Lien large posé sur un membre pour arrêter un saignement non contrôlé autrement' }
 ];
+
 
 function normalizeLexique(str) {
   return normalizeText(str).replace(/[.\s]/g, '');
