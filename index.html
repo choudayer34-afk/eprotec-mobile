@@ -498,7 +498,13 @@
       <button class="plus-back">‹</button>
       <span>Nouveautés</span>
     </div>
+        <div class="metric-toggle">
+      <button data-nouveautes-view="jour" class="active">Par jour</button>
+      <button data-nouveautes-view="chrono">Chronologique</button>
+      <button data-nouveautes-view="type">Par type</button>
+    </div>
     <div id="liste-nouveautes-completes"><div class="empty">Chargement...</div></div>
+
   </section>
 
   <section id="plus-rapport">
@@ -1792,6 +1798,8 @@ function groupByTag(items) {
   }));
 }
 
+let nouveautesViewMode = 'jour';
+
 function renderNouveautesCompletes(events) {
   const nouveautes = events.filter(e => e.nouveau && e.dateDebut);
 
@@ -1801,7 +1809,18 @@ function renderNouveautesCompletes(events) {
     return;
   }
 
-  const groups = groupByDetectionDate(nouveautes);
+  if (nouveautesViewMode === 'chrono') {
+    const sorted = [...nouveautes].sort((a, b) => {
+      const da = a.nouveauDepuis ? new Date(a.nouveauDepuis) : new Date(0);
+      const db = b.nouveauDepuis ? new Date(b.nouveauDepuis) : new Date(0);
+      return db - da;
+    });
+    container.innerHTML = sorted.map(item => eventCard(item)).join('');
+    attachCardHandlers(container);
+    return;
+  }
+
+  const groups = nouveautesViewMode === 'type' ? groupByTag(nouveautes) : groupByDetectionDate(nouveautes);
   container.innerHTML = groups.map(g => `
     <div class="month-group">
       <button class="month-toggle">
@@ -1817,6 +1836,15 @@ function renderNouveautesCompletes(events) {
   setupAccordion(container);
   attachCardHandlers(container);
 }
+
+document.querySelectorAll('[data-nouveautes-view]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    nouveautesViewMode = btn.dataset.nouveautesView;
+    document.querySelectorAll('[data-nouveautes-view]').forEach(b => b.classList.toggle('active', b === btn));
+    renderNouveautesCompletes(allEvents);
+  });
+});
+
 
 function renderInscriptions() {
   const registered = allEvents
