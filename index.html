@@ -303,6 +303,14 @@
     background: #3A2A0E; color: #FAC775; font-size: 12px; padding: 10px 12px;
     border-radius: 8px; margin-top: 8px; margin-bottom: 4px; line-height: 1.5;
   }
+  .consignes-box {
+    background: #12351F; border: 1.5px solid #639922; border-radius: 10px;
+    padding: 12px 14px; margin-top: 14px;
+  }
+  .consignes-box .consignes-title {
+    color: #97C459; font-size: 13px; font-weight: 600; margin-bottom: 8px;
+  }
+  .consignes-box ul { padding-left: 18px; color: #fff; font-size: 13px; line-height: 1.7; }
 
   .tile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .tile {
@@ -4747,6 +4755,19 @@ const GESTES_DATA = [
           "Consultation médicale nécessaire"
         ]
       },
+      {
+        title: '📋 Avant de la laisser partir',
+        customHtml: `<div class="consignes-box">
+          <div class="consignes-title">Consignes si pas d'évacuation</div>
+          <ul>
+            <li>Consulter un médecin dans les 24-48h, surtout si douleur persistante ou impotence (une radio pourra être envisagée)</li>
+            <li>Ne pas réappuyer sur le membre en attendant la consultation</li>
+            <li>Reconsulter en urgence si le membre devient froid, insensible, ou très gonflé</li>
+            <li>Ne pas rester seul(e) tout de suite après, si possible</li>
+          </ul>
+        </div>`
+      },
+
       {
         title: 'Traumatisme crânien',
         items: [
