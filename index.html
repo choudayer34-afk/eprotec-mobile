@@ -4032,11 +4032,22 @@ const GESTES_DATA = [
           "Si efficace : installer confortablement, réconforter, desserrer les vêtements, avis médical (15) obligatoire, surveiller",
           "Si perte de connaissance : accompagner au sol, faire alerter le 15, débuter la RCP, vérifier la présence du corps étranger dans la bouche à la fin de chaque cycle de compressions thoraciques et le retirer prudemment si accessible"
         ]
+      },
+      {
+        title: '📋 Avant de la laisser partir',
+        customHtml: `<div class="consignes-box">
+          <div class="consignes-title">Consignes si pas d'évacuation</div>
+          <ul>
+            <li>Avis médical dans la journée, même si la désobstruction a semblé efficace</li>
+            <li>Surveiller l'apparition d'une toux, d'une gêne respiratoire ou de douleurs dans les heures suivantes</li>
+          </ul>
+        </div>`
       }
     ]
   },
   {
     key: 'hemorragie',
+
     title: '🩸 Hémorragie externe',
     summary: [
       "Compression directe immédiate (main ou tissu propre)",
@@ -4488,11 +4499,23 @@ const GESTES_DATA = [
           "Nouvelle crise sans reprise de conscience entre les deux",
           "Traumatisme associé, grossesse, ou difficulté respiratoire persistante après la crise"
         ]
+      },
+      {
+        title: '📋 Avant de la laisser partir',
+        customHtml: `<div class="consignes-box">
+          <div class="consignes-title">Si crise isolée, connue, sans critère d'alerte</div>
+          <ul>
+            <li>Consulter son médecin traitant ou neurologue</li>
+            <li>Éviter la conduite, la baignade seul(e), et les activités à risque quelques heures</li>
+            <li>Ne pas rester seul(e) tout de suite après</li>
+          </ul>
+        </div>`
       }
     ]
   },
   {
     key: 'asthme',
+
     title: '🌬 Crise d\'asthme',
     summary: [
       "Position ASSISE, jamais allongée",
@@ -4529,11 +4552,23 @@ const GESTES_DATA = [
           "Épuisement respiratoire visible",
           "Altération de la conscience"
         ]
+      },
+      {
+        title: '📋 Avant de la laisser partir',
+        customHtml: `<div class="consignes-box">
+          <div class="consignes-title">Si crise résolue, sans signe de gravité</div>
+          <ul>
+            <li>Consulter son médecin traitant ou pneumologue pour revoir le traitement de fond</li>
+            <li>Garder son traitement bronchodilatateur à portée de main</li>
+            <li>Reconsulter en urgence en cas de nouvelle crise</li>
+          </ul>
+        </div>`
       }
     ]
   },
   {
     key: 'hypoglycemie',
+
     title: '🍬 Hypoglycémie (diabétique)',
     summary: [
       "Consciente et capable d'avaler → resucrage immédiat (sucre, jus sucré)",
@@ -4567,11 +4602,23 @@ const GESTES_DATA = [
           "Si elle respire : position latérale de sécurité",
           "Alerter le 15 immédiatement — urgence médicale"
         ]
+      },
+      {
+        title: '📋 Avant de la laisser partir',
+        customHtml: `<div class="consignes-box">
+          <div class="consignes-title">Si resucrage efficace, pas d'évacuation</div>
+          <ul>
+            <li>Consulter son médecin traitant ou diabétologue pour ajuster le traitement</li>
+            <li>Manger un repas complet dans les heures qui suivent</li>
+            <li>Ne pas rester seul(e) tout de suite après</li>
+          </ul>
+        </div>`
       }
     ]
   },
   {
     key: 'allergie',
+
     title: '🚨 Allergie grave (anaphylaxie)',
     summary: [
       "Urgence vitale — alerter le 15 immédiatement",
@@ -4607,11 +4654,23 @@ const GESTES_DATA = [
           "Perte de connaissance qui respire → PLS",
           "Arrêt cardiaque → RCP immédiate"
         ]
+      },
+      {
+        title: '📋 Avant de la laisser partir',
+        customHtml: `<div class="consignes-box">
+          <div class="consignes-title">Consignes si pas d'évacuation</div>
+          <ul>
+            <li>Toute réaction allergique avec auto-injecteur utilisé doit être évaluée par un médecin, même si ça va mieux</li>
+            <li>Consulter un allergologue pour identifier l'allergène en cause</li>
+            <li>Toujours avoir son traitement d'urgence sur soi</li>
+          </ul>
+        </div>`
       }
     ]
   },
   {
     key: 'oxygenotherapie',
+
     title: '🫧 Oxygénothérapie',
     summary: [
       "Réservée aux détresses respiratoires ou circulatoires, selon consignes du 15",
@@ -4722,11 +4781,23 @@ const GESTES_DATA = [
           "Perte de connaissance qui respire → PLS, en poursuivant le refroidissement",
           "Ne respire plus → RCP immédiate"
         ]
+      },
+      {
+        title: '📋 Avant de la laisser partir',
+        customHtml: `<div class="consignes-box">
+          <div class="consignes-title">Si récupération complète après refroidissement</div>
+          <ul>
+            <li>Consulter un médecin si des symptômes persistent (fatigue, maux de tête)</li>
+            <li>Bien s'hydrater dans les heures qui suivent</li>
+            <li>Éviter toute nouvelle exposition à la chaleur ce jour-là</li>
+          </ul>
+        </div>`
       }
     ]
   },
   {
     key: 'traumatismes',
+
     title: '🦴 Traumatismes et fractures',
     summary: [
       "Ne jamais mobiliser un membre suspect de fracture",
