@@ -1,5 +1,13 @@
 [
   {
+    "version": "5.5",
+    "date": "2026-07-23T13:06:32.042Z",
+    "title": "Correction : bloc Dernières nouveautés manquant sur l'Accueil",
+    "items": [
+      "Restauration du code qui remplit la carte \"Dernières nouveautés\" de l'Accueil, perdu lors d'une précédente modification"
+    ]
+  },
+  {
     "version": "5.4",
     "date": "2026-07-23T09:09:51.136Z",
     "title": "Test mise à jour",
