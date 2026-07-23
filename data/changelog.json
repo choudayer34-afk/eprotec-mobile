@@ -1,5 +1,13 @@
 [
   {
+    "version": "5.8",
+    "date": "2026-07-23T13:38:33.022Z",
+    "title": "GPS et précision inclus dans le résumé du bilan",
+    "items": [
+      "Les coordonnées GPS, la précision, et le lien Google Maps s'ajoutent désormais automatiquement au résumé, à la copie, et à l'envoi WhatsApp du bilan"
+    ]
+  },
+  {
     "version": "5.7",
     "date": "2026-07-23T13:33:37.957Z",
     "title": "Curseurs de saisie précis avec graduations (pouls, respiration, température, glycémie)",
