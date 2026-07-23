@@ -1,12 +1,20 @@
 {
   "newEvents": [
     {
-      "tag": "AUTRE",
-      "titre": "[CER 34] Ceremonie depart du Controleur General Flores",
-      "lieu": "PPESU GIGNAC",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1634832",
+      "tag": "MLA",
+      "titre": "[MLA 34] Intervention Societe",
+      "lieu": "Centre de formation Beziers",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1634870",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-08-28T16:30:00.000Z"
+      "dateDebutIso": "2026-07-23T16:00:00.000Z"
+    },
+    {
+      "tag": "MLA",
+      "titre": "[MLA 34] Intervention Societe",
+      "lieu": "Centre de formation Beziers",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1634871",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-08-03T16:00:00.000Z"
     }
   ],
   "topSuggestion": {
