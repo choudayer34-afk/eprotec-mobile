@@ -1,9 +1,9 @@
 {
   "newEvents": [],
   "topSuggestion": {
-    "titre": "[DPS 34] MHSC - Dijon FCO",
+    "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
-    "dateDebutIso": "2026-08-08T17:15:00.000Z",
+    "dateDebutIso": "2026-10-09T16:30:00.000Z",
     "score": 15,
     "reasons": [
       {
@@ -11,7 +11,7 @@
         "category": "positive"
       },
       {
-        "text": "Jour : Samedi (+3)",
+        "text": "Jour : Vendredi (+3)",
         "category": "positive"
       },
       {
@@ -27,7 +27,7 @@
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (16 jours)",
+        "text": "Espacement confortable (28 jours)",
         "category": "positive"
       }
     ]
