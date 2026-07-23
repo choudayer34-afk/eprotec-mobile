@@ -2830,7 +2830,8 @@ const BILAN_CATEGORIES = [
   ]},
 { key: 'x', label: '🩸 X — Hémorragie', fields: [
     { key: 'hemorragie', label: 'Hémorragie visible', type: 'chip', options: ['Non', 'Oui'] },
-    { key: 'hemorragieLieu', label: 'Localisation si oui', type: 'text' },
+        { key: 'hemorragieLieu', label: 'Localisation si oui', type: 'text', map: true },
+
     { key: 'hemorragieAction', label: 'Action réalisée', type: 'text' }
   ]},
   { key: 'a', label: '🫁 A — Voies aériennes', fields: [
@@ -3000,10 +3001,13 @@ if (f.type === 'age-display') {
     `;
   }
 
+    const mapBtn = f.map ? `<button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;margin-left:6px;" data-bodymap-field="1">🗺️</button>` : '';
+
   if (f.type === 'text') {
     return `
       <div class="bilan-field-row">
-        <label>${f.label}${infoBtn}</label>
+        <label>${f.label}${infoBtn}${mapBtn}</label>
+
         <div class="text-field-wrap ${value ? 'has-value' : ''}">
           <textarea rows="1" class="bilan-textarea" data-bilan-field="${f.key}">${escapeHtml(value)}</textarea>
           <button class="text-clear-btn" type="button">✕</button>
