@@ -3262,6 +3262,11 @@ if (cat.key === 'c') {
       if (bilanData.glycemie) catText += `- Glycémie : ${bilanData.glycemie} ${bilanData.glycemieUnite || 'g/L'}\n`;
       catText += `- Score Glasgow total : ${glasgowTotal()} / 15\n`;
     }
+if (cat.key === 'circonstanciel' && bilanData.situationLat && bilanData.situationLon) {
+      const mapsUrl = `https://www.google.com/maps?q=${bilanData.situationLat},${bilanData.situationLon}`;
+      catText += `- Coordonnées GPS : ${bilanData.situationLat.toFixed(5)}, ${bilanData.situationLon.toFixed(5)} (précision ±${bilanData.situationAccuracy} m)\n`;
+      catText += `- Google Maps : ${mapsUrl}\n`;
+    }
     if (catText) text += cat.label.replace(/^\S+\s/, '') + '\n' + catText + '\n';
   });
 
