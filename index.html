@@ -230,11 +230,11 @@
     border-color: #F5821F; outline: none;
   }
   .bilan-chip-row { display: flex; gap: 6px; flex-wrap: wrap; }
-  .bilan-chip {
-    background: #0B2A5C; color: #9FB3D6; border: none; font-size: 12px;
+.bilan-chip {
+    background: #0B2A5C; color: #9FB3D6; border: 1.5px solid rgba(255,255,255,0.25); font-size: 12px;
     padding: 7px 12px; border-radius: 20px;
   }
-  .bilan-chip.active { background: #F5821F; color: #4A1B0C; font-weight: 500; }
+  .bilan-chip.active { background: #F5821F; color: #4A1B0C; font-weight: 500; border-color: #F5821F; }
   .precise-slider-wrap { margin: 10px 0 4px; }
   .precise-slider-value { text-align: center; font-size: 32px; font-weight: 600; color: #F5821F; margin-bottom: 4px; }
   .precise-slider-input {
@@ -2658,11 +2658,13 @@ function buildPreciseSlider(fieldKey, cfg, currentValue) {
       <div class="precise-slider-value" id="slider-value-${fieldKey}">${hasValue ? value + (cfg.unit ? ' ' + cfg.unit : '') : '—'}</div>
       <div style="display:flex;align-items:center;gap:8px;">
         <button class="icon-btn" data-slider-nudge="${fieldKey}" data-nudge-amount="-${cfg.step}" style="width:36px;flex-shrink:0;">−</button>
-        <input type="range" class="precise-slider-input" id="slider-input-${fieldKey}"
-          min="${cfg.min}" max="${cfg.max}" step="${cfg.step}" value="${value}" data-slider-field="${fieldKey}" style="flex:1;">
+        <div style="flex:1;">
+          <input type="range" class="precise-slider-input" id="slider-input-${fieldKey}"
+            min="${cfg.min}" max="${cfg.max}" step="${cfg.step}" value="${value}" data-slider-field="${fieldKey}" style="width:100%;">
+          <div class="precise-slider-ticks">${buildSliderTicksHtml(cfg.min, cfg.max, cfg.major, cfg.minor)}</div>
+        </div>
         <button class="icon-btn" data-slider-nudge="${fieldKey}" data-nudge-amount="${cfg.step}" style="width:36px;flex-shrink:0;">+</button>
       </div>
-      <div class="precise-slider-ticks">${buildSliderTicksHtml(cfg.min, cfg.max, cfg.major, cfg.minor)}</div>
     </div>
   `;
 }
@@ -3261,7 +3263,11 @@ function buildBilanSummaryText() {
         const opt = f.options.find(o => String(o.value) === String(displayValue));
         if (opt) displayValue = opt.label;
       }
-      catText += `- ${f.label.split(' (')[0]} : ${displayValue}\n`;
+      let unit = '';
+      if (f.slider && f.slider.unit) unit = ' ' + f.slider.unit;
+      else if (f.key === 'spo2') unit = ' %';
+      const cleanLabel = f.label.replace(/\s*\([^)]*\)\s*$/, '');
+      catText += `- ${cleanLabel} : ${displayValue}${unit}\n`;
     });
 if (cat.key === 'c') {
       if (bilanData.taGaucheSys || bilanData.taGaucheDia) {
@@ -3272,9 +3278,11 @@ if (cat.key === 'c') {
       }
       if (bilanData.taComplement) catText += `- Complément TA : ${bilanData.taComplement}\n`;
     }
-    if (cat.key === 'd') {
+ if (cat.key === 'd') {
       if (bilanData.glycemie) catText += `- Glycémie : ${bilanData.glycemie} ${bilanData.glycemieUnite || 'g/L'}\n`;
-      catText += `- Score Glasgow total : ${glasgowTotal()} / 15\n`;
+      if (bilanData.glasgowY || bilanData.glasgowV || bilanData.glasgowM) {
+        catText += `- Score Glasgow total : ${glasgowTotal()} / 15\n`;
+      }
     }
 if (cat.key === 'circonstanciel' && bilanData.situationLat && bilanData.situationLon) {
       const mapsUrl = `https://www.google.com/maps?q=${bilanData.situationLat},${bilanData.situationLon}`;
