@@ -1,5 +1,17 @@
 [
   {
+    "version": "6.2",
+    "date": "2026-07-23T14:45:59.962Z",
+    "title": "Zones de texte extensibles, bouton pour vider, alignement curseur, corrections CR",
+    "items": [
+      "Correction précise de l'alignement entre le point du curseur et ses graduations",
+      "Les champs Hémorragie, Voies aériennes, Circulation et AVC ont désormais un champ \"Action réalisée\"",
+      "Tous les champs de texte s'agrandissent automatiquement selon leur contenu, sans jamais sortir de l'écran",
+      "Un bouton (✕) apparaît pour vider un champ rempli, sans avoir à le sélectionner manuellement",
+      "Suppression du doublon \"Glycémie\" dans le compte-rendu (résumé/copier/WhatsApp)"
+    ]
+  },
+  {
     "version": "6.1",
     "date": "2026-07-23T14:32:41.219Z",
     "title": "Corrections : pastilles cliquables, alignement curseur, unités et Glasgow dans le CR",
