@@ -1,5 +1,16 @@
 [
   {
+    "version": "6.1",
+    "date": "2026-07-23T14:32:41.219Z",
+    "title": "Corrections : pastilles cliquables, alignement curseur, unités et Glasgow dans le CR",
+    "items": [
+      "Les pastilles de sélection (Oui/Non, Normale/Superficielle...) ont désormais un contour visible pour bien indiquer qu'elles sont cliquables",
+      "Correction de l'alignement entre le point du curseur et la règle graduée (décalage causé par les boutons -/+ )",
+      "Les unités (/min, °C, %) apparaissent désormais dans le compte-rendu final",
+      "Le score Glasgow ne s'affiche plus dans le compte-rendu s'il n'a jamais été saisi"
+    ]
+  },
+  {
     "version": "6.0",
     "date": "2026-07-23T14:07:42.869Z",
     "title": "Corrections d'affichage : bordures, icônes alignées, curseurs manquants",
