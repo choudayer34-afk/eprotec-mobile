@@ -2841,7 +2841,6 @@ if (f.type === 'age-display') {
     const age = computeAge(bilanData.dateNaissance);
     const label = age !== '' ? `${age} ans` : 'Renseigne la date de naissance';
     const cat = bilanData.dateNaissance ? AGE_LABELS[computeAgeCategory()] : '';
-    return `
 return `
     <div class="bilan-field-row">
       <label>${f.label}${infoBtn}${timerBtn}</label>
