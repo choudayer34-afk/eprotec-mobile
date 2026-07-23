@@ -2506,6 +2506,7 @@ function goToConvulsionFiche() { goToGesteFiche('plus-gestes-malaises', 'gestes-
 function goToAsthmeFiche() { goToGesteFiche('plus-gestes-malaises', 'gestes-malaises-content', ['malaises'], 'asthme', true); }
 function goToAllergieFiche() { goToGesteFiche('plus-gestes-malaises', 'gestes-malaises-content', ['malaises'], 'allergie', true); }
 function goToMalaiseFiche() { goToGesteFiche('plus-gestes-malaises', 'gestes-malaises-content', ['malaises'], 'malaise', true); }
+  function goToIntoxOHFiche() { goToGesteFiche('plus-gestes-malaises', 'gestes-malaises-content', ['malaises'], 'intoxOH', true); }
 function goToTraumatismesFiche() { goToGesteFiche('plus-gestes-trauma', 'gestes-trauma-content', ['trauma'], 'traumatismes', true); }
 function goToBrulureFiche() { goToGesteFiche('plus-gestes-plaies', 'gestes-plaies-content', ['plaies_brulures'], 'brulures', true); }
 function goToPlaieFiche() { goToGesteFiche('plus-gestes-plaies', 'gestes-plaies-content', ['plaies_brulures'], 'plaies', true); }
@@ -2685,6 +2686,7 @@ case 'freqCardiaque': {
         asthme: ["🌬 Voir la fiche Crise d'asthme", 'goToAsthmeFiche'],
         hyperthermie: ['🌡 Voir la fiche Hyperthermie', 'goToHyperthermieFiche'],
         malaise: ['😵 Voir la fiche Malaise général', 'goToMalaiseFiche'],
+        intoxOH: ['🍷 Voir la fiche Intoxication alcoolique', 'goToIntoxOHFiche'],
         traumatismes: ['🦴 Voir la fiche Traumatismes', 'goToTraumatismesFiche'],
         brulures: ['🔥 Voir la fiche Brûlures', 'goToBrulureFiche'],
         plaies: ['🩹 Voir la fiche Plaies', 'goToPlaieFiche']
@@ -2898,6 +2900,7 @@ const BILAN_CATEGORIES = [
       { value: 'asthme', label: "Crise d'asthme" },
       { value: 'hyperthermie', label: 'Hyperthermie / coup de chaleur' },
       { value: 'malaise', label: 'Malaise général' },
+      { value: 'intoxOH', label: 'Intoxication alcoolique' },
       { value: 'traumatismes', label: 'Traumatisme / fracture' },
       { value: 'brulures', label: 'Brûlure' },
       { value: 'plaies', label: 'Plaie' }
@@ -4448,6 +4451,69 @@ const GESTES_DATA = [
       }
     ]
   },
+{
+    key: 'intoxOH',
+    title: '🍷 Intoxication alcoolique aiguë',
+    summary: [
+      "Jamais anodine : peut masquer un traumatisme, une hypoglycémie, un AVC",
+      "Toujours réaliser un bilan complet, mesurer glycémie et température",
+      "Rester calme, ne pas juger",
+      "PLS si trouble de conscience qui respire — risque de vomissement",
+      "Ne jamais laisser repartir seul(e), interdire la conduite"
+    ],
+    sections: [
+      {
+        title: 'Reconnaissance',
+        items: [
+          "Haleine alcoolisée, troubles de l'équilibre, propos incohérents, désinhibition",
+          "Trois formes possibles : ivresse simple, forme agitée/agressive, coma éthylique (forme grave)",
+          "Peut masquer une autre pathologie grave : traumatisme, hypoglycémie, hémorragie cérébrale — d'où l'importance d'un bilan complet systématique"
+        ]
+      },
+      {
+        title: 'Conduite à tenir',
+        items: [
+          "Ne jamais banaliser, même une ivresse qui semble simple",
+          "Réaliser un bilan complet : rechercher un traumatisme associé (chutes fréquentes), mesurer la glycémie et la température",
+          "Rester calme, non agressif, ne pas juger",
+          "Si trouble de la conscience et respiration normale : position latérale de sécurité (risque de vomissement et d'inhalation)",
+          "Ne jamais laisser la personne seule",
+          "Surveiller en continu : conscience, respiration, température"
+        ]
+      },
+      {
+        title: 'Signes de gravité — alerter le 15 sans délai',
+        items: [
+          "Perte de connaissance ou coma",
+          "Détresse respiratoire ou circulatoire",
+          "Hypothermie ou hyperthermie (signe de gravité important)",
+          "Convulsions",
+          "Traumatisme associé",
+          "Jeune âge (enfant, adolescent) — toujours considérer comme grave"
+        ]
+      },
+      {
+        title: 'Si aggravation',
+        items: [
+          "Perte de connaissance qui respire → PLS",
+          "Ne respire plus → RCP immédiate"
+        ]
+      },
+      {
+        title: '📋 Avant de la laisser partir',
+        customHtml: `<div class="consignes-box">
+          <div class="consignes-title">Si ivresse simple, sans signe de gravité, en nette amélioration</div>
+          <ul>
+            <li>Ne jamais la laisser repartir seule — toujours avec un accompagnant</li>
+            <li>Interdire formellement la conduite (véhicule, vélo, deux-roues)</li>
+            <li>Éviter l'exposition prolongée au froid</li>
+            <li>Faire boire de l'eau, éviter toute nouvelle consommation d'alcool</li>
+            <li>Consulter un médecin si le mal-être persiste au-delà de quelques heures</li>
+          </ul>
+        </div>`
+      }
+    ]
+  },
   {
     key: 'malaise',
     title: '😵 Malaise général',
@@ -5729,6 +5795,7 @@ const GESTE_CATEGORIES_MAP = {
   pfsmu: 'psychologie',
   palpation: 'trauma',
   malaise: 'malaises',
+  intoxOH: 'malaises',
   convulsion: 'malaises',
   asthme: 'malaises',
   hypoglycemie: 'malaises',
