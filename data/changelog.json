@@ -1,5 +1,13 @@
 [
   {
+    "version": "6.5",
+    "date": "2026-07-23T15:05:36.173Z",
+    "title": "Désactivation du zoom par double-tap",
+    "items": [
+      "Empêche le zoom accidentel par double-tap sur l'écran, gênant pendant l'utilisation normale de l'app"
+    ]
+  },
+  {
     "version": "6.4",
     "date": "2026-07-23T14:58:36.945Z",
     "title": "Correction : virgule manquante bloquant tout le script",
