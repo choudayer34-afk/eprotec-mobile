@@ -1,14 +1,5 @@
 {
-  "newEvents": [
-    {
-      "tag": "FOR",
-      "titre": "[FOR 34] Manipulation des extincteurs - CINEODE",
-      "lieu": "Centre formation de Montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1634797",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-07-28T14:00:00.000Z"
-    }
-  ],
+  "newEvents": [],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
