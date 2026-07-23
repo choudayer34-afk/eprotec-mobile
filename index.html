@@ -229,6 +229,19 @@
   .bilan-field-row input[type=text]:focus, .bilan-field-row input[type=number]:focus {
     border-color: #F5821F; outline: none;
   }
+  .text-field-wrap { position: relative; }
+  .bilan-textarea {
+    width: 100%; background: #0B2A5C; border: 1.5px solid rgba(255,255,255,0.18); color: #fff; font-size: 14px;
+    padding: 10px 34px 10px 12px; border-radius: 8px; box-sizing: border-box; resize: none; overflow: hidden;
+    font-family: inherit; line-height: 1.4; min-height: 42px; display: block;
+  }
+  .bilan-textarea:focus { border-color: #F5821F; outline: none; }
+  .text-clear-btn {
+    position: absolute; right: 8px; top: 10px;
+    background: rgba(255,255,255,0.15); border: none; color: #fff; width: 20px; height: 20px;
+    border-radius: 50%; font-size: 11px; line-height: 1; display: none; align-items: center; justify-content: center; padding: 0;
+  }
+  .text-field-wrap.has-value .text-clear-btn { display: flex; }
   .bilan-chip-row { display: flex; gap: 6px; flex-wrap: wrap; }
 .bilan-chip {
     background: #0B2A5C; color: #9FB3D6; border: 1.5px solid rgba(255,255,255,0.25); font-size: 12px;
@@ -2641,11 +2654,12 @@ function buildSliderTicksHtml(min, max, majorStep, minorStep) {
   const count = Math.round((max - min) / minorStep);
   for (let i = 0; i <= count; i++) {
     const v = Math.round((min + i * minorStep) * 100) / 100;
-    const pct = ((v - min) / (max - min)) * 100;
+    const fraction = (v - min) / (max - min);
+    const leftCalc = `calc(15px + (100% - 30px) * ${fraction})`;
     const stepsFromStart = Math.round((v - min) / majorStep);
     const isMajor = Math.abs((v - min) - stepsFromStart * majorStep) < 1e-6;
-    html += `<div class="precise-tick ${isMajor ? 'major' : ''}" style="left:${pct}%;"></div>`;
-    if (isMajor) html += `<div class="precise-tick-label" style="left:${pct}%;">${Number.isInteger(v) ? v : v.toFixed(1)}</div>`;
+    html += `<div class="precise-tick ${isMajor ? 'major' : ''}" style="left:${leftCalc};"></div>`;
+    if (isMajor) html += `<div class="precise-tick-label" style="left:${leftCalc};">${Number.isInteger(v) ? v : v.toFixed(1)}</div>`;
   }
   return html;
 }
@@ -2700,11 +2714,12 @@ const BILAN_CATEGORIES = [
     { key: 'regard4', label: "4e regard — avant de partir / relève", type: 'text' }
   ]},
   { key: 'x', label: '🩸 X — Hémorragie', fields: [
-    { key: 'hemorragie', label: 'Hémorragie visible', type: 'chip', options: ['Non', 'Oui'] },
-    { key: 'hemorragieLieu', label: 'Localisation si oui', type: 'text' }
+    { key: 'hemorragie', label: 'Hémorragie visible', type: 'chip', options: ['Non', 'Oui'] }{ key: 'hemorragieLieu', label: 'Localisation si oui', type: 'text' },
+    { key: 'hemorragieAction', label: 'Action réalisée', type: 'text' }
   ]},
   { key: 'a', label: '🫁 A — Voies aériennes', fields: [
-    { key: 'voiesAeriennes', label: 'État des voies aériennes', type: 'chip', options: ['Libres', 'Obstruées'] }
+    { key: 'voiesAeriennes', label: 'État des voies aériennes', type: 'chip', options: ['Libres', 'Obstruées'] },
+    { key: 'voiesAeriennesAction', label: 'Action réalisée', type: 'text' }
   ]},
   { key: 'b', label: '💨 B — Respiration', fields: [
     { key: 'freqRespi', label: 'Fréquence (par minute)', type: 'number', info: 'freqRespi', timer: true, slider: { min: 0, max: 60, step: 1, major: 10, minor: 5, unit: '/min' } },
@@ -2718,7 +2733,8 @@ const BILAN_CATEGORIES = [
     { key: 'regularite', label: 'Régularité', type: 'chip', options: ['Régulier', 'Irrégulier'], info: 'pouls_regularite' },
     { key: 'coloration', label: 'Coloration / aspect peau', type: 'chip', options: ['Normale', 'Pâle', 'Marbrée', 'Cyanosée'], info: 'coloration' },
     { key: 'trc', label: 'TRC (réf. < 2s)', type: 'chip', options: ['< 2s', '≥ 2s'] },
-    { key: 'ta', label: 'Tension artérielle', type: 'ta' }
+ { key: 'ta', label: 'Tension artérielle', type: 'ta' },
+    { key: 'circulationAction', label: 'Action réalisée', type: 'text' }
   ]},
   { key: 'd', label: '🧠 D — Neurologique (Glasgow)', fields: [
     { key: 'conscience', label: 'Conscience (EVDA)', type: 'chip', options: ['Éveillé', 'Verbal', 'Douleur', 'Aréactif'] },
@@ -2734,7 +2750,8 @@ const BILAN_CATEGORIES = [
     { key: 'avcFace', label: 'Face — asymétrie faciale', type: 'chip', options: ['Non', 'Oui'] },
     { key: 'avcArm', label: 'Arm — faiblesse d\'un bras', type: 'chip', options: ['Non', 'Oui'] },
     { key: 'avcSpeech', label: 'Speech — trouble de la parole', type: 'chip', options: ['Non', 'Oui'] },
-    { key: 'avcTime', label: 'Time — heure d\'apparition des signes', type: 'text' }
+{ key: 'avcTime', label: 'Time — heure d\'apparition des signes', type: 'text' },
+    { key: 'avcAction', label: 'Action réalisée', type: 'text' }
   ]},
   { key: 'e', label: '🌡 E — Environnement', fields: [
     { key: 'temperature', label: 'Température (°C)', type: 'number', info: 'temperature', slider: { min: 34, max: 42, step: 0.1, major: 1, minor: 0.5, unit: '°C' } },
@@ -2863,6 +2880,19 @@ if (f.type === 'age-display') {
         <div id="age-display-value" style="color:#fff;font-size:15px;padding:10px 0;">
           ${label}${cat ? ` <span class="tag-badge" style="margin-left:6px;">${cat}</span>` : ''}
         </div>
+      </div>
+    `;
+  }
+
+  if (f.type === 'text') {
+    return `
+      <div class="bilan-field-row">
+        <label>${f.label}${infoBtn}</label>
+        <div class="text-field-wrap ${value ? 'has-value' : ''}">
+          <textarea rows="1" class="bilan-textarea" data-bilan-field="${f.key}">${escapeHtml(value)}</textarea>
+          <button class="text-clear-btn" type="button">✕</button>
+        </div>
+        ${suggestionDiv}
       </div>
     `;
   }
@@ -3036,13 +3066,19 @@ function buildDouleurCardsHtml() {
         <span class="tag-badge">Douleur ${idx + 1}</span>
         ${bilanData.douleurs.length > 1 ? `<button class="icon-btn" style="width:26px;height:26px;font-size:13px;" data-douleur-remove="${idx}">✕</button>` : ''}
       </div>
-      <div class="bilan-field-row">
+<div class="bilan-field-row">
         <label>Origine <button class="icon-btn" style="width:22px;height:22px;font-size:11px;" data-info="douleur_origine">i</button></label>
-        <input type="text" data-douleur-field="origine" data-douleur-idx="${idx}" value="${d.origine || ''}">
+        <div class="text-field-wrap ${d.origine ? 'has-value' : ''}">
+          <textarea rows="1" class="bilan-textarea" data-douleur-field="origine" data-douleur-idx="${idx}">${escapeHtml(d.origine || '')}</textarea>
+          <button class="text-clear-btn" type="button">✕</button>
+        </div>
       </div>
       <div class="bilan-field-row">
         <label>Provoqué par</label>
-        <input type="text" data-douleur-field="provoquePar" data-douleur-idx="${idx}" value="${d.provoquePar || ''}">
+        <div class="text-field-wrap ${d.provoquePar ? 'has-value' : ''}">
+          <textarea rows="1" class="bilan-textarea" data-douleur-field="provoquePar" data-douleur-idx="${idx}">${escapeHtml(d.provoquePar || '')}</textarea>
+          <button class="text-clear-btn" type="button">✕</button>
+        </div>
       </div>
       <div class="bilan-field-row">
         <label>Qualité <button class="icon-btn" style="width:22px;height:22px;font-size:11px;" data-info="douleur_qualite">i</button></label>
@@ -3052,9 +3088,12 @@ function buildDouleurCardsHtml() {
         </select>
         ${d.qualite === 'Autre' ? `<input type="text" data-douleur-field="qualiteAutre" data-douleur-idx="${idx}" placeholder="Préciser" value="${d.qualiteAutre || ''}" style="margin-top:6px;">` : ''}
       </div>
-      <div class="bilan-field-row">
+ <div class="bilan-field-row">
         <label>Région <button class="icon-btn" style="width:22px;height:22px;font-size:11px;" data-info="douleur_region">i</button></label>
-        <input type="text" data-douleur-field="region" data-douleur-idx="${idx}" value="${d.region || ''}">
+        <div class="text-field-wrap ${d.region ? 'has-value' : ''}">
+          <textarea rows="1" class="bilan-textarea" data-douleur-field="region" data-douleur-idx="${idx}">${escapeHtml(d.region || '')}</textarea>
+          <button class="text-clear-btn" type="button">✕</button>
+        </div>
       </div>
       <div class="bilan-field-row">
         <label>Sévérité (0 à 10)</label>
@@ -3065,9 +3104,12 @@ function buildDouleurCardsHtml() {
         <div class="pain-labels"><span>Pas de douleur</span><span>Pire douleur possible</span></div>
       </div>
       <div class="suggestion-box" id="suggestion-douleur-${idx}">${getDouleurSuggestionHtml(d)}</div>
-      <div class="bilan-field-row">
+<div class="bilan-field-row">
         <label>Temps</label>
-        <input type="text" data-douleur-field="temps" data-douleur-idx="${idx}" value="${d.temps || ''}">
+        <div class="text-field-wrap ${d.temps ? 'has-value' : ''}">
+          <textarea rows="1" class="bilan-textarea" data-douleur-field="temps" data-douleur-idx="${idx}">${escapeHtml(d.temps || '')}</textarea>
+          <button class="text-clear-btn" type="button">✕</button>
+        </div>
       </div>
     </div>
   `).join('') + `<button class="detail-action-btn" data-douleur-add="1">➕ Ajouter une douleur</button>`;
@@ -3175,9 +3217,12 @@ function buildSuiviHtml() {
             <span style="color:#9FB3D6;font-size:12px;">mmHg</span>
           </div>
         </div>
-        <div class="bilan-field-row">
+<div class="bilan-field-row">
           <label>Complément / évolution</label>
-          <input type="text" data-suivi-field="complement" data-suivi-idx="${idx}" value="${s.complement || ''}">
+          <div class="text-field-wrap ${s.complement ? 'has-value' : ''}">
+            <textarea rows="1" class="bilan-textarea" data-suivi-field="complement" data-suivi-idx="${idx}">${escapeHtml(s.complement || '')}</textarea>
+            <button class="text-clear-btn" type="button">✕</button>
+          </div>
         </div>
       </div>
     `).join('')}
@@ -3255,7 +3300,7 @@ function buildBilanSummaryText() {
 
   BILAN_CATEGORIES.forEach(cat => {
     if (cat.key === 'identite') return;
-    const filled = cat.fields.filter(f => f.type !== 'glasgowQuick' && f.type !== 'age-display' && bilanData[f.key]);
+    const filled = cat.fields.filter(f => f.type !== 'glasgowQuick' && f.type !== 'age-display' && f.type !== 'glycemie' && f.type !== 'ta' && bilanData[f.key]);
     let catText = '';
     filled.forEach(f => {
       let displayValue = bilanData[f.key];
@@ -3417,16 +3462,17 @@ function renderBilanFill() {
     </div>
   `;
 
-  setupAccordion(container);
+setupAccordion(container);
   attachDouleurListeners();
   attachSuiviListeners();
   renderBilanIcons();
+  container.querySelectorAll('.bilan-textarea').forEach(t => { t.style.height = 'auto'; t.style.height = t.scrollHeight + 'px'; });
 
 applyGlycemieWarning();
   applyTaWarning('gauche');
   applyTaWarning('droit');
 
-  container.querySelectorAll('input[data-bilan-field]').forEach(input => {
+  container.querySelectorAll('input[data-bilan-field], textarea[data-bilan-field]').forEach(input => {
     if (getAbnormalRanges()[input.dataset.bilanField]) applyFieldWarning(input, input.dataset.bilanField);
 
 input.addEventListener('input', () => {
@@ -5688,6 +5734,29 @@ if (height >= threshold) {
     pulling = false;
   });
 })();
+
+document.addEventListener('input', (e) => {
+  if (e.target.classList && e.target.classList.contains('bilan-textarea')) {
+    e.target.style.height = 'auto';
+    e.target.style.height = e.target.scrollHeight + 'px';
+    const wrap = e.target.closest('.text-field-wrap');
+    if (wrap) wrap.classList.toggle('has-value', e.target.value.trim() !== '');
+  }
+});
+
+document.addEventListener('click', (e) => {
+  if (e.target.classList && e.target.classList.contains('text-clear-btn')) {
+    const wrap = e.target.closest('.text-field-wrap');
+    if (!wrap) return;
+    const field = wrap.querySelector('textarea, input');
+    if (field) {
+      field.value = '';
+      field.style.height = 'auto';
+      wrap.classList.remove('has-value');
+      field.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+  }
+});
 
 loadData()
   .then(() => {
