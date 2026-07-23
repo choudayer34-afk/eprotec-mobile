@@ -1,5 +1,14 @@
 [
   {
+    "version": "6.9",
+    "date": "2026-07-23T19:05:58.664Z",
+    "title": "Carte des régions du corps + enrichissement du lexique",
+    "items": [
+      "Nouvelle carte des régions du corps (face avant/arrière, numérotée avec légende), accessible depuis le Lexique et depuis le Bilan (Région de la douleur, Localisation de l'hémorragie)",
+      "Ajout au lexique : Aine, Flanc, Contusion, Ecchymose, Hématome, Tuméfaction, Auscultation, Score de Glasgow, Garrot"
+    ]
+  },
+  {
     "version": "6.8",
     "date": "2026-07-23T15:30:01.875Z",
     "title": "Correction de la taille du champ Glycémie",
