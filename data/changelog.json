@@ -1,5 +1,13 @@
 [
   {
+    "version": "6.4",
+    "date": "2026-07-23T14:58:36.945Z",
+    "title": "Correction : virgule manquante bloquant tout le script",
+    "items": [
+      "Une virgule manquante entre deux champs de la catégorie Hémorragie provoquait une erreur de syntaxe JavaScript, empêchant l'exécution de tout le script de l'application"
+    ]
+  },
+  {
     "version": "6.3",
     "date": "2026-07-23T14:51:21.624Z",
     "title": "Correction : déclaration de suggestionDiv déplacée en haut de la fonction",
