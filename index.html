@@ -2987,10 +2987,11 @@ ${(f.key === 'glasgowM') ? `<div id="glasgow-total-display" style="color:#F5821F
     `;
   }
 
-  return `
+return `
     <div class="bilan-field-row">
       <label>${f.label}${infoBtn}${timerBtn}</label>
-      <input type="${f.type}" data-bilan-field="${f.key}" value="${value}">
+      ${f.slider ? buildPreciseSlider(f.key, f.slider, value) : ''}
+      <input type="${f.type}" data-bilan-field="${f.key}" value="${value}" ${f.slider ? 'style="margin-top:8px;"' : ''}>
       ${suggestionDiv}
     </div>
   `;
