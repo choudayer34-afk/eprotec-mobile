@@ -1,5 +1,13 @@
 [
   {
+    "version": "7.0",
+    "date": "2026-07-23T20:27:19.756Z",
+    "title": "Trois vues pour les Nouveautés : par jour, chronologique, par type",
+    "items": [
+      "L'écran Nouveautés propose désormais 3 modes d'affichage : par jour de détection (Aujourd'hui/Hier), chronologique en liste simple, ou regroupé par type d'activité (DPS, FOR, MAN...)"
+    ]
+  },
+  {
     "version": "6.9",
     "date": "2026-07-23T19:05:58.664Z",
     "title": "Carte des régions du corps + enrichissement du lexique",
