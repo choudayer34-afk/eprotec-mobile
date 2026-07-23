@@ -1,5 +1,14 @@
 {
-  "newEvents": [],
+  "newEvents": [
+    {
+      "tag": "AUTRE",
+      "titre": "[CER 34] Ceremonie depart du Controleur General Flores",
+      "lieu": "PPESU GIGNAC",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1634832",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-08-28T16:30:00.000Z"
+    }
+  ],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
