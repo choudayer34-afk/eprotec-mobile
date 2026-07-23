@@ -1,30 +1,5 @@
 {
-  "newEvents": [
-    {
-      "tag": "FOR",
-      "titre": "[FOR 34] IPS Enfants - Grand public com' partie 1/3",
-      "lieu": "Centre de formation de Beziers",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1634916",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-08-26T08:00:00.000Z"
-    },
-    {
-      "tag": "FOR",
-      "titre": "[FOR 34] IPS Enfants - Grand public com' partie 2/3",
-      "lieu": "Centre de formation de Beziers",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1634916",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-08-27T08:00:00.000Z"
-    },
-    {
-      "tag": "FOR",
-      "titre": "[FOR 34] IPS Enfants - Grand public com' partie 3/3",
-      "lieu": "Centre de formation de Beziers",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1634916",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-08-27T13:00:00.000Z"
-    }
-  ],
+  "newEvents": [],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
