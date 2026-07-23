@@ -1,5 +1,17 @@
 [
   {
+    "version": "6.0",
+    "date": "2026-07-23T14:07:42.869Z",
+    "title": "Corrections d'affichage : bordures, icônes alignées, curseurs manquants",
+    "items": [
+      "Contour visible sur tous les champs de saisie",
+      "Icônes (i) et chrono désormais alignées sur la même ligne que le texte du label",
+      "Bouton (i) ajouté sur Amplitude respiratoire",
+      "Correction d'un bug qui empêchait l'affichage du curseur précis sur la fréquence respiratoire, cardiaque et la température",
+      "Boutons − / + de réglage fin à côté de chaque curseur, pour ajuster d'un cran sans viser le clavier"
+    ]
+  },
+  {
     "version": "5.9",
     "date": "2026-07-23T13:48:47.307Z",
     "title": "Correction : bilan ne s'affichait plus (erreur sur l'âge)",
