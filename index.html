@@ -2330,12 +2330,13 @@ const BACK_BODY_LEGEND = [
   '13 — Mollet', '14 — Talon / cheville (arrière)'
 ];
 
-function showBodyMapModal() {
+function showBodyMapModal(targetSelector) {
   const overlay = document.createElement('div');
   overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;';
   overlay.innerHTML = `
     <div style="background:#163C74;border-radius:16px;padding:16px;width:100%;max-width:440px;max-height:88vh;overflow-y:auto;">
-      <div style="color:#fff;font-size:15px;font-weight:500;margin-bottom:10px;text-align:center;">🗺️ Carte des régions du corps</div>
+      <div style="color:#fff;font-size:15px;font-weight:500;margin-bottom:6px;text-align:center;">🗺️ Carte des régions du corps</div>
+      ${targetSelector ? '<div style="color:#9FB3D6;font-size:12px;margin-bottom:10px;text-align:center;">Tape une région pour la sélectionner</div>' : ''}
       <div style="display:flex;gap:10px;">
         <div style="flex:1;text-align:center;">
           <div style="color:#9FB3D6;font-size:11px;margin-bottom:4px;">Face avant</div>
@@ -2347,14 +2348,29 @@ function showBodyMapModal() {
         </div>
       </div>
       <div style="display:flex;gap:10px;margin-top:12px;">
-        <ul class="reason-list" style="flex:1;color:#fff;font-size:11px;">${FRONT_BODY_LEGEND.map(l => `<li>${l}</li>`).join('')}</ul>
-        <ul class="reason-list" style="flex:1;color:#fff;font-size:11px;">${BACK_BODY_LEGEND.map(l => `<li>${l}</li>`).join('')}</ul>
+        <div style="flex:1;">${FRONT_BODY_LEGEND.map((l, i) => `<div class="bodymap-legend-item" data-region="${l.split('—')[1].trim()}" style="color:#fff;font-size:11px;padding:6px 8px;border-radius:6px;${targetSelector ? 'cursor:pointer;' : ''}" ${targetSelector ? 'data-clickable="1"' : ''}>${l}</div>`).join('')}</div>
+        <div style="flex:1;">${BACK_BODY_LEGEND.map((l, i) => `<div class="bodymap-legend-item" data-region="${l.split('—')[1].trim()}" style="color:#fff;font-size:11px;padding:6px 8px;border-radius:6px;${targetSelector ? 'cursor:pointer;' : ''}" ${targetSelector ? 'data-clickable="1"' : ''}>${l}</div>`).join('')}</div>
       </div>
       <button class="detail-action-btn primary" id="bodymap-close" style="margin-top:14px;">Fermer</button>
     </div>
   `;
   document.body.appendChild(overlay);
   overlay.querySelector('#bodymap-close').addEventListener('click', () => overlay.remove());
+
+  if (targetSelector) {
+    overlay.querySelectorAll('[data-clickable]').forEach(item => {
+      item.addEventListener('click', () => {
+        const field = document.querySelector(targetSelector);
+        if (field) {
+          field.value = item.dataset.region;
+          field.style.height = 'auto';
+          field.style.height = field.scrollHeight + 'px';
+          field.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+        overlay.remove();
+      });
+    });
+  }
 }
 
 function showInfoModal(title, html) {
@@ -2502,6 +2518,7 @@ function goToLvaFiche() { goToGesteFiche('plus-gestes-urgences', 'gestes-urgence
 function goToAvcFiche() { goToGesteFiche('plus-gestes-urgences', 'gestes-urgences-content', ['urgences'], 'avc', true); }
 function goToHypoglycemieFiche() { goToGesteFiche('plus-gestes-malaises', 'gestes-malaises-content', ['malaises'], 'hypoglycemie', true); }
 function goToHyperthermieFiche() { goToGesteFiche('plus-gestes-malaises', 'gestes-malaises-content', ['malaises'], 'hyperthermie', true); }
+  function goToHypothermieFiche() { goToGesteFiche('plus-gestes-malaises', 'gestes-malaises-content', ['malaises'], 'hypothermie', true); }
 function goToConvulsionFiche() { goToGesteFiche('plus-gestes-malaises', 'gestes-malaises-content', ['malaises'], 'convulsion', true); }
 function goToAsthmeFiche() { goToGesteFiche('plus-gestes-malaises', 'gestes-malaises-content', ['malaises'], 'asthme', true); }
 function goToAllergieFiche() { goToGesteFiche('plus-gestes-malaises', 'gestes-malaises-content', ['malaises'], 'allergie', true); }
@@ -2685,9 +2702,12 @@ case 'freqCardiaque': {
         convulsion: ['⚡️ Voir la fiche Crise convulsive', 'goToConvulsionFiche'],
         asthme: ["🌬 Voir la fiche Crise d'asthme", 'goToAsthmeFiche'],
         hyperthermie: ['🌡 Voir la fiche Hyperthermie', 'goToHyperthermieFiche'],
+        hypothermie: ['🥶 Voir la fiche Hypothermie', 'goToHypothermieFiche'],
         malaise: ['😵 Voir la fiche Malaise général', 'goToMalaiseFiche'],
         intoxOH: ['🍷 Voir la fiche Intoxication alcoolique', 'goToIntoxOHFiche'],
-        traumatismes: ['🦴 Voir la fiche Traumatismes', 'goToTraumatismesFiche'],
+       traumatismes: ['🦴 Voir la fiche Traumatismes', 'goToTraumatismesFiche'],
+        traumatismesEntorse: ['🦴 Voir la fiche Traumatismes (Entorse)', 'goToTraumatismesFiche'],
+        traumatismesCranien: ['🦴 Voir la fiche Traumatismes (Trauma crânien)', 'goToTraumatismesFiche'],
         brulures: ['🔥 Voir la fiche Brûlures', 'goToBrulureFiche'],
         plaies: ['🩹 Voir la fiche Plaies', 'goToPlaieFiche']
       };
@@ -2907,9 +2927,12 @@ options: [
 { value: 'convulsion', label: 'Crise convulsive' },
 { value: 'asthme', label: "Crise d'asthme" },
 { value: 'hyperthermie', label: 'Hyperthermie / coup de chaleur' },
+      { value: 'hypothermie', label: 'Hypothermie' },
 { value: 'intoxOH', label: 'Intoxication alcoolique' },
 { type: 'optgroup', label: '🦴 Traumatologie' },
-{ value: 'traumatismes', label: 'Traumatisme / fracture' },
+{ value: 'traumatismes', label: 'Traumatisme de membre' },
+      { value: 'traumatismesEntorse', label: 'Entorse' },
+      { value: 'traumatismesCranien', label: 'Traumatisme crânien' },
 { type: 'optgroup', label: '🩹 Plaies et brûlures' },
 { value: 'plaies', label: 'Plaie' },
 { value: 'brulures', label: 'Brûlure' }
@@ -3097,7 +3120,7 @@ if (f.type === 'age-display') {
     `;
   }
 
-    const mapBtn = f.map ? `<button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;margin-left:6px;" data-bodymap-field="1">🗺️</button>` : '';
+   const mapBtn = f.map ? `<button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;margin-left:6px;" data-bodymap-field="${f.key}">🗺️</button>` : '';
 
   if (f.type === 'text') {
     return `
@@ -3283,7 +3306,7 @@ function buildDouleurCardsHtml() {
         ${bilanData.douleurs.length > 1 ? `<button class="icon-btn" style="width:26px;height:26px;font-size:13px;" data-douleur-remove="${idx}">✕</button>` : ''}
       </div>
 <div class="bilan-field-row">
-        <label>Origine <button class="icon-btn" style="width:22px;height:22px;font-size:11px;" data-info="douleur_origine">i</button></label>
+        <label>Origine <button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;" data-info="douleur_origine">i</button></label>
         <div class="text-field-wrap ${d.origine ? 'has-value' : ''}">
           <textarea rows="1" class="bilan-textarea" data-douleur-field="origine" data-douleur-idx="${idx}">${escapeHtml(d.origine || '')}</textarea>
           <button class="text-clear-btn" type="button">✕</button>
@@ -3297,7 +3320,7 @@ function buildDouleurCardsHtml() {
         </div>
       </div>
       <div class="bilan-field-row">
-        <label>Qualité <button class="icon-btn" style="width:22px;height:22px;font-size:11px;" data-info="douleur_qualite">i</button></label>
+        <label>Qualité <button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;" data-info="douleur_qualite">i</button></label>
         <select data-douleur-select="qualite" data-douleur-idx="${idx}">
           <option value="">—</option>
           ${DOULEUR_QUALITE_OPTIONS.map(o => `<option value="${o}" ${d.qualite === o ? 'selected' : ''}>${o}</option>`).join('')}
@@ -3305,7 +3328,7 @@ function buildDouleurCardsHtml() {
         ${d.qualite === 'Autre' ? `<input type="text" data-douleur-field="qualiteAutre" data-douleur-idx="${idx}" placeholder="Préciser" value="${d.qualiteAutre || ''}" style="margin-top:6px;">` : ''}
       </div>
        <div class="bilan-field-row">
-        <label>Région <button class="icon-btn" style="width:22px;height:22px;font-size:11px;" data-info="douleur_region">i</button> <button class="icon-btn" style="width:22px;height:22px;font-size:11px;" data-bodymap="1">🗺️</button></label>
+       <label>Région <button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;" data-info="douleur_region">i</button> <button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;" data-bodymap-idx="${idx}">🗺️</button></label>
         <div class="text-field-wrap ${d.region ? 'has-value' : ''}">
           <textarea rows="1" class="bilan-textarea" data-douleur-field="region" data-douleur-idx="${idx}">${escapeHtml(d.region || '')}</textarea>
           <button class="text-clear-btn" type="button">✕</button>
@@ -3390,10 +3413,10 @@ function attachDouleurListeners() {
     });
   });
 
-  body.querySelectorAll('[data-bodymap]').forEach(btn => {
+  body.querySelectorAll('[data-bodymap-idx]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
-      showBodyMapModal();
+      showBodyMapModal(`textarea[data-douleur-field="region"][data-douleur-idx="${btn.dataset.bodymapIdx}"]`);
     });
   });
 }
@@ -3792,7 +3815,7 @@ bilanData[key] = bilanData[key] === value ? '' : value;
   container.querySelectorAll('[data-bodymap-field]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
-      showBodyMapModal();
+      showBodyMapModal(`[data-bilan-field="${btn.dataset.bodymapField}"]`);
     });
   });
 
@@ -4870,6 +4893,46 @@ const GESTES_DATA = [
       }
     ]
   },
+{
+    key: 'hypothermie',
+    title: '🥶 Hypothermie',
+    summary: [
+      "Température corporelle en dessous de 35°C",
+      "Légère (32-35°C) : frissons. Modérée (28-32°C) : confusion. Sévère (<28°C) : risque vital",
+      "Manipuler avec grande douceur — risque de trouble du rythme cardiaque",
+      "Réchauffement progressif, jamais d'alcool, alerter le 15 dès forme modérée/sévère"
+    ],
+    sections: [
+      {
+        title: 'Reconnaissance et stades',
+        items: [
+          "Hypothermie : température corporelle en dessous de 35°C",
+          "Légère (32-35°C) : frissons, extrémités froides",
+          "Modérée (28-32°C) : confusion, troubles de la coordination",
+          "Sévère (moins de 28°C) : risque vital, arrêt cardiaque possible"
+        ]
+      },
+      {
+        title: 'Conduite à tenir',
+        items: [
+          "Isoler du froid, mettre dans un endroit chaud si possible",
+          "Retirer doucement les vêtements mouillés, gants, bagues, chaussures",
+          "Rhabiller avec des vêtements amples, secs et chauds si possible (couvertures)",
+          "Donner à boire de l'eau tiède par petites gorgées, uniquement si consciente et ne vomit pas — jamais d'alcool",
+          "Toute mobilisation doit être extrêmement prudente : risque de trouble du rythme cardiaque",
+          "Alerter le 15, transmettre le bilan, évacuation à organiser"
+        ]
+      },
+      {
+        title: 'Points de vigilance importants',
+        items: [
+          "La recherche de la respiration ou du pouls est difficile chez une victime hypotherme — prendre plus de temps que d'habitude pour vérifier avant de conclure à un arrêt",
+          "Un cœur hypotherme peut ne pas répondre à la défibrillation",
+          "Ne débuter la RCP que si les conditions de sécurité et de stabilité le permettent"
+        ]
+      }
+    ]
+  },
   {
     key: 'hyperthermie',
     title: '🌡 Hyperthermie / Coup de chaleur',
@@ -5793,7 +5856,7 @@ function renderLexique(filter = '') {
 document.getElementById('lexique-search').addEventListener('input', (e) => {
   renderLexique(e.target.value);
 });
-document.getElementById('lexique-bodymap-btn').addEventListener('click', showBodyMapModal);
+document.getElementById('lexique-bodymap-btn').addEventListener('click', () => showBodyMapModal());
 
 
 const GESTE_CATEGORIES_MAP = {
@@ -5813,6 +5876,7 @@ const GESTE_CATEGORIES_MAP = {
   allergie: 'malaises',
   oxygenotherapie: 'malaises',
   hyperthermie: 'malaises',
+  hypothermie: 'malaises',
   douleurthoracique: 'malaises',
   traumatismes: 'trauma',
   echarpe: 'trauma',
