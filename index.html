@@ -4105,11 +4105,7 @@ function renderBilanFill() {
     bilanData.dateHeureOuverture = new Date().toISOString();
     saveBilanData();
   }
-
   const container = document.getElementById('bilan-content');
-  container.innerHTML = `
-    <div class="card" style="text-align:center;padding:10px;">
-      const container = document.getElementById('bilan-content');
   container.innerHTML = `
     <div class="card" style="text-align:center;padding:10px;">
       <span style="color:#9FB3D6;font-size:12px;">Bilan ouvert à ${formatDateHeureCourte(bilanData.dateHeureOuverture)}</span>
