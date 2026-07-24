@@ -1,5 +1,13 @@
 [
   {
+    "version": "9.7",
+    "date": "2026-07-24T14:29:42.800Z",
+    "title": "Nouvel écran \"À propos\"",
+    "items": [
+      "Nouvelle tuile Plus → À propos : présentation concise de l'app en quelques lignes (suggestions, Secourisme, Autodéfense, Prêt à partir), date de dernière mise à jour et numéro de version"
+    ]
+  },
+  {
     "version": "9.6",
     "date": "2026-07-24T14:22:33.930Z",
     "title": "Nouveau module \"Prêt à partir\" : guide + checklist réinitialisable",
