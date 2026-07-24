@@ -461,8 +461,14 @@
         <div class="tile-icon">📊</div>
         <div class="tile-title">Rapport</div>
       </div>
-<div class="tile" data-open="plus-secourisme">
-        <div class="tile-icon">🚨</div>
+<div class="tile" data-open="plus-secourisme"><div class="tile" data-open="plus-secourisme">
+        <div class="tile-icon">🆘</div>
+        <div class="tile-title">Secourisme</div>
+      </div>
+      <div class="tile" data-open="plus-autodefense">
+        <div class="tile-icon">🥋</div>
+        <div class="tile-title">Autodéfense</div>
+      </div>        <div class="tile-icon">🚨</div>
         <div class="tile-title">Secourisme</div>
       </div>
 <div class="tile" data-open="plus-parametres">
@@ -696,6 +702,78 @@
       <input type="text" id="secourisme-search" placeholder="Ex : garrot, AVC, aspirateur...">
     </div>
     <div id="secourisme-search-results"></div>
+  </section>
+
+<section id="plus-autodefense">
+    <div class="detail-header">
+      <button class="plus-back">‹</button>
+      <span>Autodéfense</span>
+    </div>
+    <div style="background:#3A2A0E;color:#FAC775;font-size:12px;padding:10px 12px;border-radius:8px;margin-bottom:14px;">
+      Ces fiches sont un pense-bête pour quelqu'un déjà formé — elles ne remplacent pas une vraie pratique encadrée par un instructeur.
+    </div>
+    <div class="tile-grid">
+      <div class="tile" data-open="plus-autodef-prevention">
+        <div class="tile-icon">👁</div>
+        <div class="tile-title">Prévention</div>
+      </div>
+      <div class="tile" data-open="plus-autodef-saisies">
+        <div class="tile-icon">✋</div>
+        <div class="tile-title">Dégagements de saisies</div>
+      </div>
+      <div class="tile" data-open="plus-autodef-etranglements">
+        <div class="tile-icon">🫁</div>
+        <div class="tile-title">Étranglements</div>
+      </div>
+      <div class="tile" data-open="plus-autodef-parades">
+        <div class="tile-icon">🥊</div>
+        <div class="tile-title">Parades de coups</div>
+      </div>
+      <div class="tile span-2" data-open="plus-autodef-sol">
+        <div class="tile-icon">🧍</div>
+        <div class="tile-title">Techniques au sol</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="plus-autodef-prevention">
+    <div class="detail-header">
+      <button class="plus-back" data-target="plus-autodefense">‹</button>
+      <span>Prévention</span>
+    </div>
+    <div id="autodef-prevention-content"><div class="empty">Chargement...</div></div>
+  </section>
+
+  <section id="plus-autodef-saisies">
+    <div class="detail-header">
+      <button class="plus-back" data-target="plus-autodefense">‹</button>
+      <span>Dégagements de saisies</span>
+    </div>
+    <div id="autodef-saisies-content"><div class="empty">Chargement...</div></div>
+  </section>
+
+  <section id="plus-autodef-etranglements">
+    <div class="detail-header">
+      <button class="plus-back" data-target="plus-autodefense">‹</button>
+      <span>Étranglements</span>
+    </div>
+    <div id="autodef-etranglements-content"><div class="empty">Chargement...</div></div>
+  </section>
+
+  <section id="plus-autodef-parades">
+    <div class="detail-header">
+      <button class="plus-back" data-target="plus-autodefense">‹</button>
+      <span>Parades de coups</span>
+    </div>
+    <div id="autodef-parades-content"><div class="empty">Chargement...</div></div>
+  </section>
+
+  <section id="plus-autodef-sol">
+    <div class="detail-header">
+      <button class="plus-back" data-target="plus-autodefense">‹</button>
+      <span>Techniques au sol</span>
+    </div>
+    <div id="autodef-sol-content"><div class="empty">Chargement...</div></div>
   </section>
 
   <section id="plus-lexique">
@@ -1270,7 +1348,12 @@ if (subId === 'plus-parametres') renderParametres();
   if (subId === 'plus-psychologie') renderGestesList('psychologie-content', ['psychologie']);
 if (subId === 'plus-materiel') renderGestesList('materiel-content', ['materiel']);
 if (subId === 'plus-novi') renderGestesList('novi-content', ['novi']);
-  if (subId === 'plus-pediatrie') renderGestesList('pediatrie-content', ['pediatrie']);
+if (subId === 'plus-pediatrie') renderGestesList('pediatrie-content', ['pediatrie']);
+  if (subId === 'plus-autodef-prevention') renderGestesList('autodef-prevention-content', ['prevention']);
+  if (subId === 'plus-autodef-saisies') renderGestesList('autodef-saisies-content', ['saisies']);
+  if (subId === 'plus-autodef-etranglements') renderGestesList('autodef-etranglements-content', ['etranglements']);
+  if (subId === 'plus-autodef-parades') renderGestesList('autodef-parades-content', ['parades']);
+  if (subId === 'plus-autodef-sol') renderGestesList('autodef-sol-content', ['sol']);
   if (subId === 'plus-lexique') renderLexique();
 }
 
@@ -4653,6 +4736,45 @@ const GESTES_DATA = [
     ]
   },
 {
+    key: 'poignet1main',
+    title: '✋ Dégagement de saisie du poignet à une main',
+    summary: [
+      "Deux méthodes possibles selon la situation",
+      "Méthode 1 — Rotation : tourner le poignet vers le pouce de l'agresseur, point le plus faible de la prise",
+      "Méthode 2 — Traction sèche : tirer d'un geste bref et puissant vers l'espace entre le pouce et l'index",
+      "Après dégagement : se mettre en position de garde, à distance"
+    ],
+    sections: [
+      {
+        title: 'Méthode 1 — Rotation vers le pouce',
+        image: 'autodefense-poignet-1main-rotation.png',
+        items: [
+          "L'agresseur saisit le poignet avec une seule main",
+          "Tourner le poignet vers le pouce de l'agresseur — c'est le point le plus faible de sa prise",
+          "Tirer le bras vers soi en accentuant la rotation, jusqu'à ce que la prise cède",
+          "Se mettre en position de garde, à distance"
+        ]
+      },
+      {
+        title: 'Méthode 2 — Traction sèche vers le point faible',
+        image: 'autodefense-poignet-1main-traction.png',
+        items: [
+          "L'agresseur saisit le poignet avec une seule main",
+          "Repérer le point faible de toute prise à une main : l'espace entre le pouce et l'index",
+          "Tirer sèchement le bras, d'un geste bref et puissant (pas une rotation large), en ligne quasiment droite vers ce point",
+          "Se mettre en position de garde, à distance"
+        ]
+      },
+      {
+        title: 'Rappel important',
+        items: [
+          "Ce sont deux options — utiliser celle qui vient le plus naturellement selon l'angle de la prise",
+          "Ceci est un pense-bête pour une pratique déjà acquise, pas un substitut à un entraînement encadré"
+        ]
+      }
+    ]
+  },
+  {
     key: 'traductions',
     title: '🗣️ Traductions utiles',
     summary: [
@@ -6298,7 +6420,8 @@ const GESTE_CATEGORIES_MAP = {
   pls: 'urgences',
  pfsmu: 'psychologie',
   impliques: 'psychologie',
-  traductions: 'psychologie',
+traductions: 'psychologie',
+  poignet1main: 'saisies',
   palpation: 'trauma',
   malaise: 'malaises',
   intoxOH: 'malaises',
@@ -6354,7 +6477,7 @@ container.innerHTML = filtered.map(geste => `
             ${geste.sections.map(sec => `
               <div style="margin-top:14px;">
                 <div style="color:#F5821F;font-size:13px;font-weight:500;margin-bottom:6px;">${sec.title}</div>
-                ${sec.illustration ? GESTE_ILLUSTRATIONS[sec.illustration] : ''}
+                ${sec.illustration ? GESTE_ILLUSTRATIONS[sec.illustration] : ''}${sec.image ? `<img src="data/${sec.image}" style="width:100%;border-radius:8px;margin:8px 0;display:block;" alt="${sec.title}">` : ''}
                 ${sec.customHtml ? sec.customHtml : `
                 <ul class="reason-list" style="color:#fff;">
                   ${sec.items.map(i => `<li style="margin-bottom:4px;">${i}</li>`).join('')}
