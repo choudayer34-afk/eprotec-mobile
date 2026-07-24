@@ -877,72 +877,6 @@
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1628563"
   },
   {
-    "uid": "evt15588751@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] Fete du Cres",
-    "lieu": "Rue des Aiguerelles 34920 Le Cres",
-    "dateDebut": "2026-08-16T09:00:00.000Z",
-    "dateFin": "2026-08-16T11:00:00.000Z",
-    "description": "11h-12h : Roussatiao / abrevado longue CHATEAU D'EAU , TRAMONTANE, AIGUERELLES, ROSIERS ET ROBERT 12h-13h : 2 vaches 1 veau Arenes <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1558875'>Lien vers l'activité</a>",
-    "tag": "DPS",
-    "score": 11,
-    "reasons": [
-      {
-        "text": "Mois sans DPS planifié",
-        "category": "positive"
-      },
-      {
-        "text": "Jour : Dimanche (+2)",
-        "category": "positive"
-      },
-      {
-        "text": "Durée raisonnable",
-        "category": "positive"
-      },
-      {
-        "text": "Très proche (9.4 km)",
-        "category": "positive"
-      },
-      {
-        "text": "Espacement confortable (24 jours)",
-        "category": "positive"
-      }
-    ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1558875"
-  },
-  {
-    "uid": "evt16279231@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] Fete de Lattes",
-    "lieu": "Lattes",
-    "dateDebut": "2026-08-23T14:30:00.000Z",
-    "dateFin": "2026-08-23T21:30:00.000Z",
-    "description": "Stand de prev 2 IS + 4IS<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627923'>Lien vers l'activité</a>",
-    "tag": "DPS",
-    "score": 11,
-    "reasons": [
-      {
-        "text": "Mois sans DPS planifié",
-        "category": "positive"
-      },
-      {
-        "text": "Jour : Dimanche (+2)",
-        "category": "positive"
-      },
-      {
-        "text": "Durée raisonnable",
-        "category": "positive"
-      },
-      {
-        "text": "Très proche (0.2 km)",
-        "category": "positive"
-      },
-      {
-        "text": "Espacement confortable (19 jours)",
-        "category": "positive"
-      }
-    ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1627923"
-  },
-  {
     "uid": "evt16204881@https://eprotec.protection-civile.org",
     "titre": "[DPS 34] Run & Trail",
     "lieu": "515 Avenue de la Monnaie, 34170 Castelnau-le-Lez, France",
@@ -1040,5 +974,71 @@
       }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1628928"
+  },
+  {
+    "uid": "evt15588761@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] Fete du Cres",
+    "lieu": "Rue des Aiguerelles 34920 Le Cres",
+    "dateDebut": "2026-08-17T10:00:00.000Z",
+    "dateFin": "2026-08-17T11:00:00.000Z",
+    "description": "12h-13h : 2 vaches 1 veau Arenes <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1558876'>Lien vers l'activité</a>",
+    "tag": "DPS",
+    "score": 9,
+    "reasons": [
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour : Lundi (+0)",
+        "category": "neutral"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (9.4 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (25 jours)",
+        "category": "positive"
+      }
+    ],
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1558876"
+  },
+  {
+    "uid": "evt15588771@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] Fete du Cres",
+    "lieu": "Rue des Aiguerelles 34920 Le Cres",
+    "dateDebut": "2026-08-18T10:00:00.000Z",
+    "dateFin": "2026-08-18T11:00:00.000Z",
+    "description": "12h-13h : 2 vaches 1 veau Arenes <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1558877'>Lien vers l'activité</a>",
+    "tag": "DPS",
+    "score": 9,
+    "reasons": [
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour : Mardi (+0)",
+        "category": "neutral"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (9.4 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (24 jours)",
+        "category": "positive"
+      }
+    ],
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1558877"
   }
 ]
