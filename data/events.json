@@ -1,5 +1,19 @@
 [
   {
+    "uid": "evt16357111@https://eprotec.protection-civile.org",
+    "tag": "AIP",
+    "titre": "[AIP 34] Renfort Engagement FDF Gironde",
+    "lieu": "Bordeaux",
+    "dateDebut": "2026-07-24T21:00:00.000Z",
+    "dateFin": "2026-07-26T19:00:00.000Z",
+    "dureeHeures": 46,
+    "dejaInscrit": false,
+    "nouveau": true,
+    "nouveauDepuis": "2026-07-24T23:02:20.323Z",
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1635711",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1635711'>Lien vers l'activité</a>"
+  },
+  {
     "uid": "evt16053611@https://eprotec.protection-civile.org",
     "tag": "DPS",
     "titre": "[DPS 34] Fete de Bedarieux",
@@ -82,6 +96,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1578633",
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1578633'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16357071@https://eprotec.protection-civile.org",
+    "tag": "AIP",
+    "titre": "[AIP 34] ALERTE ROUGE - RENFORT INCENDIE GIRONDE",
+    "lieu": "Phaenda Korth Boxing Gym - Rue de la Verrerie 3338",
+    "dateDebut": "2026-07-24T23:00:00.000Z",
+    "dateFin": "2026-07-25T19:00:00.000Z",
+    "dureeHeures": 20,
+    "dejaInscrit": false,
+    "nouveau": true,
+    "nouveauDepuis": "2026-07-24T23:02:20.323Z",
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1635707",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1635707'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16011251@https://eprotec.protection-civile.org",

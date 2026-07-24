@@ -1,5 +1,22 @@
 {
-  "newEvents": [],
+  "newEvents": [
+    {
+      "tag": "AIP",
+      "titre": "[AIP 34] Renfort Engagement FDF Gironde",
+      "lieu": "Bordeaux",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1635711",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-07-24T21:00:00.000Z"
+    },
+    {
+      "tag": "AIP",
+      "titre": "[AIP 34] ALERTE ROUGE - RENFORT INCENDIE GIRONDE",
+      "lieu": "Phaenda Korth Boxing Gym - Rue de la Verrerie 3338",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1635707",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-07-24T23:00:00.000Z"
+    }
+  ],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
