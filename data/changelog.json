@@ -1,5 +1,13 @@
 [
   {
+    "version": "9.8",
+    "date": "2026-07-24T14:47:15.687Z",
+    "title": "Slogan et bénéfices concrets sur l'écran À propos",
+    "items": [
+      "Ajout d'un slogan visible (\"Prêt à agir. Prêt à aider. Prêt à partir.\") et d'un résumé en 5 points des bénéfices concrets de l'application"
+    ]
+  },
+  {
     "version": "9.7",
     "date": "2026-07-24T14:29:42.800Z",
     "title": "Nouvel écran \"À propos\"",
