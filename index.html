@@ -2472,6 +2472,31 @@ const BACK_BODY_LEGEND = [
     { fr: "Une ambulance arrive pour vous emmener.", en: "An ambulance is coming to take you.", es: "Una ambulancia está en camino para llevarle.", ar: "سيارة إسعاف قادمة لنقلك." },
     { fr: "Ne vous inquiétez pas, c'est une précaution.", en: "Don't worry, this is just a precaution.", es: "No se preocupe, es solo una precaución.", ar: "لا تقلق، هذا مجرد إجراء احترازي." }
   ],
+  avc: [
+    { fr: "Souriez, s'il vous plaît, je veux voir votre visage.", en: "Please smile, I want to see your face.", es: "Sonría, por favor, quiero ver su cara.", ar: "ابتسم من فضلك، أريد أن أرى وجهك." },
+    { fr: "Levez les deux bras devant vous et gardez-les en l'air.", en: "Raise both arms in front of you and keep them up.", es: "Levante los dos brazos delante de usted y manténgalos en alto.", ar: "ارفع ذراعيك أمامك وأبقهما مرتفعتين." },
+    { fr: "Répétez cette phrase après moi.", en: "Repeat this sentence after me.", es: "Repita esta frase después de mí.", ar: "كرر هذه الجملة بعدي." },
+    { fr: "Depuis quand ressentez-vous ces symptômes ?", en: "Since when have you had these symptoms?", es: "¿Desde cuándo tiene estos síntomas?", ar: "منذ متى وأنت تعاني من هذه الأعراض؟" }
+  ],
+  positions: [
+    { fr: "Asseyez-vous, s'il vous plaît.", en: "Please sit down.", es: "Siéntese, por favor.", ar: "اجلس من فضلك." },
+    { fr: "Mettez-vous en position demi-assise.", en: "Sit in a half-upright position.", es: "Póngase en posición semisentada.", ar: "اجلس بوضعية نصف مستقيمة." },
+    { fr: "Allongez-vous, s'il vous plaît.", en: "Please lie down.", es: "Túmbese, por favor.", ar: "استلقِ من فضلك." },
+    { fr: "Fermez les yeux.", en: "Close your eyes.", es: "Cierre los ojos.", ar: "أغلق عينيك." },
+    { fr: "Respirez normalement.", en: "Breathe normally.", es: "Respire con normalidad.", ar: "تنفس بشكل طبيعي." },
+    { fr: "Respirez profondément.", en: "Breathe deeply.", es: "Respire profundamente.", ar: "تنفس بعمق." },
+    { fr: "Remontez vos genoux vers vos fesses.", en: "Bring your knees up towards your bottom.", es: "Suba las rodillas hacia los glúteos.", ar: "اسحب ركبتيك نحو مؤخرتك." },
+    { fr: "Tournez-vous sur le côté droit.", en: "Turn onto your right side.", es: "Gírese hacia el lado derecho.", ar: "استدر إلى جانبك الأيمن." },
+    { fr: "Tournez-vous sur le côté gauche.", en: "Turn onto your left side.", es: "Gírese hacia el lado izquierdo.", ar: "استدر إلى جانبك الأيسر." },
+    { fr: "Levez-vous doucement.", en: "Stand up slowly.", es: "Levántese despacio.", ar: "انهض ببطء." },
+    { fr: "Asseyez-vous sur la chaise.", en: "Sit down on the chair.", es: "Siéntese en la silla.", ar: "اجلس على الكرسي." },
+    { fr: "Asseyez-vous au sol, dos contre le mur.", en: "Sit on the ground, back against the wall.", es: "Siéntese en el suelo, con la espalda contra la pared.", ar: "اجلس على الأرض، ظهرك إلى الحائط." },
+    { fr: "Je vais maintenir votre tête, ne bougez pas.", en: "I am going to hold your head, do not move.", es: "Voy a sujetar su cabeza, no se mueva.", ar: "سأثبت رأسك، لا تتحرك." },
+    { fr: "Ne vous inquiétez pas, tout va bien se passer.", en: "Don't worry, everything is going to be fine.", es: "No se preocupe, todo va a salir bien.", ar: "لا تقلق، كل شيء سيكون على ما يرام." },
+    { fr: "Faites-moi confiance.", en: "Trust me.", es: "Confíe en mí.", ar: "ثق بي." },
+    { fr: "Encore un instant, c'est presque terminé.", en: "Just a moment more, it's almost done.", es: "Un momento más, casi termina.", ar: "لحظة أخرى فقط، أوشكنا على الانتهاء." },
+    { fr: "Vous pouvez vous détendre.", en: "You can relax now.", es: "Puede relajarse.", ar: "يمكنك أن ترتاح الآن." }
+  ],
   impliques: [
     { fr: "Restez avec moi, tout va bien se passer.", en: "Stay with me, everything is going to be fine.", es: "Quédese conmigo, todo va a salir bien.", ar: "ابقَ معي، كل شيء سيكون على ما يرام." },
     { fr: "Les secours s'occupent bien de votre proche.", en: "The emergency team is taking good care of your loved one.", es: "El equipo de emergencia está cuidando bien a su ser querido.", ar: "فريق الطوارئ يعتني جيداً بشخصك العزيز." },
@@ -2484,8 +2509,52 @@ const PHRASE_CATEGORY_LABELS = {
   temperature: 'Température', trc: 'TRC', glycemie: 'Glycémie', saturometre: 'Saturomètre',
   ecg: 'ECG', douleur: 'Douleur', antecedents: 'Antécédents / bilan complémentaire',
   traumatisme: 'Traumatisme', malaise: 'Malaise', plaiesBrulures: 'Plaies et brûlures',
-  evacuation: 'Évacuation', impliques: 'Impliqués / proches'
+  evacuation: 'Évacuation', impliques: 'Impliqués / proches', pupilles: 'Pupilles',
+  avc: 'Suspicion AVC', positions: 'Positions et consignes'
 };
+
+function renderPhraseGlossary(query) {
+  const container = document.getElementById('phrase-glossary-results');
+  if (!container) return;
+  const q = normalizeText(query);
+  if (!q) { container.innerHTML = ''; return; }
+  const results = [];
+  Object.keys(PHRASES_DATA).forEach(catKey => {
+    PHRASES_DATA[catKey].forEach(p => {
+      if (normalizeText(p.fr).includes(q)) results.push({ cat: catKey, phrase: p });
+    });
+  });
+  container.innerHTML = results.length === 0
+    ? '<div class="empty">Aucune phrase ne correspond.</div>'
+    : results.map(r => `
+      <div class="card" style="margin-bottom:8px;">
+        <div class="tag-badge" style="margin-bottom:6px;">${PHRASE_CATEGORY_LABELS[r.cat] || r.cat}</div>
+        <div style="color:#fff;font-size:14px;margin-bottom:6px;">${r.phrase.fr}</div>
+        <div style="color:#9FB3D6;font-size:12px;">EN : ${r.phrase.en}</div>
+        <div style="color:#9FB3D6;font-size:12px;">ES : ${r.phrase.es}</div>
+        <div style="color:#9FB3D6;font-size:12px;direction:rtl;text-align:right;">AR : ${r.phrase.ar}</div>
+      </div>
+    `).join('');
+}
+
+function showPhraseGlossaryModal() {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;display:flex;align-items:center;justify-content:center;padding:14px;';
+  overlay.innerHTML = `
+    <div style="background:#163C74;border-radius:16px;padding:16px;width:100%;max-width:460px;max-height:88vh;overflow-y:auto;">
+      <div style="color:#fff;font-size:15px;font-weight:500;margin-bottom:10px;text-align:center;">📖 Glossaire de phrases</div>
+      <div class="search-box">
+        <span>🔍</span>
+        <input type="text" id="phrase-glossary-search" placeholder="Rechercher en français...">
+      </div>
+      <div id="phrase-glossary-results"></div>
+      <button class="detail-action-btn primary" id="glossary-close" style="margin-top:12px;">Fermer</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.querySelector('#glossary-close').addEventListener('click', () => overlay.remove());
+  overlay.querySelector('#phrase-glossary-search').addEventListener('input', (e) => renderPhraseGlossary(e.target.value));
+}
 
 let phraseCurrentLang = 'en';
 
@@ -2654,6 +2723,9 @@ bc_signes: { title: 'Signes', html: `<p>Ce que tu observes toi-même : sueurs, p
     title: 'Régularité du pouls',
     html: `<p><b>Régulier</b> — intervalles constants entre les battements</p><p style="margin-top:8px;"><b>Irrégulier</b> — intervalles variables, peut évoquer un trouble du rythme</p>`
   },
+  avc_face: { title: 'Face', html: `<p>Demandez-lui de sourire.</p><p style="margin-top:8px;">La bouche est-elle asymétrique ? Un côté tombe-t-il ?</p>` },
+  avc_arm: { title: 'Arm', html: `<p>Demandez-lui de lever les deux bras devant elle, en même temps.</p><p style="margin-top:8px;">Un bras retombe-t-il, ou reste-t-il plus bas que l'autre ?</p>` },
+  avc_speech: { title: 'Speech', html: `<p>Demandez-lui de répéter une phrase simple.</p><p style="margin-top:8px;">La parole est-elle confuse, hésitante, ou incompréhensible ?</p>` },
   pupilles: {
     title: 'Pupilles',
     html: `<p><b>Normales</b> — taille égale des deux côtés, réactives à la lumière</p>
@@ -2668,6 +2740,10 @@ bc_signes: { title: 'Signes', html: `<p>Ce que tu observes toi-même : sueurs, p
   douleur_qualite: {
     title: 'Qualité de la douleur — exemples',
     html: `<p>Brûlure</p><p style="margin-top:6px;">Piqûre</p><p style="margin-top:6px;">Crampe</p><p style="margin-top:6px;">Pesanteur</p><p style="margin-top:6px;">Décharge électrique</p><p style="margin-top:6px;">En étau, qui serre</p>`
+  },
+  douleur_provoque: {
+    title: 'Provoqué par — exemples',
+    html: `<p>Un effort, un mouvement précis</p><p style="margin-top:6px;">La respiration, la toux</p><p style="margin-top:6px;">La position (allongé, assis, debout)</p><p style="margin-top:6px;">La pression sur la zone</p>`
   },
   douleur_region: {
     title: 'Région — comment décrire',
@@ -3110,7 +3186,7 @@ function formatDateHeureCourte(iso) {
 
 
   const BILAN_CATEGORIES = [
-  { key: 'identite', label: '🪪 Identité', fields: [
+  { key: 'identite', label: '🪪 Identité', phraseCategory: 'accueil', fields: [
     { key: 'nom', label: 'Nom', type: 'text' },
     { key: 'prenom', label: 'Prénom', type: 'text' },
     { key: 'dateNaissance', label: 'Date de naissance', type: 'date' },
@@ -3195,10 +3271,10 @@ options: [
     { key: 'glycemie', label: 'Glycémie', type: 'glycemie', info: 'glycemie' }
   ]},
  { key: 'avc', label: '🧠 Suspicion AVC (F.A.S.T.)', fields: [
-    { key: 'avcFace', label: 'Face — Demandez-lui de sourire : la bouche est-elle asymétrique ?', type: 'chip', options: ['Non', 'Oui'] },
-    { key: 'avcArm', label: 'Arm — Demandez-lui de lever les deux bras : un bras retombe-t-il ?', type: 'chip', options: ['Non', 'Oui'] },
-    { key: 'avcSpeech', label: 'Speech — Demandez-lui de répéter une phrase simple : la parole est-elle confuse ?', type: 'chip', options: ['Non', 'Oui'] },
-    { key: 'avcTimeOnset', label: 'Time — Heure d\'apparition des signes', type: 'time' },
+  { key: 'avcFace', label: 'Face', type: 'chip', options: ['Non', 'Oui'], info: 'avc_face', phrase: 'avc' },
+    { key: 'avcArm', label: 'Arm', type: 'chip', options: ['Non', 'Oui'], info: 'avc_arm', phrase: 'avc' },
+    { key: 'avcSpeech', label: 'Speech', type: 'chip', options: ['Non', 'Oui'], info: 'avc_speech', phrase: 'avc' },
+    { key: 'avcTimeOnset', label: 'Time — Heure d\'apparition', type: 'time', phrase: 'avc' },
     { key: 'avcAction', label: 'Action réalisée', type: 'text' }
   ]},
 { key: 'e', label: '🌡 E — Environnement', phraseCategory: 'temperature', fields: [
@@ -3211,7 +3287,7 @@ options: [
     { key: 'medicaments', label: 'Médicaments', type: 'text', info: 'bc_medicaments' },
     { key: 'passeMedical', label: 'Passé médical', type: 'text', info: 'bc_passeMedical' },
     { key: 'dernierRepas', label: 'Dernier repas', type: 'text', info: 'bc_dernierRepas' },
-    { key: 'evenements', label: 'Évènements', type: 'text', info: 'bc_evenements' },
+    { key: 'evenements', label: 'Évènements', type: 'text', info: 'bc_evenements', phrase: 'accueil' },
     { key: 'risque', label: 'Risque', type: 'text', info: 'bc_risque' }
   ]}
 ];
@@ -3335,10 +3411,10 @@ if (f.type === 'age-display') {
    const mapBtn = f.map ? `<button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;margin-left:6px;" data-bodymap-field="${f.key}">🗺️</button>` : '';
 
   if (f.type === 'text') {
+    const phraseBtnText = f.phrase ? `<button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;margin-left:6px;" onclick="showPhraseModal('${f.phrase}')">🗣️</button>` : '';
     return `
       <div class="bilan-field-row">
-        <label>${f.label}${infoBtn}${mapBtn}</label>
-
+        <label>${f.label}${infoBtn}${phraseBtnText}</label>
         <div class="text-field-wrap ${value ? 'has-value' : ''}">
           <textarea rows="1" class="bilan-textarea" data-bilan-field="${f.key}">${escapeHtml(value)}</textarea>
           <button class="text-clear-btn" type="button">✕</button>
@@ -3347,7 +3423,6 @@ if (f.type === 'age-display') {
       </div>
     `;
   }
-
  if (f.type === 'date') {
     return `
       <div class="bilan-field-row">
@@ -3358,10 +3433,14 @@ if (f.type === 'age-display') {
   }
 
   if (f.type === 'time') {
+    const phraseBtnTime = f.phrase ? `<button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;margin-left:6px;" onclick="showPhraseModal('${f.phrase}')">🗣️</button>` : '';
     return `
       <div class="bilan-field-row">
-        <label>${f.label}</label>
-        <input type="time" data-bilan-field="${f.key}" id="avc-time-input" value="${value}">
+        <label>${f.label}${infoBtn}${phraseBtnTime}</label>
+        <div style="display:flex;gap:6px;">
+          <input type="time" data-bilan-field="${f.key}" id="avc-time-input" value="${value}" style="flex:1;">
+          <button class="icon-btn" id="avc-time-clear" style="width:44px;flex-shrink:0;">✕</button>
+        </div>
         <div id="avc-duration-display" style="color:#F5821F;font-size:12px;margin-top:6px;"></div>
       </div>
     `;
@@ -3425,10 +3504,9 @@ if (f.type === 'glycemie') {
     const gval = bilanData.glycemie || '';
     const unite = bilanData.glycemieUnite || 'g/L';
     const sliderCfg = getGlycemieSliderConfig(unite);
-    return `
+return `
       <div class="bilan-field-row">
-        <label>${f.label}${infoBtn}</label>
-        <button class="detail-action-btn" style="margin-bottom:8px;" onclick="showPhraseModal('glycemie')">🗣️ Phrases utiles</button>
+        <label>${f.label}${infoBtn}<button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;margin-left:6px;" onclick="showPhraseModal('glycemie')">🗣️</button></label>
         ${buildPreciseSlider('glycemie', sliderCfg, gval)}
 <div style="display:flex;gap:8px;margin-top:8px;">
           <input type="number" step="0.01" data-bilan-field="glycemie" id="glycemie-input" value="${gval}" style="flex:1 1 0%; min-width:0;">
@@ -3442,12 +3520,11 @@ if (f.type === 'glycemie') {
     `;
   }
 
-  if (f.type === 'chip') {
-    const phraseBtn = f.phrase ? `<button class="detail-action-btn" style="margin-bottom:8px;" onclick="showPhraseModal('${f.phrase}')">🗣️ Phrases utiles</button>` : '';
+if (f.type === 'chip') {
+    const phraseBtn = f.phrase ? `<button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;margin-left:6px;" onclick="showPhraseModal('${f.phrase}')">🗣️</button>` : '';
     return `
       <div class="bilan-field-row">
-        <label>${f.label}${infoBtn}</label>
-        ${phraseBtn}
+        <label>${f.label}${infoBtn}${phraseBtn}</label>
         <div class="bilan-chip-row">
 ${f.options.map(o => `<button class="bilan-chip ${value === o ? 'active' : ''}" data-bilan-chip="${f.key}" data-value="${o}">${o}</button>`).join('')}
         </div>
@@ -3528,23 +3605,23 @@ function buildDouleurCardsHtml() {
       <div class="card-top-row" style="margin-bottom:8px;">
         <span class="tag-badge">Douleur ${idx + 1}</span>
         ${bilanData.douleurs.length > 1 ? `<button class="icon-btn" style="width:26px;height:26px;font-size:13px;" data-douleur-remove="${idx}">✕</button>` : ''}
-</div>
+</div>  
       <button class="detail-action-btn" style="margin-bottom:10px;" onclick="showPhraseModal('douleur')">🗣️ Phrases utiles</button>
       <div class="bilan-field-row">
-        <label>Origine <button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;" data-info="douleur_origine">i</button></label>        <div class="text-field-wrap ${d.origine ? 'has-value' : ''}">
+        <label>Origine <button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;" data-info="douleur_origine">i</button> <button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;" onclick="showPhraseModal('douleur')">🗣️</button></label>
           <textarea rows="1" class="bilan-textarea" data-douleur-field="origine" data-douleur-idx="${idx}">${escapeHtml(d.origine || '')}</textarea>
           <button class="text-clear-btn" type="button">✕</button>
         </div>
       </div>
       <div class="bilan-field-row">
-        <label>Provoqué par</label>
+        <label>Provoqué par <button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;" data-info="douleur_provoque">i</button> <button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;" onclick="showPhraseModal('douleur')">🗣️</button></label>
         <div class="text-field-wrap ${d.provoquePar ? 'has-value' : ''}">
           <textarea rows="1" class="bilan-textarea" data-douleur-field="provoquePar" data-douleur-idx="${idx}">${escapeHtml(d.provoquePar || '')}</textarea>
           <button class="text-clear-btn" type="button">✕</button>
         </div>
       </div>
       <div class="bilan-field-row">
-        <label>Qualité <button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;" data-info="douleur_qualite">i</button></label>
+        <label>Qualité <button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;" data-info="douleur_qualite">i</button> <button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;" onclick="showPhraseModal('douleur')">🗣️</button></label>
         <select data-douleur-select="qualite" data-douleur-idx="${idx}">
           <option value="">—</option>
           ${DOULEUR_QUALITE_OPTIONS.map(o => `<option value="${o}" ${d.qualite === o ? 'selected' : ''}>${o}</option>`).join('')}
@@ -3552,7 +3629,7 @@ function buildDouleurCardsHtml() {
         ${d.qualite === 'Autre' ? `<input type="text" data-douleur-field="qualiteAutre" data-douleur-idx="${idx}" placeholder="Préciser" value="${d.qualiteAutre || ''}" style="margin-top:6px;">` : ''}
       </div>
        <div class="bilan-field-row">
-       <label>Région <button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;" data-info="douleur_region">i</button> <button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;" data-bodymap-idx="${idx}">🗺️</button></label>
+       <label>Région <button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;" data-info="douleur_region">i</button> <button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;" data-bodymap-idx="${idx}">🗺️</button> <button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;" onclick="showPhraseModal('douleur')">🗣️</button></label>
         <div class="text-field-wrap ${d.region ? 'has-value' : ''}">
           <textarea rows="1" class="bilan-textarea" data-douleur-field="region" data-douleur-idx="${idx}">${escapeHtml(d.region || '')}</textarea>
           <button class="text-clear-btn" type="button">✕</button>
@@ -3570,7 +3647,7 @@ function buildDouleurCardsHtml() {
       </div>
       <div class="suggestion-box" id="suggestion-douleur-${idx}">${getDouleurSuggestionHtml(d)}</div>
 <div class="bilan-field-row">
-        <label>Temps</label>
+        <label>Temps <button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;" onclick="showPhraseModal('douleur')">🗣️</button></label>
         <div class="text-field-wrap ${d.temps ? 'has-value' : ''}">
           <textarea rows="1" class="bilan-textarea" data-douleur-field="temps" data-douleur-idx="${idx}">${escapeHtml(d.temps || '')}</textarea>
           <button class="text-clear-btn" type="button">✕</button>
@@ -3990,7 +4067,18 @@ if (input.dataset.bilanField === 'taDroitSys' || input.dataset.bilanField === 't
  
   });
 
-  updateAvcDuration();
+ updateAvcDuration();
+
+  const avcClearBtn = container.querySelector('#avc-time-clear');
+  if (avcClearBtn) {
+    avcClearBtn.addEventListener('click', () => {
+      bilanData.avcTimeOnset = '';
+      saveBilanData();
+      const timeInput = document.getElementById('avc-time-input');
+      if (timeInput) timeInput.value = '';
+      updateAvcDuration();
+    });
+  }
 
 container.querySelectorAll('select[data-bilan-field]').forEach(select => {
     select.addEventListener('change', () => {
@@ -4576,7 +4664,9 @@ const GESTES_DATA = [
       { title: 'Malaise médical — rassurer', customHtml: `<button class="detail-action-btn" onclick="showPhraseModal('malaise')">🗣️ Ouvrir</button>` },
       { title: 'Plaies et brûlures — ce qu\'on va faire', customHtml: `<button class="detail-action-btn" onclick="showPhraseModal('plaiesBrulures')">🗣️ Ouvrir</button>` },
       { title: 'Évacuation vers l\'hôpital', customHtml: `<button class="detail-action-btn" onclick="showPhraseModal('evacuation')">🗣️ Ouvrir</button>` },
-      { title: 'Mots pour rassurer un impliqué / proche', customHtml: `<button class="detail-action-btn" onclick="showPhraseModal('impliques')">🗣️ Ouvrir</button>` }
+     { title: 'Mots pour rassurer un impliqué / proche', customHtml: `<button class="detail-action-btn" onclick="showPhraseModal('impliques')">🗣️ Ouvrir (EN/ES/AR)</button>` },
+      { title: 'Positions et consignes de base', customHtml: `<button class="detail-action-btn" onclick="showPhraseModal('positions')">🗣️ Ouvrir (EN/ES/AR)</button>` },
+      { title: '📖 Glossaire complet (recherche)', customHtml: `<button class="detail-action-btn primary" onclick="showPhraseGlossaryModal()">🔍 Rechercher dans toutes les phrases</button>` }
     ]
   },
   {
