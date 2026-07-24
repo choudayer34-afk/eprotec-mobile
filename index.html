@@ -4323,6 +4323,75 @@ const GESTES_DATA = [
       }
     ]
   },
+{
+    key: 'impliques',
+    title: '🧍 Gestion des impliqués',
+    summary: [
+      "Impliqué : personne non blessée physiquement, mais exposée à l'évènement — peut nécessiter un soutien psychologique",
+      "Ne jamais négliger un impliqué sous prétexte qu'il n'est « pas blessé »",
+      "Écarter de la zone dangereuse, installer dans un endroit calme, ne pas laisser seul",
+      "Reprendre les principes AERER (voir fiche PSSM)"
+    ],
+    sections: [
+      {
+        title: 'Définitions officielles',
+        items: [
+          "Victime : personne ayant subi une atteinte physique et/ou psychique du fait de l'évènement",
+          "Impliqué : personne non blessée physiquement, mais exposée à un risque de mort ou de blessure — peut avoir besoin d'une prise en charge médico-psychologique",
+          "Témoin : personne ayant assisté à l'évènement sans y être directement exposée",
+          "Victime primaire : directement exposée (a subi, a provoqué, ou a vu directement)",
+          "Victime secondaire : lien affectif avec la victime blessée, sans avoir assisté à l'évènement (ex : parent prévenu après coup)"
+        ]
+      },
+      {
+        title: 'Principes généraux',
+        items: [
+          "Ne jamais négliger un impliqué sous prétexte qu'il n'est pas physiquement blessé",
+          "L'écarter de la zone dangereuse ou du spectacle de l'intervention, l'installer dans un endroit calme",
+          "Reprendre les principes AERER : Approcher, Écouter, Rassurer, Encourager, Relayer (voir fiche PSSM pour le détail et les verbatims)",
+          "Ne pas le laisser livré à lui-même — désigner si possible quelqu'un pour rester avec lui pendant que tu t'occupes de la victime",
+          "Une Cellule d'Urgence Médico-Psychologique (CUMP) peut être sollicitée si disponible sur le dispositif"
+        ]
+      },
+      {
+        title: 'Cas pratique — parents d\'un enfant blessé',
+        items: [
+          "Les impliquer autant que possible : leur présence rassure l'enfant",
+          "Expliquer clairement et calmement ce qui se passe, chaque geste avant de le réaliser",
+          "Leur demander les informations utiles au bilan (antécédents, allergies, traitement)",
+          "Rester attentif à leur propre état — un parent peut lui-même être en état de choc et avoir besoin de soutien",
+          "Ne les écarter que si leur présence perturbe réellement les gestes de secours"
+        ]
+      },
+      {
+        title: 'Cas pratique — proche alcoolisé mais indemne (impliqué, pas victime)',
+        items: [
+          "Rester calme et non jugeant, comme devant tout impliqué",
+          "Vérifier tout de même l'absence de signe de gravité (traumatisme, confusion anormale) — voir la fiche Intoxication alcoolique au moindre doute",
+          "Le maintenir à l'écart de la zone d'intervention pour ne pas gêner",
+          "Expliquer simplement ce qui se passe, avec des phrases courtes",
+          "Désigner quelqu'un pour rester avec lui s'il ne peut pas être laissé seul"
+        ]
+      },
+      {
+        title: 'Cas pratique — proche stressé ou choqué',
+        items: [
+          "Reprendre les principes AERER (fiche PSSM)",
+          "Verbatim utile : « Je suis là, tu n'es pas seul(e) », « Prends le temps de respirer »",
+          "L'installer assis, à l'écart du spectacle de l'intervention si possible",
+          "Ne pas le forcer à parler, mais rester disponible"
+        ]
+      },
+      {
+        title: 'Cas pratique — témoin d\'un évènement violent ou choquant',
+        items: [
+          "Même sans atteinte physique, le stress peut être important — ne jamais minimiser",
+          "Peut relever d'une prise en charge médico-psychologique (CUMP) si disponible",
+          "Ne recueillir son témoignage que si nécessaire pour le bilan, sans le faire répéter inutilement les détails choquants"
+        ]
+      }
+    ]
+  },
   {
     key: 'pfsmu',
     title: '🧠 Premiers secours en santé mentale (PSSM)',
@@ -5826,7 +5895,10 @@ const LEXIQUE_DATA = [
   { term: 'Tuméfaction', def: "Gonflement anormal d'une zone du corps" },
   { term: 'Auscultation', def: 'Écoute des bruits du corps (respiration, cœur), à l\'oreille ou au stéthoscope' },
   { term: 'Score de Glasgow', def: 'Échelle chiffrée de 3 à 15 évaluant le niveau de conscience' },
-  { term: 'Garrot', def: 'Lien large posé sur un membre pour arrêter un saignement non contrôlé autrement' }
+{ term: 'Garrot', def: 'Lien large posé sur un membre pour arrêter un saignement non contrôlé autrement' },
+  { term: 'Impliqué', def: "Personne non blessée physiquement, mais exposée à un risque de mort ou de blessure lors de l'évènement — peut nécessiter une prise en charge médico-psychologique" },
+  { term: 'Victime primaire', def: "Directement exposée à l'évènement (a subi, a provoqué, ou a vu directement)" },
+  { term: 'Victime secondaire', def: "Lien affectif avec la victime blessée, sans avoir assisté à l'évènement (ex : parent prévenu après coup)" }
 ];
 
 
@@ -5866,7 +5938,8 @@ const GESTE_CATEGORIES_MAP = {
   hemorragie: 'urgences',
   rcp: 'urgences',
   pls: 'urgences',
-  pfsmu: 'psychologie',
+ pfsmu: 'psychologie',
+  impliques: 'psychologie',
   palpation: 'trauma',
   malaise: 'malaises',
   intoxOH: 'malaises',
