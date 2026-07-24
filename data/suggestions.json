@@ -943,39 +943,6 @@
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1628927"
   },
   {
-    "uid": "evt16289281@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] Montpell'at",
-    "lieu": "Domaine Municipal de Veyrassi, Montpellier",
-    "dateDebut": "2026-10-18T07:00:00.000Z",
-    "dateFin": "2026-10-18T14:30:00.000Z",
-    "description": "Competition de Softball<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628928'>Lien vers l'activité</a>",
-    "tag": "DPS",
-    "score": 11,
-    "reasons": [
-      {
-        "text": "Mois sans DPS planifié",
-        "category": "positive"
-      },
-      {
-        "text": "Jour : Dimanche (+2)",
-        "category": "positive"
-      },
-      {
-        "text": "Durée raisonnable",
-        "category": "positive"
-      },
-      {
-        "text": "Très proche (9.2 km)",
-        "category": "positive"
-      },
-      {
-        "text": "Espacement confortable (37 jours)",
-        "category": "positive"
-      }
-    ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1628928"
-  },
-  {
     "uid": "evt15588761@https://eprotec.protection-civile.org",
     "titre": "[DPS 34] Fete du Cres",
     "lieu": "Rue des Aiguerelles 34920 Le Cres",
@@ -1040,5 +1007,38 @@
       }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1558877"
+  },
+  {
+    "uid": "evt16345251@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] Martor Puechabon",
+    "lieu": "Place de l'Eglise Puechabon",
+    "dateDebut": "2026-10-31T14:00:00.000Z",
+    "dateFin": "2026-10-31T22:59:00.000Z",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1634525'>Lien vers l'activité</a>",
+    "tag": "DPS",
+    "score": 9,
+    "reasons": [
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour : Samedi (+3)",
+        "category": "positive"
+      },
+      {
+        "text": "DPS long (fatigue)",
+        "category": "negative"
+      },
+      {
+        "text": "Distance raisonnable (28.1 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (50 jours)",
+        "category": "positive"
+      }
+    ],
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1634525"
   }
 ]
