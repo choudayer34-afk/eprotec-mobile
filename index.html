@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="dark">
 <title>Mon eProtec</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
-<script>
+<script> 
 (function generateAppIcon() {
   const canvas = document.createElement('canvas');
   canvas.width = 180; canvas.height = 180;
@@ -5006,6 +5006,37 @@ const GESTES_DATA = [
       }
     ]
   },
+{
+    key: 'solAntiviol',
+    title: '🧍 Technique au sol face à une immobilisation (anti-viol)',
+    summary: [
+      "Ancrer le pied droit près du bassin, accrocher l'épaule gauche de l'agresseur avec le bras droit",
+      "Pousser les hanches vers le haut (pont) en tirant l'épaule vers le bas",
+      "L'agresseur bascule et se retrouve renversé sur le côté",
+      "Une fois les positions inversées : fuir en courant ou continuer à se défendre"
+    ],
+    sections: [
+      {
+        title: 'Technique du pont et retournement',
+        image: 'autodefense-sol-antiviol.png',
+        items: [
+          "L'agresseur immobilise le défenseur allongé sur le dos, positionné au-dessus de lui",
+          "Remonter un pied fermement ancré au sol près du bassin, genou plié",
+          "Passer le bras du même côté par-dessus l'épaule opposée de l'agresseur pour l'accrocher fermement",
+          "En appui sur ce pied et ce bras, pousser fortement les hanches vers le haut (mouvement de pont), tout en tirant l'épaule de l'agresseur vers le bas et sur le côté",
+          "Sous l'effet combiné du pont et de la traction, l'agresseur bascule et se retrouve renversé sur le côté",
+          "Une fois les positions inversées : profiter de l'espace créé pour fuir en courant, ou continuer à se défendre si la fuite n'est pas possible"
+        ]
+      },
+      {
+        title: 'Rappel important',
+        items: [
+          "La priorité reste toujours de fuir dès que l'espace le permet, plutôt que de prolonger l'affrontement",
+          "Ceci est un pense-bête pour une pratique déjà acquise, pas un substitut à un entraînement encadré"
+        ]
+      }
+    ]
+  },
   {
     key: 'traductions',
     title: '🗣️ Traductions utiles',
@@ -6660,7 +6691,8 @@ col1main: 'saisies',
 etranglementDevant: 'etranglements',
 etranglementDerriere: 'etranglements',
 paradesCoups: 'parades',
-  solImmobilisation: 'sol',
+solImmobilisation: 'sol',
+  solAntiviol: 'sol',
   palpation: 'trauma',
   malaise: 'malaises',
   intoxOH: 'malaises',
