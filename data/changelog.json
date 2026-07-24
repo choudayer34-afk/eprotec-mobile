@@ -1,5 +1,14 @@
 [
   {
+    "version": "10.0",
+    "date": "2026-07-24T15:06:32.209Z",
+    "title": "Repère interne : quand faire un bilan complet et la glycémie",
+    "items": [
+      "Nouvel encadré repliable en haut du Bilan patient (mode Remplir), clairement identifié comme convention interne d'équipe et non règle du référentiel",
+      "Précise quand un bilan complet est nécessaire, et les critères concrets pour décider de prendre la glycémie"
+    ]
+  },
+  {
     "version": "9.9",
     "date": "2026-07-24T14:58:42.174Z",
     "title": "Enrichissement de la checklist Prêt à partir",
