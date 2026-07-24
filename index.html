@@ -2330,6 +2330,127 @@ const BACK_BODY_LEGEND = [
   '13 — Mollet', '14 — Talon / cheville (arrière)'
 ];
 
+  const PHRASES_DATA = {
+  accueil: [
+    { fr: "Bonjour, nous sommes secouristes, nous allons vérifier plusieurs paramètres de votre santé.", en: "Hello, we are first aiders, we are going to check several health parameters.", es: "Hola, somos socorristas, vamos a comprobar varios parámetros de su salud.", ar: "مرحباً، نحن مسعفون، سنقوم بفحص عدة مؤشرات صحية." },
+    { fr: "Comment vous appelez-vous ?", en: "What is your name?", es: "¿Cómo se llama?", ar: "ما اسمك؟" },
+    { fr: "Quel âge avez-vous ?", en: "How old are you?", es: "¿Cuántos años tiene?", ar: "كم عمرك؟" },
+    { fr: "Restez calme, nous allons vous aider.", en: "Stay calm, we are going to help you.", es: "Mantenga la calma, vamos a ayudarle.", ar: "ابقَ هادئاً، سنساعدك." },
+    { fr: "Que s'est-il passé ?", en: "What happened?", es: "¿Qué pasó?", ar: "ماذا حدث؟" }
+  ],
+  respiration: [
+    { fr: "Je vais poser ma main sur votre abdomen pour observer votre respiration. Est-ce que ça vous convient ?", en: "I am going to place my hand on your abdomen to observe your breathing. Is that okay with you?", es: "Voy a poner mi mano sobre su abdomen para observar su respiración. ¿Está de acuerdo?", ar: "سأضع يدي على بطنك لمراقبة تنفسك. هل توافق على ذلك؟" },
+    { fr: "Respirez normalement, comme d'habitude.", en: "Breathe normally, as usual.", es: "Respire con normalidad, como de costumbre.", ar: "تنفس بشكل طبيعي، كالمعتاد." },
+    { fr: "Avez-vous du mal à respirer ?", en: "Are you having trouble breathing?", es: "¿Le cuesta respirar?", ar: "هل تجد صعوبة في التنفس؟" }
+  ],
+  circulation: [
+    { fr: "Je vais vous prendre le pouls au poignet.", en: "I am going to check your pulse at the wrist.", es: "Voy a tomarle el pulso en la muñeca.", ar: "سأقيس نبضك عند معصمك." },
+    { fr: "Je vais mesurer votre tension artérielle sur le bras.", en: "I am going to measure your blood pressure on your arm.", es: "Voy a medirle la tensión arterial en el brazo.", ar: "سأقيس ضغط دمك على ذراعك." },
+    { fr: "Vous allez sentir le brassard se gonfler, c'est normal.", en: "You will feel the cuff inflate, that is normal.", es: "Sentirá que el brazalete se infla, es normal.", ar: "ستشعر بانتفاخ الرباط، وهذا أمر طبيعي." }
+  ],
+  temperature: [
+    { fr: "Je vais vous prendre la température.", en: "I am going to take your temperature.", es: "Voy a tomarle la temperatura.", ar: "سأقيس درجة حرارتك." }
+  ],
+  trc: [
+    { fr: "Je vais vous pincer légèrement le doigt pour voir la recoloration de la peau.", en: "I am going to gently pinch your finger to check the skin's recoloring.", es: "Voy a pellizcarle suavemente el dedo para comprobar la recoloración de la piel.", ar: "سأضغط برفق على إصبعك لأتحقق من عودة اللون إلى الجلد." }
+  ],
+  glycemie: [
+    { fr: "Je vais piquer légèrement votre doigt pour mesurer votre taux de sucre dans le sang.", en: "I am going to gently prick your finger to measure your blood sugar level.", es: "Voy a pincharle suavemente el dedo para medir su nivel de azúcar en sangre.", ar: "سأثقب إصبعك بلطف لقياس مستوى السكر في الدم." },
+    { fr: "Cela permet de savoir si votre glycémie est normale.", en: "This tells us if your blood sugar level is normal.", es: "Esto nos permite saber si su nivel de azúcar es normal.", ar: "هذا يساعدنا على معرفة ما إذا كان مستوى السكر لديك طبيعياً." }
+  ],
+  saturometre: [
+    { fr: "Je vais poser cette petite pince sur votre doigt pour mesurer l'oxygène dans votre sang. Ce n'est pas douloureux.", en: "I am going to place this small clip on your finger to measure the oxygen in your blood. It does not hurt.", es: "Voy a colocar esta pequeña pinza en su dedo para medir el oxígeno en su sangre. No duele.", ar: "سأضع هذا المشبك الصغير على إصبعك لقياس نسبة الأكسجين في دمك. هذا غير مؤلم." }
+  ],
+  ecg: [
+    { fr: "Nous allons réaliser un électrocardiogramme pour vérifier votre cœur. Je vais coller des petites électrodes sur votre poitrine et vos membres.", en: "We are going to perform an electrocardiogram to check your heart. I am going to attach small electrodes to your chest and limbs.", es: "Vamos a realizar un electrocardiograma para comprobar su corazón. Voy a colocar unos pequeños electrodos en su pecho y extremidades.", ar: "سنجري تخطيطاً لعملك القلب. سألصق أقطاباً صغيرة على صدرك وأطرافك." },
+    { fr: "Merci de rester calme et de ne pas parler pendant l'enregistrement.", en: "Please stay calm and do not speak during the recording.", es: "Por favor, manténgase tranquilo y no hable durante el registro.", ar: "الرجاء البقاء هادئاً وعدم التحدث أثناء التسجيل." }
+  ],
+  douleur: [
+    { fr: "Avez-vous mal quelque part ?", en: "Are you in pain anywhere?", es: "¿Le duele algo?", ar: "هل تشعر بألم في أي مكان؟" },
+    { fr: "Sur une échelle de 0 à 10, combien évaluez-vous votre douleur ?", en: "On a scale of 0 to 10, how would you rate your pain?", es: "En una escala de 0 a 10, ¿cómo calificaría su dolor?", ar: "على مقياس من 0 إلى 10، كيف تقيّم ألمك؟" },
+    { fr: "Depuis quand avez-vous cette douleur ?", en: "How long have you had this pain?", es: "¿Desde cuándo tiene este dolor?", ar: "منذ متى وأنت تشعر بهذا الألم؟" }
+  ],
+  antecedents: [
+    { fr: "Avez-vous des allergies ?", en: "Do you have any allergies?", es: "¿Tiene alguna alergia?", ar: "هل لديك أي حساسية؟" },
+    { fr: "Prenez-vous des médicaments ?", en: "Are you taking any medication?", es: "¿Está tomando algún medicamento?", ar: "هل تتناول أي أدوية؟" },
+    { fr: "Avez-vous des antécédents médicaux ?", en: "Do you have any medical history?", es: "¿Tiene antecedentes médicos?", ar: "هل لديك تاريخ مرضي؟" },
+    { fr: "Quand avez-vous mangé ou bu pour la dernière fois ?", en: "When did you last eat or drink?", es: "¿Cuándo comió o bebió por última vez?", ar: "متى كانت آخر مرة أكلت أو شربت فيها؟" }
+  ],
+  traumatisme: [
+    { fr: "Ne bougez pas, je vais examiner votre blessure.", en: "Do not move, I am going to examine your injury.", es: "No se mueva, voy a examinar su lesión.", ar: "لا تتحرك، سأفحص إصابتك." },
+    { fr: "Pouvez-vous bouger vos doigts ?", en: "Can you move your fingers?", es: "¿Puede mover los dedos?", ar: "هل يمكنك تحريك أصابعك؟" },
+    { fr: "Je vais immobiliser votre bras avec une écharpe.", en: "I am going to immobilize your arm with a sling.", es: "Voy a inmovilizar su brazo con un cabestrillo.", ar: "سأقوم بتثبيت ذراعك بواسطة رباط تعليق." }
+  ],
+  malaise: [
+    { fr: "Allongez-vous, ça va aller.", en: "Lie down, it's going to be okay.", es: "Túmbese, todo va a ir bien.", ar: "استلقِ، الأمور ستكون على ما يرام." },
+    { fr: "Avez-vous déjà eu ce genre de malaise auparavant ?", en: "Have you had this kind of dizziness before?", es: "¿Ha tenido este tipo de mareo antes?", ar: "هل سبق أن شعرت بهذا النوع من الدوار من قبل؟" }
+  ],
+  plaiesBrulures: [
+    { fr: "Je vais nettoyer et protéger votre plaie.", en: "I am going to clean and protect your wound.", es: "Voy a limpiar y proteger su herida.", ar: "سأقوم بتنظيف جرحك وحمايته." },
+    { fr: "Je vais refroidir votre brûlure à l'eau.", en: "I am going to cool your burn with water.", es: "Voy a enfriar su quemadura con agua.", ar: "سأقوم بتبريد الحرق بالماء." }
+  ],
+  evacuation: [
+    { fr: "Nous allons vous transporter à l'hôpital pour des examens complémentaires.", en: "We are going to take you to the hospital for further examination.", es: "Vamos a llevarle al hospital para más exámenes.", ar: "سننقلك إلى المستشفى لإجراء فحوصات إضافية." },
+    { fr: "Une ambulance arrive pour vous emmener.", en: "An ambulance is coming to take you.", es: "Una ambulancia está en camino para llevarle.", ar: "سيارة إسعاف قادمة لنقلك." },
+    { fr: "Ne vous inquiétez pas, c'est une précaution.", en: "Don't worry, this is just a precaution.", es: "No se preocupe, es solo una precaución.", ar: "لا تقلق، هذا مجرد إجراء احترازي." }
+  ],
+  impliques: [
+    { fr: "Restez avec moi, tout va bien se passer.", en: "Stay with me, everything is going to be fine.", es: "Quédese conmigo, todo va a salir bien.", ar: "ابقَ معي، كل شيء سيكون على ما يرام." },
+    { fr: "Les secours s'occupent bien de votre proche.", en: "The emergency team is taking good care of your loved one.", es: "El equipo de emergencia está cuidando bien a su ser querido.", ar: "فريق الطوارئ يعتني جيداً بشخصك العزيز." },
+    { fr: "Vous pouvez rester à mes côtés.", en: "You can stay by my side.", es: "Puede quedarse a mi lado.", ar: "يمكنك البقاء بجانبي." }
+  ]
+};
+
+const PHRASE_CATEGORY_LABELS = {
+  accueil: 'Accueil / présentation', respiration: 'Respiration', circulation: 'Pouls / Tension',
+  temperature: 'Température', trc: 'TRC', glycemie: 'Glycémie', saturometre: 'Saturomètre',
+  ecg: 'ECG', douleur: 'Douleur', antecedents: 'Antécédents / bilan complémentaire',
+  traumatisme: 'Traumatisme', malaise: 'Malaise', plaiesBrulures: 'Plaies et brûlures',
+  evacuation: 'Évacuation', impliques: 'Impliqués / proches'
+};
+
+let phraseCurrentLang = 'en';
+
+function showPhraseModal(categoryKey) {
+  const phrases = PHRASES_DATA[categoryKey] || [];
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;display:flex;align-items:center;justify-content:center;padding:14px;';
+  overlay.innerHTML = `
+    <div style="background:#163C74;border-radius:16px;padding:16px;width:100%;max-width:460px;max-height:88vh;overflow-y:auto;">
+      <div style="color:#fff;font-size:15px;font-weight:500;margin-bottom:10px;text-align:center;">🗣️ ${PHRASE_CATEGORY_LABELS[categoryKey] || ''}</div>
+      <div class="metric-toggle" id="phrase-lang-toggle">
+        <button data-lang="en" class="${phraseCurrentLang === 'en' ? 'active' : ''}">English</button>
+        <button data-lang="es" class="${phraseCurrentLang === 'es' ? 'active' : ''}">Español</button>
+        <button data-lang="ar" class="${phraseCurrentLang === 'ar' ? 'active' : ''}">العربية</button>
+      </div>
+      <div id="phrase-list"></div>
+      <button class="detail-action-btn primary" id="phrase-close" style="margin-top:12px;">Fermer</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  function renderList() {
+    const listEl = overlay.querySelector('#phrase-list');
+    listEl.innerHTML = phrases.map(p => `
+      <div class="card" style="margin-bottom:8px;">
+        <div style="color:#9FB3D6;font-size:12px;margin-bottom:4px;">${p.fr}</div>
+        <div style="color:#fff;font-size:18px;font-weight:500;${phraseCurrentLang === 'ar' ? 'direction:rtl;text-align:right;' : ''}">${p[phraseCurrentLang]}</div>
+      </div>
+    `).join('');
+  }
+  renderList();
+
+  overlay.querySelectorAll('#phrase-lang-toggle button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      phraseCurrentLang = btn.dataset.lang;
+      overlay.querySelectorAll('#phrase-lang-toggle button').forEach(b => b.classList.toggle('active', b === btn));
+      renderList();
+    });
+  });
+
+  overlay.querySelector('#phrase-close').addEventListener('click', () => overlay.remove());
+}
+  
 function showBodyMapModal(targetSelector) {
   const overlay = document.createElement('div');
   overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;';
@@ -2906,7 +3027,7 @@ function formatDateHeureCourte(iso) {
     { key: 'dateNaissance', label: 'Date de naissance', type: 'date' },
     { key: 'age', label: 'Âge', type: 'age-display' }
   ]},
-  { key: 'circonstanciel', label: '🎬 Bilan circonstanciel (3S)', fields: [
+ { key: 'circonstanciel', label: '🎬 Bilan circonstanciel (3S)', phraseCategory: 'accueil', fields: [
     { key: 'scene', label: 'Scène', type: 'text' },
     { key: 'securite', label: 'Sécurité', type: 'text' },
         { key: 'situation', label: 'Situation (lieu)', type: 'geoloc' },
@@ -2957,7 +3078,7 @@ options: [
     { key: 'voiesAeriennes', label: 'État des voies aériennes', type: 'chip', options: ['Libres', 'Obstruées'] },
     { key: 'voiesAeriennesAction', label: 'Action réalisée', type: 'text' }
   ]},
-  { key: 'b', label: '💨 B — Respiration', fields: [
+  { key: 'c', label: '❤️ C — Circulation', phraseCategory: 'circulation', fields: [
     { key: 'freqRespi', label: 'Fréquence (par minute)', type: 'number', info: 'freqRespi', timer: true, slider: { min: 0, max: 60, step: 1, major: 10, minor: 5, unit: '/min' } },
     { key: 'amplitudeRespi', label: 'Amplitude', type: 'chip', options: ['Normale', 'Superficielle', 'Ample'], info: 'amplitudeRespi' },
     { key: 'spo2', label: 'SpO2 %', type: 'number', info: 'spo2' },
@@ -2989,11 +3110,11 @@ options: [
 { key: 'avcTime', label: 'Time — heure d\'apparition des signes', type: 'text' },
     { key: 'avcAction', label: 'Action réalisée', type: 'text' }
   ]},
-  { key: 'e', label: '🌡 E — Environnement', fields: [
+{ key: 'e', label: '🌡 E — Environnement', phraseCategory: 'temperature', fields: [
     { key: 'temperature', label: 'Température (°C)', type: 'number', info: 'temperature', slider: { min: 34, max: 42, step: 0.1, major: 1, minor: 0.5, unit: '°C' } },
     { key: 'environnement', label: 'Remarques environnement', type: 'text' }
   ]},
-  { key: 'complementaire', label: '📋 Bilan complémentaire', fields: [
+ { key: 'complementaire', label: '📋 Bilan complémentaire', phraseCategory: 'antecedents', fields: [
     { key: 'signes', label: 'Signes', type: 'text' },
     { key: 'allergies', label: 'Allergies', type: 'text' },
     { key: 'medicaments', label: 'Médicaments', type: 'text' },
@@ -3304,10 +3425,10 @@ function buildDouleurCardsHtml() {
       <div class="card-top-row" style="margin-bottom:8px;">
         <span class="tag-badge">Douleur ${idx + 1}</span>
         ${bilanData.douleurs.length > 1 ? `<button class="icon-btn" style="width:26px;height:26px;font-size:13px;" data-douleur-remove="${idx}">✕</button>` : ''}
-      </div>
-<div class="bilan-field-row">
-        <label>Origine <button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;" data-info="douleur_origine">i</button></label>
-        <div class="text-field-wrap ${d.origine ? 'has-value' : ''}">
+</div>
+      <button class="detail-action-btn" style="margin-bottom:10px;" onclick="showPhraseModal('douleur')">🗣️ Phrases utiles (EN/ES/AR)</button>
+      <div class="bilan-field-row">
+        <label>Origine <button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;" data-info="douleur_origine">i</button></label>        <div class="text-field-wrap ${d.origine ? 'has-value' : ''}">
           <textarea rows="1" class="bilan-textarea" data-douleur-field="origine" data-douleur-idx="${idx}">${escapeHtml(d.origine || '')}</textarea>
           <button class="text-clear-btn" type="button">✕</button>
         </div>
@@ -3687,7 +3808,7 @@ function renderBilanFill() {
         <span class="month-chevron">▸</span>
       </button>
       <div class="month-body" ${cat.key === 'douleur' ? 'id="douleur-body"' : ''} style="display:none">
-        ${cat.fields.map(f => renderBilanField(f)).join('')}
+       ${cat.phraseCategory ? `<button class="detail-action-btn" style="margin-bottom:10px;" onclick="showPhraseModal('${cat.phraseCategory}')">🗣️ Phrases utiles (EN/ES/AR)</button>` : ''}${cat.fields.map(f => renderBilanField(f)).join('')}
       </div>
     </div>
   `).join('') + `
@@ -4324,6 +4445,21 @@ const GESTES_DATA = [
     ]
   },
 {
+    key: 'traductions',
+    title: '🗣️ Traductions utiles (EN/ES/AR)',
+    summary: [
+      "Phrases traduites pour le bilan, l'utilisation du matériel, les recommandations de fin et l'évacuation",
+      "Utilisable à chaque étape depuis le Bilan patient également"
+    ],
+    sections: [
+      { title: 'Traumatisme — ce qu\'on va faire', customHtml: `<button class="detail-action-btn" onclick="showPhraseModal('traumatisme')">🗣️ Ouvrir (EN/ES/AR)</button>` },
+      { title: 'Malaise médical — rassurer', customHtml: `<button class="detail-action-btn" onclick="showPhraseModal('malaise')">🗣️ Ouvrir (EN/ES/AR)</button>` },
+      { title: 'Plaies et brûlures — ce qu\'on va faire', customHtml: `<button class="detail-action-btn" onclick="showPhraseModal('plaiesBrulures')">🗣️ Ouvrir (EN/ES/AR)</button>` },
+      { title: 'Évacuation vers l\'hôpital', customHtml: `<button class="detail-action-btn" onclick="showPhraseModal('evacuation')">🗣️ Ouvrir (EN/ES/AR)</button>` },
+      { title: 'Mots pour rassurer un impliqué / proche', customHtml: `<button class="detail-action-btn" onclick="showPhraseModal('impliques')">🗣️ Ouvrir (EN/ES/AR)</button>` }
+    ]
+  },
+  {
     key: 'impliques',
     title: '🧍 Gestion des impliqués',
     summary: [
@@ -5470,6 +5606,10 @@ const GESTES_DATA = [
       "Une mauvaise perfusion périphérique (froid, choc) peut fausser la mesure"
     ],
     sections: [
+{
+        title: '🗣️ Expliquer et rassurer',
+        customHtml: `<button class="detail-action-btn" onclick="showPhraseModal('saturometre')">🗣️ Phrases utiles (EN/ES/AR)</button>`
+      },
       {
         title: 'Utilisation',
         items: [
@@ -5497,6 +5637,10 @@ const GESTES_DATA = [
       "Rechercher la présence d'une pompe à insuline"
     ],
     sections: [
+{
+        title: '🗣️ Expliquer et rassurer',
+        customHtml: `<button class="detail-action-btn" onclick="showPhraseModal('glycemie')">🗣️ Phrases utiles (EN/ES/AR)</button>`
+      },
       {
         title: 'Utilisation',
         items: [
@@ -5547,6 +5691,10 @@ const GESTES_DATA = [
           "ECG avec électrodes individuelles",
           "ECG avec ceinture d'électrodes"
         ]
+      },
+{
+        title: '🗣️ Expliquer et rassurer',
+        customHtml: `<button class="detail-action-btn" onclick="showPhraseModal('ecg')">🗣️ Phrases utiles (EN/ES/AR)</button>`
       },
       {
         title: 'Procédure — ECG avec électrodes',
@@ -5940,6 +6088,7 @@ const GESTE_CATEGORIES_MAP = {
   pls: 'urgences',
  pfsmu: 'psychologie',
   impliques: 'psychologie',
+  traductions: 'psychologie',
   palpation: 'trauma',
   malaise: 'malaises',
   intoxOH: 'malaises',
