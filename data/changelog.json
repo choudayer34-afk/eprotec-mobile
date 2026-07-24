@@ -1,5 +1,17 @@
 [
   {
+    "version": "8.1",
+    "date": "2026-07-24T08:20:13.923Z",
+    "title": "Enrichissement majeur du bilan : identité, AVC guidé, carte corporelle L/D, phrases",
+    "items": [
+      "Identité : adresse et langue de la victime",
+      "AVC : questions guidées pour F/A/S, heure d'apparition en time picker avec durée écoulée calculée en direct",
+      "Bilan complémentaire : bouton (i) sur chaque rubrique",
+      "Pupilles et glycémie : bouton phrases traduites pour expliquer le geste",
+      "Carte des régions du corps entièrement revue : régions dissociées (main/poignet, pied/cheville, crâne/arrière tête, omoplate/dos, talon/cheville), gauche/droite calculé automatiquement selon la vue (avant = miroir, arrière = direct), points et légendes cliquables"
+    ]
+  },
+  {
     "version": "8.0",
     "date": "2026-07-24T08:03:48.761Z",
     "title": "Correction respiration",
