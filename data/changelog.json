@@ -1,5 +1,13 @@
 [
   {
+    "version": "7.9",
+    "date": "2026-07-24T07:50:09.547Z",
+    "title": "Traductions FR/EN/ES/AR intégrées au bilan et au matériel",
+    "items": [
+      "Nouveau module de phrases traduites (anglais, espagnol, arabe), accessible via un bouton \"Phrases utiles\" à chaque étape du bilan (accueil, respiration, circulation, température, douleur, antécédents), sur les fiches ECG/glycémie/saturomètre, et via une fiche dédiée pour les recommandations de fin, l'évacuation, et les mots pour rassurer un impliqué"
+    ]
+  },
+  {
     "version": "7.8",
     "date": "2026-07-24T06:01:58.442Z",
     "title": "Nouvelle fiche : Gestion des impliqués + lexique",
