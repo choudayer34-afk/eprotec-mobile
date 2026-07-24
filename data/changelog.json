@@ -1,5 +1,14 @@
 [
   {
+    "version": "10.2",
+    "date": "2026-07-24T19:08:49.877Z",
+    "title": "Ouverture directe dans l'app de navigation (Apple Maps/Google Maps/Waze)",
+    "items": [
+      "Remplacement des liens web Google Maps par un sélecteur qui ouvre directement l'app de navigation choisie (Apple Maps, Google Maps, ou Waze), avec la destination transmise directement, sans passer par le web",
+      "Corrige le comportement où le clic bouclait via Safari puis l'App Store avant d'ouvrir Maps sans la destination"
+    ]
+  },
+  {
     "version": "10.1",
     "date": "2026-07-24T15:11:30.563Z",
     "title": "Correction : ligne dupliquée bloquant le Bilan patient",
