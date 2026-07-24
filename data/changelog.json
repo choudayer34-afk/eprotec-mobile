@@ -1,5 +1,18 @@
 [
   {
+    "version": "8.2",
+    "date": "2026-07-24T11:40:21.381Z",
+    "title": "Phrases utiles enrichies, alignement, glossaire cherchable",
+    "items": [
+      "Icônes phrases utiles alignées avec (i), plus discrètes (Pupilles, Glycémie)",
+      "AVC : questions dans un (i), phrases de test traduites (souriez, levez les bras, répétez), heure réinitialisable",
+      "Douleur : phrases sur les 5 champs, (i) ajouté sur Provoqué par",
+      "Bilan complémentaire : phrase sur Évènements",
+      "Nouvelles phrases : positions (assis, allongé, tourner, se lever...) et vocabulaire de réassurance",
+      "Glossaire de phrases cherchable en français, toutes catégories confondues"
+    ]
+  },
+  {
     "version": "8.1",
     "date": "2026-07-24T08:20:13.923Z",
     "title": "Enrichissement majeur du bilan : identité, AVC guidé, carte corporelle L/D, phrases",
