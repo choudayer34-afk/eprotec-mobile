@@ -1,5 +1,16 @@
 [
   {
+    "version": "7.7",
+    "date": "2026-07-24T05:32:10.646Z",
+    "title": "Fiche Hypothermie, trauma dissocié, carte du corps cliquable, alignement",
+    "items": [
+      "Nouvelle fiche Hypothermie (stades de gravité, conduite à tenir, points de vigilance sur la RCP/DAE)",
+      "Le type \"Traumatisme\" se décline désormais en 3 entrées distinctes (membre, entorse, crânien) pointant toutes vers la même fiche",
+      "Correction de l'alignement des icônes dans la section Douleur",
+      "La carte des régions du corps remplit maintenant automatiquement le champ concerné quand on tape sur une région, depuis Douleur ou Hémorragie"
+    ]
+  },
+  {
     "version": "7.6",
     "date": "2026-07-23T22:44:28.839Z",
     "title": "outgroup",
