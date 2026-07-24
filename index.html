@@ -487,6 +487,7 @@
         <div class="tile-icon">🎒</div>
         <div class="tile-title">Prêt à partir</div>
       </div>
+  
 <div class="tile" data-open="plus-parametres">
         <div class="tile-icon">⚙️</div>
         <div class="tile-title">Paramètres OAD</div>
@@ -501,6 +502,10 @@
 
         <div class="tile-icon">🔗</div>
         <div class="tile-title">Liens utiles</div>
+      </div>
+          <div class="tile span-2" data-open="plus-apropos">
+        <div class="tile-icon">ℹ️</div>
+        <div class="tile-title">À propos</div>
       </div>
     </div>
   </section>
@@ -798,6 +803,7 @@
     </div>
     <div id="pretapartir-content"><div class="empty">Chargement...</div></div>
   </section>
+  
   <section id="plus-lexique">
     <div class="detail-header">
       <button class="plus-back" data-target="plus-secourisme">‹</button>
@@ -850,7 +856,13 @@
     </div>
     <div id="parametres-content"></div>
   </section>
-
+<section id="plus-apropos">
+    <div class="detail-header">
+      <button class="plus-back">‹</button>
+      <span>À propos</span>
+    </div>
+    <div id="apropos-content"><div class="empty">Chargement...</div></div>
+  </section>
 <section id="detail">
     <div class="detail-header">
       <button id="detail-back">‹</button>
@@ -1362,6 +1374,7 @@ if (subId === 'plus-nouveautes') renderNouveautesCompletes(allEvents);
 if (subId === 'plus-parametres') renderParametres();
 if (subId === 'plus-changelog') renderChangelogScreen();
   if (subId === 'plus-pretapartir') renderPretAPartir();
+  if (subId === 'plus-apropos') renderApropos();
   if (subId === 'plus-bilan') renderBilan();
   if (subId === 'plus-gestes-urgences') renderGestesList('gestes-urgences-content', ['urgences']);
   if (subId === 'plus-gestes-trauma') renderGestesList('gestes-trauma-content', ['trauma']);
@@ -7165,7 +7178,35 @@ function loadPpaData() {
 function savePpaData(data) {
   localStorage.setItem(PPA_STORAGE_KEY, JSON.stringify(data));
 }
+function renderApropos() {
+  const container = document.getElementById('apropos-content');
+  const lastUpdate = allChangelog[0] ? formatDateFull(allChangelog[0].date) : 'Non disponible';
+  const version = allChangelog[0] ? allChangelog[0].version : '—';
 
+  container.innerHTML = `
+    <div class="card highlight">
+      <div class="card-title" style="font-size:16px;">🚑 Mon eProtec</div>
+      <p style="color:#fff;font-size:14px;line-height:1.6;margin-top:8px;">
+        Une application personnelle pour les bénévoles de la Protection Civile Hérault, qui centralise en un seul endroit :
+      </p>
+      <ul class="reason-list" style="color:#fff;margin-top:8px;">
+        <li>Le suivi des événements (DPS, formations...) et des suggestions personnalisées pour choisir tes missions</li>
+        <li>Ton calendrier, tes favoris, et un rapport de ton activité</li>
+        <li>Un module Secourisme complet : bilan patient guidé, fiches gestes illustrées, lexique, matériel</li>
+        <li>Un module Autodéfense illustré, pour ta sécurité en intervention</li>
+        <li>Un guide "Prêt à partir" pour les déclenchements sur missions d'urgence</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Informations</div>
+      <div class="bilan-ref-item">Dernière mise à jour : ${lastUpdate}</div>
+      <div class="bilan-ref-item">Version actuelle : ${version}</div>
+    </div>
+    <div style="color:#9FB3D6;font-size:11px;text-align:center;margin-top:10px;">
+      Application personnelle, développée pour un usage individuel — ne remplace pas les outils officiels de la Protection Civile (Eprotec, OASIS, Argos).
+    </div>
+  `;
+}
 function renderPretAPartir() {
   const container = document.getElementById('pretapartir-content');
   const ppaData = loadPpaData();
