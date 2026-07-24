@@ -3529,7 +3529,7 @@ function buildDouleurCardsHtml() {
         <span class="tag-badge">Douleur ${idx + 1}</span>
         ${bilanData.douleurs.length > 1 ? `<button class="icon-btn" style="width:26px;height:26px;font-size:13px;" data-douleur-remove="${idx}">✕</button>` : ''}
 </div>
-      <button class="detail-action-btn" style="margin-bottom:10px;" onclick="showPhraseModal('douleur')">🗣️ Phrases utiles (EN/ES/AR)</button>
+      <button class="detail-action-btn" style="margin-bottom:10px;" onclick="showPhraseModal('douleur')">🗣️ Phrases utiles</button>
       <div class="bilan-field-row">
         <label>Origine <button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;" data-info="douleur_origine">i</button></label>        <div class="text-field-wrap ${d.origine ? 'has-value' : ''}">
           <textarea rows="1" class="bilan-textarea" data-douleur-field="origine" data-douleur-idx="${idx}">${escapeHtml(d.origine || '')}</textarea>
@@ -3911,7 +3911,7 @@ function renderBilanFill() {
         <span class="month-chevron">▸</span>
       </button>
       <div class="month-body" ${cat.key === 'douleur' ? 'id="douleur-body"' : ''} style="display:none">
-       ${cat.phraseCategory ? `<button class="detail-action-btn" style="margin-bottom:10px;" onclick="showPhraseModal('${cat.phraseCategory}')">🗣️ Phrases utiles (EN/ES/AR)</button>` : ''}${cat.fields.map(f => renderBilanField(f)).join('')}
+       ${cat.phraseCategory ? `<button class="detail-action-btn" style="margin-bottom:10px;" onclick="showPhraseModal('${cat.phraseCategory}')">🗣️ Phrases utiles </button>` : ''}${cat.fields.map(f => renderBilanField(f)).join('')}
       </div>
     </div>
   `).join('') + `
@@ -5728,7 +5728,7 @@ const GESTES_DATA = [
     sections: [
 {
         title: '🗣️ Expliquer et rassurer',
-        customHtml: `<button class="detail-action-btn" onclick="showPhraseModal('saturometre')">🗣️ Phrases utiles (EN/ES/AR)</button>`
+        customHtml: `<button class="detail-action-btn" onclick="showPhraseModal('saturometre')">🗣️ Phrases utiles</button>`
       },
       {
         title: 'Utilisation',
@@ -5759,7 +5759,7 @@ const GESTES_DATA = [
     sections: [
 {
         title: '🗣️ Expliquer et rassurer',
-        customHtml: `<button class="detail-action-btn" onclick="showPhraseModal('glycemie')">🗣️ Phrases utiles (EN/ES/AR)</button>`
+        customHtml: `<button class="detail-action-btn" onclick="showPhraseModal('glycemie')">🗣️ Phrases utiles</button>`
       },
       {
         title: 'Utilisation',
@@ -5814,7 +5814,7 @@ const GESTES_DATA = [
       },
 {
         title: '🗣️ Expliquer et rassurer',
-        customHtml: `<button class="detail-action-btn" onclick="showPhraseModal('ecg')">🗣️ Phrases utiles (EN/ES/AR)</button>`
+        customHtml: `<button class="detail-action-btn" onclick="showPhraseModal('ecg')">🗣️ Phrases utiles</button>`
       },
       {
         title: 'Procédure — ECG avec électrodes',
