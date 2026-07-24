@@ -303,7 +303,7 @@
     background: #3A2A0E; color: #FAC775; font-size: 12px; padding: 10px 12px;
     border-radius: 8px; margin-top: 8px; margin-bottom: 4px; line-height: 1.5;
   }
-  .consignes-box {
+.consignes-box {
     background: #12351F; border: 1.5px solid #639922; border-radius: 10px;
     padding: 12px 14px; margin-top: 14px;
   }
@@ -311,7 +311,21 @@
     color: #97C459; font-size: 13px; font-weight: 600; margin-bottom: 8px;
   }
   .consignes-box ul { padding-left: 18px; color: #fff; font-size: 13px; line-height: 1.7; }
-
+  .ppa-status-card { border-radius: 14px; padding: 16px; text-align: center; margin-bottom: 14px; }
+  .ppa-status-ready { background: #12351F; border: 1.5px solid #639922; }
+  .ppa-status-notready { background: #3A2A0E; border: 1.5px solid #EF9F27; }
+  .ppa-status-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+  .ppa-checklist-item {
+    display: flex; align-items: center; gap: 12px; padding: 12px 4px;
+    border-top: 0.5px solid #223258;
+  }
+  .ppa-checklist-item:first-child { border-top: none; }
+  .ppa-checkbox {
+    width: 26px; height: 26px; border-radius: 7px; border: 2px solid #9FB3D6;
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 15px;
+  }
+  .ppa-checkbox.checked { background: #97C459; border-color: #97C459; color: #0B2A5C; }
+  .ppa-checklist-label { color: #fff; font-size: 14px; flex: 1; }
   .tile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .tile {
     background: #163C74; border-radius: 16px; padding: 16px; text-align: center;
@@ -468,6 +482,10 @@
       <div class="tile" data-open="plus-autodefense">
         <div class="tile-icon">🥋</div>
         <div class="tile-title">Autodéfense</div>
+      </div>
+      <div class="tile" data-open="plus-pretapartir">
+        <div class="tile-icon">🎒</div>
+        <div class="tile-title">Prêt à partir</div>
       </div>
 <div class="tile" data-open="plus-parametres">
         <div class="tile-icon">⚙️</div>
@@ -773,7 +791,13 @@
     </div>
     <div id="autodef-sol-content"><div class="empty">Chargement...</div></div>
   </section>
-
+<section id="plus-pretapartir">
+    <div class="detail-header">
+      <button class="plus-back">‹</button>
+      <span>Prêt à partir</span>
+    </div>
+    <div id="pretapartir-content"><div class="empty">Chargement...</div></div>
+  </section>
   <section id="plus-lexique">
     <div class="detail-header">
       <button class="plus-back" data-target="plus-secourisme">‹</button>
@@ -1336,7 +1360,8 @@ if (subId === 'plus-nouveautes') renderNouveautesCompletes(allEvents);
   if (subId === 'plus-evenements') renderEvenements();
   if (subId === 'plus-rapport') renderRapport(allHistory);
 if (subId === 'plus-parametres') renderParametres();
-  if (subId === 'plus-changelog') renderChangelogScreen();
+if (subId === 'plus-changelog') renderChangelogScreen();
+  if (subId === 'plus-pretapartir') renderPretAPartir();
   if (subId === 'plus-bilan') renderBilan();
   if (subId === 'plus-gestes-urgences') renderGestesList('gestes-urgences-content', ['urgences']);
   if (subId === 'plus-gestes-trauma') renderGestesList('gestes-trauma-content', ['trauma']);
@@ -7049,6 +7074,181 @@ function checkForNewChangelog() {
     showChangelogModal([allChangelog[0]]);
   }
 }
+const PPA_GUIDE_SECTIONS = [
+  {
+    title: 'Comment suis-je déclenché ?',
+    items: [
+      "Sollicitation via mes disponibilités renseignées sur OASIS",
+      "Via l'évènement de recensement sur e-protec, pour indiquer que je ne serai pas engagé",
+      "Ne pas partir dès le premier appel, tant que je ne suis pas déjà engagé",
+      "Les moyens sont sollicités progressivement, avec possibilité de relèves, et la montée en puissance"
+    ]
+  },
+  {
+    title: 'Dans quels cas peut-on être déclenché ?',
+    items: [
+      "Incendie ou évacuation de bâtiment",
+      "Inondations et intempéries",
+      "Sinistre ou évènement exceptionnel",
+      "Blocage important d'axes routiers"
+    ]
+  },
+  {
+    title: 'Les 3 principales missions',
+    items: [
+      "C.A.I. (Centre d'Accueil des Impliqués) : accueil temporaire des personnes évacuées ou délogées, recueillir/rassurer/recenser, boissons et collations, lieu sécurisé",
+      "C.H.U. (Centre d'Hébergement d'Urgence) : même logique que le CAI, avec en plus couchage, lits, couvertures, kits d'hygiène — pour un accueil plus long",
+      "Distribution d'eau : en cas de blocage prolongé de la circulation, distribuer de l'eau — mission qui fait l'objet d'un briefing spécifique"
+    ]
+  },
+  {
+    title: 'Ce que je peux faire sur place',
+    items: [
+      "Accueil et recensement des impliqués",
+      "Mise en place d'un coin café / boissons",
+      "Installation d'un espace repos ou couchage",
+      "Orientation et réassurance des impliqués",
+      "Appui à la logistique",
+      "Organisation d'espaces adaptés (enfants, animaux, secours, soutien psychologique) selon la situation"
+    ]
+  },
+  {
+    title: 'Qui organise la mission ?',
+    items: [
+      "Un cadre opérationnel coordonne le dispositif et répartit les rôles (accueil, logistique, administratif...)",
+      "Chaque bénévole agit dans le cadre des consignes reçues et rend compte à son responsable"
+    ]
+  },
+  {
+    title: 'Les bons réflexes',
+    items: [
+      "Garder son téléphone chargé et joignable",
+      "La nuit, autoriser certains appels d'urgence à sonner malgré le mode silencieux",
+      "Préparer ses affaires sans attendre le dernier moment",
+      "Ne pas hésiter à poser des questions",
+      "Attendre les consignes et le lieu de rendez-vous avant de partir"
+    ]
+  }
+];
+
+const PPA_CHECKLIST_ITEMS = [
+  { key: 'disponibilites', category: '📅 Mes disponibilités', label: 'Mes disponibilités sont à jour sur OASIS et e-protec' },
+  { key: 'tenue', category: '👕 Ma tenue', label: 'Ma tenue et mes chaussures sont prêtes et accessibles dans mon véhicule' },
+  { key: 'kitHygiene', category: '🎒 Mon kit personnel', label: "J'ai un nécessaire d'hygiène" },
+  { key: 'kitMedicaments', category: '🎒 Mon kit personnel', label: 'Mes médicaments personnels, lunettes ou lentilles sont prêts' },
+  { key: 'kitVetements', category: '🎒 Mon kit personnel', label: 'Des vêtements adaptés sont prévus' },
+  { key: 'telephoneCharge', category: '📱 Mon matériel utile', label: 'Mon téléphone est chargé et joignable' },
+  { key: 'cableChargeur', category: '📱 Mon matériel utile', label: "J'ai mon câble et mon chargeur" },
+  { key: 'lampe', category: '📱 Mon matériel utile', label: "J'ai une lampe" },
+  { key: 'alertesNuit', category: '✅ Bons réflexes', label: "La nuit, mes alertes d'urgence sonnent malgré le mode silencieux" }
+];
+
+const PPA_STORAGE_KEY = 'eprotec_pretapartir';
+
+function loadPpaData() {
+  let data;
+  try {
+    data = JSON.parse(localStorage.getItem(PPA_STORAGE_KEY) || '{}');
+  } catch {
+    data = {};
+  }
+  const now = Date.now();
+  const oneWeek = 7 * 24 * 3600 * 1000;
+  if (!data.weekStart || (now - data.weekStart) > oneWeek) {
+    data = { weekStart: now, checked: {} };
+    localStorage.setItem(PPA_STORAGE_KEY, JSON.stringify(data));
+  }
+  if (!data.checked) data.checked = {};
+  return data;
+}
+
+function savePpaData(data) {
+  localStorage.setItem(PPA_STORAGE_KEY, JSON.stringify(data));
+}
+
+function renderPretAPartir() {
+  const container = document.getElementById('pretapartir-content');
+  const ppaData = loadPpaData();
+
+  function buildHtml() {
+    const total = PPA_CHECKLIST_ITEMS.length;
+    const checkedCount = PPA_CHECKLIST_ITEMS.filter(i => ppaData.checked[i.key]).length;
+    const isReady = checkedCount === total;
+
+    const grouped = {};
+    PPA_CHECKLIST_ITEMS.forEach(item => {
+      (grouped[item.category] ||= []).push(item);
+    });
+
+    const statusHtml = `
+      <div class="ppa-status-card ${isReady ? 'ppa-status-ready' : 'ppa-status-notready'}">
+        <div class="ppa-status-title" style="color:${isReady ? '#97C459' : '#FAC775'};">
+          ${isReady ? '✅ Prêt à partir' : `⚠️ ${total - checkedCount} élément(s) à vérifier`}
+        </div>
+        <div style="color:#9FB3D6;font-size:12px;">${checkedCount} / ${total} vérifiés · réinitialisation automatique chaque semaine</div>
+      </div>
+    `;
+
+    const checklistHtml = Object.keys(grouped).map(cat => `
+      <div class="card">
+        <div class="card-title">${cat}</div>
+        ${grouped[cat].map(item => `
+          <div class="ppa-checklist-item" data-ppa-item="${item.key}">
+            <div class="ppa-checkbox ${ppaData.checked[item.key] ? 'checked' : ''}">${ppaData.checked[item.key] ? '✓' : ''}</div>
+            <div class="ppa-checklist-label">${item.label}</div>
+          </div>
+        `).join('')}
+      </div>
+    `).join('');
+
+    const guideHtml = PPA_GUIDE_SECTIONS.map(sec => `
+      <div class="month-group">
+        <button class="month-toggle">
+          <span>${sec.title}</span>
+          <span class="month-chevron">▸</span>
+        </button>
+        <div class="month-body" style="display:none">
+          <ul class="reason-list" style="color:#fff;">
+            ${sec.items.map(i => `<li style="margin-bottom:4px;">${i}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+    `).join('');
+
+    container.innerHTML = `
+      ${statusHtml}
+      <div class="card-title" style="margin:4px 0 8px;">✅ Ma checklist</div>
+      ${checklistHtml}
+      <button class="detail-action-btn" id="ppa-reset-btn" style="margin:10px 0 20px;">🔄 Réinitialiser les coches</button>
+      <div class="card-title" style="margin-bottom:8px;">📖 Le guide</div>
+      ${guideHtml}
+    `;
+
+    setupAccordion(container);
+
+    container.querySelectorAll('[data-ppa-item]').forEach(row => {
+      row.addEventListener('click', () => {
+        const key = row.dataset.ppaItem;
+        ppaData.checked[key] = !ppaData.checked[key];
+        savePpaData(ppaData);
+        buildHtml();
+      });
+    });
+
+    document.getElementById('ppa-reset-btn').addEventListener('click', async () => {
+      const confirmReset = await promptChoice('Réinitialiser toutes les coches ?', ['Oui, réinitialiser', 'Annuler']);
+      if (confirmReset === 'Oui, réinitialiser') {
+        ppaData.checked = {};
+        ppaData.weekStart = Date.now();
+        savePpaData(ppaData);
+        buildHtml();
+      }
+    });
+  }
+
+  buildHtml();
+}
+
 
 function renderChangelogScreen() {
   const container = document.getElementById('changelog-content');
