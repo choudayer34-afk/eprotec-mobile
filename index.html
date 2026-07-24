@@ -3605,8 +3605,7 @@ function buildDouleurCardsHtml() {
       <div class="card-top-row" style="margin-bottom:8px;">
         <span class="tag-badge">Douleur ${idx + 1}</span>
         ${bilanData.douleurs.length > 1 ? `<button class="icon-btn" style="width:26px;height:26px;font-size:13px;" data-douleur-remove="${idx}">✕</button>` : ''}
-</div>  
-      <button class="detail-action-btn" style="margin-bottom:10px;" onclick="showPhraseModal('douleur')">🗣️ Phrases utiles</button>
+</div>
       <div class="bilan-field-row">
         <label>Origine <button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;" data-info="douleur_origine">i</button> <button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;" onclick="showPhraseModal('douleur')">🗣️</button></label>
           <textarea rows="1" class="bilan-textarea" data-douleur-field="origine" data-douleur-idx="${idx}">${escapeHtml(d.origine || '')}</textarea>
