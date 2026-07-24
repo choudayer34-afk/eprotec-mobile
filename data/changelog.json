@@ -1,5 +1,14 @@
 [
   {
+    "version": "8.4",
+    "date": "2026-07-24T12:04:13.328Z",
+    "title": "Correction : carte Douleur mal fermée + Suivi non réactif",
+    "items": [
+      "Le champ Origine avait perdu sa balise d'ouverture, ce qui refermait prématurément toute la carte Douleur visuellement",
+      "L'identifiant du bloc Suivi était incorrect, empêchant les boutons (vital Oui/Non, suppression d'un relevé) de fonctionner"
+    ]
+  },
+  {
     "version": "8.3",
     "date": "2026-07-24T11:50:00.608Z",
     "title": "Correction : doublon bouton phrases dans Douleur",
