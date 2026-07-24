@@ -1,5 +1,15 @@
 [
   {
+    "version": "8.5",
+    "date": "2026-07-24T12:21:14.680Z",
+    "title": "Nouveau module Autodéfense + première fiche (poignet 1 main)",
+    "items": [
+      "Nouvelle tuile \"Autodéfense\" avec 5 catégories : Prévention, Dégagements de saisies, Étranglements, Parades de coups, Techniques au sol",
+      "Première fiche complète : dégagement de saisie du poignet à une main, avec 2 méthodes illustrées (rotation, traction sèche)",
+      "Rappel intégré : ces fiches sont un pense-bête, pas un substitut à une pratique encadrée"
+    ]
+  },
+  {
     "version": "8.4",
     "date": "2026-07-24T12:04:13.328Z",
     "title": "Correction : carte Douleur mal fermée + Suivi non réactif",
