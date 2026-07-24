@@ -1,5 +1,14 @@
 [
   {
+    "version": "9.6",
+    "date": "2026-07-24T14:22:33.930Z",
+    "title": "Nouveau module \"Prêt à partir\" : guide + checklist réinitialisable",
+    "items": [
+      "Nouvelle tuile Plus → Prêt à partir : guide complet (déclenchement, missions CAI/CHU/distribution d'eau, bons réflexes) + checklist interactive",
+      "Indicateur de statut global (Prêt / éléments à vérifier), réinitialisation automatique chaque semaine, et bouton de réinitialisation manuelle si besoin (non déclenché)"
+    ]
+  },
+  {
     "version": "9.5",
     "date": "2026-07-24T13:56:28.524Z",
     "title": "Fiche : Prévention, observation et posture",
