@@ -310,6 +310,17 @@
   .consignes-box .consignes-title {
     color: #97C459; font-size: 13px; font-weight: 600; margin-bottom: 8px;
   }
+  .repere-interne-box {
+    background: #223258; border: 1.5px solid #85B7EB; border-radius: 10px;
+    padding: 12px 14px; margin-bottom: 14px;
+  }
+  .repere-interne-box .repere-title {
+    color: #85B7EB; font-size: 13px; font-weight: 600; margin-bottom: 4px;
+  }
+  .repere-interne-box .repere-subtitle {
+    color: #9FB3D6; font-size: 11px; font-style: italic; margin-bottom: 8px;
+  }
+  .repere-interne-box ul { padding-left: 18px; color: #fff; font-size: 13px; line-height: 1.7; }
   .consignes-box ul { padding-left: 18px; color: #fff; font-size: 13px; line-height: 1.7; }
   .ppa-status-card { border-radius: 14px; padding: 16px; text-align: center; margin-bottom: 14px; }
   .ppa-status-ready { background: #12351F; border: 1.5px solid #639922; }
@@ -4098,7 +4109,37 @@ function renderBilanFill() {
   const container = document.getElementById('bilan-content');
   container.innerHTML = `
     <div class="card" style="text-align:center;padding:10px;">
+      const container = document.getElementById('bilan-content');
+  container.innerHTML = `
+    <div class="card" style="text-align:center;padding:10px;">
       <span style="color:#9FB3D6;font-size:12px;">Bilan ouvert à ${formatDateHeureCourte(bilanData.dateHeureOuverture)}</span>
+    </div>
+    <div class="month-group">
+      <button class="month-toggle">
+        <span>📌 Repère interne (pas une règle médicale universelle)</span>
+        <span class="month-chevron">▸</span>
+      </button>
+      <div class="month-body" style="display:none">
+        <div class="repere-interne-box">
+          <div class="repere-title">Bilan complet ou non ?</div>
+          <div class="repere-subtitle">Convention interne de l'équipe, pas une règle du référentiel</div>
+          <ul>
+            <li>Pas de bilan complet pour un petit bobo (ex. pansement sur une petite plaie)</li>
+            <li>Bilan complet pour tout le reste</li>
+          </ul>
+        </div>
+        <div class="repere-interne-box">
+          <div class="repere-title">Quand fait-on la glycémie ?</div>
+          <div class="repere-subtitle">Convention interne de l'équipe, pas une règle du référentiel</div>
+          <ul>
+            <li>Trouble de la conscience ou confusion</li>
+            <li>Malaise ou convulsion</li>
+            <li>Victime diabétique connue</li>
+            <li>Signes évocateurs d'hypoglycémie (sueurs, tremblements, faim intense, pâleur)</li>
+            <li>Sur demande du médecin régulateur (15)</li>
+          </ul>
+        </div>
+      </div>
     </div>
   ` + BILAN_CATEGORIES.map(cat => `
     <div class="month-group">
