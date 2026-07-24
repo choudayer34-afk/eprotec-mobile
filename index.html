@@ -3412,7 +3412,6 @@ if (f.type === 'age-display') {
         ${dHeure ? `<div style="color:#9FB3D6;font-size:11px;margin-top:4px;">Saisi à ${dHeure}</div>` : ''}
       </div>
 <div class="suggestion-box" id="suggestion-taGauche">${getTaSuggestionHtml('Gauche')}</div>
-<div class="suggestion-box" id="suggestion-taGauche">${getTaSuggestionHtml('Gauche')}</div>
       <div class="suggestion-box" id="suggestion-taDroit">${getTaSuggestionHtml('Droit')}</div>
       <div class="suggestion-box" id="suggestion-ta-diff">${getTaDiffSuggestionHtml()}</div>
       <div class="bilan-field-row">
@@ -3930,7 +3929,7 @@ function renderBilanFill() {
         <span>🔄 Suivi</span>
         <span class="month-chevron">▸</span>
       </button>
-      <div class="month-body" id="suivi-body" style="display:none">
+      <div class="month-body" id="suivi-body-suivi" style="display:none">
         ${buildSuiviHtml()}
       </div>
     </div>
