@@ -1,5 +1,15 @@
 [
   {
+    "version": "9.9",
+    "date": "2026-07-24T14:58:42.174Z",
+    "title": "Enrichissement de la checklist Prêt à partir",
+    "items": [
+      "Ajout de 5 éléments au kit personnel (gourde, en-cas, change, serviette légère, couteau multifonction)",
+      "Ajout des bottes/rangers et de la casquette/bonnet (facultatif) dans Ma tenue",
+      "Simplification du libellé Disponibilités (OASIS uniquement)"
+    ]
+  },
+  {
     "version": "9.8",
     "date": "2026-07-24T14:47:15.687Z",
     "title": "Slogan et bénéfices concrets sur l'écran À propos",
