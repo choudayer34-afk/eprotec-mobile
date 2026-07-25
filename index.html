@@ -918,7 +918,7 @@ function isFavori(uid) {
 
 async function pushFavorisToFirebase() {
   try {
-    await fetch(FIREBASE_URL + '/favoris.json', {
+   await fetch(FIREBASE_URL + '/users/' + currentUserUid + '/favoris.json', {
       method: 'PUT',
       body: JSON.stringify(favorisCache)
     });
@@ -936,7 +936,7 @@ function toggleFavori(uid) {
 
 async function initFavoris() {
   try {
-    const res = await fetch(FIREBASE_URL + '/favoris.json?t=' + Date.now(), { cache: 'no-store' });
+    const res = await fetch(FIREBASE_URL + '/users/' + currentUserUid + '/favoris.json?t=' + Date.now(), { cache: 'no-store' });
     const remote = await res.json();
     if (Array.isArray(remote)) {
       favorisCache = remote;
@@ -957,14 +957,17 @@ async function initFavoris() {
     }
   } catch {}
 
-  try {
-    favorisCache = await fetch('data/favoris-seed.json').then(r => r.json());
-    favorisReady = true;
-    await pushFavorisToFirebase();
-  } catch {
-    favorisCache = [];
-    favorisReady = true;
+  if (isAdminUser) {
+    try {
+      favorisCache = await fetch('data/favoris-seed.json').then(r => r.json());
+      favorisReady = true;
+      await pushFavorisToFirebase();
+      return;
+    } catch {}
   }
+
+  favorisCache = [];
+  favorisReady = true;
 }
 
 function normalizeText(str) {
@@ -1253,6 +1256,12 @@ let calendarEvents = [];
 let rapportChartInstance = null;
 let lastEngineUpdate = null;
 let isAdminUser = false;
+let currentUserEmail = null;
+let currentUserUid = null;
+
+function sanitizeUid(email) {
+  return email.replace(/[.#$\[\]@]/g, '_');
+}
 let rapportMetric = 'heures';
 
 const DEFAULT_OAD_SETTINGS = {
@@ -1364,7 +1373,7 @@ function renderParametres() {
     const btn = container.querySelector('#settings-save');
     btn.textContent = 'Enregistrement...';
     try {
-      await fetch(FIREBASE_URL + '/oad-settings.json', {
+     await fetch(FIREBASE_URL + '/users/' + currentUserUid + '/oad-settings.json', {
         method: 'PUT',
         body: JSON.stringify(currentOadSettings)
       });
@@ -2073,7 +2082,7 @@ let dismissedCache = [];
 
 async function initDismissed() {
   try {
-    const res = await fetch(FIREBASE_URL + '/dismissed-suggestions.json?t=' + Date.now(), { cache: 'no-store' });
+   const res = await fetch(FIREBASE_URL + '/users/' + currentUserUid + '/dismissed-suggestions.json?t=' + Date.now(), { cache: 'no-store' });
     const remote = await res.json();
     if (Array.isArray(remote)) { dismissedCache = remote; return; }
   } catch {}
@@ -2086,7 +2095,7 @@ function isDismissed(uid) {
 
 async function pushDismissedToFirebase() {
   try {
-    await fetch(FIREBASE_URL + '/dismissed-suggestions.json', {
+    await fetch(FIREBASE_URL + '/users/' + currentUserUid + '/dismissed-suggestions.json', {
       method: 'PUT',
       body: JSON.stringify(dismissedCache)
     });
@@ -7163,7 +7172,7 @@ function renderUpdateStatus(lastUpdateIso) {
 
 async function loadOadSettings() {
   try {
-    const res = await fetch(FIREBASE_URL + '/oad-settings.json?t=' + Date.now(), { cache: 'no-store' });
+    const res = await fetch(FIREBASE_URL + '/users/' + currentUserUid + '/oad-settings.json?t=' + Date.now(), { cache: 'no-store' });
     const remote = await res.json();
     if (remote && typeof remote === 'object') {
       currentOadSettings = { ...DEFAULT_OAD_SETTINGS, ...remote };
@@ -7488,7 +7497,11 @@ async function checkCloudflareIdentity() {
     const res = await fetch('/cdn-cgi/access/get-identity', { credentials: 'include' });
     if (!res.ok) return;
     const identity = await res.json();
-if (identity.email === 'ch-houdayer@hotmail.fr') {
+    if (identity.email) {
+      currentUserEmail = identity.email;
+      currentUserUid = sanitizeUid(identity.email);
+    }
+    if (identity.email === 'ch-houdayer@hotmail.fr') {
       isAdminUser = true;
       const adminTile = document.getElementById('cf-admin-tile');
       const cloudFormationTile = document.getElementById('cf-cloudformation-tile');
@@ -7502,8 +7515,10 @@ if (identity.email === 'ch-houdayer@hotmail.fr') {
   } catch (err) {
     console.error('Erreur vérification identité Cloudflare :', err);
   }
+  if (!currentUserUid) currentUserUid = 'default';
 }
-  async function loadData() {
+async function loadData() {
+  await checkCloudflareIdentity();
   await initFavoris();
   await initDismissed();
   await loadOadSettings();
@@ -7654,7 +7669,6 @@ document.addEventListener('click', (e) => {
   }
 });
 
-checkCloudflareIdentity();
 startAutoRefreshWatcher();
   
 loadData()
