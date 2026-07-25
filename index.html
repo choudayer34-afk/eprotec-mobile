@@ -7114,8 +7114,14 @@ function setUpdateIcon(state) {
 
 async function pollWorkflowRun(token, sinceMs) {
   const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/actions/workflows/daily-check.yml/runs?event=workflow_dispatch&per_page=5`;
+  const startTime = Date.now();
+  const estimatedTotalMs = 90000;
   for (let attempt = 0; attempt < 40; attempt++) {
     await new Promise(r => setTimeout(r, 4000));
+    const elapsed = Date.now() - startTime;
+    const pct = Math.min(88, Math.round((elapsed / estimatedTotalMs) * 88));
+    const remainingSec = Math.max(0, Math.round((estimatedTotalMs - elapsed) / 1000));
+    setLoadingProgress(pct, remainingSec);
     try {
       const res = await fetch(url, {
         headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json' }
@@ -7133,9 +7139,10 @@ async function triggerWorkflow() {
   const token = await getGithubToken();
   if (!token) return;
 
-  setUpdateIcon('spinning');
+setUpdateIcon('spinning');
+  showProgressUI = true;
+  setLoadingProgress(2, 90);
   const sinceMs = Date.now() - 5000;
-
   try {
     const res = await fetch(
       `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/actions/workflows/daily-check.yml/dispatches`,
@@ -7164,13 +7171,17 @@ async function triggerWorkflow() {
 const run = await pollWorkflowRun(token, sinceMs);
 
     if (run && run.conclusion !== 'success') {
+      hideLoadingProgress();
       setUpdateIcon('error');
       setTimeout(() => setUpdateIcon('idle'), 3000);
     } else {
+      await loadData();
+      hideLoadingProgress();
       setUpdateIcon('done');
-      setTimeout(() => window.location.reload(), 800);
+      setTimeout(() => setUpdateIcon('idle'), 3000);
     }
-  } catch (err) {
+} catch (err) {
+    hideLoadingProgress();
     setUpdateIcon('error');
     setTimeout(() => setUpdateIcon('idle'), 3000);
   }
@@ -7639,31 +7650,32 @@ async function checkCloudflareIdentity() {
   if (!currentUserUid) currentUserUid = 'default';
 }
 
-function updateLoadingProgress(step, total, startTime) {
+let showProgressUI = false;
+
+function setLoadingProgress(pct, estRemainingSec) {
   const wrap = document.getElementById('loading-progress-wrap');
   const bar = document.getElementById('loading-progress-bar');
   const text = document.getElementById('loading-progress-text');
   if (!wrap) return;
-
-  if (step >= total) {
-    wrap.style.display = 'none';
-    return;
-  }
+  if (!showProgressUI) { wrap.style.display = 'none'; return; }
   wrap.style.display = 'block';
-  const pct = Math.round((step / total) * 100);
-  bar.style.width = pct + '%';
+  bar.style.width = Math.min(99, pct) + '%';
+  text.textContent = estRemainingSec != null ? `${pct}% — encore ~${estRemainingSec}s` : `${pct}%`;
+}
 
-  const elapsed = Date.now() - startTime;
-  const estimatedTotal = step > 0 ? (elapsed / step) * total : 0;
-  const remainingSec = Math.max(0, Math.round((estimatedTotal - elapsed) / 1000));
-  text.textContent = `${pct}% — encore ~${remainingSec}s`;
+function hideLoadingProgress() {
+  const wrap = document.getElementById('loading-progress-wrap');
+  if (wrap) wrap.style.display = 'none';
+  showProgressUI = false;
 }
 
 async function loadData() {
-  const loadStart = Date.now();
   const totalSteps = 8;
   let step = 0;
-  const tick = () => updateLoadingProgress(++step, totalSteps, loadStart);
+  const tick = () => {
+    step++;
+    if (showProgressUI) setLoadingProgress(90 + Math.round((step / totalSteps) * 9), null);
+  };
   tick();
 await checkCloudflareIdentity(); tick();
   await initFavoris(); tick();
@@ -7746,12 +7758,13 @@ buildCalendarEvents();
 
 tick();
 
-  renderTypeFilterChips();
+renderTypeFilterChips();
   renderEvenements();
   renderNouveautesCompletes(events);
   checkForNewChangelog();
-  updateLoadingProgress(totalSteps, totalSteps, loadStart);
+  hideLoadingProgress();
 }
+
 
 function startAutoRefreshWatcher() {
   setInterval(async () => {
