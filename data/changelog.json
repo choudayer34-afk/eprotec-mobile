@@ -1,5 +1,15 @@
 [
   {
+    "version": "14.6",
+    "date": "2026-07-25T21:57:55.334Z",
+    "title": "Écran maintenu allumé pendant le Bilan patient",
+    "items": [
+      "L'écran reste allumé automatiquement dès que tu es en mode \"Remplir\" du Bilan, quel que soit le chemin utilisé pour y accéder",
+      "Se désactive automatiquement en quittant l'écran ou en repassant en mode \"Référence\"",
+      "Petit indicateur 🔆 visible dans l'en-tête quand actif"
+    ]
+  },
+  {
     "version": "14.5",
     "date": "2026-07-25T21:31:48.433Z",
     "title": "Numéros d'urgence cliquables, accessibles depuis 3 endroits",
