@@ -2849,6 +2849,14 @@ bc_signes: { title: 'Signes', html: `<p>Ce que tu observes toi-même : sueurs, p
   bc_dernierRepas: { title: 'Dernier repas', html: `<p>Heure et nature approximative du dernier repas ou de la dernière boisson</p>` },
   bc_evenements: { title: 'Évènements', html: `<p>Ce qui s'est passé juste avant : effort, chute, dispute, chaleur, prise de substance...</p>` },
   bc_risque: { title: 'Risque', html: `<p>Un risque identifié pour la suite : allergène toujours présent, danger de la zone, isolement...</p>` },
+  ppa_dnd: {
+    title: 'Autoriser WhatsApp/Messages de 2 personnes la nuit',
+    html: `<p>Réglages iPhone → <b>Focus</b> (ou "Ne pas déranger")</p>
+      <p style="margin-top:8px;">Sélectionne ton mode nocturne (ex. "Sommeil" ou "Ne pas déranger")</p>
+      <p style="margin-top:8px;">Tape sur <b>Autoriser les notifications</b> → <b>Personnes</b> → Ajoute les 2 personnes concernées</p>
+      <p style="margin-top:8px;">Active aussi <b>Appels répétés</b> : un 2ᵉ appel de la même personne en moins de 3 minutes sonnera malgré le mode silencieux</p>
+      <p style="margin-top:8px;color:#F0997B;">Pour WhatsApp/Messages précisément : dans la même section "Personnes autorisées", assure-toi que l'app Messages est cochée si tu veux que leurs textos sonnent aussi</p>`
+  },
   amplitudeRespi: {
     title: 'Amplitude respiratoire',
     html: `<p><b>Normale</b> — mouvements respiratoires habituels</p>
@@ -7251,7 +7259,7 @@ const PPA_CHECKLIST_ITEMS = [
   { key: 'telephoneCharge', category: '📱 Mon matériel utile', label: 'Mon téléphone est chargé et joignable' },
   { key: 'cableChargeur', category: '📱 Mon matériel utile', label: "J'ai mon câble et mon chargeur" },
   { key: 'lampe', category: '📱 Mon matériel utile', label: "J'ai une lampe" },
-  { key: 'alertesNuit', category: '✅ Bons réflexes', label: "La nuit, mes alertes d'urgence sonnent malgré le mode silencieux" }
+  { key: 'alertesNuit', category: '✅ Bons réflexes', label: "La nuit, mes alertes d'urgence sonnent malgré le mode silencieux", info: 'ppa_dnd' },
 ];
 
 const PPA_STORAGE_KEY = 'eprotec_pretapartir';
@@ -7347,9 +7355,9 @@ function renderPretAPartir() {
       <div class="card">
         <div class="card-title">${cat}</div>
         ${grouped[cat].map(item => `
-          <div class="ppa-checklist-item" data-ppa-item="${item.key}">
-            <div class="ppa-checkbox ${ppaData.checked[item.key] ? 'checked' : ''}">${ppaData.checked[item.key] ? '✓' : ''}</div>
-            <div class="ppa-checklist-label">${item.label}</div>
+<div class="ppa-checklist-item">
+            <div class="ppa-checkbox ${ppaData.checked[item.key] ? 'checked' : ''}" data-ppa-item="${item.key}">${ppaData.checked[item.key] ? '✓' : ''}</div>
+            <div class="ppa-checklist-label">${item.label}${item.info ? ` <button class="icon-btn inline-icon-btn" style="width:20px;height:20px;font-size:10px;" data-info="${item.info}">i</button>` : ''}</div>
           </div>
         `).join('')}
       </div>
@@ -7380,12 +7388,20 @@ function renderPretAPartir() {
 
     setupAccordion(container);
 
-    container.querySelectorAll('[data-ppa-item]').forEach(row => {
+container.querySelectorAll('[data-ppa-item]').forEach(row => {
       row.addEventListener('click', () => {
         const key = row.dataset.ppaItem;
         ppaData.checked[key] = !ppaData.checked[key];
         savePpaData(ppaData);
         buildHtml();
+      });
+    });
+
+    container.querySelectorAll('[data-info]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const info = INFO_CONTENT[btn.dataset.info];
+        if (info) showInfoModal(info.title, info.html);
       });
     });
 
