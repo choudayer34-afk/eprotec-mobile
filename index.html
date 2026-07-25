@@ -1793,10 +1793,10 @@ function renderCalendar() {
   `).join('');
 
   container.innerHTML = `
-    <div class="screen-header">
+<div class="screen-header">
       <div class="screen-side"><button id="cal-filter-toggle" class="cal-filter-btn ${activeCount > 0 ? 'has-active' : ''}">Filtre${activeCount > 0 ? ' (' + activeCount + ')' : ''}</button></div>
       <h2 class="screen-title">Calendrier</h2>
-      <div class="screen-side"></div>
+      <div class="screen-side"><button class="icon-btn" id="cal-view-liste">📋</button></div>
     </div>
     <div class="filter-chips cal-filter-panel" id="cal-filter-panel" style="display:${calFilterPanelOpen ? 'flex' : 'none'};">${filterChipsHtml}</div>
     <div class="cal-header">
