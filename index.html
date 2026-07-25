@@ -1250,6 +1250,7 @@ let allSuggestions = [];
 let allHistory = {};
 let calendarEvents = [];
 let rapportChartInstance = null;
+let lastEngineUpdate = null;
 let rapportMetric = 'heures';
 
 const DEFAULT_OAD_SETTINGS = {
@@ -7508,6 +7509,7 @@ async function checkCloudflareIdentity() {
   allHistory = history;
 
   renderUpdateStatus(status.lastUpdate);
+  lastEngineUpdate = status.lastUpdate;
 
   allEvents = events;
   allSuggestions = suggestions;
@@ -7559,6 +7561,24 @@ buildCalendarEvents();
   renderNouveautesCompletes(events);
   checkForNewChangelog();
 }
+function startAutoRefreshWatcher() {
+  setInterval(async () => {
+    if (document.hidden) return;
+    try {
+      const res = await fetch('data/status.json?t=' + Date.now(), { cache: 'no-store' });
+      const status = await res.json();
+      if (lastEngineUpdate && status.lastUpdate && status.lastUpdate !== lastEngineUpdate) {
+        lastEngineUpdate = status.lastUpdate;
+        setTimeout(() => {
+          window.location.reload();
+        }, 5 * 60 * 1000);
+      }
+    } catch (err) {
+      console.error('Erreur vérification mise à jour auto :', err);
+    }
+  }, 2 * 60 * 1000);
+}
+
 
 (function setupPullToRefresh() {
   const indicator = document.getElementById('pull-indicator');
@@ -7623,6 +7643,7 @@ document.addEventListener('click', (e) => {
 });
 
 checkCloudflareIdentity();
+startAutoRefreshWatcher();
   
 loadData()
   .then(() => {
