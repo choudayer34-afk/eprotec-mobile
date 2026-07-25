@@ -7484,9 +7484,13 @@ async function checkCloudflareIdentity() {
     const res = await fetch('/cdn-cgi/access/get-identity', { credentials: 'include' });
     if (!res.ok) return;
     const identity = await res.json();
-    const adminTile = document.getElementById('cf-admin-tile');
-    if (adminTile && identity.email === 'ch-houdayer@hotmail.fr') {
-      adminTile.style.display = 'block';
+if (identity.email === 'ch-houdayer@hotmail.fr') {
+      const adminTile = document.getElementById('cf-admin-tile');
+      const cloudFormationTile = document.getElementById('cf-cloudformation-tile');
+      const shareBtn = document.getElementById('share-app-btn');
+      if (adminTile) adminTile.style.display = 'block';
+      if (cloudFormationTile) cloudFormationTile.style.display = 'block';
+      if (shareBtn) shareBtn.style.display = 'block';
     }
   } catch (err) {
     console.error('Erreur vérification identité Cloudflare :', err);
