@@ -761,14 +761,17 @@
     <div id="secourisme-search-results"></div>
   </section>
 
-<section id="plus-autodefense">
+  <section id="plus-autodefense">
     <div class="detail-header">
       <button class="plus-back">‹</button>
       <span>Autodéfense</span>
     </div>
+    <button class="detail-action-btn" id="sos-alert-btn" style="background:#E24B4A;color:#fff;font-weight:600;font-size:15px;margin-bottom:8px;">🆘 Envoyer une alerte SOS</button>
+    <button class="detail-action-btn" id="sos-config-btn" style="margin-bottom:14px;">⚙️ Configurer mes contacts SOS</button>
     <div style="background:#3A2A0E;color:#FAC775;font-size:12px;padding:10px 12px;border-radius:8px;margin-bottom:14px;">
       Ces fiches sont un pense-bête pour quelqu'un déjà formé — elles ne remplacent pas une vraie pratique encadrée par un instructeur.
     </div>
+
     <div class="tile-grid">
       <div class="tile" data-open="plus-autodef-prevention">
         <div class="tile-icon">👁</div>
@@ -847,6 +850,14 @@
     </div>
     <div id="eprotec-lien-content"><div class="empty">Chargement...</div></div>
   </section>
+    <section id="plus-sos-contacts">
+    <div class="detail-header">
+      <button class="plus-back" data-target="plus-autodefense">‹</button>
+      <span>Mes contacts SOS</span>
+    </div>
+    <div id="sos-contacts-content"><div class="empty">Chargement...</div></div>
+  </section>
+
   <section id="plus-lexique">
     <div class="detail-header">
       <button class="plus-back" data-target="plus-secourisme">‹</button>
@@ -1591,7 +1602,9 @@ if (subId === 'plus-pretapartir') renderPretAPartir();
   if (subId === 'plus-psychologie') renderGestesList('psychologie-content', ['psychologie']);
 if (subId === 'plus-materiel') renderGestesList('materiel-content', ['materiel']);
 if (subId === 'plus-novi') renderGestesList('novi-content', ['novi']);
-if (subId === 'plus-pediatrie') renderGestesList('pediatrie-content', ['pediatrie']);
+  if (subId === 'plus-pediatrie') renderGestesList('pediatrie-content', ['pediatrie']);
+  if (subId === 'plus-sos-contacts') renderSosContactsScreen();
+
   if (subId === 'plus-autodef-prevention') renderGestesList('autodef-prevention-content', ['prevention']);
   if (subId === 'plus-autodef-saisies') renderGestesList('autodef-saisies-content', ['saisies']);
   if (subId === 'plus-autodef-etranglements') renderGestesList('autodef-etranglements-content', ['etranglements']);
@@ -2992,7 +3005,124 @@ const EMERGENCY_NUMBERS = [
   { num: '3117', label: 'Alerte sécurité trains/gares', desc: 'Danger, agression à bord', action: 'tel' }
 ];
 
+async function loadSosContacts() {
+  try {
+    const res = await fetch(FIREBASE_URL + '/users/' + currentUserUid + '/sos-contacts.json?t=' + Date.now(), { cache: 'no-store' });
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
+  } catch {
+    return [];
+  }
+}
+
+async function saveSosContacts(contacts) {
+  await fetch(FIREBASE_URL + '/users/' + currentUserUid + '/sos-contacts.json', {
+    method: 'PUT',
+    body: JSON.stringify(contacts)
+  });
+}
+
+async function renderSosContactsScreen() {
+  const container = document.getElementById('sos-contacts-content');
+  const contacts = await loadSosContacts();
+  const c1 = contacts[0] || { name: '', phone: '' };
+  const c2 = contacts[1] || { name: '', phone: '' };
+
+  container.innerHTML = `
+    <div class="card">
+      <div class="card-title">Contact SOS 1</div>
+      <div class="bilan-field-row"><label>Nom</label><input type="text" id="sos-name-1" value="${escapeHtml(c1.name)}"></div>
+      <div class="bilan-field-row"><label>Téléphone (avec indicatif, ex : +33612345678)</label><input type="text" id="sos-phone-1" value="${escapeHtml(c1.phone)}"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Contact SOS 2 (facultatif)</div>
+      <div class="bilan-field-row"><label>Nom</label><input type="text" id="sos-name-2" value="${escapeHtml(c2.name)}"></div>
+      <div class="bilan-field-row"><label>Téléphone (avec indicatif)</label><input type="text" id="sos-phone-2" value="${escapeHtml(c2.phone)}"></div>
+    </div>
+    <button class="detail-action-btn primary" id="sos-contacts-save">Enregistrer</button>
+    <div id="sos-contacts-status" style="color:#97C459;font-size:12px;margin-top:8px;text-align:center;"></div>
+  `;
+
+  container.querySelector('#sos-contacts-save').addEventListener('click', async () => {
+    const newContacts = [];
+    const n1 = container.querySelector('#sos-name-1').value.trim();
+    const p1 = container.querySelector('#sos-phone-1').value.trim();
+    const n2 = container.querySelector('#sos-name-2').value.trim();
+    const p2 = container.querySelector('#sos-phone-2').value.trim();
+    if (p1) newContacts.push({ name: n1 || 'Contact 1', phone: p1 });
+    if (p2) newContacts.push({ name: n2 || 'Contact 2', phone: p2 });
+    await saveSosContacts(newContacts);
+    container.querySelector('#sos-contacts-status').textContent = '✓ Enregistré';
+  });
+}
+
+async function triggerSosAlert() {
+  const btn = document.getElementById('sos-alert-btn');
+  const original = btn.textContent;
+  btn.textContent = '📍 Localisation en cours...';
+
+  const contacts = await loadSosContacts();
+  if (contacts.length === 0) {
+    btn.textContent = original;
+    alert("Configure d'abord au moins un contact SOS.");
+    return;
+  }
+
+  if (!navigator.geolocation) {
+    btn.textContent = original;
+    alert('Géolocalisation non disponible.');
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition((pos) => {
+    const { latitude, longitude } = pos.coords;
+    const mapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+    const message = `🆘 J'ai besoin d'aide. Voici ma position : ${mapsUrl}`;
+    btn.textContent = original;
+    showSosSendChooser(contacts, message);
+  }, () => {
+    btn.textContent = original;
+    const message = "🆘 J'ai besoin d'aide, je n'ai pas pu transmettre ma position.";
+    showSosSendChooser(contacts, message);
+  }, { enableHighAccuracy: true, timeout: 10000 });
+}
+
+function showSosSendChooser(contacts, message) {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;';
+  overlay.innerHTML = `
+    <div style="background:#163C74;border-radius:16px;padding:16px;width:100%;max-width:360px;">
+      <div style="color:#fff;font-size:15px;font-weight:600;margin-bottom:12px;text-align:center;">🆘 Envoyer l'alerte à...</div>
+      ${contacts.map((c, i) => `
+        <div style="color:#9FB3D6;font-size:12px;margin:10px 0 4px;">${c.name}</div>
+        <div style="display:flex;gap:8px;margin-bottom:6px;">
+          <button class="detail-action-btn" data-sos-send="whatsapp" data-idx="${i}" style="flex:1;">💬 WhatsApp</button>
+          <button class="detail-action-btn" data-sos-send="sms" data-idx="${i}" style="flex:1;">✉️ SMS</button>
+        </div>
+      `).join('')}
+      <button class="detail-action-btn" id="sos-cancel" style="margin-top:10px;">Annuler</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  overlay.querySelectorAll('[data-sos-send]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const contact = contacts[parseInt(btn.dataset.idx, 10)];
+      const phone = contact.phone.replace(/[^\d+]/g, '');
+      if (btn.dataset.sosSend === 'whatsapp') {
+        window.open(`https://wa.me/${phone.replace('+', '')}?text=${encodeURIComponent(message)}`, '_blank');
+      } else {
+        window.location.href = `sms:${phone}&body=${encodeURIComponent(message)}`;
+      }
+      overlay.remove();
+    });
+  });
+
+  overlay.querySelector('#sos-cancel').addEventListener('click', () => overlay.remove());
+}
+
 function showEmergencyNumbersModal() {
+
   const overlay = document.createElement('div');
   overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;';
   overlay.innerHTML = `
@@ -7107,6 +7237,15 @@ document.getElementById('lexique-search').addEventListener('input', (e) => {
 document.getElementById('lexique-bodymap-btn').addEventListener('click', () => showBodyMapModal());
 
 document.getElementById('liens-urgence-btn').addEventListener('click', showEmergencyNumbersModal);
+
+document.getElementById('sos-alert-btn').addEventListener('click', triggerSosAlert);
+document.getElementById('sos-config-btn').addEventListener('click', () => {
+  document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === 'plus-secourisme'));
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  document.getElementById('plus-sos-contacts').classList.add('active');
+  renderSosContactsScreen();
+});
+
 
 document.getElementById('share-app-btn').addEventListener('click', async () => {
 
