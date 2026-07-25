@@ -956,15 +956,7 @@ async function initFavoris() {
     console.error('Erreur chargement favoris en ligne :', err);
   }
 
-  try {
-    const local = JSON.parse(localStorage.getItem(OLD_FAVORIS_KEY) || 'null');
-    if (Array.isArray(local) && local.length > 0) {
-      favorisCache = local;
-      favorisReady = true;
-      await pushFavorisToFirebase();
-      return;
-    }
-  } catch {}
+ 
 
   if (isAdminUser) {
     try {
@@ -1394,7 +1386,9 @@ function renderParametres() {
         document.getElementById('accueil').classList.add('active');
         triggerWorkflow();
       } else {
-        setTimeout(() => { btn.textContent = 'Enregistrer'; }, 2000);
+        const mins = minutesUntilNextEngineRun();
+        btn.textContent = `✓ Enregistré (~${mins} min avant application)`;
+        setTimeout(() => { window.location.reload(); }, 2500);
       }
     } catch (err) {
       btn.textContent = 'Erreur, réessaie';
@@ -7473,9 +7467,18 @@ async function renderEprotecLien() {
     const raw = container.querySelector('#eprotec-cid-input').value;
     const cid = extractCid(raw);
     await saveEprotecCid(cid);
-    container.querySelector('#eprotec-cid-input').value = cid;
-    container.querySelector('#eprotec-cid-status').textContent = '✓ Enregistré — Lien utilisé : ' + EPROTEC_URL_BASE + cid;
+    const mins = minutesUntilNextEngineRun();
+    container.querySelector('#eprotec-cid-status').textContent = `✓ Enregistré — pris en compte au prochain passage automatique (~${mins} min)`;
+    setTimeout(() => { window.location.reload(); }, 2500);
   });
+}
+
+function minutesUntilNextEngineRun() {
+  const now = new Date();
+  const next = new Date(now);
+  next.setMinutes(1, 0, 0);
+  if (next <= now) next.setHours(next.getHours() + 1);
+  return Math.max(1, Math.round((next - now) / 60000));
 }
 
   
@@ -7618,7 +7621,8 @@ async function checkCloudflareIdentity() {
   }
   if (!currentUserUid) currentUserUid = 'default';
 }
-async function loadData() {
+
+  async function loadData() {
   await checkCloudflareIdentity();
   await initFavoris();
   await initDismissed();
@@ -7627,14 +7631,28 @@ async function loadData() {
   renderParametres();
 
   const bust = Date.now();
-  const [events, suggestions, status, history] = await Promise.all([
+  const [events, sharedSuggestions, status, sharedHistory] = await Promise.all([
     fetch('data/events.json?t=' + bust, { cache: 'no-store' }).then(r => r.json()),
     fetch('data/suggestions.json?t=' + bust, { cache: 'no-store' }).then(r => r.json()),
     fetch('data/status.json?t=' + bust, { cache: 'no-store' }).then(r => r.json()).catch(() => ({})),
     fetch('data/registrations-history.json?t=' + bust, { cache: 'no-store' }).then(r => r.json()).catch(() => ({}))
   ]);
 
-  allHistory = history;
+  const [registeredUidsArr, personalSuggestions, personalHistory] = await Promise.all([
+    fetch(FIREBASE_URL + '/users/' + currentUserUid + '/data/registered-uids.json?t=' + bust, { cache: 'no-store' }).then(r => r.json()).catch(() => null),
+    fetch(FIREBASE_URL + '/users/' + currentUserUid + '/data/suggestions.json?t=' + bust, { cache: 'no-store' }).then(r => r.json()).catch(() => null),
+    fetch(FIREBASE_URL + '/users/' + currentUserUid + '/data/registrations-history.json?t=' + bust, { cache: 'no-store' }).then(r => r.json()).catch(() => null)
+  ]);
+
+  if (Array.isArray(registeredUidsArr)) {
+    const registeredSet = new Set(registeredUidsArr);
+    events.forEach(e => { e.dejaInscrit = registeredSet.has(e.uid); });
+  } else if (!isAdminUser) {
+    events.forEach(e => { e.dejaInscrit = false; });
+  }
+
+  const suggestions = Array.isArray(personalSuggestions) ? personalSuggestions : (isAdminUser ? sharedSuggestions : []);
+  allHistory = (personalHistory && typeof personalHistory === 'object') ? personalHistory : (isAdminUser ? sharedHistory : {});
 
   renderUpdateStatus(status.lastUpdate);
   lastEngineUpdate = status.lastUpdate;
