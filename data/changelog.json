@@ -1,5 +1,17 @@
 [
   {
+    "version": "13.3",
+    "date": "2026-07-25T14:49:45.854Z",
+    "title": "Bascule Liste/Calendrier, filtres en icônes et cases à cocher, dates \"du/au\", icône Bilan visible",
+    "items": [
+      "Bascule Liste ↔ Calendrier directement depuis l'onglet Événements",
+      "Filtre de statut réduit à 4 icônes (Tous/Suggérés/Favoris/Inscrits), avec titre d'écran qui change en conséquence",
+      "Filtre de type transformé en fenêtre à cases à cocher, avec tout sélectionner/désélectionner",
+      "Labels \"du\"/\"au\" sur le filtre de dates",
+      "Icône Bilan sur l'Accueil recolorée en orange pour une meilleure visibilité"
+    ]
+  },
+  {
     "version": "13.2",
     "date": "2026-07-25T14:35:42.997Z",
     "title": "Refonte de la navigation : 5 onglets principaux, filtres de statut",
