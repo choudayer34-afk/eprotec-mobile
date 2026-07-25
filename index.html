@@ -404,7 +404,7 @@
 
   <section id="accueil" class="active">
 <div class="screen-header">
-      <div class="screen-side"></div>
+      <div class="screen-side"><button class="icon-btn" id="changelog-icon-btn">🆕</button></div>
       <div style="text-align:center;">
         <h2 class="screen-title" style="margin-bottom:2px;">Mon eProtec</h2>
         <div style="font-size:10px;color:#9FB3D6;" id="app-version">v...</div>
@@ -412,6 +412,12 @@
       <div class="screen-side"><button class="icon-btn" id="force-update-btn" style="display:none;"><span id="force-update-icon">↻</span></button></div>
     </div>
     <div class="update-status" id="update-status">Chargement...</div>
+<div id="loading-progress-wrap" style="padding:0 14px 10px;">
+  <div style="background:#163C74;border-radius:6px;height:6px;overflow:hidden;">
+    <div id="loading-progress-bar" style="height:100%;width:0%;background:#F5821F;transition:width 0.3s;"></div>
+  </div>
+  <div id="loading-progress-text" style="color:#9FB3D6;font-size:11px;text-align:center;margin-top:4px;"></div>
+</div>
 
     <div class="kpi-grid">
       <div class="kpi" id="kpi-nouveautes-box"><div class="value" id="kpi-nouveautes">-</div><div class="label">Nouveautés</div></div>
@@ -431,9 +437,9 @@
     <div class="card">
       <button class="month-toggle" id="accueil-nouveautes-toggle" style="margin-bottom:8px;">
         <span>Dernières nouveautés</span>
-        <span class="month-chevron" id="accueil-nouveautes-chevron">▾</span>
+        <span class="month-chevron" id="accueil-nouveautes-chevron">▸</span>
       </button>
-      <div id="liste-nouveautes"><div class="empty">Chargement...</div></div>
+      <div id="liste-nouveautes" style="display:none;"><div class="empty">Chargement...</div></div>
     </div>
   </section>
 
@@ -507,10 +513,7 @@
         <div class="tile-icon">🔗</div>
         <div class="tile-title">Mon lien Eprotec</div>
       </div>
-  <div class="tile" data-open="plus-changelog">
-        <div class="tile-icon">🆕</div>
-        <div class="tile-title">Nouveautés de l'app</div>
-      </div>
+
       <div class="tile span-2" data-open="plus-liens">
         
 
@@ -1497,6 +1500,14 @@ document.getElementById('kpi-inscrits-box').addEventListener('click', () => {
   renderInscriptions();
 });
 document.getElementById('kpi-nouveautes-box').addEventListener('click', () => openPlusSection('plus-nouveautes'));
+
+  document.getElementById('changelog-icon-btn').addEventListener('click', () => {
+  document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === 'plus'));
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  document.getElementById('plus-changelog').classList.add('active');
+  renderChangelogScreen();
+});
+  
 document.getElementById('accueil-nouveautes-toggle').addEventListener('click', () => {
   const body = document.getElementById('liste-nouveautes');
   const chevron = document.getElementById('accueil-nouveautes-chevron');
@@ -7622,12 +7633,37 @@ async function checkCloudflareIdentity() {
   if (!currentUserUid) currentUserUid = 'default';
 }
 
-  async function loadData() {
-  await checkCloudflareIdentity();
-  await initFavoris();
-  await initDismissed();
-  await loadOadSettings();
-  await loadChangelog();
+function updateLoadingProgress(step, total, startTime) {
+  const wrap = document.getElementById('loading-progress-wrap');
+  const bar = document.getElementById('loading-progress-bar');
+  const text = document.getElementById('loading-progress-text');
+  if (!wrap) return;
+
+  if (step >= total) {
+    wrap.style.display = 'none';
+    return;
+  }
+  wrap.style.display = 'block';
+  const pct = Math.round((step / total) * 100);
+  bar.style.width = pct + '%';
+
+  const elapsed = Date.now() - startTime;
+  const estimatedTotal = step > 0 ? (elapsed / step) * total : 0;
+  const remainingSec = Math.max(0, Math.round((estimatedTotal - elapsed) / 1000));
+  text.textContent = `${pct}% — encore ~${remainingSec}s`;
+}
+
+async function loadData() {
+  const loadStart = Date.now();
+  const totalSteps = 8;
+  let step = 0;
+  const tick = () => updateLoadingProgress(++step, totalSteps, loadStart);
+  tick();
+await checkCloudflareIdentity(); tick();
+  await initFavoris(); tick();
+  await initDismissed(); tick();
+  await loadOadSettings(); tick();
+  await loadChangelog(); tick();
   renderParametres();
 
   const bust = Date.now();
@@ -7702,10 +7738,14 @@ async function checkCloudflareIdentity() {
 
 buildCalendarEvents();
 
+tick();
+
   renderTypeFilterChips();
   renderEvenements();
   renderNouveautesCompletes(events);
   checkForNewChangelog();
+  updateLoadingProgress(totalSteps, totalSteps, loadStart);
+}
 }
 function startAutoRefreshWatcher() {
   setInterval(async () => {
