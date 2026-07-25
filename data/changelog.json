@@ -1,5 +1,14 @@
 [
   {
+    "version": "13.6",
+    "date": "2026-07-25T15:18:37.157Z",
+    "title": "Correction critique : lien de notification vers un écran supprimé",
+    "items": [
+      "Le hash #nouveautes (utilisé par les notifications) pointait vers un écran qui n'existe plus depuis la réorganisation de Plus, provoquant une erreur qui bloquait tout le chargement de l'app et se reproduisait en boucle",
+      "Redirige désormais correctement vers Événements avec le filtre Nouveautés actif"
+    ]
+  },
+  {
     "version": "13.5",
     "date": "2026-07-25T15:10:16.911Z",
     "title": "Correction",
