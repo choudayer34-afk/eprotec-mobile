@@ -52,7 +52,7 @@ async function sendPushNotification(newEvents) {
 
   const titles = newEvents.slice(0, 3).map(e => `[${e.tag}] ${e.titre}`).join('\n');
   const suffix = newEvents.length > 3 ? `\n...et ${newEvents.length - 3} autre(s)` : '';
-  const appUrl = 'https://choudayer34-afk.github.io/eprotec-mobile/#nouveautes';
+  const appUrl = 'https://eprotec-mobile.choudayer34.workers.dev/#nouveautes';
 
   await fetch(`https://ntfy.sh/${topic}`, {
     method: 'POST',
