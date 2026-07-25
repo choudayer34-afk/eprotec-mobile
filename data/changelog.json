@@ -1,5 +1,14 @@
 [
   {
+    "version": "14.2",
+    "date": "2026-07-25T20:10:03.560Z",
+    "title": "Vraie progression du moteur (étapes réelles) au lieu d'une estimation inventée",
+    "items": [
+      "Remplace l'ancienne estimation fixe de 90 secondes par les vraies étapes du workflow GitHub Actions en cours d'exécution",
+      "Affiche désormais \"Étape X/Y : nom de l'étape\" avec le temps réellement écoulé, plutôt qu'un temps restant deviné"
+    ]
+  },
+  {
     "version": "14.1",
     "date": "2026-07-25T20:02:40.288Z",
     "title": "Correction : retrait automatique d'une désinscription future de l'historiquejs",
