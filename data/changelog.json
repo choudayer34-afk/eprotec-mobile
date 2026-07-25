@@ -1,5 +1,13 @@
 [
   {
+    "version": "14.3",
+    "date": "2026-07-25T20:29:33.469Z",
+    "title": "Correction : suggestions écartées qui réapparaissaient",
+    "items": [
+      "Le filtre qui excluait immédiatement une suggestion balayée (en attendant que le moteur la retire définitivement au prochain passage) avait disparu lors de la fusion de Suggestions dans Événements"
+    ]
+  },
+  {
     "version": "14.2",
     "date": "2026-07-25T20:10:03.560Z",
     "title": "Vraie progression du moteur (étapes réelles) au lieu d'une estimation inventée",
