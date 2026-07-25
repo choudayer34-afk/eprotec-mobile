@@ -404,7 +404,7 @@
 
   <section id="accueil" class="active">
 <div class="screen-header">
-      <div class="screen-side"><button class="icon-btn" id="bilan-quickaccess-btn">🩺</button></div>
+      <div class="screen-side"><button class="icon-btn" id="bilan-quickaccess-btn" style="background:#F5821F;font-size:20px;">🩺</button></div>
       <div style="text-align:center;">
         <h2 class="screen-title" style="margin-bottom:2px;">Mon eProtec</h2>
         <div style="font-size:10px;color:#9FB3D6;" id="app-version">v...</div>
@@ -449,16 +449,26 @@
       <h2 class="screen-title">Événements</h2>
       <div class="screen-side"></div>
     </div>
+<div class="metric-toggle">
+      <button data-view="liste" class="active">📋 Liste</button>
+      <button data-view="calendrier">🗓️ Calendrier</button>
+    </div>
     <div class="search-box">
       <span>🔍</span>
       <input type="text" id="search-input" placeholder="Titre, lieu...">
     </div>
-    <div class="date-filter-row">
-      <input type="date" id="date-from">
-      <input type="date" id="date-to">
+<div class="date-filter-row">
+      <div style="display:flex;align-items:center;gap:6px;flex:1;">
+        <span style="color:#9FB3D6;font-size:12px;">du</span>
+        <input type="date" id="date-from" style="flex:1;">
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;flex:1;">
+        <span style="color:#9FB3D6;font-size:12px;">au</span>
+        <input type="date" id="date-to" style="flex:1;">
+      </div>
     </div>
     <div class="filter-chips" id="status-filter-chips"></div>
-    <div class="filter-chips" id="type-filter-chips"></div>
+    <button class="detail-action-btn" id="type-filter-btn" style="margin-bottom:14px;">🏷️ Filtrer par type</button>
     <div id="liste-evenements"><div class="empty">Chargement...</div></div>
   </section>
 
@@ -1442,16 +1452,19 @@ let statusFilter = 'ALL';
 function renderStatusFilterChips() {
   const container = document.getElementById('status-filter-chips');
   const options = [
-    { key: 'ALL', label: 'Tous les statuts' },
-    { key: 'SUGGERE', label: '🎯 Suggérés' },
-    { key: 'FAVORI', label: '⭐ Favoris' },
-    { key: 'INSCRIT', label: '✅ Inscrits' }
+    { key: 'ALL', label: '📋', title: 'Événements' },
+    { key: 'SUGGERE', label: '🎯', title: 'Suggestions OAD' },
+    { key: 'FAVORI', label: '⭐', title: 'Mes favoris' },
+    { key: 'INSCRIT', label: '✅', title: 'Mes inscriptions' }
   ];
-  container.innerHTML = options.map(o => `<button data-status="${o.key}" class="${statusFilter === o.key ? 'active' : ''}">${o.label}</button>`).join('');
+  container.innerHTML = options.map(o => `<button data-status="${o.key}" style="font-size:18px;" class="${statusFilter === o.key ? 'active' : ''}">${o.label}</button>`).join('');
   container.querySelectorAll('button').forEach(btn => {
     btn.addEventListener('click', () => {
       statusFilter = btn.dataset.status;
       container.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.status === statusFilter));
+      const opt = options.find(o => o.key === statusFilter);
+      const titleEl = document.querySelector('#plus-evenements .screen-title');
+      if (titleEl && opt) titleEl.textContent = opt.title;
       renderEvenements();
     });
   });
@@ -1472,6 +1485,16 @@ document.querySelectorAll('nav button').forEach(btn => {
     if (btn.dataset.tab === 'plus-pretapartir') renderPretAPartir();
   });
 });
+  document.querySelectorAll('#plus-evenements [data-view]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (btn.dataset.view === 'calendrier') {
+      document.getElementById('plus-evenements').classList.remove('active');
+      document.getElementById('calendrier').classList.add('active');
+      renderCalendar();
+    }
+  });
+});
+  
 document.querySelectorAll('.tile[data-open]').forEach(tile => {
   tile.addEventListener('click', () => {
     if (tile.dataset.open === 'calendrier') {
@@ -1794,7 +1817,13 @@ function renderCalendar() {
     <div id="cal-day-detail"></div>
   `;
 
+document.getElementById('cal-view-liste').addEventListener('click', () => {
+    document.getElementById('calendrier').classList.remove('active');
+    document.getElementById('plus-evenements').classList.add('active');
+  });
+
   document.getElementById('cal-filter-toggle').addEventListener('click', () => {
+    
     calFilterPanelOpen = !calFilterPanelOpen;
     renderCalendar();
   });
@@ -7055,18 +7084,64 @@ container.innerHTML = filtered.map(geste => `
   setupAccordion(container);
 }
 
-function renderTypeFilterChips() {
-  const container = document.getElementById('type-filter-chips');
-  container.innerHTML = TAG_ORDER.map(tag => `
-    <button data-type="${tag}" class="${tag === filterType ? 'active' : ''}">${TAG_LABELS[tag]}</button>
-  `).join('');
+const ALL_TAG_KEYS = ['DPS', 'FOR', 'MAN', 'BENEVOLE', 'MLA', 'ALERT', 'AIP', 'AUTRE'];
+let selectedTypes = new Set(ALL_TAG_KEYS);
 
-  container.querySelectorAll('button').forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterType = btn.dataset.type;
-      container.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.type === filterType));
-      renderEvenements();
+function updateTypeFilterBtnLabel() {
+  const btn = document.getElementById('type-filter-btn');
+  if (!btn) return;
+  if (selectedTypes.size === ALL_TAG_KEYS.length) btn.textContent = '🏷️ Tous les types';
+  else if (selectedTypes.size === 0) btn.textContent = '🏷️ Aucun type sélectionné';
+  else btn.textContent = `🏷️ ${selectedTypes.size} type(s) sélectionné(s)`;
+}
+
+function renderTypeFilterChips() {
+  updateTypeFilterBtnLabel();
+  document.getElementById('type-filter-btn').addEventListener('click', showTypeFilterModal);
+}
+
+function showTypeFilterModal() {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:999;display:flex;align-items:center;justify-content:center;padding:20px;';
+  overlay.innerHTML = `
+    <div style="background:#163C74;border-radius:16px;padding:20px;width:100%;max-width:360px;max-height:80vh;overflow-y:auto;">
+      <div style="color:#fff;font-size:15px;font-weight:500;margin-bottom:12px;">Filtrer par type</div>
+      <div style="display:flex;gap:8px;margin-bottom:14px;">
+        <button class="detail-action-btn" id="type-select-all" style="flex:1;">Tout sélectionner</button>
+        <button class="detail-action-btn" id="type-deselect-all" style="flex:1;">Tout désélectionner</button>
+      </div>
+      ${ALL_TAG_KEYS.map(tag => `
+        <label style="display:flex;align-items:center;gap:10px;padding:10px 0;border-top:0.5px solid #223258;">
+          <input type="checkbox" data-type-checkbox="${tag}" ${selectedTypes.has(tag) ? 'checked' : ''} style="width:20px;height:20px;">
+          <span style="width:12px;height:12px;border-radius:50%;background:${TAG_COLORS[tag] || '#888780'};display:inline-block;"></span>
+          <span style="color:#fff;font-size:14px;">${TAG_LABELS[tag]}</span>
+        </label>
+      `).join('')}
+      <button class="detail-action-btn primary" id="type-filter-close" style="margin-top:16px;">Valider</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  overlay.querySelectorAll('[data-type-checkbox]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      if (cb.checked) selectedTypes.add(cb.dataset.typeCheckbox);
+      else selectedTypes.delete(cb.dataset.typeCheckbox);
     });
+  });
+
+  overlay.querySelector('#type-select-all').addEventListener('click', () => {
+    selectedTypes = new Set(ALL_TAG_KEYS);
+    overlay.querySelectorAll('[data-type-checkbox]').forEach(cb => cb.checked = true);
+  });
+  overlay.querySelector('#type-deselect-all').addEventListener('click', () => {
+    selectedTypes.clear();
+    overlay.querySelectorAll('[data-type-checkbox]').forEach(cb => cb.checked = false);
+  });
+
+  overlay.querySelector('#type-filter-close').addEventListener('click', () => {
+    overlay.remove();
+    updateTypeFilterBtnLabel();
+    renderEvenements();
   });
 }
 
@@ -7082,10 +7157,11 @@ function renderEvenements() {
     filtered = filtered.filter(e => suggestedUids.has(e.uid));
   }
 
-  if (filterType === 'BENEVOLE') {
-    filtered = filtered.filter(e => normalizeText(e.titre).includes('benevole'));
-  } else if (filterType !== 'ALL') {
-    filtered = filtered.filter(e => e.tag === filterType);
+if (selectedTypes.size < ALL_TAG_KEYS.length) {
+    filtered = filtered.filter(e => {
+      if (selectedTypes.has('BENEVOLE') && normalizeText(e.titre).includes('benevole')) return true;
+      return selectedTypes.has(e.tag);
+    });
   }
   if (searchQuery) {
     const q = searchQuery.toLowerCase();
