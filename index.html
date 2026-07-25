@@ -850,7 +850,7 @@
       <a class="tile" href="https://boutique.protection-civile.org/fr/" target="_blank">
         <div class="tile-icon">🛒</div><div class="tile-title">Boutique</div>
       </a>
-              <a class="tile" href="https://dash.cloudflare.com/b2daa5e2f876743239f965f620add66d/one/access-controls/policies/1ffab7a0-8100-4fea-8715-42b058d30c70/edit" target="_blank">
+              <a class="tile" id="cf-admin-tile" href="https://one.dash.cloudflare.com/b2daa5e2f876743239f965f620add66d/access/apps" target="_blank" style="display:none;">
         <div class="tile-icon">🔐</div>
         <div class="tile-title">Gérer les accès (Cloudflare)</div>
       </a><button class="tile" id="share-app-btn" style="border:none;width:100%;">
@@ -7477,7 +7477,20 @@ function renderChangelogScreen() {
   `).join('');
 }
 
-async function loadData() {
+async function checkCloudflareIdentity() {
+  try {
+    const res = await fetch('/cdn-cgi/access/get-identity', { credentials: 'include' });
+    if (!res.ok) return;
+    const identity = await res.json();
+    const adminTile = document.getElementById('cf-admin-tile');
+    if (adminTile && identity.email === 'ch-houdayer@hotmail.fr') {
+      adminTile.style.display = 'block';
+    }
+  } catch (err) {
+    console.error('Erreur vérification identité Cloudflare :', err);
+  }
+}
+  async function loadData() {
   await initFavoris();
   await initDismissed();
   await loadOadSettings();
@@ -7609,7 +7622,8 @@ document.addEventListener('click', (e) => {
   }
 });
 
-
+checkCloudflareIdentity();
+  
 loadData()
   .then(() => {
     if (window.location.hash === '#nouveautes') {
