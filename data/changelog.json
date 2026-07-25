@@ -1,5 +1,15 @@
 [
   {
+    "version": "12.8",
+    "date": "2026-07-25T13:59:24.619Z",
+    "title": "Icône nouveautés app, nouveautés repliées, barre de progression",
+    "items": [
+      "\"Nouveautés de l'app\" déplacé de Liens utiles vers une icône dédiée en haut à gauche de l'Accueil",
+      "Le bloc \"Dernières nouveautés\" de l'Accueil est désormais replié par défaut",
+      "Barre de progression avec pourcentage et estimation du temps restant pendant le chargement des données"
+    ]
+  },
+  {
     "version": "12.7",
     "date": "2026-07-25T13:38:09.148Z",
     "title": "Correction : modale du lien Eprotec vérifiée après identification",
