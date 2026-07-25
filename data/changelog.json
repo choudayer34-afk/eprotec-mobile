@@ -1,5 +1,14 @@
 [
   {
+    "version": "14.0",
+    "date": "2026-07-25T19:43:25.480Z",
+    "title": "Correction critique : UID incompatibles avec les clés Firebase",
+    "items": [
+      "Les identifiants d'événements contiennent des caractères interdits dans les clés Firebase (points, barres obliques)",
+      "Le moteur nettoie désormais ces caractères avant d'enregistrer l'historique de chacun, corrigeant un bug qui empêchait la mise à jour correcte de l'historique personnel au fil des passages automatiques"
+    ]
+  },
+  {
     "version": "13.9",
     "date": "2026-07-25T18:56:43.256Z",
     "title": "score des suggestions affiché dans Événements",
