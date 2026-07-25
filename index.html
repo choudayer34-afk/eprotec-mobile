@@ -850,6 +850,10 @@
       <a class="tile" href="https://boutique.protection-civile.org/fr/" target="_blank">
         <div class="tile-icon">🛒</div><div class="tile-title">Boutique</div>
       </a>
+      <button class="tile" id="share-app-btn" style="border:none;width:100%;">
+        <div class="tile-icon">📤</div>
+        <div class="tile-title">Partager l'app</div>
+      </button>
 <a class="tile" href="https://apps.apple.com/fr/app/staying-alive/id403117516" target="_blank">
         <img src="data/staying-alive-logo.png" style="width:40px;height:40px;border-radius:12px;object-fit:cover;margin:0 auto 8px;display:block;" alt="Staying Alive">
         <div class="tile-title">Staying Alive</div>
@@ -6860,6 +6864,25 @@ document.getElementById('lexique-search').addEventListener('input', (e) => {
   renderLexique(e.target.value);
 });
 document.getElementById('lexique-bodymap-btn').addEventListener('click', () => showBodyMapModal());
+
+document.getElementById('share-app-btn').addEventListener('click', async () => {
+  const shareData = {
+    title: 'Mon eProtec',
+    text: "Une app pour la Protection Civile Hérault : événements, suggestions, secourisme, autodéfense et plus encore.",
+    url: window.location.origin + window.location.pathname
+  };
+  if (navigator.share) {
+    try { await navigator.share(shareData); } catch {}
+  } else {
+    navigator.clipboard.writeText(shareData.url).then(() => {
+      const btn = document.getElementById('share-app-btn');
+      const title = btn.querySelector('.tile-title');
+      const original = title.textContent;
+      title.textContent = '✓ Lien copié';
+      setTimeout(() => { title.textContent = original; }, 2000);
+    });
+  }
+});
 
 
 const GESTE_CATEGORIES_MAP = {
