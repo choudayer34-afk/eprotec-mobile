@@ -1,5 +1,13 @@
 [
   {
+    "version": "13.7",
+    "date": "2026-07-25T15:22:43.899Z",
+    "title": "Correction critique définitive : badge de nouveautés supprimé du DOM",
+    "items": [
+      "Le code tentait toujours de mettre à jour un badge (plus-badge-nouveautes) supprimé lors de la réorganisation de Plus, ce qui bloquait tout le reste du chargement des données"
+    ]
+  },
+  {
     "version": "13.6",
     "date": "2026-07-25T15:18:37.157Z",
     "title": "Correction critique : lien de notification vers un écran supprimé",
