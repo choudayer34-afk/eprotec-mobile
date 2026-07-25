@@ -53,6 +53,142 @@ async function loadSettings() {
   }
   return { ...DEFAULT_SETTINGS };
 }
+const EPROTEC_BASE = 'https://eprotec.protection-civile.org/evenements.php';
+const TYPE_EVENEMENT_FILTER = 'COOP,DPS,GAR,MED,AR,NAUT,AIP,ALSAN,ALERT,AH,CADI,VACCI,HEB,MAR,MSP,UKRAI,FOR,MAN,EXE,DIV,CADET,CER,COM,TEC,JMPC,MLA,REU,WEB';
+
+function buildPersoUrlForCid(cid) {
+  return `${EPROTEC_BASE}?cid=${cid}&perso=1`;
+}
+
+async function loadRegisteredUsers() {
+  try {
+    const res = await fetch(FIREBASE_URL + '/users.json');
+    const data = await res.json();
+    if (!data || typeof data !== 'object') return [];
+    return Object.keys(data)
+      .filter(uid => data[uid] && typeof data[uid]['eprotec-cid'] === 'string' && data[uid]['eprotec-cid'].length > 0)
+      .map(uid => ({ uid, cid: data[uid]['eprotec-cid'] }));
+  } catch (err) {
+    console.error('Erreur chargement utilisateurs enregistrés :', err.message);
+    return [];
+  }
+}
+
+async function loadUserJson(uid, key, fallback) {
+  try {
+    const res = await fetch(`${FIREBASE_URL}/users/${uid}/data/${key}.json`);
+    const data = await res.json();
+    return (data === null || data === undefined) ? fallback : data;
+  } catch {
+    return fallback;
+  }
+}
+
+async function saveUserJson(uid, key, value) {
+  try {
+    await fetch(`${FIREBASE_URL}/users/${uid}/data/${key}.json`, {
+      method: 'PUT',
+      body: JSON.stringify(value)
+    });
+  } catch (err) {
+    console.error(`Erreur sauvegarde ${key} pour ${uid} :`, err.message);
+  }
+}
+
+async function loadUserSettings(uid) {
+  try {
+    const res = await fetch(`${FIREBASE_URL}/users/${uid}/oad-settings.json`);
+    const remote = await res.json();
+    const settings = { ...DEFAULT_SETTINGS };
+    if (remote && typeof remote === 'object') {
+      for (const key of Object.keys(DEFAULT_SETTINGS)) {
+        if (typeof remote[key] === 'number' && !Number.isNaN(remote[key])) {
+          settings[key] = remote[key];
+        }
+      }
+    }
+    return settings;
+  } catch {
+    return { ...DEFAULT_SETTINGS };
+  }
+}
+
+async function loadUserDismissed(uid) {
+  try {
+    const res = await fetch(`${FIREBASE_URL}/users/${uid}/dismissed-suggestions.json`);
+    const remote = await res.json();
+    return new Set(Array.isArray(remote) ? remote : []);
+  } catch {
+    return new Set();
+  }
+}
+
+function updateUserRegistrationsHistory(existingHistory, events, registeredUids) {
+  const history = { ...existingHistory };
+  const now = new Date();
+
+  for (const e of events) {
+    if (!registeredUids.has(e.uid)) continue;
+
+    const existing = history[e.uid];
+    if (existing) {
+      const existingDate = new Date(existing.dateDebut);
+      if (existingDate < now) continue;
+    }
+
+    history[e.uid] = {
+      uid: e.uid,
+      tag: e.tag,
+      titre: e.summary,
+      lieu: e.location,
+      dateDebut: e.startDate ? e.startDate.toISOString() : null,
+      dureeHeures: e.startDate && e.endDate
+        ? Math.round((e.endDate - e.startDate) / 3600000 * 10) / 10
+        : null,
+      statut: 'Inscrit'
+    };
+  }
+
+  return history;
+}
+
+async function processUser(user, events, geocache) {
+  const { uid, cid } = user;
+  try {
+    const persoText = await fetchIcs(buildPersoUrlForCid(cid));
+    const persoEvents = parseIcs(persoText);
+    const registeredUids = new Set(persoEvents.map(e => e.uid).filter(Boolean));
+
+    const settings = await loadUserSettings(uid);
+    const dismissedSet = await loadUserDismissed(uid);
+
+    const existingHistory = await loadUserJson(uid, 'registrations-history', {});
+    const registrationsHistory = updateUserRegistrationsHistory(existingHistory, events, registeredUids);
+    await saveUserJson(uid, 'registrations-history', registrationsHistory);
+    await saveUserJson(uid, 'registered-uids', Array.from(registeredUids));
+
+    const suggestions = await computeOadSuggestions(events, registrationsHistory, geocache, settings, dismissedSet);
+    const suggestionsForApp = suggestions.slice(0, 30).map(s => ({
+      uid: s.event.uid,
+      titre: s.event.summary,
+      lieu: s.event.location,
+      dateDebut: s.event.startDate ? s.event.startDate.toISOString() : null,
+      dateFin: s.event.endDate ? s.event.endDate.toISOString() : null,
+      description: s.event.description,
+      tag: 'DPS',
+      score: s.score,
+      reasons: s.reasons,
+      url: s.event.url
+    }));
+    await saveUserJson(uid, 'suggestions', suggestionsForApp);
+    await saveUserJson(uid, 'last-update', new Date().toISOString());
+
+    console.log(`Utilisateur ${uid} : ${registeredUids.size} inscription(s), ${suggestionsForApp.length} suggestion(s)`);
+  } catch (err) {
+    console.error(`Erreur traitement utilisateur ${uid} :`, err.message);
+  }
+}
+
 
 async function loadDismissedSuggestions() {
   try {
@@ -454,6 +590,13 @@ async function main() {
     } : null
   };
   writeFileSync('data/pending-notification.json', JSON.stringify(pendingNotification, null, 2));
+
+  console.log('Traitement des utilisateurs enregistrés...');
+  const registeredUsers = await loadRegisteredUsers();
+  console.log(`${registeredUsers.length} utilisateur(s) avec un lien Eprotec configuré`);
+  for (const user of registeredUsers) {
+    await processUser(user, events, geocache);
+  }
 
   console.log(`Export terminé : ${eventsForApp.length} événements à venir, ${suggestionsForApp.length} suggestions.`);
 }
