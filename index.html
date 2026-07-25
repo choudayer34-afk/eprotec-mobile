@@ -5643,7 +5643,63 @@ const GESTES_DATA = [
     ]
   },
   {
+    key: 'radioComm',
+    title: '📻 Communication radio / phraséologie',
+    summary: [
+      "Toujours annoncer qui appelle et qui on cherche à joindre en premier",
+      "Structurer le message : identification → situation → bilan (XABCDE) → demande",
+      "Parler posément, phrases courtes, épeler les mots ambigus si besoin",
+      "Toujours faire confirmer la bonne réception du message"
+    ],
+    sections: [
+      {
+        title: 'Structure d\'un message radio',
+        items: [
+          "S'identifier : « Ici [indicatif], pour [destinataire] »",
+          "Attendre la réponse avant de poursuivre",
+          "Annoncer le motif en une phrase courte : « DPS [lieu], bilan à transmettre »",
+          "Transmettre le bilan structuré (voir ci-dessous)",
+          "Terminer par une demande claire si besoin : renfort, avis médical, évacuation",
+          "Toujours conclure par « Terminé » pour signaler la fin du message"
+        ]
+      },
+      {
+        title: 'Transmettre un bilan par radio (reprendre le XABCDE)',
+        items: [
+          "Identité / âge approximatif de la victime si connu",
+          "X — Hémorragie : oui/non, localisation",
+          "A — Voies aériennes : libres/obstruées",
+          "B — Respiration : fréquence, SpO2",
+          "C — Circulation : fréquence cardiaque, tension si prise",
+          "D — Neurologique : conscience (EVDA), score de Glasgow si évalué",
+          "Douleur : localisation et intensité (0 à 10)",
+          "Geste réalisé jusqu'à présent",
+          "Demande : avis médical, renfort, évacuation"
+        ]
+      },
+      {
+        title: 'Bonnes pratiques',
+        items: [
+          "Parler posément, avec des phrases courtes et complètes",
+          "Éviter le jargon non partagé par tous les interlocuteurs",
+          "En cas de mot ambigu (nom de rue, nom propre) : épeler lettre par lettre",
+          "Toujours faire confirmer par le destinataire qu'il a bien reçu l'information",
+          "Ne jamais couper la communication sans un mot de fin clair (« Terminé »)"
+        ]
+      },
+      {
+        title: 'Épeler avec l\'alphabet radio (si besoin)',
+        items: [
+          "A Alpha, B Bravo, C Charlie, D Delta, E Echo, F Foxtrot, G Golf, H Hôtel",
+          "I India, J Juliett, K Kilo, L Lima, M Mike, N November, O Oscar, P Papa",
+          "Q Québec, R Roméo, S Sierra, T Tango, U Uniform, V Victor, W Whisky, X X-ray, Y Yankee, Z Zoulou"
+        ]
+      }
+    ]
+  },
+  {
     key: 'traductions',
+
     title: '🗣️ Traductions utiles',
     summary: [
       "Phrases traduites pour le bilan, l'utilisation du matériel, les recommandations de fin et l'évacuation",
@@ -7319,7 +7375,9 @@ const GESTE_CATEGORIES_MAP = {
   pls: 'urgences',
  pfsmu: 'psychologie',
   impliques: 'psychologie',
-traductions: 'psychologie',
+  traductions: 'psychologie',
+  radioComm: 'psychologie',
+
   poignet1main: 'saisies',
 poignet2mains: 'saisies',
 col1main: 'saisies',
