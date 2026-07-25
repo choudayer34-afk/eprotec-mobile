@@ -404,7 +404,7 @@
 
   <section id="accueil" class="active">
 <div class="screen-header">
-      <div class="screen-side"><button class="icon-btn" id="changelog-icon-btn">🆕</button></div>
+      <div class="screen-side"><button class="icon-btn" id="bilan-quickaccess-btn">🩺</button></div>
       <div style="text-align:center;">
         <h2 class="screen-title" style="margin-bottom:2px;">Mon eProtec</h2>
         <div style="font-size:10px;color:#9FB3D6;" id="app-version">v...</div>
@@ -593,7 +593,11 @@
         <div class="tile-icon">🧠</div>
         <div class="tile-title">Psychologie & relationnel</div>
       </div>
-<div class="tile" data-open="plus-materiel">
+<div class="tile" data-open="plus-changelog">
+        <div class="tile-icon">🆕</div>
+        <div class="tile-title">Nouveautés de l'app</div>
+      </div>
+      <div class="tile" data-open="plus-materiel">
         <div class="tile-icon">🧰</div>
         <div class="tile-title">Matériel</div>
       </div>
@@ -1501,11 +1505,13 @@ document.getElementById('kpi-inscrits-box').addEventListener('click', () => {
 });
 document.getElementById('kpi-nouveautes-box').addEventListener('click', () => openPlusSection('plus-nouveautes'));
 
-  document.getElementById('changelog-icon-btn').addEventListener('click', () => {
+document.getElementById('bilan-quickaccess-btn').addEventListener('click', () => {
   document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === 'plus'));
   document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
-  document.getElementById('plus-changelog').classList.add('active');
-  renderChangelogScreen();
+  document.getElementById('plus-bilan').classList.add('active');
+  bilanMode = 'remplir';
+  document.querySelectorAll('[data-bilan-mode]').forEach(b => b.classList.toggle('active', b.dataset.bilanMode === 'remplir'));
+  renderBilan();
 });
   
 document.getElementById('accueil-nouveautes-toggle').addEventListener('click', () => {
