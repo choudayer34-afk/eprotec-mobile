@@ -1,5 +1,13 @@
 [
   {
+    "version": "10.4",
+    "date": "2026-07-25T05:05:55.102Z",
+    "title": "Personnalisation du rappel Ne pas déranger avec les noms",
+    "items": [
+      "Le guide (i) de la checklist Prêt à partir mentionne désormais directement Dylan Bondon et Alex Baron comme contacts à autoriser la nuit"
+    ]
+  },
+  {
     "version": "10.3",
     "date": "2026-07-25T05:04:14.270Z",
     "title": "Guide (i) pour autoriser 2 contacts la nuit malgré Ne pas déranger",
