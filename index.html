@@ -8021,8 +8021,13 @@ startAutoRefreshWatcher();
 loadData()
   .then(() => {
     checkEprotecCidConfigured();
-    if (window.location.hash === '#nouveautes') {
-      openPlusSection('plus-nouveautes');
+   if (window.location.hash === '#nouveautes') {
+      document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === 'plus-evenements'));
+      document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+      document.getElementById('plus-evenements').classList.add('active');
+      statusFilter = 'NOUVEAU';
+      renderStatusFilterChips();
+      renderEvenements();
       history.replaceState(null, '', window.location.pathname);
 } else if (window.location.hash.startsWith('#event-')) {
       const uid = decodeURIComponent(window.location.hash.replace('#event-', ''));
