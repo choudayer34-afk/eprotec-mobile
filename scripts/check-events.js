@@ -154,8 +154,20 @@ function updateUserRegistrationsHistory(existingHistory, events, registeredUids)
     };
   }
 
+  const eventByUid = new Map(events.map(e => [sanitizeFirebaseKey(e.uid), e]));
+  for (const key of Object.keys(history)) {
+    const entry = history[key];
+    const entryDate = entry.dateDebut ? new Date(entry.dateDebut) : null;
+    if (!entryDate || entryDate <= now) continue;
+    const matchingEvent = eventByUid.get(key);
+    if (matchingEvent && !registeredUids.has(matchingEvent.uid)) {
+      delete history[key];
+    }
+  }
+
   return history;
 }
+
 
 async function processUser(user, events, geocache) {
   const { uid, cid } = user;
