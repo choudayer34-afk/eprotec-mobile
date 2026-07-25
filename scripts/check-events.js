@@ -123,20 +123,25 @@ async function loadUserDismissed(uid) {
   }
 }
 
+function sanitizeFirebaseKey(str) {
+  return str.replace(/[.#$\[\]\/]/g, '_');
+}
+
 function updateUserRegistrationsHistory(existingHistory, events, registeredUids) {
   const history = { ...existingHistory };
   const now = new Date();
 
   for (const e of events) {
     if (!registeredUids.has(e.uid)) continue;
+    const key = sanitizeFirebaseKey(e.uid);
 
-    const existing = history[e.uid];
+    const existing = history[key];
     if (existing) {
       const existingDate = new Date(existing.dateDebut);
       if (existingDate < now) continue;
     }
 
-    history[e.uid] = {
+    history[key] = {
       uid: e.uid,
       tag: e.tag,
       titre: e.summary,
