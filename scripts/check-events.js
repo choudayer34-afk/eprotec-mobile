@@ -37,7 +37,7 @@ const DEFAULT_SETTINGS = {
 
 async function loadSettings() {
   try {
-    const res = await fetch(FIREBASE_URL + '/oad-settings.json');
+    const res = await fetch(FIREBASE_URL + '/users/ch-houdayer_hotmail_fr/oad-settings.json');
     const remote = await res.json();
     if (remote && typeof remote === 'object') {
       const merged = { ...DEFAULT_SETTINGS };
@@ -56,7 +56,7 @@ async function loadSettings() {
 
 async function loadDismissedSuggestions() {
   try {
-    const res = await fetch(FIREBASE_URL + '/dismissed-suggestions.json');
+    const res = await fetch(FIREBASE_URL + '/users/ch-houdayer_hotmail_fr/dismissed-suggestions.json');
     const remote = await res.json();
     if (Array.isArray(remote)) return new Set(remote);
   } catch (err) {
