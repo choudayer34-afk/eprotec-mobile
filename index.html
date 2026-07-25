@@ -7410,6 +7410,41 @@ async function saveEprotecCid(cid) {
     body: JSON.stringify(cid)
   });
 }
+const EPROTEC_URL_BASE = 'https://eprotec.protection-civile.org/evenements.php?cid=';
+
+async function checkEprotecCidConfigured() {
+  const cid = await loadEprotecCid();
+  if (cid) return;
+
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:999;display:flex;align-items:center;justify-content:center;padding:20px;';
+  overlay.innerHTML = `
+    <div style="background:#163C74;border-radius:16px;padding:20px;width:100%;max-width:380px;">
+      <div style="color:#fff;font-size:15px;font-weight:500;margin-bottom:10px;">🔗 Configure ton lien Eprotec</div>
+      <div style="color:#9FB3D6;font-size:13px;line-height:1.6;margin-bottom:12px;">
+        Pour que tes inscriptions et suggestions soient personnalisées, il faut renseigner ton identifiant Eprotec.
+      </div>
+      <ul class="reason-list" style="color:#fff;margin-bottom:12px;">
+        <li>Sur Eprotec : Activité → Planning → Synchronisation</li>
+        <li>Étape 2 : tape sur l'icône calendrier bleu</li>
+        <li>Copie le lien affiché (peu importe le format)</li>
+      </ul>
+      <a class="detail-action-btn" href="https://eprotec.protection-civile.org/evenement_choice.php?tab=17&myagenda=1" target="_blank" style="display:block;margin-bottom:8px;text-align:center;">Ouvrir cette page sur Eprotec</a>
+      <button class="detail-action-btn primary" id="ppa-cid-configure-now">Configurer maintenant</button>
+      <button class="detail-action-btn" id="ppa-cid-later" style="margin-top:8px;">Plus tard</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  overlay.querySelector('#ppa-cid-later').addEventListener('click', () => overlay.remove());
+  overlay.querySelector('#ppa-cid-configure-now').addEventListener('click', () => {
+    overlay.remove();
+    document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === 'plus'));
+    document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+    document.getElementById('plus-eprotec-lien').classList.add('active');
+    renderEprotecLien();
+  });
+}
 
 async function renderEprotecLien() {
   const container = document.getElementById('eprotec-lien-content');
@@ -7429,8 +7464,8 @@ async function renderEprotecLien() {
       <div class="bilan-field-row">
         <textarea rows="2" class="bilan-textarea" id="eprotec-cid-input" placeholder="Colle ici ton lien complet, ou juste ton identifiant">${escapeHtml(currentCid)}</textarea>
       </div>
-      <button class="detail-action-btn primary" id="eprotec-cid-save">Enregistrer</button>
-      <div id="eprotec-cid-status" style="color:#97C459;font-size:12px;margin-top:8px;"></div>
+     <button class="detail-action-btn primary" id="eprotec-cid-save">Enregistrer</button>
+      <div id="eprotec-cid-status" style="color:#9FB3D6;font-size:12px;margin-top:8px;word-break:break-all;">${currentCid ? 'Lien utilisé : ' + EPROTEC_URL_BASE + currentCid : ''}</div>
     </div>
   `;
 
@@ -7438,7 +7473,8 @@ async function renderEprotecLien() {
     const raw = container.querySelector('#eprotec-cid-input').value;
     const cid = extractCid(raw);
     await saveEprotecCid(cid);
-    container.querySelector('#eprotec-cid-status').textContent = '✓ Enregistré';
+    container.querySelector('#eprotec-cid-input').value = cid;
+    container.querySelector('#eprotec-cid-status').textContent = '✓ Enregistré — Lien utilisé : ' + EPROTEC_URL_BASE + cid;
   });
 }
 
@@ -7735,6 +7771,7 @@ document.addEventListener('click', (e) => {
 });
 
 startAutoRefreshWatcher();
+checkEprotecCidConfigured();
   
 loadData()
   .then(() => {
