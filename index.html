@@ -7285,25 +7285,61 @@ function setUpdateIcon(state) {
   else { icon.textContent = '↻'; }
 }
 
+async function fetchRunSteps(token, runId) {
+  try {
+    const res = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/actions/runs/${runId}/jobs`, {
+      headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json' }
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    const job = (data.jobs || [])[0];
+    return job ? job.steps || [] : null;
+  } catch {
+    return null;
+  }
+}
+
 async function pollWorkflowRun(token, sinceMs) {
   const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/actions/workflows/daily-check.yml/runs?event=workflow_dispatch&per_page=5`;
   const startTime = Date.now();
-  const estimatedTotalMs = 90000;
-  for (let attempt = 0; attempt < 40; attempt++) {
-    await new Promise(r => setTimeout(r, 4000));
-    const elapsed = Date.now() - startTime;
-    const pct = Math.min(88, Math.round((elapsed / estimatedTotalMs) * 88));
-    const remainingSec = Math.max(0, Math.round((estimatedTotalMs - elapsed) / 1000));
-    setLoadingProgress(pct, remainingSec);
+  let run = null;
+
+  for (let attempt = 0; attempt < 60; attempt++) {
+    await new Promise(r => setTimeout(r, 3000));
+    const elapsedSec = Math.round((Date.now() - startTime) / 1000);
+
     try {
       const res = await fetch(url, {
         headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json' }
       });
-      if (!res.ok) continue;
-      const data = await res.json();
-      const run = (data.workflow_runs || []).find(r => new Date(r.created_at).getTime() >= sinceMs);
-      if (run && run.status === 'completed') return run;
+      if (res.ok) {
+        const data = await res.json();
+        run = (data.workflow_runs || []).find(r => new Date(r.created_at).getTime() >= sinceMs);
+      }
     } catch {}
+
+    if (!run) {
+      setLoadingProgress(3, null);
+      const text = document.getElementById('loading-progress-text');
+      if (text) text.textContent = `En attente de démarrage... (${elapsedSec}s écoulées)`;
+      continue;
+    }
+
+    if (run.status === 'completed') return run;
+
+    const steps = await fetchRunSteps(token, run.id);
+    if (steps && steps.length > 0) {
+      const completedCount = steps.filter(s => s.status === 'completed').length;
+      const currentStep = steps.find(s => s.status === 'in_progress') || steps[Math.min(completedCount, steps.length - 1)];
+      const pct = Math.round((completedCount / steps.length) * 95);
+      setLoadingProgress(pct, null);
+      const text = document.getElementById('loading-progress-text');
+      if (text) text.textContent = `Étape ${completedCount + 1}/${steps.length} : ${currentStep ? currentStep.name : '...'} (${elapsedSec}s écoulées)`;
+    } else {
+      setLoadingProgress(10, null);
+      const text = document.getElementById('loading-progress-text');
+      if (text) text.textContent = `Démarrage... (${elapsedSec}s écoulées)`;
+    }
   }
   return null;
 }
@@ -7828,12 +7864,10 @@ let showProgressUI = false;
 function setLoadingProgress(pct, estRemainingSec) {
   const wrap = document.getElementById('loading-progress-wrap');
   const bar = document.getElementById('loading-progress-bar');
-  const text = document.getElementById('loading-progress-text');
   if (!wrap) return;
   if (!showProgressUI) { wrap.style.display = 'none'; return; }
   wrap.style.display = 'block';
   bar.style.width = Math.min(99, pct) + '%';
-  text.textContent = estRemainingSec != null ? `${pct}% — encore ~${estRemainingSec}s` : `${pct}%`;
 }
 
 function hideLoadingProgress() {
