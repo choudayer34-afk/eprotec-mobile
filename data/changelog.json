@@ -1,5 +1,13 @@
 [
   {
+    "version": "11.8",
+    "date": "2026-07-25T12:25:29.881Z",
+    "title": "Changement multiPersonne",
+    "items": [
+      "Changement multiPersonne"
+    ]
+  },
+  {
     "version": "11.7",
     "date": "2026-07-25T12:11:46.024Z",
     "title": "Restriction du forçage de mise à jour à l'administrateur",
