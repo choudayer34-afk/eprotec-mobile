@@ -1,5 +1,14 @@
 [
   {
+    "version": "13.1",
+    "date": "2026-07-25T14:21:14.977Z",
+    "title": "Barre de progression uniquement pendant un déclenchement forcé",
+    "items": [
+      "La barre de progression n'apparaît plus au chargement normal de l'app",
+      "Elle s'affiche désormais uniquement pendant le déclenchement forcé du moteur (icône ↻, ou enregistrement des réglages OAD côté administrateur), avec pourcentage et estimation du temps restant basée sur la durée typique du moteur"
+    ]
+  },
+  {
     "version": "13.0",
     "date": "2026-07-25T14:14:23.276Z",
     "title": "Correction",
