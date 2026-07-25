@@ -613,6 +613,11 @@
         <div class="tile-icon">👥</div>
         <div class="tile-title">Nombreuses victimes</div>
       </div>
+            <div class="tile" data-open="urgence-numeros">
+        <div class="tile-icon">📞</div>
+        <div class="tile-title">Numéros d'urgence</div>
+      </div>
+
       <div class="tile" data-open="plus-pediatrie">
         <div class="tile-icon">👶</div>
         <div class="tile-title">Enfant / Nourrisson</div>
@@ -859,6 +864,11 @@
       <button class="plus-back">‹</button>
       <span>Liens utiles</span>
     </div>
+          <button class="tile" id="liens-urgence-btn" style="border:none;width:100%;">
+        <div class="tile-icon">📞</div>
+        <div class="tile-title">Numéros d'urgence</div>
+      </button>
+
     <div class="tile-grid">
       <a class="tile" href="https://eprotec.protection-civile.org" target="_blank">
         <div class="tile-icon">🚑</div><div class="tile-title">eProtec</div>
@@ -1495,7 +1505,12 @@ document.querySelectorAll('nav button').forEach(btn => {
   
 document.querySelectorAll('.tile[data-open]').forEach(tile => {
   tile.addEventListener('click', () => {
+    if (tile.dataset.open === 'urgence-numeros') {
+      showEmergencyNumbersModal();
+      return;
+    }
     if (tile.dataset.open === 'calendrier') {
+
       document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
       document.getElementById('calendrier').classList.add('active');
@@ -2922,7 +2937,45 @@ function showPhraseModal(categoryKey) {
   overlay.querySelector('#phrase-close').addEventListener('click', () => overlay.remove());
 }
   
+const EMERGENCY_NUMBERS = [
+  { num: '15', label: 'SAMU', desc: 'Urgence médicale', action: 'tel' },
+  { num: '18', label: 'Pompiers', desc: 'Incendie, secours', action: 'tel' },
+  { num: '112', label: "Numéro d'urgence européen", desc: 'Toute urgence', action: 'tel' },
+  { num: '17', label: 'Police / Gendarmerie', desc: 'Infraction, danger', action: 'tel' },
+  { num: '114', label: 'Urgence par SMS', desc: 'Sourds, malentendants', action: 'sms' },
+  { num: '115', label: 'SAMU social', desc: 'Personnes sans domicile', action: 'tel' },
+  { num: '119', label: 'Enfance en danger', desc: 'Violence sur mineur', action: 'tel' },
+  { num: '3114', label: 'Prévention suicide', desc: 'Gratuit, 24h/24', action: 'tel' },
+  { num: '3919', label: 'Violences femmes', desc: 'Gratuit, anonyme', action: 'tel' },
+  { num: '197', label: 'Alerte attentat / enlèvement', desc: 'Si alerte en cours', action: 'tel' },
+  { num: '3237', label: 'Pharmacie de garde', desc: 'Trouver une pharmacie ouverte', action: 'tel' },
+  { num: '3117', label: 'Alerte sécurité trains/gares', desc: 'Danger, agression à bord', action: 'tel' }
+];
+
+function showEmergencyNumbersModal() {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;';
+  overlay.innerHTML = `
+    <div style="background:#163C74;border-radius:16px;padding:16px;width:100%;max-width:400px;max-height:85vh;overflow-y:auto;">
+      <div style="color:#fff;font-size:16px;font-weight:600;margin-bottom:12px;text-align:center;">📞 Numéros d'urgence</div>
+      ${EMERGENCY_NUMBERS.map(n => `
+        <a href="${n.action === 'sms' ? 'sms:' + n.num : 'tel:' + n.num}" style="display:flex;align-items:center;justify-content:space-between;background:#0B2A5C;border-radius:10px;padding:12px 14px;margin-bottom:8px;text-decoration:none;">
+          <div>
+            <div style="color:#fff;font-size:15px;font-weight:600;">${n.label}</div>
+            <div style="color:#9FB3D6;font-size:12px;">${n.desc}</div>
+          </div>
+          <div style="color:#F5821F;font-size:20px;font-weight:700;">${n.num}</div>
+        </a>
+      `).join('')}
+      <button class="detail-action-btn primary" id="emergency-close" style="margin-top:8px;">Fermer</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.querySelector('#emergency-close').addEventListener('click', () => overlay.remove());
+}
+
 function showBodyMapModal(targetSelector) {
+
   const overlay = document.createElement('div');
   overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;';
   overlay.innerHTML = `
@@ -4295,12 +4348,16 @@ function renderBilanIcons() {
     <button class="icon-btn" id="bilan-icon-new" aria-label="Nouveau bilan">🆕</button>
     <button class="icon-btn" id="bilan-icon-summary" aria-label="Résumé">📋</button>
     <button class="icon-btn" id="bilan-icon-copy" aria-label="Copier">📤</button>
-    <button class="icon-btn" id="bilan-icon-whatsapp" aria-label="Envoyer par WhatsApp">💬</button>
+        <button class="icon-btn" id="bilan-icon-whatsapp" aria-label="Envoyer par WhatsApp">💬</button>
+    <button class="icon-btn" id="bilan-icon-urgence" aria-label="Numéros d'urgence">📞</button>
+
   `;
   document.getElementById('bilan-icon-new').addEventListener('click', handleBilanNew);
   document.getElementById('bilan-icon-summary').addEventListener('click', showBilanSummary);
   document.getElementById('bilan-icon-copy').addEventListener('click', handleBilanCopy);
   document.getElementById('bilan-icon-whatsapp').addEventListener('click', handleBilanWhatsapp);
+  document.getElementById('bilan-icon-urgence').addEventListener('click', showEmergencyNumbersModal);
+
 }
 
 function renderBilanFill() {
@@ -7005,7 +7062,10 @@ document.getElementById('lexique-search').addEventListener('input', (e) => {
 });
 document.getElementById('lexique-bodymap-btn').addEventListener('click', () => showBodyMapModal());
 
+document.getElementById('liens-urgence-btn').addEventListener('click', showEmergencyNumbersModal);
+
 document.getElementById('share-app-btn').addEventListener('click', async () => {
+
   const shareData = {
     title: 'Mon eProtec',
     text: "Une app pour la Protection Civile Hérault : événements, suggestions, secourisme, autodéfense et plus encore.",
