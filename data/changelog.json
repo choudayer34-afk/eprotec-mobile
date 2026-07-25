@@ -1,5 +1,13 @@
 [
   {
+    "version": "11.2",
+    "date": "2026-07-25T07:40:07.285Z",
+    "title": "Restriction de Cloud Formation et Partager l'app à ton compte",
+    "items": [
+      "Les tuiles Cloud Formation et Partager l'app ne sont désormais visibles que pour ch-houdayer@hotmail.fr, comme la tuile Gérer les accès"
+    ]
+  },
+  {
     "version": "11.1",
     "date": "2026-07-25T07:38:22.166Z",
     "title": "Rafraîchissement automatique 5 minutes après la mise à jour du moteur",
