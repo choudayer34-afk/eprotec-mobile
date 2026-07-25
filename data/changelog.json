@@ -1,5 +1,14 @@
 [
   {
+    "version": "10.7",
+    "date": "2026-07-25T05:41:43.383Z",
+    "title": "Bouton de partage de l'application",
+    "items": [
+      "Nouvelle tuile dans Liens utiles : ouvre le menu de partage natif iOS (Messages, WhatsApp, Mail...) avec le lien de l'app",
+      "Copie le lien dans le presse-papiers en secours si le partage natif n'est pas disponible"
+    ]
+  },
+  {
     "version": "10.6",
     "date": "2026-07-25T05:38:49.655Z",
     "title": "Correction du lien de notification vers la nouvelle adresse Cloudflare",
