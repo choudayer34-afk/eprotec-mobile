@@ -1,5 +1,15 @@
 [
   {
+    "version": "13.4",
+    "date": "2026-07-25T14:59:44.029Z",
+    "title": "Correction bascule calendrier, Nouveautés intégrées à Événements, réorganisation de Plus",
+    "items": [
+      "Correction robuste du retour Calendrier → Liste (indépendant du nombre de reconstructions de l'écran)",
+      "\"Nouveautés\" devient une 5ᵉ icône de statut dans Événements, avec les 3 dispositions (par jour/chronologique/par type) disponibles en mode liste",
+      "Réorganisation des tuiles de Plus : Autodéfense/Rapport en première ligne, Paramètres OAD/Mon lien Eprotec en seconde"
+    ]
+  },
+  {
     "version": "13.3",
     "date": "2026-07-25T14:49:45.854Z",
     "title": "Bascule Liste/Calendrier, filtres en icônes et cases à cocher, dates \"du/au\", icône Bilan visible",
