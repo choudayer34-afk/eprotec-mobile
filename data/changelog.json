@@ -1,5 +1,13 @@
 [
   {
+    "version": "13.9",
+    "date": "2026-07-25T18:56:43.256Z",
+    "title": "score des suggestions affiché dans Événements",
+    "items": [
+      "Le score n'était pas rattaché aux événements filtrés en mode Suggestions, il apparaît désormais correctement sur chaque carte"
+    ]
+  },
+  {
     "version": "13.8",
     "date": "2026-07-25T18:35:53.020Z",
     "title": "balayage pour écarter une suggestion",
