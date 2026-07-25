@@ -7193,12 +7193,13 @@ function renderEvenements() {
     filtered = filtered.filter(e => isFavori(e.uid));
   } else if (statusFilter === 'INSCRIT') {
     filtered = filtered.filter(e => e.dejaInscrit);
-  } else   if (statusFilter === 'SUGGERE') {
+  } else    if (statusFilter === 'SUGGERE') {
     const suggestionByUid = new Map(allSuggestions.map(s => [s.uid, s]));
     filtered = filtered
-      .filter(e => suggestionByUid.has(e.uid))
+      .filter(e => suggestionByUid.has(e.uid) && !isDismissed(e.uid))
       .map(e => ({ ...e, score: suggestionByUid.get(e.uid).score }));
   }
+
 
 if (selectedTypes.size < ALL_TAG_KEYS.length) {
     filtered = filtered.filter(e => {
