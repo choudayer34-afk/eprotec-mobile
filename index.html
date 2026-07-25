@@ -638,6 +638,8 @@
       <button class="plus-back" data-target="plus-secourisme">‹</button>
       <span>Bilan patient</span>
       <span id="wakelock-indicator" style="display:none;color:#FAC775;font-size:16px;margin-right:4px;" title="Écran maintenu allumé">🔆</span>
+      <button class="icon-btn" id="mission-timer-btn" style="margin-right:6px;">⏱ <span id="mission-timer-display">Démarrer</span></button>
+
       <div class="detail-icons" id="bilan-icons"></div>
 
     </div>
@@ -1299,7 +1301,37 @@ let currentUserEmail = null;
 let currentUserUid = null;
 let wakeLock = null;
 
-async function requestWakeLock() {
+let missionTimerInterval = null;
+let missionTimerStart = null;
+
+function updateMissionTimerDisplay() {
+  const el = document.getElementById('mission-timer-display');
+  if (!el || !missionTimerStart) return;
+  const elapsed = Math.floor((Date.now() - missionTimerStart) / 1000);
+  const h = Math.floor(elapsed / 3600);
+  const m = Math.floor((elapsed % 3600) / 60);
+  const s = elapsed % 60;
+  el.textContent = h > 0
+    ? `${h}h ${String(m).padStart(2, '0')}m`
+    : `${m}:${String(s).padStart(2, '0')}`;
+}
+
+function toggleMissionTimer() {
+  const btn = document.getElementById('mission-timer-display');
+  if (!missionTimerInterval) {
+    missionTimerStart = Date.now();
+    missionTimerInterval = setInterval(updateMissionTimerDisplay, 1000);
+    updateMissionTimerDisplay();
+  } else {
+    clearInterval(missionTimerInterval);
+    missionTimerInterval = null;
+    const elapsedMin = Math.round((Date.now() - missionTimerStart) / 60000);
+    btn.textContent = 'Démarrer';
+    missionTimerStart = null;
+    alert(`Durée de la mission : ${elapsedMin} minute(s)`);
+  }
+}
+async  function requestWakeLock() {
   try {
     if ('wakeLock' in navigator) {
       if (wakeLock) return;
@@ -4536,7 +4568,9 @@ function renderBilanIcons() {
   document.getElementById('bilan-icon-summary').addEventListener('click', showBilanSummary);
   document.getElementById('bilan-icon-copy').addEventListener('click', handleBilanCopy);
   document.getElementById('bilan-icon-whatsapp').addEventListener('click', handleBilanWhatsapp);
-  document.getElementById('bilan-icon-urgence').addEventListener('click', showEmergencyNumbersModal);
+   document.getElementById('bilan-icon-urgence').addEventListener('click', showEmergencyNumbersModal);
+  document.getElementById('mission-timer-btn').addEventListener('click', toggleMissionTimer);
+
 
 }
 
