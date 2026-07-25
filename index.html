@@ -3016,11 +3016,13 @@ async function loadSosContacts() {
 }
 
 async function saveSosContacts(contacts) {
-  await fetch(FIREBASE_URL + '/users/' + currentUserUid + '/sos-contacts.json', {
+  const res = await fetch(FIREBASE_URL + '/users/' + currentUserUid + '/sos-contacts.json', {
     method: 'PUT',
     body: JSON.stringify(contacts)
   });
+  if (!res.ok) throw new Error('Échec de la sauvegarde (' + res.status + ')');
 }
+
 
 async function renderSosContactsScreen() {
   const container = document.getElementById('sos-contacts-content');
@@ -3051,8 +3053,14 @@ async function renderSosContactsScreen() {
     const p2 = container.querySelector('#sos-phone-2').value.trim();
     if (p1) newContacts.push({ name: n1 || 'Contact 1', phone: p1 });
     if (p2) newContacts.push({ name: n2 || 'Contact 2', phone: p2 });
-    await saveSosContacts(newContacts);
-    container.querySelector('#sos-contacts-status').textContent = '✓ Enregistré';
+    try {
+      await saveSosContacts(newContacts);
+      container.querySelector('#sos-contacts-status').textContent = '✓ Enregistré';
+    } catch (err) {
+      container.querySelector('#sos-contacts-status').textContent = '❌ Échec — vérifie les règles Firebase';
+      container.querySelector('#sos-contacts-status').style.color = '#F0997B';
+    }
+
   });
 }
 
