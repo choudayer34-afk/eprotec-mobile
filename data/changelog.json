@@ -1,5 +1,14 @@
 [
   {
+    "version": "12.1",
+    "date": "2026-07-25T13:07:50.729Z",
+    "title": "Modale de configuration du lien Eprotec + reconstruction du lien canonique",
+    "items": [
+      "Une modale apparaît au démarrage si le lien Eprotec n'est pas encore configuré, avec le guide d'accès et un accès direct à l'écran de saisie",
+      "Après enregistrement, seul le cid est extrait (quel que soit le format collé) et le lien canonique complet est reconstruit et affiché en confirmation"
+    ]
+  },
+  {
     "version": "12.0",
     "date": "2026-07-25T12:58:08.426Z",
     "title": "Écran \"Mon lien Eprotec\" pour renseigner son identifiant personnel",
