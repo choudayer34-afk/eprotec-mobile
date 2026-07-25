@@ -1,5 +1,13 @@
 [
   {
+    "version": "14.4",
+    "date": "2026-07-25T20:56:54.435Z",
+    "title": "Correction : bouton carte du corps manquant sur les champs texte",
+    "items": [
+      "Le bouton 🗺️ (carte des régions du corps) était bien préparé dans le code mais jamais inséré dans l'affichage des champs texte simples, dont \"Localisation\" de l'Hémorragie"
+    ]
+  },
+  {
     "version": "14.3",
     "date": "2026-07-25T20:29:33.469Z",
     "title": "Correction : suggestions écartées qui réapparaissaient",
