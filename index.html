@@ -503,7 +503,10 @@
         <div class="tile-icon">⚙️</div>
         <div class="tile-title">Paramètres OAD</div>
       </div>
-
+<div class="tile" data-open="plus-eprotec-lien">
+        <div class="tile-icon">🔗</div>
+        <div class="tile-title">Mon lien Eprotec</div>
+      </div>
   <div class="tile" data-open="plus-changelog">
         <div class="tile-icon">🆕</div>
         <div class="tile-title">Nouveautés de l'app</div>
@@ -814,7 +817,13 @@
     </div>
     <div id="pretapartir-content"><div class="empty">Chargement...</div></div>
   </section>
-  
+  <section id="plus-eprotec-lien">
+    <div class="detail-header">
+      <button class="plus-back">‹</button>
+      <span>Mon lien Eprotec</span>
+    </div>
+    <div id="eprotec-lien-content"><div class="empty">Chargement...</div></div>
+  </section>
   <section id="plus-lexique">
     <div class="detail-header">
       <button class="plus-back" data-target="plus-secourisme">‹</button>
@@ -1466,7 +1475,8 @@ if (subId === 'plus-nouveautes') renderNouveautesCompletes(allEvents);
   if (subId === 'plus-rapport') renderRapport(allHistory);
 if (subId === 'plus-parametres') renderParametres();
 if (subId === 'plus-changelog') renderChangelogScreen();
-  if (subId === 'plus-pretapartir') renderPretAPartir();
+if (subId === 'plus-pretapartir') renderPretAPartir();
+  if (subId === 'plus-eprotec-lien') renderEprotecLien();
   if (subId === 'plus-apropos') renderApropos();
   if (subId === 'plus-bilan') renderBilan();
   if (subId === 'plus-gestes-urgences') renderGestesList('gestes-urgences-content', ['urgences']);
@@ -7378,6 +7388,61 @@ function renderApropos() {
     </div>
   `;
 }
+
+  function extractCid(input) {
+  const match = input.match(/cid=([a-f0-9]+)/i);
+  return match ? match[1] : input.trim();
+}
+
+async function loadEprotecCid() {
+  try {
+    const res = await fetch(FIREBASE_URL + '/users/' + currentUserUid + '/eprotec-cid.json?t=' + Date.now(), { cache: 'no-store' });
+    const cid = await res.json();
+    return cid || '';
+  } catch {
+    return '';
+  }
+}
+
+async function saveEprotecCid(cid) {
+  await fetch(FIREBASE_URL + '/users/' + currentUserUid + '/eprotec-cid.json', {
+    method: 'PUT',
+    body: JSON.stringify(cid)
+  });
+}
+
+async function renderEprotecLien() {
+  const container = document.getElementById('eprotec-lien-content');
+  const currentCid = await loadEprotecCid();
+  container.innerHTML = `
+    <div class="card">
+      <div class="card-title">Comment trouver mon identifiant ?</div>
+      <ul class="reason-list" style="color:#fff;">
+        <li>Sur Eprotec : Activité → Planning → Synchronisation</li>
+        <li>Étape 2 : tape sur l'icône calendrier bleu</li>
+        <li>Copie le lien affiché (ou juste la partie après "cid=")</li>
+      </ul>
+      <a class="detail-action-btn primary" href="https://eprotec.protection-civile.org/evenement_choice.php?tab=17&myagenda=1" target="_blank" style="display:block;margin-top:10px;text-align:center;">Ouvrir cette page sur Eprotec</a>
+    </div>
+    <div class="card">
+      <div class="card-title">Mon lien / identifiant</div>
+      <div class="bilan-field-row">
+        <textarea rows="2" class="bilan-textarea" id="eprotec-cid-input" placeholder="Colle ici ton lien complet, ou juste ton identifiant">${escapeHtml(currentCid)}</textarea>
+      </div>
+      <button class="detail-action-btn primary" id="eprotec-cid-save">Enregistrer</button>
+      <div id="eprotec-cid-status" style="color:#97C459;font-size:12px;margin-top:8px;"></div>
+    </div>
+  `;
+
+  container.querySelector('#eprotec-cid-save').addEventListener('click', async () => {
+    const raw = container.querySelector('#eprotec-cid-input').value;
+    const cid = extractCid(raw);
+    await saveEprotecCid(cid);
+    container.querySelector('#eprotec-cid-status').textContent = '✓ Enregistré';
+  });
+}
+
+  
 function renderPretAPartir() {
   const container = document.getElementById('pretapartir-content');
   const ppaData = loadPpaData();
