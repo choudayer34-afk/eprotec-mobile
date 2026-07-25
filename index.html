@@ -409,7 +409,7 @@
         <h2 class="screen-title" style="margin-bottom:2px;">Mon eProtec</h2>
         <div style="font-size:10px;color:#9FB3D6;" id="app-version">v...</div>
       </div>
-      <div class="screen-side"><button class="icon-btn" id="force-update-btn"><span id="force-update-icon">↻</span></button></div>
+      <div class="screen-side"><button class="icon-btn" id="force-update-btn" style="display:none;"><span id="force-update-icon">↻</span></button></div>
     </div>
     <div class="update-status" id="update-status">Chargement...</div>
 
@@ -1252,6 +1252,7 @@ let allHistory = {};
 let calendarEvents = [];
 let rapportChartInstance = null;
 let lastEngineUpdate = null;
+let isAdminUser = false;
 let rapportMetric = 'heures';
 
 const DEFAULT_OAD_SETTINGS = {
@@ -1369,11 +1370,14 @@ function renderParametres() {
       });
       btn.textContent = '✓ Enregistré';
 
-      document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === 'accueil'));
-      document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
-      document.getElementById('accueil').classList.add('active');
-
-      triggerWorkflow();
+      if (isAdminUser) {
+        document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === 'accueil'));
+        document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+        document.getElementById('accueil').classList.add('active');
+        triggerWorkflow();
+      } else {
+        setTimeout(() => { btn.textContent = 'Enregistrer'; }, 2000);
+      }
     } catch (err) {
       btn.textContent = 'Erreur, réessaie';
     }
@@ -7485,12 +7489,15 @@ async function checkCloudflareIdentity() {
     if (!res.ok) return;
     const identity = await res.json();
 if (identity.email === 'ch-houdayer@hotmail.fr') {
+      isAdminUser = true;
       const adminTile = document.getElementById('cf-admin-tile');
       const cloudFormationTile = document.getElementById('cf-cloudformation-tile');
       const shareBtn = document.getElementById('share-app-btn');
+      const forceUpdateBtn = document.getElementById('force-update-btn');
       if (adminTile) adminTile.style.display = 'block';
       if (cloudFormationTile) cloudFormationTile.style.display = 'block';
       if (shareBtn) shareBtn.style.display = 'block';
+      if (forceUpdateBtn) forceUpdateBtn.style.display = 'flex';
     }
   } catch (err) {
     console.error('Erreur vérification identité Cloudflare :', err);
