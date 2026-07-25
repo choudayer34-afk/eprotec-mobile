@@ -1,5 +1,13 @@
 [
   {
+    "version": "12.7",
+    "date": "2026-07-25T13:38:09.148Z",
+    "title": "Correction : modale du lien Eprotec vérifiée après identification",
+    "items": [
+      "La vérification du cid se faisait avant que l'identité Cloudflare soit confirmée, provoquant l'affichage systématique de la modale même quand le lien était bien configuré"
+    ]
+  },
+  {
     "version": "12.6",
     "date": "2026-07-25T13:33:29.046Z",
     "title": "Suppression de la limite 50 traitements",
