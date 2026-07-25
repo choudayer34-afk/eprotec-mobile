@@ -1,5 +1,13 @@
 [
   {
+    "version": "14.9",
+    "date": "2026-07-25T22:41:36.875Z",
+    "title": "Minuteur global de mission dans le Bilan patient",
+    "items": [
+      "Nouveau chrono en haut du Bilan patient, indépendant des chronos 1 min existants (FR/FC) Compte la durée totale de l'intervention depuis un premier tap jusqu'au second, avec un récapitulatif à l'arrêt"
+    ]
+  },
+  {
     "version": "14.8",
     "date": "2026-07-25T22:30:01.812Z",
     "title": "Correction : règle Firebase manquante pour les contacts SOS",
