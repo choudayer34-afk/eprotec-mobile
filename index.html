@@ -7789,10 +7789,10 @@ document.addEventListener('click', (e) => {
 });
 
 startAutoRefreshWatcher();
-checkEprotecCidConfigured();
-  
+
 loadData()
   .then(() => {
+    checkEprotecCidConfigured();
     if (window.location.hash === '#nouveautes') {
       openPlusSection('plus-nouveautes');
       history.replaceState(null, '', window.location.pathname);
