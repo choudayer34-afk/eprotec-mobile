@@ -1,5 +1,15 @@
 [
   {
+    "version": "12.3",
+    "date": "2026-07-25T13:16:07.136Z",
+    "title": "Moteur multi-utilisateurs : historique et suggestions personnalisées",
+    "items": [
+      "Le moteur parcourt désormais tous les utilisateurs ayant configuré leur lien Eprotec",
+      "Pour chacun : récupération de son calendrier perso, calcul de son historique d'inscriptions et de ses suggestions personnalisées (selon ses propres réglages OAD et suggestions écartées), stockage dans son espace Firebase personnel",
+      "Le calendrier global reste récupéré une seule fois, partagé entre tous"
+    ]
+  },
+  {
     "version": "12.2",
     "date": "2026-07-25T13:13:03.235Z",
     "title": "Correction règles Firebase manquantes + protection contre erreurs d'API",
