@@ -1,5 +1,13 @@
 [
   {
+    "version": "12.6",
+    "date": "2026-07-25T13:33:29.046Z",
+    "title": "Suppression de la limite 50 traitements",
+    "items": [
+      "Suppression de la limite 50 traitements"
+    ]
+  },
+  {
     "version": "12.5",
     "date": "2026-07-25T13:31:10.043Z",
     "title": "Limite de sécurité à 50 utilisateurs dans le moteur",
