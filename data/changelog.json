@@ -1,5 +1,13 @@
 [
   {
+    "version": "14.8",
+    "date": "2026-07-25T22:30:01.812Z",
+    "title": "Correction : règle Firebase manquante pour les contacts SOS",
+    "items": [
+      "Ajout de la règle manquante sos-contacts, qui empêchait silencieusement l'enregistrement des contacts SOS Le bouton affiche désormais un vrai message d'échec si la sauvegarde ne fonctionne pas, au lieu d'afficher \"Enregistré\" à tort"
+    ]
+  },
+  {
     "version": "14.7",
     "date": "2026-07-25T22:21:40.855Z",
     "title": "Bouton SOS personnel avec géolocalisation",
