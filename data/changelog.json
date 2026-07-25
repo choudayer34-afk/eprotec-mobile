@@ -1,5 +1,13 @@
 [
   {
+    "version": "12.5",
+    "date": "2026-07-25T13:31:10.043Z",
+    "title": "Limite de sécurité à 50 utilisateurs dans le moteur",
+    "items": [
+      "Le moteur ne traite plus que les 50 premiers utilisateurs enregistrés, avec un avertissement dans le journal si la limite est dépassée"
+    ]
+  },
+  {
     "version": "12.4",
     "date": "2026-07-25T13:30:16.935Z",
     "title": "Correction critique : personnalisation réelle des inscriptions/suggestions/rapport",
