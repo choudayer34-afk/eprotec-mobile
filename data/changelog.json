@@ -1,5 +1,14 @@
 [
   {
+    "version": "10.5",
+    "date": "2026-07-25T05:07:23.696Z",
+    "title": "Mode plein écran depuis l'icône d'écran d'accueil",
+    "items": [
+      "Ajout des balises nécessaires pour que l'app s'affiche en plein écran (sans barre d'adresse Safari) quand elle est ouverte depuis les icônes ajoutées à l'écran d'accueil",
+      "Ne change pas le comportement des notifications, qui ouvriront toujours Safari classique — c'est une limite d'iOS, pas quelque chose qu'on peut corriger côté app"
+    ]
+  },
+  {
     "version": "10.4",
     "date": "2026-07-25T05:05:55.102Z",
     "title": "Personnalisation du rappel Ne pas déranger avec les noms",
