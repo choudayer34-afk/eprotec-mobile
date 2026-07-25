@@ -1,5 +1,13 @@
 [
   {
+    "version": "11.4",
+    "date": "2026-07-25T08:01:25.831Z",
+    "title": "Correction : balise de fermeture manquante sur la grille Liens utiles",
+    "items": [
+      "La fermeture du conteneur tile-grid avait disparu lors d'une précédente modification, cassant la structure de la page à partir de cette section"
+    ]
+  },
+  {
     "version": "11.3",
     "date": "2026-07-25T07:56:36.862Z",
     "title": "Correction",
