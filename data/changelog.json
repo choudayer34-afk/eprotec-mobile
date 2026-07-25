@@ -1,5 +1,14 @@
 [
   {
+    "version": "10.3",
+    "date": "2026-07-25T05:04:14.270Z",
+    "title": "Guide (i) pour autoriser 2 contacts la nuit malgré Ne pas déranger",
+    "items": [
+      "Ajout d'un bouton (i) sur l'élément \"alertes nuit\" de la checklist Prêt à partir",
+      "Explique étape par étape comment autoriser 2 personnes à sonner malgré le mode Ne pas déranger sur iPhone"
+    ]
+  },
+  {
     "version": "10.2",
     "date": "2026-07-24T19:08:49.877Z",
     "title": "Ouverture directe dans l'app de navigation (Apple Maps/Google Maps/Waze)",
