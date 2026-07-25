@@ -3742,11 +3742,12 @@ if (f.type === 'age-display') {
 
    const mapBtn = f.map ? `<button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;margin-left:6px;" data-bodymap-field="${f.key}">🗺️</button>` : '';
 
-  if (f.type === 'text') {
+    if (f.type === 'text') {
     const phraseBtnText = f.phrase ? `<button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;margin-left:6px;" onclick="showPhraseModal('${f.phrase}')">🗣️</button>` : '';
     return `
       <div class="bilan-field-row">
-        <label>${f.label}${infoBtn}${phraseBtnText}</label>
+        <label>${f.label}${infoBtn}${mapBtn}${phraseBtnText}</label>
+
         <div class="text-field-wrap ${value ? 'has-value' : ''}">
           <textarea rows="1" class="bilan-textarea" data-bilan-field="${f.key}">${escapeHtml(value)}</textarea>
           <button class="text-clear-btn" type="button">✕</button>
