@@ -1,5 +1,13 @@
 [
   {
+    "version": "11.0",
+    "date": "2026-07-25T06:47:24.052Z",
+    "title": "Lien plus fiable vers la liste des applications Access",
+    "items": [
+      "Remplacement du lien profond vers l'édition d'une politique précise par un lien vers la liste des applications Access, qui se rouvre plus fiablement après la connexion au tableau de bord Cloudflare"
+    ]
+  },
+  {
     "version": "10.9",
     "date": "2026-07-25T06:35:55.630Z",
     "title": "Correction accès",
