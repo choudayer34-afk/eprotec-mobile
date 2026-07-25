@@ -637,7 +637,9 @@
     <div class="detail-header">
       <button class="plus-back" data-target="plus-secourisme">‹</button>
       <span>Bilan patient</span>
+      <span id="wakelock-indicator" style="display:none;color:#FAC775;font-size:16px;margin-right:4px;" title="Écran maintenu allumé">🔆</span>
       <div class="detail-icons" id="bilan-icons"></div>
+
     </div>
     <div class="metric-toggle">
       <button data-bilan-mode="reference" class="active">Référence</button>
@@ -1284,6 +1286,44 @@ let lastEngineUpdate = null;
 let isAdminUser = false;
 let currentUserEmail = null;
 let currentUserUid = null;
+let wakeLock = null;
+
+async function requestWakeLock() {
+  try {
+    if ('wakeLock' in navigator) {
+      if (wakeLock) return;
+      wakeLock = await navigator.wakeLock.request('screen');
+      updateWakeLockIndicator(true);
+      wakeLock.addEventListener('release', () => {
+        wakeLock = null;
+        updateWakeLockIndicator(false);
+      });
+    }
+  } catch (err) {
+    console.error('Wake Lock indisponible :', err);
+  }
+}
+
+function releaseWakeLock() {
+  if (wakeLock) {
+    wakeLock.release().catch(() => {});
+    wakeLock = null;
+  }
+  updateWakeLockIndicator(false);
+}
+
+function updateWakeLockIndicator(active) {
+  const el = document.getElementById('wakelock-indicator');
+  if (el) el.style.display = active ? 'inline' : 'none';
+}
+
+document.addEventListener('visibilitychange', () => {
+  const bilanSection = document.getElementById('plus-bilan');
+  if (document.visibilityState === 'visible' && bilanSection.classList.contains('active') && bilanMode === 'remplir') {
+    requestWakeLock();
+  }
+});
+
 
 function sanitizeUid(email) {
   return email.replace(/[.#$\[\]@]/g, '_');
@@ -3696,7 +3736,9 @@ function saveBilanData() {
 }
 
 function renderBilanReference() {
+  releaseWakeLock();
   const container = document.getElementById('bilan-content');
+
   container.innerHTML = BILAN_CATEGORIES.map(cat => `
     <div class="month-group">
       <button class="month-toggle">
@@ -4361,7 +4403,9 @@ function renderBilanIcons() {
 }
 
 function renderBilanFill() {
+  requestWakeLock();
   if (!bilanData.dateHeureOuverture) {
+
     bilanData.dateHeureOuverture = new Date().toISOString();
     saveBilanData();
   }
@@ -8123,7 +8167,15 @@ document.addEventListener('click', (e) => {
   }
 });
 
+new MutationObserver(() => {
+  const bilanSection = document.getElementById('plus-bilan');
+  if (!(bilanSection.classList.contains('active') && bilanMode === 'remplir')) {
+    releaseWakeLock();
+  }
+}).observe(document.getElementById('plus-bilan'), { attributes: true, attributeFilter: ['class'] });
+
 startAutoRefreshWatcher();
+
 
 loadData()
   .then(() => {
