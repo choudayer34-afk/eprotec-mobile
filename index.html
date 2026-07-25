@@ -7884,12 +7884,14 @@ await checkCloudflareIdentity(); tick();
   document.getElementById('kpi-nouveautes').textContent = nouveautes.length;
   document.getElementById('kpi-inscrits').textContent = inscrits.length;
 
-  const plusBadge = document.getElementById('plus-badge-nouveautes');
-  if (nouveautes.length > 0) {
-    plusBadge.textContent = nouveautes.length;
-    plusBadge.style.display = 'block';
-  } else {
-    plusBadge.style.display = 'none';
+ const plusBadge = document.getElementById('plus-badge-nouveautes');
+  if (plusBadge) {
+    if (nouveautes.length > 0) {
+      plusBadge.textContent = nouveautes.length;
+      plusBadge.style.display = 'block';
+    } else {
+      plusBadge.style.display = 'none';
+    }
   }
 
   renderUpcomingRegistrations(events);
