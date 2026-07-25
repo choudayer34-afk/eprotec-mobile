@@ -444,9 +444,10 @@
   </section>
 
 <section id="plus-evenements">
-    <div class="detail-header">
-      <button class="plus-back">‹</button>
-      <span>Événements</span>
+    <div class="screen-header">
+      <div class="screen-side"></div>
+      <h2 class="screen-title">Événements</h2>
+      <div class="screen-side"></div>
     </div>
     <div class="search-box">
       <span>🔍</span>
@@ -456,6 +457,7 @@
       <input type="date" id="date-from">
       <input type="date" id="date-to">
     </div>
+    <div class="filter-chips" id="status-filter-chips"></div>
     <div class="filter-chips" id="type-filter-chips"></div>
     <div id="liste-evenements"><div class="empty">Chargement...</div></div>
   </section>
@@ -484,25 +486,15 @@
         <div class="tile-icon">🔔</div>
         <div class="tile-title">Nouveautés</div>
       </div>
-      <div class="tile" data-open="plus-evenements">
-        <div class="tile-icon">📋</div>
-        <div class="tile-title">Événements</div>
-      </div>
+
 <div class="tile" data-open="plus-rapport">
         <div class="tile-icon">📊</div>
         <div class="tile-title">Rapport</div>
       </div>
-<div class="tile" data-open="plus-secourisme">
-        <div class="tile-icon">🚨</div>
-        <div class="tile-title">Secourisme</div>
-      </div>
+
       <div class="tile" data-open="plus-autodefense">
         <div class="tile-icon">🥋</div>
         <div class="tile-title">Autodéfense</div>
-      </div>
-      <div class="tile" data-open="plus-pretapartir">
-        <div class="tile-icon">🎒</div>
-        <div class="tile-title">Prêt à partir</div>
       </div>
   
 <div class="tile" data-open="plus-parametres">
@@ -576,9 +568,10 @@
   </section>
 
 <section id="plus-secourisme">
-    <div class="detail-header">
-      <button class="plus-back">‹</button>
-      <span>Secourisme</span>
+    <div class="screen-header">
+      <div class="screen-side"></div>
+      <h2 class="screen-title">Secourisme</h2>
+      <div class="screen-side"></div>
     </div>
     <div class="tile-grid">
       <div class="tile" data-open="plus-bilan">
@@ -593,6 +586,14 @@
         <div class="tile-icon">🧠</div>
         <div class="tile-title">Psychologie & relationnel</div>
       </div>
+<div class="tile" data-open="calendrier">
+        <div class="tile-icon">🗓️</div>
+        <div class="tile-title">Calendrier</div>
+      </div>
+      <div class="tile" data-open="plus-rapport">
+        <div class="tile-icon">📊</div>
+        <div class="tile-title">Rapport</div>
+      </div>      
 <div class="tile" data-open="plus-changelog">
         <div class="tile-icon">🆕</div>
         <div class="tile-title">Nouveautés de l'app</div>
@@ -818,9 +819,10 @@
     <div id="autodef-sol-content"><div class="empty">Chargement...</div></div>
   </section>
 <section id="plus-pretapartir">
-    <div class="detail-header">
-      <button class="plus-back">‹</button>
-      <span>Prêt à partir</span>
+    <div class="screen-header">
+      <div class="screen-side"></div>
+      <h2 class="screen-title">Prêt à partir</h2>
+      <div class="screen-side"></div>
     </div>
     <div id="pretapartir-content"><div class="empty">Chargement...</div></div>
   </section>
@@ -911,10 +913,9 @@
 
 <nav>
   <button data-tab="accueil" class="active"><span class="nav-icon">🏠</span>Accueil</button>
-  <button data-tab="calendrier"><span class="nav-icon">🗓️</span>Calendrier</button>
-  <button data-tab="plus-inscriptions"><span class="nav-icon">📋</span>Inscriptions</button>
-  <button data-tab="plus-suggestions"><span class="nav-icon">🎯</span>Suggestions</button>
-  <button data-tab="favoris"><span class="nav-icon">⭐</span>Favoris</button>
+  <button data-tab="plus-evenements"><span class="nav-icon">🎯</span>Événements</button>
+  <button data-tab="plus-secourisme"><span class="nav-icon">🆘</span>Secourisme</button>
+  <button data-tab="plus-pretapartir"><span class="nav-icon">🎒</span>Prêt à partir</button>
   <button data-tab="plus"><span class="nav-icon">⋯</span>Plus</button>
 </nav>
 
@@ -1436,6 +1437,25 @@ const TAG_LABELS = { ALL: 'Tous', ...Object.fromEntries(Object.keys(TAG_COLORS).
 const TAG_ORDER = ['ALL', 'DPS', 'FOR', 'MAN', 'BENEVOLE', 'MLA', 'ALERT', 'AIP', 'AUTRE'];
 
 let filterType = 'ALL';
+let statusFilter = 'ALL';
+
+function renderStatusFilterChips() {
+  const container = document.getElementById('status-filter-chips');
+  const options = [
+    { key: 'ALL', label: 'Tous les statuts' },
+    { key: 'SUGGERE', label: '🎯 Suggérés' },
+    { key: 'FAVORI', label: '⭐ Favoris' },
+    { key: 'INSCRIT', label: '✅ Inscrits' }
+  ];
+  container.innerHTML = options.map(o => `<button data-status="${o.key}" class="${statusFilter === o.key ? 'active' : ''}">${o.label}</button>`).join('');
+  container.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      statusFilter = btn.dataset.status;
+      container.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.status === statusFilter));
+      renderEvenements();
+    });
+  });
+}
 let searchQuery = '';
 let dateFrom = null;
 let dateTo = null;
@@ -1448,14 +1468,21 @@ document.querySelectorAll('nav button').forEach(btn => {
     document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
     btn.classList.add('active');
     document.getElementById(btn.dataset.tab).classList.add('active');
-if (btn.dataset.tab === 'favoris') renderFavoris();
-    if (btn.dataset.tab === 'calendrier') renderCalendar();
-    if (btn.dataset.tab === 'plus-inscriptions') renderInscriptions();
-    if (btn.dataset.tab === 'plus-suggestions') renderSuggestions(allSuggestions);
+    if (btn.dataset.tab === 'plus-evenements') { renderStatusFilterChips(); renderEvenements(); }
+    if (btn.dataset.tab === 'plus-pretapartir') renderPretAPartir();
   });
 });
 document.querySelectorAll('.tile[data-open]').forEach(tile => {
-  tile.addEventListener('click', () => openPlusSection(tile.dataset.open));
+  tile.addEventListener('click', () => {
+    if (tile.dataset.open === 'calendrier') {
+      document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+      document.getElementById('calendrier').classList.add('active');
+      renderCalendar();
+      return;
+    }
+    openPlusSection(tile.dataset.open);
+  });
 });
 
 document.querySelectorAll('.plus-back').forEach(btn => {
@@ -1498,10 +1525,12 @@ if (subId === 'plus-pediatrie') renderGestesList('pediatrie-content', ['pediatri
 }
 
 document.getElementById('kpi-inscrits-box').addEventListener('click', () => {
-  document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === 'plus-inscriptions'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === 'plus-evenements'));
   document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
-  document.getElementById('plus-inscriptions').classList.add('active');
-  renderInscriptions();
+  document.getElementById('plus-evenements').classList.add('active');
+  statusFilter = 'INSCRIT';
+  renderStatusFilterChips();
+  renderEvenements();
 });
 document.getElementById('kpi-nouveautes-box').addEventListener('click', () => openPlusSection('plus-nouveautes'));
 
@@ -4200,7 +4229,7 @@ function renderBilanIcons() {
   const iconsContainer = document.getElementById('bilan-icons');
   if (bilanMode !== 'remplir') { iconsContainer.innerHTML = ''; return; }
   iconsContainer.innerHTML = `
-    <button class="icon-btn" id="bilan-icon-new" aria-label="Nouveau bilan">🗑</button>
+    <button class="icon-btn" id="bilan-icon-new" aria-label="Nouveau bilan">🆕</button>
     <button class="icon-btn" id="bilan-icon-summary" aria-label="Résumé">📋</button>
     <button class="icon-btn" id="bilan-icon-copy" aria-label="Copier">📤</button>
     <button class="icon-btn" id="bilan-icon-whatsapp" aria-label="Envoyer par WhatsApp">💬</button>
@@ -7044,6 +7073,15 @@ function renderTypeFilterChips() {
 function renderEvenements() {
   let filtered = allEvents.filter(e => e.dateDebut);
 
+  if (statusFilter === 'FAVORI') {
+    filtered = filtered.filter(e => isFavori(e.uid));
+  } else if (statusFilter === 'INSCRIT') {
+    filtered = filtered.filter(e => e.dejaInscrit);
+  } else if (statusFilter === 'SUGGERE') {
+    const suggestedUids = new Set(allSuggestions.map(s => s.uid));
+    filtered = filtered.filter(e => suggestedUids.has(e.uid));
+  }
+
   if (filterType === 'BENEVOLE') {
     filtered = filtered.filter(e => normalizeText(e.titre).includes('benevole'));
   } else if (filterType !== 'ALL') {
@@ -7063,12 +7101,21 @@ function renderEvenements() {
     filtered = filtered.filter(e => new Date(e.dateDebut) <= new Date(dateTo + 'T23:59:59'));
   }
 
-  filtered.sort((a, b) => new Date(a.dateDebut) - new Date(b.dateDebut));
+if (statusFilter === 'SUGGERE') {
+    filtered.sort((a, b) => {
+      const scoreA = allSuggestions.find(s => s.uid === a.uid)?.score || 0;
+      const scoreB = allSuggestions.find(s => s.uid === b.uid)?.score || 0;
+      return scoreB - scoreA;
+    });
+  } else {
+    filtered.sort((a, b) => new Date(a.dateDebut) - new Date(b.dateDebut));
+  }
 
   renderMonthGroupedCards(
     document.getElementById('liste-evenements'),
     groupByMonth(filtered),
-    'Aucun événement ne correspond à ces critères.'
+    'Aucun événement ne correspond à ces critères.',
+    { showScore: statusFilter === 'SUGGERE' }
   );
 }
 
