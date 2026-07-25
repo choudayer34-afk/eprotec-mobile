@@ -976,12 +976,12 @@
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1634525"
   },
   {
-    "uid": "evt16204631@https://eprotec.protection-civile.org",
+    "uid": "evt16204641@https://eprotec.protection-civile.org",
     "titre": "[DPS 34] Festival InvitationS",
-    "lieu": "Rue des Lavoirs 34350 Vendres",
-    "dateDebut": "2026-08-21T16:30:00.000Z",
-    "dateFin": "2026-08-21T21:30:00.000Z",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1620463'>Lien vers l'activité</a>",
+    "lieu": "Cave des vignerons, Maraussan",
+    "dateDebut": "2026-08-22T16:30:00.000Z",
+    "dateFin": "2026-08-22T21:30:00.000Z",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1620464'>Lien vers l'activité</a>",
     "tag": "DPS",
     "score": 9,
     "reasons": [
@@ -990,7 +990,7 @@
         "category": "positive"
       },
       {
-        "text": "Jour : Vendredi (+3)",
+        "text": "Jour : Samedi (+3)",
         "category": "positive"
       },
       {
@@ -1002,23 +1002,23 @@
         "category": "positive"
       },
       {
-        "text": "Trop éloigné (64.1 km)",
+        "text": "Trop éloigné (64.2 km)",
         "category": "negative"
       },
       {
-        "text": "Espacement confortable (21 jours)",
+        "text": "Espacement confortable (20 jours)",
         "category": "positive"
       }
     ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1620463"
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1620464"
   },
   {
-    "uid": "evt16204581@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] ASBH - Leicester Tigers",
-    "lieu": "Beziers",
-    "dateDebut": "2026-08-21T16:00:00.000Z",
-    "dateFin": "2026-08-21T21:00:00.000Z",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1620458'>Lien vers l'activité</a>",
+    "uid": "evt16286371@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] ASBH - Aurillac",
+    "lieu": "Avenue des Olympiades, 34500 Beziers, France",
+    "dateDebut": "2026-10-16T16:00:00.000Z",
+    "dateFin": "2026-10-16T21:00:00.000Z",
+    "description": "Horaires non defintiives, horaires post match inclus (1h30 avant match, 1h30 match + 2h apres match). DPS Public uniquement. 1 equipe en post match / 2. Essentiellement le vendredi a 18h00 (match a 19h30), exceptionnellement a 21h30 ou le jeudi soir.<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628637'>Lien vers l'activité</a>",
     "tag": "DPS",
     "score": 9,
     "reasons": [
@@ -1039,14 +1039,14 @@
         "category": "positive"
       },
       {
-        "text": "Trop éloigné (60.9 km)",
+        "text": "Trop éloigné (57.8 km)",
         "category": "negative"
       },
       {
-        "text": "Espacement confortable (21 jours)",
+        "text": "Espacement confortable (35 jours)",
         "category": "positive"
       }
     ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1620458"
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1628637"
   }
 ]
