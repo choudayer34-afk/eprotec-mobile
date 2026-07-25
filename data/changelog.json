@@ -1,5 +1,14 @@
 [
   {
+    "version": "11.7",
+    "date": "2026-07-25T12:11:46.024Z",
+    "title": "Restriction du forçage de mise à jour à l'administrateur",
+    "items": [
+      "Le bouton ↻ (forcer une mise à jour) n'est désormais visible que pour ch-houdayer@hotmail.fr",
+      "Pour les autres comptes (futurs utilisateurs), l'enregistrement des réglages OAD ne déclenche plus le workflow global — la mise à jour se fera naturellement au prochain passage horaire"
+    ]
+  },
+  {
     "version": "11.6",
     "date": "2026-07-25T10:11:33.542Z",
     "title": "Restriction de Cloud Formation et Partager l'app à ton compte",
