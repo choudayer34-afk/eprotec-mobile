@@ -1,5 +1,14 @@
 [
   {
+    "version": "13.8",
+    "date": "2026-07-25T18:35:53.020Z",
+    "title": "balayage pour écarter une suggestion",
+    "items": [
+      "Le balayage pour écarter une suggestion ne fonctionnait plus depuis la fusion de l'écran Suggestions dans Événements",
+      "Réactivé quand le filtre \"Suggestions\" est sélectionné"
+    ]
+  },
+  {
     "version": "13.7",
     "date": "2026-07-25T15:22:43.899Z",
     "title": "Correction critique définitive : badge de nouveautés supprimé du DOM",
