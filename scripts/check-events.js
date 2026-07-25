@@ -65,9 +65,14 @@ async function loadRegisteredUsers() {
     const res = await fetch(FIREBASE_URL + '/users.json');
     const data = await res.json();
     if (!data || typeof data !== 'object') return [];
-    return Object.keys(data)
+    const users = Object.keys(data)
       .filter(uid => data[uid] && typeof data[uid]['eprotec-cid'] === 'string' && data[uid]['eprotec-cid'].length > 0)
       .map(uid => ({ uid, cid: data[uid]['eprotec-cid'] }));
+    if (users.length > 50) {
+      console.warn(`⚠️ Plus de 50 utilisateurs enregistrés (${users.length}) — seuls les 50 premiers seront traités.`);
+      return users.slice(0, 50);
+    }
+    return users;
   } catch (err) {
     console.error('Erreur chargement utilisateurs enregistrés :', err.message);
     return [];
