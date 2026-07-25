@@ -1,5 +1,13 @@
 [
   {
+    "version": "10.8",
+    "date": "2026-07-25T05:44:11.552Z",
+    "title": "Bouton Copier dans le sélecteur d'app de navigation",
+    "items": [
+      "Ajout d'un bouton \"Copier l'adresse\" dans le menu qui s'ouvre en tapant sur un lieu (événement ou géolocalisation du bilan), en plus des choix Apple Plans/Google Maps/Waze"
+    ]
+  },
+  {
     "version": "10.7",
     "date": "2026-07-25T05:41:43.383Z",
     "title": "Bouton de partage de l'application",
