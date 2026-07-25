@@ -453,6 +453,11 @@
       <button data-view="liste" class="active">📋 Liste</button>
       <button data-view="calendrier">🗓️ Calendrier</button>
     </div>
+    <div class="metric-toggle" id="nouveautes-view-toggle" style="display:none;">
+      <button data-nouveautes-view="jour" class="active">Par jour</button>
+      <button data-nouveautes-view="chrono">Chronologique</button>
+      <button data-nouveautes-view="type">Par type</button>
+    </div>
     <div class="search-box">
       <span>🔍</span>
       <input type="text" id="search-input" placeholder="Titre, lieu...">
@@ -489,42 +494,34 @@
       <h2 class="screen-title">Plus</h2>
       <div class="screen-side"></div>
     </div>
-    <div class="tile-grid">
-
-<div class="tile" data-open="plus-nouveautes">
-        <span class="tile-badge" id="plus-badge-nouveautes" style="display:none;">0</span>
-        <div class="tile-icon">🔔</div>
-        <div class="tile-title">Nouveautés</div>
-      </div>
-
-<div class="tile" data-open="plus-rapport">
-        <div class="tile-icon">📊</div>
-        <div class="tile-title">Rapport</div>
-      </div>
-
+   <div class="tile-grid">
       <div class="tile" data-open="plus-autodefense">
         <div class="tile-icon">🥋</div>
         <div class="tile-title">Autodéfense</div>
       </div>
-  
-<div class="tile" data-open="plus-parametres">
+      <div class="tile" data-open="plus-rapport">
+        <div class="tile-icon">📊</div>
+        <div class="tile-title">Rapport</div>
+      </div>
+      <div class="tile" data-open="plus-parametres">
         <div class="tile-icon">⚙️</div>
         <div class="tile-title">Paramètres OAD</div>
       </div>
-<div class="tile" data-open="plus-eprotec-lien">
+      <div class="tile" data-open="plus-eprotec-lien">
         <div class="tile-icon">🔗</div>
         <div class="tile-title">Mon lien Eprotec</div>
       </div>
-
+      <div class="tile" data-open="calendrier">
+        <div class="tile-icon">🗓️</div>
+        <div class="tile-title">Calendrier</div>
+      </div>
+      <div class="tile" data-open="plus-changelog">
+        <div class="tile-icon">🆕</div>
+        <div class="tile-title">Nouveautés de l'app</div>
+      </div>
       <div class="tile span-2" data-open="plus-liens">
-        
-
         <div class="tile-icon">🔗</div>
         <div class="tile-title">Liens utiles</div>
-      </div>
-          <div class="tile span-2" data-open="plus-apropos">
-        <div class="tile-icon">ℹ️</div>
-        <div class="tile-title">À propos</div>
       </div>
     </div>
   </section>
@@ -1455,7 +1452,8 @@ function renderStatusFilterChips() {
     { key: 'ALL', label: '📋', title: 'Événements' },
     { key: 'SUGGERE', label: '🎯', title: 'Suggestions OAD' },
     { key: 'FAVORI', label: '⭐', title: 'Mes favoris' },
-    { key: 'INSCRIT', label: '✅', title: 'Mes inscriptions' }
+{ key: 'INSCRIT', label: '✅', title: 'Mes inscriptions' },
+    { key: 'NOUVEAU', label: '🆕', title: 'Nouveautés' }
   ];
   container.innerHTML = options.map(o => `<button data-status="${o.key}" style="font-size:18px;" class="${statusFilter === o.key ? 'active' : ''}">${o.label}</button>`).join('');
   container.querySelectorAll('button').forEach(btn => {
@@ -1817,12 +1815,7 @@ function renderCalendar() {
     <div id="cal-day-detail"></div>
   `;
 
-document.getElementById('cal-view-liste').addEventListener('click', () => {
-    document.getElementById('calendrier').classList.remove('active');
-    document.getElementById('plus-evenements').classList.add('active');
-  });
-
-  document.getElementById('cal-filter-toggle').addEventListener('click', () => {
+document.getElementById('cal-filter-toggle').addEventListener('click', () => {
     
     calFilterPanelOpen = !calFilterPanelOpen;
     renderCalendar();
@@ -2099,6 +2092,42 @@ function groupByTag(items) {
 
 let nouveautesViewMode = 'jour';
 
+function renderNouveautesCompletesInto(containerId) {
+  const nouveautes = allEvents.filter(e => e.nouveau && e.dateDebut);
+  const container = document.getElementById(containerId);
+  if (nouveautes.length === 0) {
+    container.innerHTML = '<div class="empty">Aucune nouveauté pour le moment.</div>';
+    return;
+  }
+
+  if (nouveautesViewMode === 'chrono') {
+    const sorted = [...nouveautes].sort((a, b) => {
+      const da = a.nouveauDepuis ? new Date(a.nouveauDepuis) : new Date(0);
+      const db = b.nouveauDepuis ? new Date(b.nouveauDepuis) : new Date(0);
+      return db - da;
+    });
+    container.innerHTML = sorted.map(item => eventCard(item)).join('');
+    attachCardHandlers(container);
+    return;
+  }
+
+  const groups = nouveautesViewMode === 'type' ? groupByTag(nouveautes) : groupByDetectionDate(nouveautes);
+  container.innerHTML = groups.map(g => `
+    <div class="month-group">
+      <button class="month-toggle">
+        <span>${g.label} (${g.items.length})</span>
+        <span class="month-chevron">▸</span>
+      </button>
+      <div class="month-body" style="display:none">
+        ${g.items.map(item => eventCard(item)).join('')}
+      </div>
+    </div>
+  `).join('');
+
+  setupAccordion(container);
+  attachCardHandlers(container);
+}
+
 function renderNouveautesCompletes(events) {
   const nouveautes = events.filter(e => e.nouveau && e.dateDebut);
 
@@ -2140,7 +2169,11 @@ document.querySelectorAll('[data-nouveautes-view]').forEach(btn => {
   btn.addEventListener('click', () => {
     nouveautesViewMode = btn.dataset.nouveautesView;
     document.querySelectorAll('[data-nouveautes-view]').forEach(b => b.classList.toggle('active', b === btn));
-    renderNouveautesCompletes(allEvents);
+    if (document.getElementById('plus-nouveautes').classList.contains('active')) {
+      renderNouveautesCompletes(allEvents);
+    } else {
+      renderNouveautesCompletesInto('liste-evenements');
+    }
   });
 });
 
@@ -7146,6 +7179,14 @@ function showTypeFilterModal() {
 }
 
 function renderEvenements() {
+  const toggle = document.getElementById('nouveautes-view-toggle');
+  if (statusFilter === 'NOUVEAU') {
+    toggle.style.display = 'flex';
+    renderNouveautesCompletesInto('liste-evenements');
+    return;
+  }
+  toggle.style.display = 'none';
+
   let filtered = allEvents.filter(e => e.dateDebut);
 
   if (statusFilter === 'FAVORI') {
@@ -7957,6 +7998,11 @@ document.addEventListener('input', (e) => {
 });
 
 document.addEventListener('click', (e) => {
+  if (e.target && e.target.id === 'cal-view-liste') {
+    document.getElementById('calendrier').classList.remove('active');
+    document.getElementById('plus-evenements').classList.add('active');
+    return;
+  }
   if (e.target.classList && e.target.classList.contains('text-clear-btn')) {
     const wrap = e.target.closest('.text-field-wrap');
     if (!wrap) return;
