@@ -7398,7 +7398,7 @@ async function loadEprotecCid() {
   try {
     const res = await fetch(FIREBASE_URL + '/users/' + currentUserUid + '/eprotec-cid.json?t=' + Date.now(), { cache: 'no-store' });
     const cid = await res.json();
-    return cid || '';
+    return typeof cid === 'string' ? cid : '';
   } catch {
     return '';
   }
