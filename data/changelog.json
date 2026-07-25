@@ -1,5 +1,15 @@
 [
   {
+    "version": "12.4",
+    "date": "2026-07-25T13:30:16.935Z",
+    "title": "Correction critique : personnalisation réelle des inscriptions/suggestions/rapport",
+    "items": [
+      "L'app lit désormais les données personnelles calculées par le moteur (inscriptions, suggestions, historique) au lieu du fichier partagé",
+      "Suppression de l'ancienne migration locale des favoris, qui faisait fuiter les données d'un compte vers un autre sur un même appareil",
+      "Retour à l'accueil et rechargement automatique après enregistrement du lien Eprotec ou des réglages OAD, avec estimation du temps avant la prochaine prise en compte"
+    ]
+  },
+  {
     "version": "12.3",
     "date": "2026-07-25T13:16:07.136Z",
     "title": "Moteur multi-utilisateurs : historique et suggestions personnalisées",
