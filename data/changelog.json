@@ -1,5 +1,14 @@
 [
   {
+    "version": "12.9",
+    "date": "2026-07-25T14:09:40.288Z",
+    "title": "Icône Bilan en accès rapide sur l'Accueil, Nouveautés de l'app relocalisée",
+    "items": [
+      "L'icône en haut à gauche de l'Accueil ouvre désormais directement le Bilan patient en mode remplissage",
+      "\"Nouveautés de l'app\" reprend sa place dans les paramètres"
+    ]
+  },
+  {
     "version": "12.8",
     "date": "2026-07-25T13:59:24.619Z",
     "title": "Icône nouveautés app, nouveautés repliées, barre de progression",
