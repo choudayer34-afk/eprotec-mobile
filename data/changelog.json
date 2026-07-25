@@ -1,5 +1,14 @@
 [
   {
+    "version": "11.1",
+    "date": "2026-07-25T07:38:22.166Z",
+    "title": "Rafraîchissement automatique 5 minutes après la mise à jour du moteur",
+    "items": [
+      "L'app vérifie discrètement toutes les 2 minutes (uniquement quand elle est au premier plan) si le moteur a tourné",
+      "Dès qu'une nouvelle mise à jour est détectée, l'écran se recharge automatiquement 5 minutes plus tard, sans action de ta part"
+    ]
+  },
+  {
     "version": "11.0",
     "date": "2026-07-25T06:47:24.052Z",
     "title": "Lien plus fiable vers la liste des applications Access",
