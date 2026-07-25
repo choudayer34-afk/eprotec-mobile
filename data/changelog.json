@@ -1,5 +1,14 @@
 [
   {
+    "version": "10.6",
+    "date": "2026-07-25T05:38:49.655Z",
+    "title": "Correction du lien de notification vers la nouvelle adresse Cloudflare",
+    "items": [
+      "Le lien \"Click\" des notifications pointait encore vers l'ancienne adresse GitHub Pages, désormais fermée, provoquant une erreur 404",
+      "Mise à jour vers l'adresse Cloudflare Workers actuelle"
+    ]
+  },
+  {
     "version": "10.5",
     "date": "2026-07-25T05:07:23.696Z",
     "title": "Mode plein écran depuis l'icône d'écran d'accueil",
