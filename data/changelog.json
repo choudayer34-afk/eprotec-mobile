@@ -1,5 +1,13 @@
 [
   {
+    "version": "10.9",
+    "date": "2026-07-25T06:35:55.630Z",
+    "title": "Correction accès",
+    "items": [
+      "Correction accès"
+    ]
+  },
+  {
     "version": "10.8",
     "date": "2026-07-25T05:44:11.552Z",
     "title": "Bouton Copier dans le sélecteur d'app de navigation",
