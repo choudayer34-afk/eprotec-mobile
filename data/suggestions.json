@@ -518,39 +518,6 @@
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1632920"
   },
   {
-    "uid": "evt16275321@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] Family Piknik",
-    "lieu": "Parc des expositions, Route de la Foire, Perols",
-    "dateDebut": "2026-08-01T10:00:00.000Z",
-    "dateFin": "2026-08-01T13:00:00.000Z",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627532'>Lien vers l'activité</a>",
-    "tag": "DPS",
-    "score": 9,
-    "reasons": [
-      {
-        "text": "Mois sans DPS planifié",
-        "category": "positive"
-      },
-      {
-        "text": "Jour : Samedi (+3)",
-        "category": "positive"
-      },
-      {
-        "text": "Durée raisonnable",
-        "category": "positive"
-      },
-      {
-        "text": "Très proche (4 km)",
-        "category": "positive"
-      },
-      {
-        "text": "Espacement confortable (9 jours)",
-        "category": "positive"
-      }
-    ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1627532"
-  },
-  {
     "uid": "evt16275341@https://eprotec.protection-civile.org",
     "titre": "[DPS 34] Family Piknik",
     "lieu": "Parc des expositions, Route de la Foire, Perols",
@@ -582,6 +549,39 @@
       }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1627534"
+  },
+  {
+    "uid": "evt16275321@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] Family Piknik",
+    "lieu": "Parc des expositions, Route de la Foire, Perols",
+    "dateDebut": "2026-08-01T10:00:00.000Z",
+    "dateFin": "2026-08-01T13:00:00.000Z",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627532'>Lien vers l'activité</a>",
+    "tag": "DPS",
+    "score": 9,
+    "reasons": [
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour : Samedi (+3)",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (4 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (9 jours)",
+        "category": "positive"
+      }
+    ],
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1627532"
   },
   {
     "uid": "evt16285401@https://eprotec.protection-civile.org",
