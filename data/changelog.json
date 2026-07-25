@@ -1,5 +1,13 @@
 [
   {
+    "version": "11.5",
+    "date": "2026-07-25T09:59:44.581Z",
+    "title": "Retour arrière",
+    "items": [
+      "Retour arrière"
+    ]
+  },
+  {
     "version": "11.4",
     "date": "2026-07-25T08:01:25.831Z",
     "title": "Correction : balise de fermeture manquante sur la grille Liens utiles",
