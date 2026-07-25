@@ -7228,13 +7228,20 @@ if (statusFilter === 'SUGGERE') {
     filtered.sort((a, b) => new Date(a.dateDebut) - new Date(b.dateDebut));
   }
 
+  const evenementsContainer = document.getElementById('liste-evenements');
   renderMonthGroupedCards(
-    document.getElementById('liste-evenements'),
+    evenementsContainer,
     groupByMonth(filtered),
     'Aucun événement ne correspond à ces critères.',
     { showScore: statusFilter === 'SUGGERE' }
   );
+
+  if (statusFilter === 'SUGGERE') {
+    wrapCardsForSwipeDismiss(evenementsContainer);
+    attachSwipeToDismiss(evenementsContainer);
+  }
 }
+
 
 document.getElementById('search-input').addEventListener('input', (e) => {
   searchQuery = e.target.value;
