@@ -1,5 +1,15 @@
 [
   {
+    "version": "13.2",
+    "date": "2026-07-25T14:35:42.997Z",
+    "title": "Refonte de la navigation : 5 onglets principaux, filtres de statut",
+    "items": [
+      "Nouvelle barre du bas : Accueil, Événements, Secourisme, Prêt à partir, Plus",
+      "Suggestions/Favoris/Inscriptions fusionnés dans Événements via des filtres de statut, cumulables avec les filtres de type existants",
+      "Calendrier et Rapport redescendent dans Plus, où ils restent facilement accessibles"
+    ]
+  },
+  {
     "version": "13.1",
     "date": "2026-07-25T14:21:14.977Z",
     "title": "Barre de progression uniquement pendant un déclenchement forcé",
