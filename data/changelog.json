@@ -1,5 +1,15 @@
 [
   {
+    "version": "14.5",
+    "date": "2026-07-25T21:31:48.433Z",
+    "title": "Numéros d'urgence cliquables, accessibles depuis 3 endroits",
+    "items": [
+      "Nouvelle fenêtre \"Numéros d'urgence\" avec 12 numéros vérifiés (SAMU, Pompiers, Police, urgence européenne, SMS sourds/malentendants, SAMU social, enfance en danger, prévention suicide, violences femmes, alerte attentat/enlèvement, pharmacie de garde, alerte sécurité trains/gares)",
+      "Accessible depuis le Bilan patient (icône dédiée), Secourisme, et Liens utiles",
+      "Le 114 ouvre directement l'app Messages, tous les autres appellent directement"
+    ]
+  },
+  {
     "version": "14.4",
     "date": "2026-07-25T20:56:54.435Z",
     "title": "Correction : bouton carte du corps manquant sur les champs texte",
