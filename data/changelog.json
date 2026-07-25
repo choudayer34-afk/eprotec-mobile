@@ -1,5 +1,13 @@
 [
   {
+    "version": "14.7",
+    "date": "2026-07-25T22:21:40.855Z",
+    "title": "Bouton SOS personnel avec géolocalisation",
+    "items": [
+      "Nouveau bouton SOS en haut d'Autodéfense : géolocalise instantanément et propose d'envoyer un message d'alerte (WhatsApp ou SMS) à 1-2 contacts personnels configurables Le dernier tap \"Envoyer\" reste toujours à l'utilisateur, limite imposée par iOS pour éviter les envois automatiques"
+    ]
+  },
+  {
     "version": "14.6",
     "date": "2026-07-25T21:57:55.334Z",
     "title": "Écran maintenu allumé pendant le Bilan patient",
