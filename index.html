@@ -841,7 +841,7 @@
       <a class="tile" href="https://academy.protection-civile-herault.org/" target="_blank">
         <div class="tile-icon">📘</div><div class="tile-title">Formation</div>
       </a>
-      <a class="tile" id="cf-cloudformation-tile" href="https://drive.google.com/drive/folders/1SuSx23UacBrhPFYWF1W1R7Y6Pq2YK93_" target="_blank" style="display:none;">
+      <a class="tile" href="https://drive.google.com/drive/folders/1SuSx23UacBrhPFYWF1W1R7Y6Pq2YK93_" target="_blank">
         <div class="tile-icon">☁️</div><div class="tile-title">Cloud Formation</div>
       </a>
       <a class="tile" href="https://cloud.protection-civile-herault.org/index.php/apps/dashboard/" target="_blank">
@@ -850,10 +850,11 @@
       <a class="tile" href="https://boutique.protection-civile.org/fr/" target="_blank">
         <div class="tile-icon">🛒</div><div class="tile-title">Boutique</div>
       </a>
-              <a class="tile" id="cf-admin-tile" href="https://one.dash.cloudflare.com/b2daa5e2f876743239f965f620add66d/access/apps" target="_blank" style="display:none;">
+        <a class="tile" id="cf-admin-tile" href="https://one.dash.cloudflare.com/b2daa5e2f876743239f965f620add66d/access/apps" target="_blank" style="display:none;">
         <div class="tile-icon">🔐</div>
         <div class="tile-title">Gérer les accès (Cloudflare)</div>
-              </a> <button class="tile" id="share-app-btn" style="border:none;width:100%;display:none;">
+</a>
+      <button class="tile" id="share-app-btn" style="border:none;width:100%;display:none;">
         <div class="tile-icon">📤</div>
         <div class="tile-title">Partager l'app</div>
       </button>
@@ -865,7 +866,6 @@
         <img src="data/oasis-logo.png" style="width:40px;height:40px;border-radius:12px;object-fit:cover;margin:0 auto 8px;display:block;" alt="OASIS">
         <div class="tile-title">OASIS</div>
       </a>
-    </div>
   </section>
 
   <section id="plus-parametres">
@@ -7484,14 +7484,9 @@ async function checkCloudflareIdentity() {
     const res = await fetch('/cdn-cgi/access/get-identity', { credentials: 'include' });
     if (!res.ok) return;
     const identity = await res.json();
-    if (identity.email === 'ch-houdayer@hotmail.fr') {
-      const adminTile = document.getElementById('cf-admin-tile');
-      const cloudFormationTile = document.getElementById('cf-cloudformation-tile');
-      const shareBtn = document.getElementById('share-app-btn');
-      if (adminTile) adminTile.style.display = 'block';
-      if (cloudFormationTile) cloudFormationTile.style.display = 'block';
-      if (shareBtn) shareBtn.style.display = 'block';
-    }
+    const adminTile = document.getElementById('cf-admin-tile');
+    if (adminTile && identity.email === 'ch-houdayer@hotmail.fr') {
+      adminTile.style.display = 'block';
     }
   } catch (err) {
     console.error('Erreur vérification identité Cloudflare :', err);
