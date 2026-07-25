@@ -1,5 +1,14 @@
 [
   {
+    "version": "12.2",
+    "date": "2026-07-25T13:13:03.235Z",
+    "title": "Correction règles Firebase manquantes + protection contre erreurs d'API",
+    "items": [
+      "Ajout des règles manquantes pour eprotec-cid et le futur dossier data (nécessaire au moteur multi-utilisateurs)",
+      "Le code vérifie désormais que la valeur reçue est bien une chaîne de caractères, pour éviter d'afficher un message d'erreur brut si jamais une permission venait à manquer"
+    ]
+  },
+  {
     "version": "12.1",
     "date": "2026-07-25T13:07:50.729Z",
     "title": "Modale de configuration du lien Eprotec + reconstruction du lien canonique",
