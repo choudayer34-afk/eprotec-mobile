@@ -1,5 +1,14 @@
 [
   {
+    "version": "14.1",
+    "date": "2026-07-25T20:02:40.288Z",
+    "title": "Correction : retrait automatique d'une désinscription future de l'historiquejs",
+    "items": [
+      "Si tu te désinscris d'un événement futur, il est désormais retiré de ton historique au passage suivant du moteur",
+      "Corrige un biais dans le calcul de l'espacement des suggestions (un DPS annulé ne comptait plus comme \"à venir\" côté Eprotec, mais restait compté comme tel dans les suggestions)"
+    ]
+  },
+  {
     "version": "14.0",
     "date": "2026-07-25T19:43:25.480Z",
     "title": "Correction critique : UID incompatibles avec les clés Firebase",
