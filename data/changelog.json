@@ -1,5 +1,13 @@
 [
   {
+    "version": "15.3",
+    "date": "2026-07-26T06:24:49.979Z",
+    "title": "Corr 3904",
+    "items": [
+      "Corr 3904"
+    ]
+  },
+  {
     "version": "15.2",
     "date": "2026-07-26T06:14:44.109Z",
     "title": "Ajout des champs pour la fiche bilan complète (sexe, intoxications, gestes, suite, décharge)",
