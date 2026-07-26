@@ -4954,7 +4954,11 @@ if (input.dataset.bilanField === 'taDroitSys' || input.dataset.bilanField === 't
       }
       if (input.dataset.bilanField === 'avcTimeOnset') updateAvcDuration();
     });
-
+input.addEventListener('blur', () => {
+      if (input.dataset.bilanField === 'redacteur' && input.value.trim()) {
+        saveMonNom(input.value.trim());
+      }
+    });
  
   });
 
