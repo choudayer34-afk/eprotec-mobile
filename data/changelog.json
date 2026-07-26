@@ -1,5 +1,17 @@
 [
   {
+    "version": "17.5",
+    "date": "2026-07-26T19:11:21.435Z",
+    "title": "PDF enrichi : circonstances, TRC, Glasgow détaillé, intoxications avec noms",
+    "items": [
+      "Circonstances présentées avec \"Scène :\" / \"Sécurité :\" et retours à la ligne",
+      "TRC ≥ 2s désormais affiché dans le PDF",
+      "Glasgow détaillé par élément (Y/V/M) en plus du total",
+      "\"Intoxications\" indiqué avant les cases à cocher, avec champs pour préciser le nom du médicament ou du toxique",
+      "Phrases utiles ajoutées : demander le nom du médicament, et sur le menu déroulant Glasgow"
+    ]
+  },
+  {
     "version": "17.4",
     "date": "2026-07-26T19:04:46.971Z",
     "title": "Correction",
