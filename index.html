@@ -400,10 +400,12 @@
   section { display: none; }
   section.active { display: block; }
 
-  @media print {
+@media print {
+    html, body { background: #fff !important; }
     body * { visibility: hidden; }
     #bilan-print-content, #bilan-print-content * { visibility: visible; }
     #bilan-print-content {
+      display: block !important;
       position: absolute; top: 0; left: 0; width: 100%;
       color: #000; background: #fff; padding: 20px;
     }
