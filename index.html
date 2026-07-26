@@ -2952,7 +2952,8 @@ accueil: [
   intoxications: [
     { fr: "Avez-vous bu de l'alcool aujourd'hui ?", en: "Have you had any alcohol today?", es: "¿Ha bebido alcohol hoy?", ar: "هل شربت الكحول اليوم؟" },
     { fr: "Avez-vous pris des médicaments ?", en: "Have you taken any medication?", es: "¿Ha tomado algún medicamento?", ar: "هل تناولت أي دواء؟" },
-    { fr: "Avez-vous consommé une autre substance aujourd'hui ?", en: "Have you taken any other substance today?", es: "¿Ha consumido alguna otra sustancia hoy?", ar: "هل تناولت أي مادة أخرى اليوم؟" }
+{ fr: "Avez-vous consommé une autre substance aujourd'hui ?", en: "Have you taken any other substance today?", es: "¿Ha consumido alguna otra sustancia hoy?", ar: "هل تناولت أي مادة أخرى اليوم؟" },
+    { fr: "Quel médicament avez-vous pris ? Pouvez-vous me montrer la boîte ?", en: "What medication did you take? Can you show me the box?", es: "¿Qué medicamento tomó? ¿Puede mostrarme la caja?", ar: "ما هو الدواء الذي تناولته؟ هل يمكنك أن تريني العلبة؟" }
   ],
   decharge: [
     { fr: "Je dois vous informer des risques si vous refusez le transport.", en: "I must inform you of the risks if you refuse transport.", es: "Debo informarle de los riesgos si rechaza el traslado.", ar: "يجب أن أبلغك بالمخاطر إذا رفضت النقل." },
@@ -3842,7 +3843,11 @@ function formatDateNaissanceFr(iso) {
   return `${parts[2]}/${parts[1]}/${parts[0]}`;
 }
 
-
+function glasgowFieldLabel(key, value) {
+  if (!value) return '';
+  const opt = (GLASGOW_OPTIONS[key] || []).find(o => String(o.value) === String(value));
+  return opt ? opt.label : '';
+}
 function computeAge(dateNaissance) {
   if (!dateNaissance) return '';
   const dob = new Date(dateNaissance);
@@ -3984,7 +3989,7 @@ options: [
   { key: 'd', label: '🧠 D — Neurologique (Glasgow)', fields: [
     { key: 'conscience', label: 'Conscience (EVDA)', type: 'chip', options: ['Éveillé', 'Verbal', 'Douleur', 'Aréactif'] },
     { key: 'glasgowQuick', label: 'Sélection rapide', type: 'glasgowQuick' },
-    { key: 'glasgowY', label: 'Ouverture des yeux', type: 'select', options: GLASGOW_OPTIONS.glasgowY },
+    { key: 'glasgowY', label: 'Ouverture des yeux', type: 'select', options: GLASGOW_OPTIONS.glasgowY, phrase: 'glasgow' },
     { key: 'glasgowV', label: 'Réponse verbale', type: 'select', options: GLASGOW_OPTIONS.glasgowV },
  { key: 'glasgowM', label: 'Réponse motrice', type: 'select', options: GLASGOW_OPTIONS.glasgowM, phrase: 'glasgow' },
     { key: 'pupilles', label: 'Pupilles', type: 'chip', options: ['Normales', 'Asymétriques', 'Mydriase', 'Myosis'], info: 'pupilles', phrase: 'pupilles' },
@@ -4012,7 +4017,9 @@ options: [
 { key: 'risque', label: 'Risque', type: 'text', info: 'bc_risque' },
     { key: 'intoxAlcool', label: 'Intoxication alcool', type: 'chip', options: ['Non', 'Oui'], phrase: 'intoxications' },
     { key: 'intoxMedicaments', label: 'Intoxication médicaments', type: 'chip', options: ['Non', 'Oui'] },
-    { key: 'intoxToxiques', label: 'Intoxication toxiques', type: 'chip', options: ['Non', 'Oui'] }
+    { key: 'intoxToxiques', label: 'Intoxication toxiques', type: 'chip', options: ['Non', 'Oui'] },
+    { key: 'intoxMedicamentsNom', label: 'Nom du/des médicament(s)', type: 'text' },
+    { key: 'intoxToxiquesNom', label: 'Nom du/des toxique(s)', type: 'text' }
   ]}
 ];
 
@@ -4309,16 +4316,16 @@ if (f.type === 'checklist') {
     `;
   }
 
-  if (f.type === 'select') {
+if (f.type === 'select') {
+    const phraseBtnSelect = f.phrase ? `<button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;margin-left:6px;" onclick="showPhraseModal('${f.phrase}')">🗣️</button>` : '';
     return `
       <div class="bilan-field-row">
-        <label>${f.label}${infoBtn}</label>
+        <label>${f.label}${infoBtn}${phraseBtnSelect}</label>
         <select data-bilan-field="${f.key}">
           <option value="">—</option>
           ${f.options.map(o => `<option value="${o.value}" ${String(o.value) === String(value) ? 'selected' : ''}>${o.label}</option>`).join('')}
         </select>
-${(f.key === 'glasgowM') ? `<div id="glasgow-total-display" style="color:#F5821F;font-size:12px;margin-top:6px;">Score Glasgow total : ${glasgowTotal()} / 15</div>` : ''}
-        ${suggestionDiv}
+        ${(f.key === 'glasgowM') ? `<div id="glasgow-total-display" style="color:#F5821F;font-size:12px;margin-top:6px;">Score Glasgow total : ${glasgowTotal()} / 15</div>` : ''}
       </div>
     `;
   }
@@ -4724,7 +4731,7 @@ html += `<div style="display:flex;justify-content:space-between;padding:8px;bord
   ]);
 
   html += pdfSectionTitle('CIRCONSTANCES DE LA DÉTRESSE');
-  html += pdfRow([pdfField('', [d.scene, d.securite].filter(Boolean).join(' — '))]);
+  html += `<div style="padding:4px 8px;">Scène : ${escapeHtml(d.scene || '')}<br><br>Sécurité : ${escapeHtml(d.securite || '')}</div>`;
 
 html += pdfSectionTitle('PLAINTE PRINCIPALE DE LA VICTIME');
   html += pdfField('', d.signes, true);
@@ -4744,7 +4751,7 @@ html += pdfSectionTitle('PLAINTE PRINCIPALE DE LA VICTIME');
     `<b>C —</b>`, pdfField('Fréquence', d.freqCardiaque ? d.freqCardiaque + '/min' : ''),
     pdfCheck(d.amplitudePouls === 'Bien frappé', 'Bien frappé'), pdfCheck(d.amplitudePouls === 'Filant', 'Filant'),
     pdfCheck(d.regularite === 'Régulier', 'Régulier'), pdfCheck(d.regularite === 'Irrégulier', 'Irrégulier'),
-    pdfCheck(d.trc === '< 2s', 'TRC < 2s'), pdfField('Coloration', d.coloration)
+    pdfCheck(d.trc === '< 2s', 'TRC < 2s'), pdfCheck(d.trc === '≥ 2s', 'TRC ≥ 2s'), pdfField('Coloration', d.coloration)
   ]);
   html += pdfRow([
     pdfField('TA gauche', (d.taGaucheSys || '?') + '/' + (d.taGaucheDia || '?')),
@@ -4753,7 +4760,10 @@ html += pdfSectionTitle('PLAINTE PRINCIPALE DE LA VICTIME');
   ]);
   html += pdfRow([
     `<b>D —</b>`, pdfField('Conscience (EVDA)', d.conscience),
-    pdfField('Glasgow', (d.glasgowY && d.glasgowV && d.glasgowM) ? glasgowTotal() + '/15' : ''),
+pdfField('Y', glasgowFieldLabel('glasgowY', d.glasgowY)),
+    pdfField('V', glasgowFieldLabel('glasgowV', d.glasgowV)),
+    pdfField('M', glasgowFieldLabel('glasgowM', d.glasgowM)),
+    pdfField('Glasgow total', (d.glasgowY && d.glasgowV && d.glasgowM) ? glasgowTotal() + '/15' : ''),
     pdfField('Pupilles', d.pupilles), pdfField('Motricité/sensibilité', d.motricite)
   ]);
   if (d.avcFace === 'Oui' || d.avcArm === 'Oui' || d.avcSpeech === 'Oui') {
@@ -4778,9 +4788,12 @@ html += pdfSectionTitle('PLAINTE PRINCIPALE DE LA VICTIME');
       pdfField('Temps', doul.temps)
     ]);
   });
-  html += pdfRow([
+html += pdfRow([
+    `<b>Intoxications —</b>`,
     pdfCheck(d.intoxAlcool === 'Oui', 'Alcool'), pdfCheck(d.intoxMedicaments === 'Oui', 'Médicaments'), pdfCheck(d.intoxToxiques === 'Oui', 'Toxiques')
   ]);
+  if (d.intoxMedicamentsNom) html += pdfRow([pdfField('Médicament(s)', d.intoxMedicamentsNom)]);
+  if (d.intoxToxiquesNom) html += pdfRow([pdfField('Toxique(s)', d.intoxToxiquesNom)]);
   html += pdfRow([pdfField('Allergies', d.allergies), pdfField('Médicaments', d.medicaments)]);
   html += pdfRow([pdfField('Passé médical', d.passeMedical), pdfField('Dernier repas', d.dernierRepas), pdfField('Risque', d.risque)]);
 
