@@ -1,5 +1,15 @@
 [
   {
+    "version": "16.4",
+    "date": "2026-07-26T07:38:46.015Z",
+    "title": "Mode hors ligne réel via Service Worker",
+    "items": [
+      "L'app garde désormais une copie d'elle-même (code, page Bilan, images de Secourisme/Autodéfense) directement sur l'appareil",
+      "En l'absence de réseau, l'app continue de s'ouvrir normalement à partir de cette copie, au lieu d'un écran blanc ou d'une erreur de chargement",
+      "Les données (événements, suggestions...) restent affichées avec leur dernière version connue tant que le réseau n'est pas revenu"
+    ]
+  },
+  {
     "version": "16.3",
     "date": "2026-07-26T07:36:04.763Z",
     "title": "Refuse mon inter",
