@@ -7998,8 +7998,7 @@ function renderGestesList(containerId, categories) {
   }
 
   container.innerHTML = addBtnHtml + filtered.map(geste => `
-    <div class="geste-group" data-geste-key="${geste.key}">`
-
+    <div class="geste-group" data-geste-key="${geste.key}">
       <button class="month-toggle">
         <span>${geste.title}</span>
         <span class="month-chevron">▸</span>
