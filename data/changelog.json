@@ -1,5 +1,13 @@
 [
   {
+    "version": "15.5",
+    "date": "2026-07-26T06:39:54.165Z",
+    "title": "PDF professionnel reproduisant la fiche bilan officielle",
+    "items": [
+      "Le bouton 📄 génère désormais un document structuré fidèle à la fiche bilan papier de la Protection Civile Hérault : identification, bilan XABCDE avec cases à cocher, bilan complémentaire, gestes effectués, bilan de surveillance en tableau, suite donnée, décharge de responsabilité"
+    ]
+  },
+  {
     "version": "15.4",
     "date": "2026-07-26T06:26:28.986Z",
     "title": "Corr 3926",
