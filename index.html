@@ -2099,9 +2099,12 @@ function setupAccordion(container, groupSelector = '.month-group') {
         if (b) b.style.display = 'none';
         if (c) c.textContent = '▸';
       });
-      if (isHidden) {
+if (isHidden) {
         body.style.display = 'block';
         if (chevron) chevron.textContent = '▾';
+        const firstField = body.querySelector('input[data-bilan-field], textarea[data-bilan-field], input[data-douleur-field], textarea[data-douleur-field]');
+        if (firstField) setTimeout(() => firstField.focus(), 60);
+      
         body.querySelectorAll('.bilan-textarea').forEach(t => {
           t.style.height = 'auto';
           t.style.height = t.scrollHeight + 'px';
@@ -2899,8 +2902,11 @@ const BACK_BODY_LEGEND = [
     { fr: "Nous allons réaliser un électrocardiogramme pour vérifier votre cœur. Je vais coller des petites électrodes sur votre poitrine et vos membres.", en: "We are going to perform an electrocardiogram to check your heart. I am going to attach small electrodes to your chest and limbs.", es: "Vamos a realizar un electrocardiograma para comprobar su corazón. Voy a colocar unos pequeños electrodos en su pecho y extremidades.", ar: "سنجري تخطيطاً لعملك القلب. سألصق أقطاباً صغيرة على صدرك وأطرافك." },
     { fr: "Merci de rester calme et de ne pas parler pendant l'enregistrement.", en: "Please stay calm and do not speak during the recording.", es: "Por favor, manténgase tranquilo y no hable durante el registro.", ar: "الرجاء البقاء هادئاً وعدم التحدث أثناء التسجيل." }
   ],
-  douleur: [
+ douleur: [
     { fr: "Avez-vous mal quelque part ?", en: "Are you in pain anywhere?", es: "¿Le duele algo?", ar: "هل تشعر بألم في أي مكان؟" },
+    { fr: "Montrez-moi où exactement vous avez mal.", en: "Show me exactly where it hurts.", es: "Muéstreme exactamente dónde le duele.", ar: "أرني بالضبط أين يؤلمك." },
+    { fr: "Qu'est-ce qui déclenche ou augmente cette douleur ?", en: "What triggers or worsens this pain?", es: "¿Qué provoca o empeora este dolor?", ar: "ما الذي يسبب أو يزيد هذا الألم؟" },
+    { fr: "Comment décririez-vous cette douleur ? Brûlure, piqûre, pesanteur ?", en: "How would you describe this pain? Burning, stabbing, heavy?", es: "¿Cómo describiría este dolor? ¿Ardor, pinchazo, pesadez?", ar: "كيف تصف هذا الألم؟ حرقة، وخز، ثقل؟" },
     { fr: "Sur une échelle de 0 à 10, combien évaluez-vous votre douleur ?", en: "On a scale of 0 to 10, how would you rate your pain?", es: "En una escala de 0 a 10, ¿cómo calificaría su dolor?", ar: "على مقياس من 0 إلى 10، كيف تقيّم ألمك؟" },
     { fr: "Depuis quand avez-vous cette douleur ?", en: "How long have you had this pain?", es: "¿Desde cuándo tiene este dolor?", ar: "منذ متى وأنت تشعر بهذا الألم؟" }
   ],
@@ -2934,6 +2940,24 @@ const BACK_BODY_LEGEND = [
     { fr: "Répétez cette phrase après moi.", en: "Repeat this sentence after me.", es: "Repita esta frase después de mí.", ar: "كرر هذه الجملة بعدي." },
     { fr: "Depuis quand ressentez-vous ces symptômes ?", en: "Since when have you had these symptoms?", es: "¿Desde cuándo tiene estos síntomas?", ar: "منذ متى وأنت تعاني من هذه الأعراض؟" }
   ],
+    glasgow: [
+    { fr: "Ouvrez les yeux, s'il vous plaît.", en: "Please open your eyes.", es: "Abra los ojos, por favor.", ar: "افتح عينيك من فضلك." },
+    { fr: "Comment vous appelez-vous ? Quel jour sommes-nous ?", en: "What is your name? What day is it?", es: "¿Cómo se llama? ¿Qué día es hoy?", ar: "ما اسمك؟ ما هو اليوم؟" },
+    { fr: "Serrez ma main.", en: "Squeeze my hand.", es: "Apriete mi mano.", ar: "اضغط على يدي." },
+    { fr: "Bougez vos doigts, s'il vous plaît.", en: "Please move your fingers.", es: "Mueva los dedos, por favor.", ar: "حرك أصابعك من فضلك." }
+  ],
+  intoxications: [
+    { fr: "Avez-vous bu de l'alcool aujourd'hui ?", en: "Have you had any alcohol today?", es: "¿Ha bebido alcohol hoy?", ar: "هل شربت الكحول اليوم؟" },
+    { fr: "Avez-vous pris des médicaments ?", en: "Have you taken any medication?", es: "¿Ha tomado algún medicamento?", ar: "هل تناولت أي دواء؟" },
+    { fr: "Avez-vous consommé une autre substance aujourd'hui ?", en: "Have you taken any other substance today?", es: "¿Ha consumido alguna otra sustancia hoy?", ar: "هل تناولت أي مادة أخرى اليوم؟" }
+  ],
+  decharge: [
+    { fr: "Je dois vous informer des risques si vous refusez le transport.", en: "I must inform you of the risks if you refuse transport.", es: "Debo informarle de los riesgos si rechaza el traslado.", ar: "يجب أن أبلغك بالمخاطر إذا رفضت النقل." },
+    { fr: "Comprenez-vous ces risques ?", en: "Do you understand these risks?", es: "¿Entiende estos riesgos?", ar: "هل تفهم هذه المخاطر؟" },
+    { fr: "Pouvez-vous me donner votre nom complet ?", en: "Can you give me your full name?", es: "¿Puede darme su nombre completo?", ar: "هل يمكنك إعطائي اسمك الكامل؟" },
+    { fr: "Souhaitez-vous quitter le dispositif de secours ?", en: "Do you wish to leave the first aid post?", es: "¿Desea abandonar el puesto de socorro?", ar: "هل ترغب في مغادرة موقع الإسعاف؟" }
+  ],
+
   positions: [
     { fr: "Asseyez-vous, s'il vous plaît.", en: "Please sit down.", es: "Siéntese, por favor.", ar: "اجلس من فضلك." },
     { fr: "Mettez-vous en position demi-assise.", en: "Sit in a half-upright position.", es: "Póngase en posición semisentada.", ar: "اجلس بوضعية نصف مستقيمة." },
@@ -2966,7 +2990,8 @@ const PHRASE_CATEGORY_LABELS = {
   ecg: 'ECG', douleur: 'Douleur', antecedents: 'Antécédents / bilan complémentaire',
   traumatisme: 'Traumatisme', malaise: 'Malaise', plaiesBrulures: 'Plaies et brûlures',
   evacuation: 'Évacuation', impliques: 'Impliqués / proches', pupilles: 'Pupilles',
-  avc: 'Suspicion AVC', positions: 'Positions et consignes'
+avc: 'Suspicion AVC', positions: 'Positions et consignes',
+  glasgow: 'Neurologique / Glasgow', intoxications: 'Intoxications', decharge: 'Décharge de responsabilité'
 };
 
 function renderPhraseGlossary(query) {
@@ -3903,7 +3928,7 @@ options: [
     { key: 'glasgowQuick', label: 'Sélection rapide', type: 'glasgowQuick' },
     { key: 'glasgowY', label: 'Ouverture des yeux', type: 'select', options: GLASGOW_OPTIONS.glasgowY },
     { key: 'glasgowV', label: 'Réponse verbale', type: 'select', options: GLASGOW_OPTIONS.glasgowV },
-    { key: 'glasgowM', label: 'Réponse motrice', type: 'select', options: GLASGOW_OPTIONS.glasgowM },
+ { key: 'glasgowM', label: 'Réponse motrice', type: 'select', options: GLASGOW_OPTIONS.glasgowM, phrase: 'glasgow' },
     { key: 'pupilles', label: 'Pupilles', type: 'chip', options: ['Normales', 'Asymétriques', 'Mydriase', 'Myosis'], info: 'pupilles', phrase: 'pupilles' },
     { key: 'motricite', label: 'Motricité / sensibilité', type: 'text' },
     { key: 'glycemie', label: 'Glycémie', type: 'glycemie', info: 'glycemie' }
@@ -3927,7 +3952,7 @@ options: [
     { key: 'dernierRepas', label: 'Dernier repas', type: 'text', info: 'bc_dernierRepas' },
     { key: 'evenements', label: 'Évènements', type: 'text', info: 'bc_evenements', phrase: 'accueil' },
 { key: 'risque', label: 'Risque', type: 'text', info: 'bc_risque' },
-    { key: 'intoxAlcool', label: 'Intoxication alcool', type: 'chip', options: ['Non', 'Oui'] },
+    { key: 'intoxAlcool', label: 'Intoxication alcool', type: 'chip', options: ['Non', 'Oui'], phrase: 'intoxications' },
     { key: 'intoxMedicaments', label: 'Intoxication médicaments', type: 'chip', options: ['Non', 'Oui'] },
     { key: 'intoxToxiques', label: 'Intoxication toxiques', type: 'chip', options: ['Non', 'Oui'] }
   ]}
@@ -3950,7 +3975,7 @@ const POST_SUIVI_CATEGORIES = [
     { key: 'repartiSeulHeure', label: 'Heure de départ', type: 'time' }
   ]},
   { key: 'decharge', label: '⚠️ Décharge de responsabilité', fields: [
-    { key: 'refusIntervention', label: "Refuse mon intervention", type: 'chip', options: ['Non', 'Oui'] },
+    { key: 'refusIntervention', label: "Refuse mon intervention", type: 'chip', options: ['Non', 'Oui'], phrase: 'decharge' },
     { key: 'refusTransport', label: 'Refuse le transport en milieu hospitalier', type: 'chip', options: ['Non', 'Oui'] },
     { key: 'quitteDispositif', label: 'Quitte le dispositif de secours', type: 'chip', options: ['Non', 'Oui'] },
     { key: 'decisionHeure', label: 'Heure de la décision', type: 'time' },
@@ -4608,7 +4633,10 @@ function pdfRow(cells) {
   return `<div style="display:flex;flex-wrap:wrap;gap:14px;padding:4px 8px;border-left:1px solid #333;border-right:1px solid #333;">${cells.join('')}</div>`;
 }
 
-function pdfField(label, value) {
+function pdfField(label, value, multiline) {
+  if (multiline) {
+    return `<div style="margin-bottom:6px;width:100%;">${label ? '<b>' + label + '</b> : ' : ''}<div style="white-space:pre-wrap;border-bottom:1px solid #333;padding:2px 4px;min-height:16px;">${escapeHtml(value || '')}</div></div>`;
+  }
   return `<span style="margin-right:16px;">${label} <b style="border-bottom:1px solid #333;padding:0 4px;">${value || '\u00A0\u00A0\u00A0\u00A0\u00A0'}</b></span>`;
 }
 
@@ -4640,8 +4668,8 @@ html += `<div style="display:flex;justify-content:space-between;padding:8px;bord
   html += pdfSectionTitle('CIRCONSTANCES DE LA DÉTRESSE');
   html += pdfRow([pdfField('', [d.scene, d.securite].filter(Boolean).join(' — '))]);
 
-  html += pdfSectionTitle('PLAINTE PRINCIPALE DE LA VICTIME');
-  html += pdfRow([pdfField('', d.signes)]);
+html += pdfSectionTitle('PLAINTE PRINCIPALE DE LA VICTIME');
+  html += pdfField('', d.signes, true);
 
   html += pdfSectionTitle('BILAN D\'URGENCE VITALE');
   html += pdfRow([
@@ -4719,8 +4747,8 @@ html += `<div style="display:flex;justify-content:space-between;padding:8px;bord
     html += `</table>`;
   }
 
-  html += pdfSectionTitle('OBSERVATIONS');
-  html += pdfRow([pdfField('', d.environnement)]);
+html += pdfSectionTitle('OBSERVATIONS');
+  html += pdfField('', d.environnement, true);
 
   html += pdfSectionTitle('SUITE DONNÉE');
   html += pdfRow([
@@ -8697,7 +8725,24 @@ new MutationObserver(() => {
     });
   });
 }
+function focusNextBilanField(currentEl) {
+  const container = currentEl.closest('.month-body') || currentEl.closest('#bilan-content');
+  if (!container) { currentEl.blur(); return; }
+  const focusables = Array.from(container.querySelectorAll('input[data-bilan-field], textarea[data-bilan-field], input[data-douleur-field], textarea[data-douleur-field]'));
+  const idx = focusables.indexOf(currentEl);
+  if (idx >= 0 && idx < focusables.length - 1) {
+    focusables[idx + 1].focus();
+  } else {
+    currentEl.blur();
+  }
+}
 
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && e.target.classList && e.target.classList.contains('bilan-textarea')) {
+    e.preventDefault();
+    focusNextBilanField(e.target);
+  }
+});
 startAutoRefreshWatcher();
   
 
