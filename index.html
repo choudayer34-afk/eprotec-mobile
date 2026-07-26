@@ -4731,7 +4731,7 @@ html += `<div style="display:flex;justify-content:space-between;padding:8px;bord
 
   html += pdfSectionTitle('DÉCHARGE DE RESPONSABILITÉ');
   html += pdfRow([
-    pdfCheck(d.refusIntervention === 'Oui', "Refuse l'intervention de la Protection Civile"),
+    pdfCheck(d.refusIntervention === 'Oui', "Refuse mon intervention"),
     pdfCheck(d.refusTransport === 'Oui', 'Refuse le transport en milieu hospitalier'),
     pdfCheck(d.quitteDispositif === 'Oui', 'Quitte le dispositif de secours'),
     pdfField('Heure', d.decisionHeure)
