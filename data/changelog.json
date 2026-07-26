@@ -1,5 +1,14 @@
 [
   {
+    "version": "16.6",
+    "date": "2026-07-26T14:23:27.197Z",
+    "title": "Barre flottante \"Champ suivant / Terminé\" au-dessus du clavier",
+    "items": [
+      "Le retour à la ligne fonctionne à nouveau normalement dans les champs texte",
+      "Une barre apparaît désormais au-dessus du clavier dès qu'un champ du bilan est actif, avec deux boutons : \"Champ suivant\" (passe au champ suivant sans perdre le retour à la ligne) et \"Terminé\" (ferme le clavier)"
+    ]
+  },
+  {
     "version": "16.5",
     "date": "2026-07-26T13:01:17.252Z",
     "title": "Retours à la ligne PDF, clavier \"suivant\", focus auto, phrases Glasgow/Intox/Décharge/Douleur",
