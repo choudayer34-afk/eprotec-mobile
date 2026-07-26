@@ -2102,8 +2102,7 @@ function setupAccordion(container, groupSelector = '.month-group') {
 if (isHidden) {
         body.style.display = 'block';
         if (chevron) chevron.textContent = '▾';
-        const firstField = body.querySelector('input[data-bilan-field], textarea[data-bilan-field], input[data-douleur-field], textarea[data-douleur-field]');
-        if (firstField) setTimeout(() => firstField.focus(), 60);
+      }
       
         body.querySelectorAll('.bilan-textarea').forEach(t => {
           t.style.height = 'auto';
@@ -8737,12 +8736,46 @@ function focusNextBilanField(currentEl) {
   }
 }
 
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter' && e.target.classList && e.target.classList.contains('bilan-textarea')) {
-    e.preventDefault();
-    focusNextBilanField(e.target);
+function isBilanFieldElement(el) {
+  return el && el.tagName && (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT') &&
+    (el.dataset.bilanField || el.dataset.douleurField) &&
+    document.getElementById('plus-bilan').classList.contains('active');
+}
+
+let bilanKeyboardBar = null;
+function ensureBilanKeyboardBar() {
+  if (bilanKeyboardBar) return bilanKeyboardBar;
+  bilanKeyboardBar = document.createElement('div');
+  bilanKeyboardBar.id = 'bilan-keyboard-bar';
+  bilanKeyboardBar.style.cssText = 'position:fixed;left:0;right:0;bottom:0;background:#163C74;display:none;justify-content:flex-end;gap:10px;padding:8px 14px;z-index:1000;box-shadow:0 -2px 8px rgba(0,0,0,0.3);';
+  bilanKeyboardBar.innerHTML = `<button type="button" class="detail-action-btn" id="bilan-kb-next" style="flex:none;padding:8px 18px;">Champ suivant ▼</button><button type="button" class="detail-action-btn primary" id="bilan-kb-done" style="flex:none;padding:8px 18px;">Terminé</button>`;
+  document.body.appendChild(bilanKeyboardBar);
+  bilanKeyboardBar.querySelector('#bilan-kb-next').addEventListener('click', () => {
+    const active = document.activeElement;
+    if (isBilanFieldElement(active)) focusNextBilanField(active);
+  });
+  bilanKeyboardBar.querySelector('#bilan-kb-done').addEventListener('click', () => {
+    if (document.activeElement) document.activeElement.blur();
+    bilanKeyboardBar.style.display = 'none';
+  });
+  return bilanKeyboardBar;
+}
+
+document.addEventListener('focusin', (e) => {
+  if (isBilanFieldElement(e.target)) {
+    ensureBilanKeyboardBar().style.display = 'flex';
   }
 });
+
+document.addEventListener('focusout', (e) => {
+  setTimeout(() => {
+    if (!isBilanFieldElement(document.activeElement) && bilanKeyboardBar) {
+      bilanKeyboardBar.style.display = 'none';
+    }
+  }, 150);
+});
+
+
 startAutoRefreshWatcher();
   
 
