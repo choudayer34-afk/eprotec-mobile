@@ -1,5 +1,13 @@
 [
   {
+    "version": "17.4",
+    "date": "2026-07-26T19:04:46.971Z",
+    "title": "Correction",
+    "items": [
+      "Correction"
+    ]
+  },
+  {
     "version": "17.3",
     "date": "2026-07-26T18:55:04.871Z",
     "title": "Mode admin : ajout de fiches gestes/matériel depuis l'app",
