@@ -1,5 +1,14 @@
 [
   {
+    "version": "17.1",
+    "date": "2026-07-26T18:19:56.764Z",
+    "title": "Édition d'un bilan archivé",
+    "items": [
+      "Les bilans archivés conservent désormais leurs données complètes, pas seulement leur résumé texte",
+      "Nouveau bouton \"Éditer\" : recharge le bilan archivé dans l'écran de saisie pour le modifier, en archivant d'abord le bilan en cours pour ne rien perdre"
+    ]
+  },
+  {
     "version": "17.0",
     "date": "2026-07-26T18:12:57.289Z",
     "title": "Historique des bilans (10 derniers conservés)",
