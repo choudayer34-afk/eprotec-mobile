@@ -1,5 +1,13 @@
 [
   {
+    "version": "15.2",
+    "date": "2026-07-26T06:14:44.109Z",
+    "title": "Ajout des champs pour la fiche bilan complète (sexe, intoxications, gestes, suite, décharge)",
+    "items": [
+      "Ajout des champs pour la fiche bilan complète (sexe, intoxications, gestes, suite, décharge)"
+    ]
+  },
+  {
     "version": "15.1",
     "date": "2026-07-26T06:12:22.781Z",
     "title": "En-tête du Bilan fixé en haut + export PDF via impression native",
