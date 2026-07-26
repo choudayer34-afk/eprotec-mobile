@@ -1,5 +1,13 @@
 [
   {
+    "version": "16.2",
+    "date": "2026-07-26T07:25:38.023Z",
+    "title": "Le champ \"Rédigé par\" se retient automatiquement pour la prochaine fois",
+    "items": [
+      "Dès que tu remplis \"Rédigé par\" une fois dans un bilan, ce nom est enregistré et sera pré-rempli automatiquement au prochain nouveau bilan"
+    ]
+  },
+  {
     "version": "16.1",
     "date": "2026-07-26T07:22:36.330Z",
     "title": "Refus",
