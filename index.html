@@ -4564,8 +4564,159 @@ suivi.forEach(s => {
   return text || 'Aucune donnée saisie pour le moment.';
 }
 
+function pdfCheck(checked, label) {
+  return `<span style="display:inline-block;margin-right:14px;white-space:nowrap;">${checked ? '☒' : '☐'} ${label}</span>`;
+}
+
+function pdfSectionTitle(label) {
+  return `<div style="background:#F5D0A9;font-weight:700;padding:4px 8px;margin-top:10px;border:1px solid #333;">${label}</div>`;
+}
+
+function pdfRow(cells) {
+  return `<div style="display:flex;flex-wrap:wrap;gap:14px;padding:4px 8px;border-left:1px solid #333;border-right:1px solid #333;">${cells.join('')}</div>`;
+}
+
+function pdfField(label, value) {
+  return `<span style="margin-right:16px;">${label} <b style="border-bottom:1px solid #333;padding:0 4px;">${value || '\u00A0\u00A0\u00A0\u00A0\u00A0'}</b></span>`;
+}
+
+function buildBilanPdfHtml() {
+  const d = bilanData;
+  const dateStr = d.dateHeureOuverture ? formatDateHeureCourte(d.dateHeureOuverture) : '';
+  const age = computeAge(d.dateNaissance);
+
+  let html = `<div style="font-family:sans-serif;font-size:12px;color:#000;border:1px solid #333;">`;
+
+  html += `<div style="display:flex;justify-content:space-between;padding:8px;border-bottom:1px solid #333;">
+    <div style="font-size:16px;font-weight:700;">Fiche bilan — Protection Civile Hérault</div>
+    <div>${pdfField('Date/Heure', dateStr)}</div>
+  </div>`;
+
+  html += pdfRow([pdfField('Adresse de l\'intervention', d.situation)]);
+
+  html += pdfSectionTitle('IDENTIFICATION');
+  html += pdfRow([
+    pdfCheck(d.sexe === 'Homme', 'H'), pdfCheck(d.sexe === 'Femme', 'F'),
+    pdfField('Nom', d.nom), pdfField('Prénom', d.prenom),
+    pdfField('Date de naissance', d.dateNaissance), pdfField('Âge', age)
+  ]);
+  html += pdfRow([
+    pdfField('Adresse', d.adresse),
+    pdfField('Personne à prévenir', d.personnePrevenir), pdfField('Tél.', d.personnePrevenirTel)
+  ]);
+
+  html += pdfSectionTitle('CIRCONSTANCES DE LA DÉTRESSE');
+  html += pdfRow([pdfField('', [d.scene, d.securite].filter(Boolean).join(' — '))]);
+
+  html += pdfSectionTitle('PLAINTE PRINCIPALE DE LA VICTIME');
+  html += pdfRow([pdfField('', d.signes)]);
+
+  html += pdfSectionTitle('BILAN D\'URGENCE VITALE');
+  html += pdfRow([
+    `<b>X —</b>`, pdfCheck(d.hemorragie === 'Oui', 'Hémorragie'), pdfField('Localisation', d.hemorragieLieu), pdfField('Action', d.hemorragieAction)
+  ]);
+  html += pdfRow([
+    `<b>AB —</b>`, pdfField('Fréquence', d.freqRespi ? d.freqRespi + '/min' : ''),
+    pdfCheck(d.voiesAeriennes === 'Libres', 'Voies libres'), pdfCheck(d.voiesAeriennes === 'Obstruées', 'Obstruées'),
+    pdfField('SpO2', d.spo2 ? d.spo2 + '%' : ''),
+    pdfCheck(d.amplitudeRespi === 'Normale', 'Normale'), pdfCheck(d.amplitudeRespi === 'Superficielle', 'Superficielle'), pdfCheck(d.amplitudeRespi === 'Ample', 'Ample'),
+    pdfField('Auscultation', d.auscultation)
+  ]);
+  html += pdfRow([
+    `<b>C —</b>`, pdfField('Fréquence', d.freqCardiaque ? d.freqCardiaque + '/min' : ''),
+    pdfCheck(d.amplitudePouls === 'Bien frappé', 'Bien frappé'), pdfCheck(d.amplitudePouls === 'Filant', 'Filant'),
+    pdfCheck(d.regularite === 'Régulier', 'Régulier'), pdfCheck(d.regularite === 'Irrégulier', 'Irrégulier'),
+    pdfCheck(d.trc === '< 2s', 'TRC < 2s'), pdfField('Coloration', d.coloration)
+  ]);
+  html += pdfRow([
+    pdfField('TA gauche', (d.taGaucheSys || '?') + '/' + (d.taGaucheDia || '?')),
+    pdfField('TA droite', (d.taDroitSys || '?') + '/' + (d.taDroitDia || '?')),
+    pdfField('Complément', d.taComplement)
+  ]);
+  html += pdfRow([
+    `<b>D —</b>`, pdfField('Conscience (EVDA)', d.conscience),
+    pdfField('Glasgow', (d.glasgowY && d.glasgowV && d.glasgowM) ? glasgowTotal() + '/15' : ''),
+    pdfField('Pupilles', d.pupilles), pdfField('Motricité/sensibilité', d.motricite)
+  ]);
+  if (d.avcFace === 'Oui' || d.avcArm === 'Oui' || d.avcSpeech === 'Oui') {
+    html += pdfRow([
+      `<b style="color:#c00;">Suspicion AVC —</b>`,
+      pdfCheck(d.avcFace === 'Oui', 'Face'), pdfCheck(d.avcArm === 'Oui', 'Arm'), pdfCheck(d.avcSpeech === 'Oui', 'Speech'),
+      pdfField('Heure d\'apparition', d.avcTimeOnset)
+    ]);
+  }
+
+  html += pdfSectionTitle('BILAN COMPLÉMENTAIRE');
+  html += pdfRow([
+    pdfField('Température', d.temperature ? d.temperature + '°C' : ''),
+    pdfField('Glycémie', d.glycemie ? d.glycemie + ' ' + (d.glycemieUnite || 'g/L') : '')
+  ]);
+  (d.douleurs || []).forEach((doul, i) => {
+    if (!Object.values(doul).some(v => v)) return;
+    html += pdfRow([
+      pdfField(`Douleur ${i + 1} — Origine`, doul.origine), pdfField('Provoqué par', doul.provoquePar),
+      pdfField('Qualité', doul.qualite === 'Autre' ? doul.qualiteAutre : doul.qualite),
+      pdfField('Région', doul.region), pdfField('Sévérité', doul.severite != null ? doul.severite + '/10' : ''),
+      pdfField('Temps', doul.temps)
+    ]);
+  });
+  html += pdfRow([
+    pdfCheck(d.intoxAlcool === 'Oui', 'Alcool'), pdfCheck(d.intoxMedicaments === 'Oui', 'Médicaments'), pdfCheck(d.intoxToxiques === 'Oui', 'Toxiques')
+  ]);
+  html += pdfRow([pdfField('Allergies', d.allergies), pdfField('Médicaments', d.medicaments)]);
+  html += pdfRow([pdfField('Passé médical', d.passeMedical), pdfField('Dernier repas', d.dernierRepas), pdfField('Risque', d.risque)]);
+
+  html += pdfSectionTitle('GESTES EFFECTUÉS');
+  html += pdfRow([pdfField('Position', d.position)]);
+  const gestesOptions = ['Repos', 'Refroidissement', 'Collier', 'Plan dur', 'Écharpe', 'Protection thermique', 'Matelas à dépression', 'Poche de froid', 'Pansement', 'Nettoyage / Désinfection', 'Sucre', 'Attelle', 'Aide à la prise de médicament'];
+  html += pdfRow(gestesOptions.map(g => pdfCheck((d.gestesEffectues || []).includes(g), g)));
+  if (d.gestesAutre) html += pdfRow([pdfField('Autre', d.gestesAutre)]);
+
+  html += pdfSectionTitle('BILAN DE SURVEILLANCE');
+  const suivi = d.suivi || [];
+  if (suivi.length > 0) {
+    html += `<table style="width:100%;border-collapse:collapse;margin:4px 8px;"><tr style="background:#eee;">
+      <th style="border:1px solid #333;padding:3px;">Heure</th><th style="border:1px solid #333;padding:3px;">SpO2</th>
+      <th style="border:1px solid #333;padding:3px;">TA</th><th style="border:1px solid #333;padding:3px;">Complément</th></tr>`;
+    suivi.forEach(s => {
+      html += `<tr><td style="border:1px solid #333;padding:3px;text-align:center;">${formatDateHeureCourte(s.heure)}</td>
+        <td style="border:1px solid #333;padding:3px;text-align:center;">${s.spo2 || ''}</td>
+        <td style="border:1px solid #333;padding:3px;text-align:center;">${s.cote || ''} ${s.taSys || '?'}/${s.taDia || '?'}</td>
+        <td style="border:1px solid #333;padding:3px;">${s.complement || ''}</td></tr>`;
+    });
+    html += `</table>`;
+  }
+
+  html += pdfSectionTitle('OBSERVATIONS');
+  html += pdfRow([pdfField('', d.environnement)]);
+
+  html += pdfSectionTitle('SUITE DONNÉE');
+  html += pdfRow([
+    pdfCheck(d.transmisPC === 'Oui', 'Bilan transmis au PC'), pdfField('Heure', d.transmisPCHeure),
+    pdfCheck(d.transmisSAMU === 'Oui', 'Bilan transmis au SAMU'), pdfField('Heure', d.transmisSAMUHeure),
+    pdfCheck(d.repartiSeul === 'Oui', 'Reparti par ses propres moyens'), pdfField('Heure', d.repartiSeulHeure)
+  ]);
+
+  html += pdfSectionTitle('DÉCHARGE DE RESPONSABILITÉ');
+  html += pdfRow([
+    pdfCheck(d.refusIntervention === 'Oui', "Refuse l'intervention de la Protection Civile"),
+    pdfCheck(d.refusTransport === 'Oui', 'Refuse le transport en milieu hospitalier'),
+    pdfCheck(d.quitteDispositif === 'Oui', 'Quitte le dispositif de secours'),
+    pdfField('Heure', d.decisionHeure)
+  ]);
+  html += pdfRow([pdfField('Nom de la victime (valant signature)', d.nomVictimeSignature)]);
+  html += pdfRow([pdfField('Témoin 1', d.temoin1), pdfField('Témoin 2', d.temoin2)]);
+
+  html += `<div style="display:flex;justify-content:space-between;padding:10px;border-top:1px solid #333;margin-top:10px;">
+    <div>Nom de la personne qui remplit la fiche : ______________________</div>
+    <div>Nom et signature du responsable : ______________________</div>
+  </div>`;
+
+  html += `</div>`;
+  return html;
+}
+
 function exportBilanPdf() {
-  const text = buildBilanSummaryText();
   let printDiv = document.getElementById('bilan-print-content');
   if (!printDiv) {
     printDiv = document.createElement('div');
@@ -4573,11 +4724,7 @@ function exportBilanPdf() {
     printDiv.style.display = 'none';
     document.body.appendChild(printDiv);
   }
-  const dateStr = new Date().toLocaleString('fr-FR');
-  printDiv.innerHTML = `
-    <h2 style="font-family:sans-serif;">🚑 Bilan patient — ${dateStr}</h2>
-    <pre style="white-space:pre-wrap;font-family:sans-serif;font-size:13px;line-height:1.6;">${escapeHtml(text)}</pre>
-  `;
+  printDiv.innerHTML = buildBilanPdfHtml();
   window.print();
 }
   function showBilanSummary() {
