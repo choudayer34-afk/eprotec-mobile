@@ -3747,6 +3747,13 @@ function applyGlycemieWarning() {
   input.style.borderLeft = abnormal ? '4px solid #E24B4A' : 'none';
   input.style.background = abnormal ? '#3A1F1F' : '#0B2A5C';
 }
+function formatDateNaissanceFr(iso) {
+  if (!iso) return '';
+  const parts = iso.split('-');
+  if (parts.length !== 3) return iso;
+  return `${parts[2]}/${parts[1]}/${parts[0]}`;
+}
+
 
 function computeAge(dateNaissance) {
   if (!dateNaissance) return '';
@@ -4623,7 +4630,7 @@ html += `<div style="display:flex;justify-content:space-between;padding:8px;bord
   html += pdfRow([
     pdfCheck(d.sexe === 'Homme', 'H'), pdfCheck(d.sexe === 'Femme', 'F'),
     pdfField('Nom', d.nom), pdfField('Prénom', d.prenom),
-    pdfField('Date de naissance', d.dateNaissance), pdfField('Âge', age)
+    pdfField('Date de naissance', formatDateNaissanceFr(d.dateNaissance)), pdfField('Âge', age)
   ]);
   html += pdfRow([
     pdfField('Adresse', d.adresse),
