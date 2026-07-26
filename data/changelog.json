@@ -1,5 +1,14 @@
 [
   {
+    "version": "17.0",
+    "date": "2026-07-26T18:12:57.289Z",
+    "title": "Historique des bilans (10 derniers conservés)",
+    "items": [
+      "Le bilan en cours est désormais archivé automatiquement avant d'être effacé via \"Nouveau bilan\"",
+      "Nouvelle icône 🕐 pour consulter les 10 derniers bilans archivés, avec possibilité de copier chacun individuellement"
+    ]
+  },
+  {
     "version": "16.9",
     "date": "2026-07-26T17:46:32.971Z",
     "title": "Phrases utiles réordonnées selon l'ordre d'Identité",
