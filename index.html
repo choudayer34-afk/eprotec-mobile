@@ -3797,6 +3797,9 @@ function formatDateHeureCourte(iso) {
     { key: 'prenom', label: 'Prénom', type: 'text' },
     { key: 'dateNaissance', label: 'Date de naissance', type: 'date' },
 { key: 'age', label: 'Âge', type: 'age-display' },
+    { key: 'sexe', label: 'Sexe', type: 'chip', options: ['Homme', 'Femme'] },
+    { key: 'personnePrevenir', label: 'Personne à prévenir', type: 'text' },
+    { key: 'personnePrevenirTel', label: 'Téléphone de cette personne', type: 'text' },
     { key: 'adresse', label: 'Adresse d\'habitation', type: 'text' },
     { key: 'langueVictime', label: 'Langue de la victime', type: 'chip', options: ['Français', 'English', 'Español', 'العربية'] }
   ]},
@@ -3894,8 +3897,33 @@ options: [
     { key: 'passeMedical', label: 'Passé médical', type: 'text', info: 'bc_passeMedical' },
     { key: 'dernierRepas', label: 'Dernier repas', type: 'text', info: 'bc_dernierRepas' },
     { key: 'evenements', label: 'Évènements', type: 'text', info: 'bc_evenements', phrase: 'accueil' },
-    { key: 'risque', label: 'Risque', type: 'text', info: 'bc_risque' }
+{ key: 'risque', label: 'Risque', type: 'text', info: 'bc_risque' },
+    { key: 'intoxAlcool', label: 'Intoxication alcool', type: 'chip', options: ['Non', 'Oui'] },
+    { key: 'intoxMedicaments', label: 'Intoxication médicaments', type: 'chip', options: ['Non', 'Oui'] },
+    { key: 'intoxToxiques', label: 'Intoxication toxiques', type: 'chip', options: ['Non', 'Oui'] }
   ]}
+    { key: 'gestes', label: '🛠 Gestes effectués', fields: [
+    { key: 'position', label: 'Mise en position', type: 'chip', options: ['Assis', 'Demi-assis', 'Allongé', 'PLS', 'Jambes surélevées'] },
+    { key: 'gestesEffectues', label: 'Gestes réalisés', type: 'checklist', options: ['Repos', 'Refroidissement', 'Collier', 'Plan dur', 'Écharpe', 'Protection thermique', 'Matelas à dépression', 'Poche de froid', 'Pansement', 'Nettoyage / Désinfection', 'Sucre', 'Attelle', 'Aide à la prise de médicament'] },
+    { key: 'gestesAutre', label: 'Autre geste', type: 'text' }
+  ]},
+  { key: 'suite', label: '📤 Suite donnée', fields: [
+    { key: 'transmisPC', label: 'Bilan transmis au PC', type: 'chip', options: ['Non', 'Oui'] },
+    { key: 'transmisPCHeure', label: 'Heure de transmission au PC', type: 'time' },
+    { key: 'transmisSAMU', label: 'Bilan transmis au SAMU', type: 'chip', options: ['Non', 'Oui'] },
+    { key: 'transmisSAMUHeure', label: 'Heure de transmission au SAMU', type: 'time' },
+    { key: 'repartiSeul', label: 'Reparti par ses propres moyens', type: 'chip', options: ['Non', 'Oui'] },
+    { key: 'repartiSeulHeure', label: 'Heure de départ', type: 'time' }
+  ]},
+  { key: 'decharge', label: '⚠️ Décharge de responsabilité', fields: [
+    { key: 'refusIntervention', label: "Refuse l'intervention de la Protection Civile", type: 'chip', options: ['Non', 'Oui'] },
+    { key: 'refusTransport', label: 'Refuse le transport en milieu hospitalier', type: 'chip', options: ['Non', 'Oui'] },
+    { key: 'quitteDispositif', label: 'Quitte le dispositif de secours', type: 'chip', options: ['Non', 'Oui'] },
+    { key: 'decisionHeure', label: 'Heure de la décision', type: 'time' },
+    { key: 'nomVictimeSignature', label: 'Nom de la victime (nom tapé valant signature)', type: 'text' },
+    { key: 'temoin1', label: 'Témoin 1 — nom, prénom, date de naissance', type: 'text' },
+    { key: 'temoin2', label: 'Témoin 2 — nom, prénom, date de naissance', type: 'text' }
+  ]},
 ];
 
 const DOULEUR_QUALITE_OPTIONS = ['Brûlure', 'Piqûre', 'Crampe', 'Pesanteur', 'Décharge électrique', 'En étau / qui serre', 'Autre'];
@@ -4141,6 +4169,18 @@ ${f.options.map(o => `<button class="bilan-chip ${value === o ? 'active' : ''}" 
       </div>
     `;
   }
+if (f.type === 'checklist') {
+    const selected = Array.isArray(bilanData[f.key]) ? bilanData[f.key] : [];
+    return `
+      <div class="bilan-field-row">
+        <label>${f.label}</label>
+        <div class="bilan-chip-row" style="flex-wrap:wrap;">
+          ${f.options.map(o => `<button class="bilan-chip ${selected.includes(o) ? 'active' : ''}" data-checklist-field="${f.key}" data-value="${o}">${o}</button>`).join('')}
+        </div>
+      </div>
+    `;
+  }
+
 
   if (f.type === 'glasgowQuick') {
     return `
@@ -4761,7 +4801,20 @@ if (select.dataset.bilanField.startsWith('glasgow')) { updateGlasgowTotalDisplay
       }
     });
   });
+container.querySelectorAll('[data-checklist-field]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const key = btn.dataset.checklistField;
+      const value = btn.dataset.value;
+      if (!Array.isArray(bilanData[key])) bilanData[key] = [];
+      const idx = bilanData[key].indexOf(value);
+      if (idx >= 0) bilanData[key].splice(idx, 1);
+      else bilanData[key].push(value);
+      saveBilanData();
+      btn.classList.toggle('active');
+    });
+  });
 
+  
   container.querySelectorAll('[data-bilan-chip]').forEach(chip => {
     chip.addEventListener('click', () => {
       const key = chip.dataset.bilanChip;
