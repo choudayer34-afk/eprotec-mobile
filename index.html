@@ -3842,16 +3842,16 @@ function formatDateHeureCourte(iso) {
 
 
   const BILAN_CATEGORIES = [
-  { key: 'identite', label: '🪪 Identité', phraseCategory: 'accueil', fields: [
+ { key: 'identite', label: '🪪 Identité', phraseCategory: 'accueil', fields: [
+    { key: 'redacteur', label: 'Rédigé par', type: 'text' },
+    { key: 'sexe', label: 'Sexe', type: 'chip', options: ['Homme', 'Femme'] },
     { key: 'nom', label: 'Nom', type: 'text' },
     { key: 'prenom', label: 'Prénom', type: 'text' },
     { key: 'dateNaissance', label: 'Date de naissance', type: 'date' },
-{ key: 'age', label: 'Âge', type: 'age-display' },
-    { key: 'sexe', label: 'Sexe', type: 'chip', options: ['Homme', 'Femme'] },
-    { key: 'personnePrevenir', label: 'Personne à prévenir', type: 'text' },
-{ key: 'personnePrevenirTel', label: 'Téléphone de cette personne', type: 'text' },
-    { key: 'redacteur', label: 'Rédigé par', type: 'text' },
+    { key: 'age', label: 'Âge', type: 'age-display' },
     { key: 'adresse', label: 'Adresse d\'habitation', type: 'text' },
+    { key: 'personnePrevenir', label: 'Personne à prévenir', type: 'text' },
+    { key: 'personnePrevenirTel', label: 'Téléphone de cette personne', type: 'text' },
     { key: 'langueVictime', label: 'Langue de la victime', type: 'chip', options: ['Français', 'English', 'Español', 'العربية'] }
   ]},
  { key: 'circonstanciel', label: '🎬 Bilan circonstanciel (3S)', phraseCategory: 'accueil', fields: [
@@ -3889,12 +3889,7 @@ options: [
   ]},
 
 
-  { key: 'regards', label: '👀 Les 4 regards', fields: [
-    { key: 'regard1', label: "1er regard — vue d'ensemble en arrivant", type: 'text' },
-    { key: 'regard2', label: "2e regard — approche de la victime", type: 'text' },
-    { key: 'regard3', label: "3e regard — pendant l'examen", type: 'text' },
-    { key: 'regard4', label: "4e regard — avant de partir / relève", type: 'text' }
-  ]},
+ 
 { key: 'x', label: '🩸 X — Hémorragie', fields: [
     { key: 'hemorragie', label: 'Hémorragie visible', type: 'chip', options: ['Non', 'Oui'] },
         { key: 'hemorragieLieu', label: 'Localisation si oui', type: 'text', map: true },
@@ -4865,6 +4860,11 @@ function renderBilanFill() {
         <span class="month-chevron">▸</span>
       </button>
       <div class="month-body" style="display:none">
+<div class="repere-interne-box">
+          <div class="repere-title">👀 Les 4 regards — rappel</div>
+          <div class="repere-subtitle">1er : vue d'ensemble en arrivant · 2e : à l'approche · 3e : pendant l'examen · 4e : avant de partir</div>
+          <ul><li>Détail complet dans Secourisme → Psychologie & relationnel → Les 4 regards</li></ul>
+        </div>
         <div class="repere-interne-box">
           <div class="repere-title">Bilan complet ou non ?</div>
           <div class="repere-subtitle">Convention interne de l'équipe, pas une règle du référentiel</div>
@@ -5939,6 +5939,50 @@ const GESTES_DATA = [
         items: [
           "La meilleure technique reste toujours d'éviter la confrontation quand c'est possible",
           "Ceci est un pense-bête pour une pratique déjà acquise, pas un substitut à un entraînement encadré"
+        ]
+      }
+    ]
+  },
+{
+    key: 'quatreRegards',
+    title: '👀 Les 4 regards',
+    summary: [
+      "1er regard : vue d'ensemble en arrivant sur les lieux",
+      "2e regard : à l'approche de la victime",
+      "3e regard : pendant l'examen",
+      "4e regard : juste avant de partir ou lors de la relève"
+    ],
+    sections: [
+      {
+        title: "1er regard — vue d'ensemble en arrivant",
+        items: [
+          "Sécurité de la zone, dangers persistants",
+          "Nombre de victimes, mécanisme de l'accident",
+          "Premières impressions générales"
+        ]
+      },
+      {
+        title: "2e regard — à l'approche de la victime",
+        items: [
+          "Position de la victime, attitude générale",
+          "Signes visibles évidents (hémorragie, déformation, coloration)",
+          "Réaction de la victime à ton approche"
+        ]
+      },
+      {
+        title: "3e regard — pendant l'examen",
+        items: [
+          "Détail du bilan, zone par zone",
+          "Repérer ce qui n'est pas immédiatement visible",
+          "Confirmer ou infirmer les premières impressions"
+        ]
+      },
+      {
+        title: "4e regard — avant de partir ou lors de la relève",
+        items: [
+          "Vérification globale une dernière fois avant de quitter la victime",
+          "S'assurer que rien n'a été oublié dans la transmission",
+          "Utile aussi juste avant de passer le relais à une autre équipe"
         ]
       }
     ]
@@ -7677,7 +7721,8 @@ const GESTE_CATEGORIES_MAP = {
  pfsmu: 'psychologie',
   impliques: 'psychologie',
   traductions: 'psychologie',
-  radioComm: 'psychologie',
+radioComm: 'psychologie',
+  quatreRegards: 'psychologie',
 
   poignet1main: 'saisies',
 poignet2mains: 'saisies',
