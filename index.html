@@ -350,9 +350,14 @@
     font-size: 10px; padding: 2px 7px; border-radius: 20px; font-weight: 500;
   }
 
-  .detail-header {
-    display: flex; align-items: center; gap: 14px; padding: 4px 0 20px;
+.detail-header {
+    display: flex; align-items: center; gap: 14px; padding: 4px 0 12px;
   }
+  #bilan-sticky-header, #bilan-action-bar {
+    position: sticky; background: #0B2A5C; z-index: 10;
+  }
+  #bilan-sticky-header { top: 0; padding-top: 8px; }
+  #bilan-action-bar { top: 46px; }
   .detail-header button {
     background: none; border: none; color: #fff; font-size: 24px; line-height: 1; padding: 4px;
   }
@@ -394,6 +399,15 @@
   nav button.active { color: #F5821F; }
   section { display: none; }
   section.active { display: block; }
+
+  @media print {
+    body * { visibility: hidden; }
+    #bilan-print-content, #bilan-print-content * { visibility: visible; }
+    #bilan-print-content {
+      position: absolute; top: 0; left: 0; width: 100%;
+      color: #000; background: #fff; padding: 20px;
+    }
+  }
 </style>
 </head>
 <body>
@@ -634,15 +648,12 @@
   </section>
 
 <section id="plus-bilan">
-    <div class="detail-header">
+    <div class="detail-header" id="bilan-sticky-header">
       <button class="plus-back" data-target="plus-secourisme">‹</button>
       <span>Bilan patient</span>
-      <span id="wakelock-indicator" style="display:none;color:#FAC775;font-size:16px;margin-right:4px;" title="Écran maintenu allumé">🔆</span>
-      <button class="icon-btn" id="mission-timer-btn" style="margin-right:6px;">⏱ <span id="mission-timer-display">Démarrer</span></button>
-
-      <div class="detail-icons" id="bilan-icons"></div>
-
+      <span id="wakelock-indicator" style="display:none;color:#FAC775;font-size:16px;" title="Écran maintenu allumé">🔆</span>
     </div>
+    <div id="bilan-action-bar" style="display:flex;flex-wrap:wrap;gap:6px;padding-bottom:10px;"></div>
     <div class="metric-toggle">
       <button data-bilan-mode="reference" class="active">Référence</button>
       <button data-bilan-mode="remplir">Remplir</button>
@@ -4513,7 +4524,23 @@ suivi.forEach(s => {
   return text || 'Aucune donnée saisie pour le moment.';
 }
 
-function showBilanSummary() {
+function exportBilanPdf() {
+  const text = buildBilanSummaryText();
+  let printDiv = document.getElementById('bilan-print-content');
+  if (!printDiv) {
+    printDiv = document.createElement('div');
+    printDiv.id = 'bilan-print-content';
+    printDiv.style.display = 'none';
+    document.body.appendChild(printDiv);
+  }
+  const dateStr = new Date().toLocaleString('fr-FR');
+  printDiv.innerHTML = `
+    <h2 style="font-family:sans-serif;">🚑 Bilan patient — ${dateStr}</h2>
+    <pre style="white-space:pre-wrap;font-family:sans-serif;font-size:13px;line-height:1.6;">${escapeHtml(text)}</pre>
+  `;
+  window.print();
+}
+  function showBilanSummary() {
   const text = buildBilanSummaryText();
   const overlay = document.createElement('div');
   overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999;display:flex;align-items:center;justify-content:center;padding:20px;';
@@ -4554,24 +4581,24 @@ async function handleBilanNew() {
 }
 
 function renderBilanIcons() {
-  const iconsContainer = document.getElementById('bilan-icons');
-  if (bilanMode !== 'remplir') { iconsContainer.innerHTML = ''; return; }
-  iconsContainer.innerHTML = `
+  const actionBar = document.getElementById('bilan-action-bar');
+  if (bilanMode !== 'remplir') { actionBar.innerHTML = ''; return; }
+  actionBar.innerHTML = `
     <button class="icon-btn" id="bilan-icon-new" aria-label="Nouveau bilan">🆕</button>
     <button class="icon-btn" id="bilan-icon-summary" aria-label="Résumé">📋</button>
     <button class="icon-btn" id="bilan-icon-copy" aria-label="Copier">📤</button>
-        <button class="icon-btn" id="bilan-icon-whatsapp" aria-label="Envoyer par WhatsApp">💬</button>
+    <button class="icon-btn" id="bilan-icon-whatsapp" aria-label="Envoyer par WhatsApp">💬</button>
+    <button class="icon-btn" id="bilan-icon-pdf" aria-label="Export PDF">📄</button>
     <button class="icon-btn" id="bilan-icon-urgence" aria-label="Numéros d'urgence">📞</button>
-
+    <button class="icon-btn" id="mission-timer-btn" aria-label="Chrono mission"><span id="mission-timer-display">⏱</span></button>
   `;
   document.getElementById('bilan-icon-new').addEventListener('click', handleBilanNew);
   document.getElementById('bilan-icon-summary').addEventListener('click', showBilanSummary);
   document.getElementById('bilan-icon-copy').addEventListener('click', handleBilanCopy);
   document.getElementById('bilan-icon-whatsapp').addEventListener('click', handleBilanWhatsapp);
-   document.getElementById('bilan-icon-urgence').addEventListener('click', showEmergencyNumbersModal);
+  document.getElementById('bilan-icon-pdf').addEventListener('click', exportBilanPdf);
+  document.getElementById('bilan-icon-urgence').addEventListener('click', showEmergencyNumbersModal);
   document.getElementById('mission-timer-btn').addEventListener('click', toggleMissionTimer);
-
-
 }
 
 function renderBilanFill() {
