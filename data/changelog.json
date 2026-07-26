@@ -1,5 +1,14 @@
 [
   {
+    "version": "16.8",
+    "date": "2026-07-26T17:20:29.856Z",
+    "title": "Réorganisation Identité, fiche \"Les 4 regards\" indépendante",
+    "items": [
+      "Identité réorganisée dans l'ordre : Rédigé par, Sexe, Nom, Prénom, Date de naissance, Adresse, Personne à prévenir + téléphone",
+      "\"Les 4 regards\" devient une fiche de référence dans Secourisme plutôt qu'une saisie dans le Bilan, avec un rappel dans le Repère interne"
+    ]
+  },
+  {
     "version": "16.7",
     "date": "2026-07-26T14:41:28.910Z",
     "title": "Correction",
