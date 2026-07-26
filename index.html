@@ -1380,7 +1380,26 @@ document.addEventListener('visibilitychange', () => {
   }
 });
 
+let currentMonNom = '';
 
+async function loadMonNom() {
+  try {
+    const res = await fetch(FIREBASE_URL + '/users/' + currentUserUid + '/mon-nom.json?t=' + Date.now(), { cache: 'no-store' });
+    const nom = await res.json();
+    currentMonNom = typeof nom === 'string' ? nom : '';
+  } catch {
+    currentMonNom = '';
+  }
+}
+
+async function saveMonNom(nom) {
+  currentMonNom = nom;
+  await fetch(FIREBASE_URL + '/users/' + currentUserUid + '/mon-nom.json', {
+    method: 'PUT',
+    body: JSON.stringify(nom)
+  });
+}
+  
 function sanitizeUid(email) {
   return email.replace(/[.#$\[\]@]/g, '_');
 }
@@ -3801,7 +3820,8 @@ function formatDateHeureCourte(iso) {
 { key: 'age', label: 'Âge', type: 'age-display' },
     { key: 'sexe', label: 'Sexe', type: 'chip', options: ['Homme', 'Femme'] },
     { key: 'personnePrevenir', label: 'Personne à prévenir', type: 'text' },
-    { key: 'personnePrevenirTel', label: 'Téléphone de cette personne', type: 'text' },
+{ key: 'personnePrevenirTel', label: 'Téléphone de cette personne', type: 'text' },
+    { key: 'redacteur', label: 'Rédigé par', type: 'text' },
     { key: 'adresse', label: 'Adresse d\'habitation', type: 'text' },
     { key: 'langueVictime', label: 'Langue de la victime', type: 'chip', options: ['Français', 'English', 'Español', 'العربية'] }
   ]},
@@ -4712,9 +4732,8 @@ function buildBilanPdfHtml() {
   html += pdfRow([pdfField('Nom de la victime (valant signature)', d.nomVictimeSignature)]);
   html += pdfRow([pdfField('Témoin 1', d.temoin1), pdfField('Témoin 2', d.temoin2)]);
 
-  html += `<div style="display:flex;justify-content:space-between;padding:10px;border-top:1px solid #333;margin-top:10px;">
-    <div>Nom de la personne qui remplit la fiche : ______________________</div>
-    <div>Nom et signature du responsable : ______________________</div>
+html += `<div style="padding:10px;border-top:1px solid #333;margin-top:10px;">
+    <div>Rédigé par : ${d.redacteur || '______________________'}</div>
   </div>`;
 
   html += `</div>`;
@@ -4795,6 +4814,9 @@ function renderBilanIcons() {
 
 function renderBilanFill() {
   requestWakeLock();
+  if (!bilanData.redacteur && currentMonNom) {
+    bilanData.redacteur = currentMonNom;
+  }
   if (!bilanData.dateHeureOuverture) {
 
     bilanData.dateHeureOuverture = new Date().toISOString();
@@ -8426,9 +8448,10 @@ async function checkCloudflareIdentity() {
     const res = await fetch('/cdn-cgi/access/get-identity', { credentials: 'include' });
     if (!res.ok) return;
     const identity = await res.json();
-    if (identity.email) {
+if (identity.email) {
       currentUserEmail = identity.email;
       currentUserUid = sanitizeUid(identity.email);
+      await loadMonNom();
     }
     if (identity.email === 'ch-houdayer@hotmail.fr') {
       isAdminUser = true;
