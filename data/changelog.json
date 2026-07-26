@@ -1,5 +1,14 @@
 [
   {
+    "version": "17.2",
+    "date": "2026-07-26T18:25:44.537Z",
+    "title": "Mode admin : ajout de termes au lexique directement depuis l'app",
+    "items": [
+      "Nouveau bouton \"Ajouter un terme (admin)\" dans le Lexique, visible uniquement pour le compte administrateur",
+      "Les termes ajoutés sont stockés dans Firebase et partagés avec tous les utilisateurs, sans avoir besoin de modifier le code"
+    ]
+  },
+  {
     "version": "17.1",
     "date": "2026-07-26T18:19:56.764Z",
     "title": "Édition d'un bilan archivé",
