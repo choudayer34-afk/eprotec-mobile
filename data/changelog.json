@@ -1,5 +1,13 @@
 [
   {
+    "version": "17.3",
+    "date": "2026-07-26T18:55:04.871Z",
+    "title": "Mode admin : ajout de fiches gestes/matériel depuis l'app",
+    "items": [
+      "Un bouton \"Ajouter une fiche\" apparaît désormais en haut de chaque catégorie de Fiches gestes et de Matériel, visible uniquement pour l'administrateur Les fiches créées (titre, résumé express, section détaillée) sont stockées dans Firebase et immédiatement visibles par tous, sans passer par GitHub"
+    ]
+  },
+  {
     "version": "17.2",
     "date": "2026-07-26T18:25:44.537Z",
     "title": "Mode admin : ajout de termes au lexique directement depuis l'app",
