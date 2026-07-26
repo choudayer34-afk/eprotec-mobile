@@ -8690,7 +8690,16 @@ new MutationObserver(() => {
   }
 }).observe(document.getElementById('plus-bilan'), { attributes: true, attributeFilter: ['class'] });
 
+  if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch((err) => {
+      console.error('Erreur enregistrement Service Worker :', err);
+    });
+  });
+}
+
 startAutoRefreshWatcher();
+  
 
 
 loadData()
