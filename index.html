@@ -879,6 +879,7 @@
       <span>Lexique</span>
     </div>
     <button class="detail-action-btn primary" id="lexique-bodymap-btn" style="margin-bottom:12px;">🗺️ Carte des régions du corps</button>
+    <button class="detail-action-btn" id="lexique-add-btn" style="display:none;margin-bottom:12px;">➕ Ajouter un terme (admin)</button>
     <div class="search-box">
       <span>🔍</span>
       <input type="text" id="lexique-search" placeholder="Rechercher un terme, un sigle...">
@@ -7763,6 +7764,52 @@ const LEXIQUE_DATA = [
   { term: 'Victime secondaire', def: "Lien affectif avec la victime blessée, sans avoir assisté à l'évènement (ex : parent prévenu après coup)" }
 ];
 
+let lexiqueCustomEntries = [];
+
+async function loadLexiqueCustom() {
+  try {
+    const res = await fetch(FIREBASE_URL + '/contenu-partage/lexique-custom.json?t=' + Date.now(), { cache: 'no-store' });
+    const data = await res.json();
+    lexiqueCustomEntries = Array.isArray(data) ? data : [];
+  } catch {
+    lexiqueCustomEntries = [];
+  }
+}
+
+async function addLexiqueEntry(term, def) {
+  lexiqueCustomEntries.push({ term, def });
+  await fetch(FIREBASE_URL + '/contenu-partage/lexique-custom.json', {
+    method: 'PUT',
+    body: JSON.stringify(lexiqueCustomEntries)
+  });
+}
+
+function showAddLexiqueModal() {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:999;display:flex;align-items:center;justify-content:center;padding:20px;';
+  overlay.innerHTML = `
+    <div style="background:#163C74;border-radius:16px;padding:20px;width:100%;max-width:360px;">
+      <div style="color:#fff;font-size:15px;font-weight:600;margin-bottom:12px;">➕ Ajouter un terme au lexique</div>
+      <div class="bilan-field-row"><label>Terme</label><input type="text" id="new-lexique-term"></div>
+      <div class="bilan-field-row"><label>Définition</label><textarea rows="3" class="bilan-textarea" id="new-lexique-def"></textarea></div>
+      <div style="display:flex;gap:8px;">
+        <button class="detail-action-btn" id="new-lexique-cancel" style="flex:1;">Annuler</button>
+        <button class="detail-action-btn primary" id="new-lexique-save" style="flex:1;">Enregistrer</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.querySelector('#new-lexique-cancel').addEventListener('click', () => overlay.remove());
+  overlay.querySelector('#new-lexique-save').addEventListener('click', async () => {
+    const term = overlay.querySelector('#new-lexique-term').value.trim();
+    const def = overlay.querySelector('#new-lexique-def').value.trim();
+    if (!term || !def) { alert('Merci de remplir le terme et la définition.'); return; }
+    await addLexiqueEntry(term, def);
+    overlay.remove();
+    renderLexique(document.getElementById('lexique-search').value);
+  });
+}
+
 
 function normalizeLexique(str) {
   return normalizeText(str).replace(/[.\s]/g, '');
@@ -7770,10 +7817,11 @@ function normalizeLexique(str) {
 
 function renderLexique(filter = '') {
   const container = document.getElementById('lexique-content');
+  const fullList = LEXIQUE_DATA.concat(lexiqueCustomEntries);
   const q = normalizeLexique(filter);
   const filtered = q
-    ? LEXIQUE_DATA.filter(l => normalizeLexique(l.term).includes(q) || normalizeText(l.def).includes(normalizeText(filter)))
-    : LEXIQUE_DATA;
+    ? fullList.filter(l => normalizeLexique(l.term).includes(q) || normalizeText(l.def).includes(normalizeText(filter)))
+    : fullList;
 
   const sorted = [...filtered].sort((a, b) => a.term.localeCompare(b.term, 'fr'));
 
@@ -7791,6 +7839,7 @@ document.getElementById('lexique-search').addEventListener('input', (e) => {
   renderLexique(e.target.value);
 });
 document.getElementById('lexique-bodymap-btn').addEventListener('click', () => showBodyMapModal());
+document.getElementById('lexique-add-btn').addEventListener('click', showAddLexiqueModal);
 
 document.getElementById('liens-urgence-btn').addEventListener('click', showEmergencyNumbersModal);
 
@@ -8653,7 +8702,9 @@ if (identity.email) {
       const cloudFormationTile = document.getElementById('cf-cloudformation-tile');
       const shareBtn = document.getElementById('share-app-btn');
       const forceUpdateBtn = document.getElementById('force-update-btn');
-      if (adminTile) adminTile.style.display = 'block';
+if (adminTile) adminTile.style.display = 'block';
+      const lexiqueAddBtn = document.getElementById('lexique-add-btn');
+      if (lexiqueAddBtn) lexiqueAddBtn.style.display = 'block';
       if (cloudFormationTile) cloudFormationTile.style.display = 'block';
       if (shareBtn) shareBtn.style.display = 'block';
       if (forceUpdateBtn) forceUpdateBtn.style.display = 'flex';
@@ -8693,7 +8744,8 @@ await checkCloudflareIdentity(); tick();
   await initFavoris(); tick();
   await initDismissed(); tick();
   await loadOadSettings(); tick();
-  await loadChangelog(); tick();
+await loadChangelog(); tick();
+  await loadLexiqueCustom();
   renderParametres();
 
   const bust = Date.now();
