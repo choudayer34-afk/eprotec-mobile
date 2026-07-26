@@ -1,5 +1,13 @@
 [
   {
+    "version": "16.7",
+    "date": "2026-07-26T14:41:28.910Z",
+    "title": "Correction",
+    "items": [
+      "Correction"
+    ]
+  },
+  {
     "version": "16.6",
     "date": "2026-07-26T14:23:27.197Z",
     "title": "Barre flottante \"Champ suivant / Terminé\" au-dessus du clavier",
