@@ -4833,10 +4833,11 @@ function archiveCurrentBilan() {
   }
 
   const label = `${bilanData.prenom || ''} ${bilanData.nom || ''}`.trim() || 'Bilan sans nom';
-  history.unshift({
+ history.unshift({
     savedAt: new Date().toISOString(),
     label,
-    summaryText: buildBilanSummaryText()
+    summaryText: buildBilanSummaryText(),
+    data: JSON.parse(JSON.stringify(bilanData))
   });
   if (history.length > BILAN_HISTORY_MAX) history = history.slice(0, BILAN_HISTORY_MAX);
 
@@ -4896,9 +4897,10 @@ function showArchivedBilanText(entry) {
     <div style="background:#163C74;border-radius:16px;padding:20px;width:100%;max-width:400px;max-height:80vh;overflow-y:auto;">
       <div style="color:#F5821F;font-size:13px;font-weight:600;margin-bottom:6px;">${entry.label} — ${formatDateHeureCourte(entry.savedAt)}</div>
       <div style="color:#fff;font-size:14px;white-space:pre-wrap;margin-bottom:16px;">${escapeHtml(entry.summaryText)}</div>
-      <div style="display:flex;gap:8px;">
-        <button class="detail-action-btn" id="archived-close">Fermer</button>
-        <button class="detail-action-btn primary" id="archived-copy">Copier</button>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="detail-action-btn" id="archived-close" style="flex:1;">Fermer</button>
+        <button class="detail-action-btn" id="archived-copy" style="flex:1;">Copier</button>
+        <button class="detail-action-btn primary" id="archived-edit" style="flex:1;">✏️ Éditer</button>
       </div>
     </div>
   `;
@@ -4908,6 +4910,22 @@ function showArchivedBilanText(entry) {
     navigator.clipboard.writeText(entry.summaryText).then(() => {
       overlay.querySelector('#archived-copy').textContent = '✓ Copié';
     });
+  });
+  overlay.querySelector('#archived-edit').addEventListener('click', async () => {
+    if (!entry.data) {
+      alert("Ce bilan a été archivé avant l'ajout de cette fonctionnalité et ne peut pas être édité, seulement consulté.");
+      return;
+    }
+    const confirmEdit = await promptChoice('Le bilan actuellement en cours sera archivé pour laisser place à celui-ci. Continuer ?', ['Oui, éditer celui-ci', 'Annuler']);
+    if (confirmEdit !== 'Oui, éditer celui-ci') return;
+    archiveCurrentBilan();
+    bilanData = JSON.parse(JSON.stringify(entry.data));
+    saveBilanData();
+    overlay.remove();
+    document.querySelectorAll('.month-body').forEach(m => { const o = m.closest('body'); });
+    const genericOverlay = document.querySelectorAll('body > div[style*="position:fixed"]');
+    genericOverlay.forEach(o => { if (o !== overlay) o.remove(); });
+    renderBilanFill();
   });
 }
 
