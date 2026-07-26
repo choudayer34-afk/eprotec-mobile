@@ -1,5 +1,14 @@
 {
-  "newEvents": [],
+  "newEvents": [
+    {
+      "tag": "AIP",
+      "titre": "[AIP 34] Distribution eau ACM",
+      "lieu": "Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1636265",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-07-26T15:50:00.000Z"
+    }
+  ],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",

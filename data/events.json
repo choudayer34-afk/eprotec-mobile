@@ -70,6 +70,20 @@
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1609268'>Lien vers l'activité</a>"
   },
   {
+    "uid": "evt16362651@https://eprotec.protection-civile.org",
+    "tag": "AIP",
+    "titre": "[AIP 34] Distribution eau ACM",
+    "lieu": "Montpellier",
+    "dateDebut": "2026-07-26T15:50:00.000Z",
+    "dateFin": "2026-07-26T16:50:00.000Z",
+    "dureeHeures": 1,
+    "dejaInscrit": false,
+    "nouveau": true,
+    "nouveauDepuis": "2026-07-26T15:01:03.492Z",
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1636265",
+    "description": "Sur la demande de Mme Robiere suite rupture canalisation d'eau potable. 1k bouteille. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1636265'>Lien vers l'activité</a>"
+  },
+  {
     "uid": "evt15786351@https://eprotec.protection-civile.org",
     "tag": "DPS",
     "titre": "[DPS 34] Festival Danse Country",
