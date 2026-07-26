@@ -3482,6 +3482,66 @@ const CATEGORY_SCREENS = {
   pediatrie: { section: 'plus-pediatrie', content: 'pediatrie-content', cats: ['pediatrie'] }
 };
 
+let fichesCustom = [];
+
+async function loadFichesCustom() {
+  try {
+    const res = await fetch(FIREBASE_URL + '/contenu-partage/fiches-custom.json?t=' + Date.now(), { cache: 'no-store' });
+    const data = await res.json();
+    fichesCustom = Array.isArray(data) ? data : [];
+  } catch {
+    fichesCustom = [];
+  }
+}
+
+async function saveFichesCustom() {
+  await fetch(FIREBASE_URL + '/contenu-partage/fiches-custom.json', {
+    method: 'PUT',
+    body: JSON.stringify(fichesCustom)
+  });
+}
+
+function showAddFicheModal(category, containerId) {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;';
+  overlay.innerHTML = `
+    <div style="background:#163C74;border-radius:16px;padding:20px;width:100%;max-width:400px;max-height:85vh;overflow-y:auto;">
+      <div style="color:#fff;font-size:15px;font-weight:600;margin-bottom:12px;">➕ Ajouter une fiche</div>
+      <div class="bilan-field-row"><label>Titre (avec emoji si tu veux)</label><input type="text" id="new-fiche-title" placeholder="Ex : 🩹 Ma nouvelle fiche"></div>
+      <div class="bilan-field-row"><label>Résumé express (une ligne par point)</label><textarea rows="4" class="bilan-textarea" id="new-fiche-summary"></textarea></div>
+      <div class="bilan-field-row"><label>Titre de la section détaillée</label><input type="text" id="new-fiche-section-title" placeholder="Ex : Conduite à tenir"></div>
+      <div class="bilan-field-row"><label>Contenu détaillé (une ligne par point)</label><textarea rows="6" class="bilan-textarea" id="new-fiche-content"></textarea></div>
+      <div style="display:flex;gap:8px;">
+        <button class="detail-action-btn" id="new-fiche-cancel" style="flex:1;">Annuler</button>
+        <button class="detail-action-btn primary" id="new-fiche-save" style="flex:1;">Enregistrer</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.querySelector('#new-fiche-cancel').addEventListener('click', () => overlay.remove());
+  overlay.querySelector('#new-fiche-save').addEventListener('click', async () => {
+    const title = overlay.querySelector('#new-fiche-title').value.trim();
+    const summaryRaw = overlay.querySelector('#new-fiche-summary').value.trim();
+    const sectionTitle = overlay.querySelector('#new-fiche-section-title').value.trim() || 'Détails';
+    const contentRaw = overlay.querySelector('#new-fiche-content').value.trim();
+    if (!title || !summaryRaw || !contentRaw) { alert('Merci de remplir au moins le titre, le résumé et le contenu.'); return; }
+
+    const fiche = {
+      key: 'custom_' + Date.now(),
+      title,
+      category,
+      summary: summaryRaw.split('\n').map(s => s.trim()).filter(Boolean),
+      sections: [{ title: sectionTitle, items: contentRaw.split('\n').map(s => s.trim()).filter(Boolean) }]
+    };
+    fichesCustom.push(fiche);
+    await saveFichesCustom();
+    overlay.remove();
+    renderGestesList(containerId, [category]);
+  });
+}
+
+
+
 function goToGesteByKey(gesteKey) {
   const cat = GESTE_CATEGORIES_MAP[gesteKey];
   const screen = CATEGORY_SCREENS[cat];
@@ -7922,15 +7982,24 @@ ecg12: 'materiel',
 
 function renderGestesList(containerId, categories) {
   const container = document.getElementById(containerId);
-  const filtered = GESTES_DATA.filter(g => categories.includes(GESTE_CATEGORIES_MAP[g.key]));
+  const customFiltered = fichesCustom.filter(g => categories.includes(g.category));
+  const filtered = GESTES_DATA.filter(g => categories.includes(GESTE_CATEGORIES_MAP[g.key])).concat(customFiltered);
+
+  const addBtnHtml = isAdminUser
+    ? `<button class="detail-action-btn primary" id="add-fiche-btn" style="margin-bottom:14px;">➕ Ajouter une fiche</button>`
+    : '';
 
   if (filtered.length === 0) {
-    container.innerHTML = '<div class="empty">Aucune fiche disponible pour le moment.</div>';
+    container.innerHTML = addBtnHtml + '<div class="empty">Aucune fiche disponible pour le moment.</div>';
+    if (isAdminUser) {
+      document.getElementById('add-fiche-btn').addEventListener('click', () => showAddFicheModal(categories[0], containerId));
+    }
     return;
   }
 
-container.innerHTML = filtered.map(geste => `
-    <div class="geste-group" data-geste-key="${geste.key}">
+  container.innerHTML = addBtnHtml + filtered.map(geste => `
+    <div class="geste-group" data-geste-key="${geste.key}">`
+
       <button class="month-toggle">
         <span>${geste.title}</span>
         <span class="month-chevron">▸</span>
@@ -7967,7 +8036,13 @@ container.innerHTML = filtered.map(geste => `
 
   setupAccordion(container, '.geste-group');
   setupAccordion(container);
+
+  if (isAdminUser) {
+    const addBtn = document.getElementById('add-fiche-btn');
+    if (addBtn) addBtn.addEventListener('click', () => showAddFicheModal(categories[0], containerId));
+  }
 }
+
 
 const ALL_TAG_KEYS = ['DPS', 'FOR', 'MAN', 'BENEVOLE', 'MLA', 'ALERT', 'AIP', 'AUTRE'];
 let selectedTypes = new Set(ALL_TAG_KEYS);
@@ -8745,7 +8820,9 @@ await checkCloudflareIdentity(); tick();
   await initDismissed(); tick();
   await loadOadSettings(); tick();
 await loadChangelog(); tick();
-  await loadLexiqueCustom();
+await loadLexiqueCustom();
+  await loadFichesCustom();
+
   renderParametres();
 
   const bust = Date.now();
