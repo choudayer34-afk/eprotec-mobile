@@ -1,5 +1,13 @@
 [
   {
+    "version": "16.9",
+    "date": "2026-07-26T17:46:32.971Z",
+    "title": "Phrases utiles réordonnées selon l'ordre d'Identité",
+    "items": [
+      "Les phrases traduites d'accueil suivent désormais le même ordre que les champs d'Identité : nom, prénom, date de naissance, âge, adresse, personne à prévenir, téléphone"
+    ]
+  },
+  {
     "version": "16.8",
     "date": "2026-07-26T17:20:29.856Z",
     "title": "Réorganisation Identité, fiche \"Les 4 regards\" indépendante",
