@@ -1,5 +1,14 @@
 [
   {
+    "version": "15.8",
+    "date": "2026-07-26T07:17:35.502Z",
+    "title": "Ajout d'un nom personnel réutilisé, suppression de la signature du responsable",
+    "items": [
+      "Nouveau champ \"Rédigé par\" dans Identité, pré-rempli automatiquement à partir de ton nom enregistré une fois, modifiable à chaque bilan",
+      "Suppression de la ligne de signature du responsable en bas du PDF"
+    ]
+  },
+  {
     "version": "15.7",
     "date": "2026-07-26T06:57:39.463Z",
     "title": "Correction : fond bleu et contenu invisible à l'impression",
