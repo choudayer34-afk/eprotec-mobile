@@ -1,5 +1,13 @@
 [
   {
+    "version": "15.7",
+    "date": "2026-07-26T06:57:39.463Z",
+    "title": "Correction : fond bleu et contenu invisible à l'impression",
+    "items": [
+      "Le fond de l'app n'était pas neutralisé pour l'impression, et la zone contenant la fiche restait masquée (display:none) même au moment d'imprimer, malgré le réglage de visibilité"
+    ]
+  },
+  {
     "version": "15.6",
     "date": "2026-07-26T06:41:33.164Z",
     "title": "Réorganisation : Gestes/Suite/Décharge après le Suivi",
