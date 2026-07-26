@@ -4814,13 +4814,101 @@ function handleBilanWhatsapp() {
   window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
 }
 
+const BILAN_HISTORY_KEY = 'eprotec_bilan_history';
+const BILAN_HISTORY_MAX = 10;
+
+function archiveCurrentBilan() {
+  const hasContent = Object.keys(bilanData).some(k => {
+    const v = bilanData[k];
+    if (Array.isArray(v)) return v.length > 0 && v.some(item => item && Object.values(item).some(x => x));
+    return v !== '' && v != null;
+  });
+  if (!hasContent) return;
+
+  let history = [];
+  try {
+    history = JSON.parse(localStorage.getItem(BILAN_HISTORY_KEY) || '[]');
+  } catch {
+    history = [];
+  }
+
+  const label = `${bilanData.prenom || ''} ${bilanData.nom || ''}`.trim() || 'Bilan sans nom';
+  history.unshift({
+    savedAt: new Date().toISOString(),
+    label,
+    summaryText: buildBilanSummaryText()
+  });
+  if (history.length > BILAN_HISTORY_MAX) history = history.slice(0, BILAN_HISTORY_MAX);
+
+  localStorage.setItem(BILAN_HISTORY_KEY, JSON.stringify(history));
+}
+
 async function handleBilanNew() {
   const confirmClear = await promptChoice('Effacer le bilan en cours et en commencer un nouveau ?', ['Oui, effacer', 'Annuler']);
   if (confirmClear === 'Oui, effacer') {
+    archiveCurrentBilan();
     bilanData = {};
     saveBilanData();
     renderBilanFill();
   }
+}
+
+function showBilanHistoryModal() {
+  let history = [];
+  try {
+    history = JSON.parse(localStorage.getItem(BILAN_HISTORY_KEY) || '[]');
+  } catch {
+    history = [];
+  }
+
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;';
+  overlay.innerHTML = `
+    <div style="background:#163C74;border-radius:16px;padding:16px;width:100%;max-width:400px;max-height:85vh;overflow-y:auto;">
+      <div style="color:#fff;font-size:16px;font-weight:600;margin-bottom:12px;text-align:center;">🕐 Historique des bilans</div>
+      ${history.length === 0
+        ? '<div class="empty">Aucun bilan archivé pour le moment.</div>'
+        : history.map((h, i) => `
+          <div class="card card-clickable" data-history-idx="${i}" style="margin-bottom:8px;">
+            <div style="color:#fff;font-size:14px;font-weight:500;">${h.label}</div>
+            <div style="color:#9FB3D6;font-size:12px;">${formatDateHeureCourte(h.savedAt)}</div>
+          </div>
+        `).join('')}
+      <button class="detail-action-btn primary" id="bilan-history-close" style="margin-top:8px;">Fermer</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.querySelector('#bilan-history-close').addEventListener('click', () => overlay.remove());
+
+  overlay.querySelectorAll('[data-history-idx]').forEach(card => {
+    card.addEventListener('click', () => {
+      const entry = history[parseInt(card.dataset.historyIdx, 10)];
+      overlay.remove();
+      showArchivedBilanText(entry);
+    });
+  });
+}
+
+function showArchivedBilanText(entry) {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999;display:flex;align-items:center;justify-content:center;padding:20px;';
+  overlay.innerHTML = `
+    <div style="background:#163C74;border-radius:16px;padding:20px;width:100%;max-width:400px;max-height:80vh;overflow-y:auto;">
+      <div style="color:#F5821F;font-size:13px;font-weight:600;margin-bottom:6px;">${entry.label} — ${formatDateHeureCourte(entry.savedAt)}</div>
+      <div style="color:#fff;font-size:14px;white-space:pre-wrap;margin-bottom:16px;">${escapeHtml(entry.summaryText)}</div>
+      <div style="display:flex;gap:8px;">
+        <button class="detail-action-btn" id="archived-close">Fermer</button>
+        <button class="detail-action-btn primary" id="archived-copy">Copier</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.querySelector('#archived-close').addEventListener('click', () => overlay.remove());
+  overlay.querySelector('#archived-copy').addEventListener('click', () => {
+    navigator.clipboard.writeText(entry.summaryText).then(() => {
+      overlay.querySelector('#archived-copy').textContent = '✓ Copié';
+    });
+  });
 }
 
 function renderBilanIcons() {
@@ -4832,7 +4920,8 @@ function renderBilanIcons() {
     <button class="icon-btn" id="bilan-icon-copy" aria-label="Copier">📤</button>
     <button class="icon-btn" id="bilan-icon-whatsapp" aria-label="Envoyer par WhatsApp">💬</button>
     <button class="icon-btn" id="bilan-icon-pdf" aria-label="Export PDF">📄</button>
-    <button class="icon-btn" id="bilan-icon-urgence" aria-label="Numéros d'urgence">📞</button>
+   <button class="icon-btn" id="bilan-icon-urgence" aria-label="Numéros d'urgence">📞</button>
+    <button class="icon-btn" id="bilan-icon-history" aria-label="Historique des bilans">🕐</button>
     <button class="icon-btn" id="mission-timer-btn" aria-label="Chrono mission"><span id="mission-timer-display">⏱</span></button>
   `;
   document.getElementById('bilan-icon-new').addEventListener('click', handleBilanNew);
@@ -4840,7 +4929,8 @@ function renderBilanIcons() {
   document.getElementById('bilan-icon-copy').addEventListener('click', handleBilanCopy);
   document.getElementById('bilan-icon-whatsapp').addEventListener('click', handleBilanWhatsapp);
   document.getElementById('bilan-icon-pdf').addEventListener('click', exportBilanPdf);
-  document.getElementById('bilan-icon-urgence').addEventListener('click', showEmergencyNumbersModal);
+ document.getElementById('bilan-icon-urgence').addEventListener('click', showEmergencyNumbersModal);
+  document.getElementById('bilan-icon-history').addEventListener('click', showBilanHistoryModal);
   document.getElementById('mission-timer-btn').addEventListener('click', toggleMissionTimer);
 }
 
