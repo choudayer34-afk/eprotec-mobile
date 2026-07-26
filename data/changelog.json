@@ -1,5 +1,13 @@
 [
   {
+    "version": "15.6",
+    "date": "2026-07-26T06:41:33.164Z",
+    "title": "Réorganisation : Gestes/Suite/Décharge après le Suivi",
+    "items": [
+      "Les catégories Gestes effectués, Suite donnée et Décharge de responsabilité apparaissent désormais après le Suivi, dans un ordre plus logique correspondant à la fiche bilan papier"
+    ]
+  },
+  {
     "version": "15.5",
     "date": "2026-07-26T06:39:54.165Z",
     "title": "PDF professionnel reproduisant la fiche bilan officielle",
