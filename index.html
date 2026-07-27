@@ -3938,7 +3938,16 @@ function renderImportReport() {
     html += `<div style="color:#9FB3D6;font-size:11px;">Génère ces images avec le prompt fourni, puis uploade-les dans le dossier "data" de GitHub avec le nom exact indiqué — la fiche les affichera automatiquement.</div></div>`;
   }
 
-  html += `<button class="detail-action-btn primary" id="import-confirm-btn" style="margin-top:10px;">✅ Confirmer l'import de ${parsed.fiches.length} fiche(s)</button>`;
+ const quizQuestions = parsed.quiz || [];
+  if (quizQuestions.length > 0) {
+    html += `<div class="card"><div class="card-title">🎓 Questions de quizz proposées</div>`;
+    quizQuestions.forEach(q => {
+      html += `<div class="bilan-ref-item">${escapeHtml(q.question)}</div>`;
+    });
+    html += `</div>`;
+  }
+
+  html += `<button class="detail-action-btn primary" id="import-confirm-btn" style="margin-top:10px;">✅ Confirmer l'import de ${parsed.fiches.length} fiche(s)${quizQuestions.length > 0 ? ' et ' + quizQuestions.length + ' question(s) de quizz' : ''}</button>`;
 
   container.innerHTML = html;
 
@@ -3957,9 +3966,25 @@ sections: (f.sections || []).map(s => ({
         }))
       });
     });
-    await saveFichesCustom();
+await saveFichesCustom();
+
+    const quizToImport = importParsedData.quiz || [];
+    if (quizToImport.length > 0) {
+      quizToImport.forEach((q, i) => {
+        quizCustom.push({
+          id: 'imported_' + Date.now() + '_' + i,
+          category: q.category || '',
+          question: q.question,
+          options: q.options,
+          correctIndex: q.correctIndex,
+          explication: q.explication || ''
+        });
+      });
+      await saveQuizCustom();
+    }
+
     document.getElementById('import-json-input').value = '';
-    container.innerHTML = `<div class="consignes-box"><div class="consignes-title">✓ Import terminé</div><div style="color:#fff;font-size:13px;">${importParsedData.fiches.length} fiche(s) ajoutée(s). Retrouve-les dans leurs catégories respectives.</div></div>`;
+    container.innerHTML = `<div class="consignes-box"><div class="consignes-title">✓ Import terminé</div><div style="color:#fff;font-size:13px;">${importParsedData.fiches.length} fiche(s) et ${quizToImport.length} question(s) de quizz ajoutées.</div></div>`;
     importParsedData = null;
   });
 }
