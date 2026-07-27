@@ -1,5 +1,13 @@
 [
   {
+    "version": "20.9",
+    "date": "2026-07-27T15:53:45.266Z",
+    "title": "Correction : le schéma corporel ignorait gauche/droite dans la Région",
+    "items": [
+      "La correspondance entre le texte de la Région tapée et le point du schéma ne tenait pas compte du mot \"gauche\"/\"droite\", plaçant systématiquement le point sur le premier côté trouvé dans la liste"
+    ]
+  },
+  {
     "version": "20.8",
     "date": "2026-07-27T15:30:29.787Z",
     "title": "Correction : cases Motricité/Sensibilité redessinées depuis les données",
