@@ -3727,6 +3727,15 @@ ppa_dnd: {
       <p style="margin-top:8px;">Active aussi <b>Appels répétés</b> : un 2ᵉ appel de la même personne en moins de 3 minutes sonnera malgré le mode silencieux</p>
       <p style="margin-top:8px;color:#F0997B;">Pour WhatsApp/Messages précisément : dans la même section "Personnes autorisées", assure-toi que l'app Messages est cochée si tu veux que leurs textos sonnent aussi</p>`
   },
+
+  auscultation: {
+    title: 'Auscultation / bruits anormaux',
+    html: `<p><b>Normale</b> — silencieuse</p>
+      <p style="margin-top:8px;"><b>Superficielle</b> — mouvements à peine perceptibles</p>
+      <p style="margin-top:8px;"><b>Bruyante</b> — effort respiratoire, contraction des muscles</p>
+      <p style="margin-top:8px;"><b>Difficile</b> — sifflements, ronflements, gargouillements</p>`
+  },
+ 
   amplitudeRespi: {
     title: 'Amplitude respiratoire',
     html: `<p><b>Normale</b> — mouvements respiratoires habituels</p>
@@ -4622,10 +4631,9 @@ options: [
 
  
 { key: 'x', label: '🩸 X — Hémorragie', fields: [
-    { key: 'hemorragie', label: 'Hémorragie visible', type: 'chip', options: ['Non', 'Oui'] },
-        { key: 'hemorragieLieu', label: 'Localisation si oui', type: 'text', map: true },
-
-    { key: 'hemorragieAction', label: 'Action réalisée', type: 'text' }
+{ key: 'hemorragie', label: 'Hémorragie visible', type: 'chip', options: ['Non', 'Oui'] },
+    { key: 'hemorragieLieu', label: 'Localisation si oui', type: 'text', map: true, showIf: { field: 'hemorragie', value: 'Oui' } },
+    { key: 'hemorragieAction', label: 'Action réalisée', type: 'actions', options: ['Compression manuelle', 'Pansement imbibé', 'Garrot', 'Réchauffer', 'Allonger'], showIf: { field: 'hemorragie', value: 'Oui' } }
   ]},
   { key: 'a', label: '🫁 A — Voies aériennes', fields: [
     { key: 'voiesAeriennes', label: 'État des voies aériennes', type: 'chip', options: ['Libres', 'Obstruées'] },
@@ -4635,7 +4643,8 @@ options: [
     { key: 'freqRespi', label: 'Fréquence (par minute)', type: 'number', info: 'freqRespi', timer: true, slider: { min: 0, max: 60, step: 1, major: 10, minor: 5, unit: '/min' } },
     { key: 'amplitudeRespi', label: 'Amplitude', type: 'chip', options: ['Normale', 'Superficielle', 'Ample'], info: 'amplitudeRespi' },
     { key: 'spo2', label: 'SpO2 %', type: 'number', info: 'spo2' },
-    { key: 'auscultation', label: 'Auscultation / bruits anormaux', type: 'text' }
+    { key: 'auscultation', label: 'Auscultation / bruits anormaux', type: 'chip', options: ['Normale', 'Superficielle', 'Bruyante', 'Difficile'], info: 'auscultation' },
+    { key: 'aucunSigneDetresseVentilatoire', label: 'Aucun signe de détresse ventilatoire', type: 'auto-checkbox' }
   ]},
   { key: 'c', label: '❤️ C — Circulation', phraseCategory: 'circulation', fields: [
     { key: 'freqCardiaque', label: 'Fréquence cardiaque (par minute)', type: 'number', info: 'freqCardiaque', timer: true, slider: { min: 20, max: 200, step: 1, major: 20, minor: 10, unit: '/min' } },
@@ -4808,6 +4817,15 @@ function showFieldTimer(fieldKey) {
 }
 
 function renderBilanField(f) {
+  const html = renderBilanFieldInner(f);
+  if (f.showIf) {
+    const cond = String(bilanData[f.showIf.field]) === f.showIf.value;
+    return `<div data-showif-field="${f.showIf.field}" data-showif-value="${f.showIf.value}" style="display:${cond ? 'block' : 'none'};">${html}</div>`;
+  }
+  return html;
+}
+
+function renderBilanFieldInner(f) {
   const value = bilanData[f.key] || '';
   const infoBtn = f.info ? `<button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;margin-left:6px;" data-info="${f.info}">i</button>` : '';
   const timerBtn = f.timer ? `<button class="timer-icon-btn inline-icon-btn" data-timer-field="${f.key}">⏱ 1 min</button>` : '';
@@ -4962,8 +4980,30 @@ if (f.type === 'checklist') {
       </div>
     `;
   }
-
-
+  if (f.type === 'actions') {
+    const selected = Array.isArray(bilanData[f.key]) ? bilanData[f.key] : [];
+    const autreValue = bilanData[f.key + 'Autre'] || '';
+    const heure = bilanData[f.key + 'Heure'] ? formatHeureCourte(bilanData[f.key + 'Heure']) : '';
+    return `
+      <div class="bilan-field-row">
+        <label>${f.label}</label>
+        <div class="bilan-chip-row" style="flex-wrap:wrap;">
+          ${f.options.map(o => `<button class="bilan-chip ${selected.includes(o) ? 'active' : ''}" data-actions-field="${f.key}" data-value="${o}">${o}</button>`).join('')}
+        </div>
+        ${heure ? `<div style="color:#9FB3D6;font-size:11px;margin-top:4px;">Première action à ${heure}</div>` : ''}
+        <input type="text" data-bilan-field="${f.key}Autre" placeholder="Autre (préciser)" value="${escapeHtml(autreValue)}" style="margin-top:8px;">
+      </div>
+    `;
+  }
+  if (f.type === 'auto-checkbox') {
+    const checked = !!bilanData[f.key];
+    return `
+      <div class="bilan-field-row" style="display:flex;align-items:center;gap:10px;">
+        <div class="ppa-checkbox ${checked ? 'checked' : ''}" style="pointer-events:none;">${checked ? '✓' : ''}</div>
+        <label style="margin:0;">${f.label}</label>
+      </div>
+    `;
+  }
   if (f.type === 'glasgowQuick') {
     return `
       <div class="bilan-field-row">
@@ -5679,6 +5719,13 @@ function showArchivedBilanText(entry) {
   });
 }
 
+function updateShowIfFields() {
+  document.querySelectorAll('[data-showif-field]').forEach(el => {
+    const cond = String(bilanData[el.dataset.showifField]) === el.dataset.showifValue;
+    el.style.display = cond ? 'block' : 'none';
+  });
+}
+
 function renderBilanIcons() {
   const actionBar = document.getElementById('bilan-action-bar');
   if (bilanMode !== 'remplir') { actionBar.innerHTML = ''; return; }
@@ -5885,6 +5932,24 @@ if (select.dataset.bilanField.startsWith('glasgow')) { updateGlasgowTotalDisplay
       }
     });
   });
+
+  container.querySelectorAll('[data-actions-field]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const key = btn.dataset.actionsField;
+      const value = btn.dataset.value;
+      if (!Array.isArray(bilanData[key])) bilanData[key] = [];
+      const idx = bilanData[key].indexOf(value);
+      if (idx >= 0) bilanData[key].splice(idx, 1);
+      else {
+        bilanData[key].push(value);
+        if (!bilanData[key + 'Heure']) bilanData[key + 'Heure'] = new Date().toISOString();
+      }
+      saveBilanData();
+      btn.classList.toggle('active');
+    });
+  });
+
+
 container.querySelectorAll('[data-checklist-field]').forEach(btn => {
     btn.addEventListener('click', () => {
       const key = btn.dataset.checklistField;
@@ -5906,6 +5971,8 @@ container.querySelectorAll('[data-checklist-field]').forEach(btn => {
 bilanData[key] = bilanData[key] === value ? '' : value;
       saveBilanData();
       refreshChipGroup(container, key);
+      updateShowIfFields();
+      if (key === 'auscultation') bilanData.aucunSigneDetresseVentilatoire = (bilanData.auscultation === 'Normale');
       if (SUGGESTION_FIELDS.has(key)) updateFieldSuggestion(key);
       if (key === 'avcFace' || key === 'avcArm' || key === 'avcSpeech') updateFieldSuggestion('avcSpeech');
     });
