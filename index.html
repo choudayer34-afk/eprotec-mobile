@@ -3413,14 +3413,18 @@ function showQuizManageList() {
       <div class="card" style="margin-bottom:8px;">
         <div style="color:#9FB3D6;font-size:11px;">${q.category || ''}</div>
         <div style="color:#fff;font-size:14px;margin-bottom:8px;">${q.question}</div>
-        <div style="display:flex;gap:8px;">
+<div style="display:flex;gap:8px;">
+          <button class="detail-action-btn" data-manage-test="${q.id}" style="flex:1;">👁 Tester</button>
           <button class="detail-action-btn" data-manage-edit="${q.id}" style="flex:1;">✏️ Modifier</button>
           <button class="detail-action-btn" data-manage-delete="${q.id}" style="flex:1;">✕ Supprimer</button>
         </div>
       </div>
     `).join('')}
   `;
-  document.getElementById('quiz-back-home').addEventListener('click', renderQuizHome);
+document.getElementById('quiz-back-home').addEventListener('click', renderQuizHome);
+  container.querySelectorAll('[data-manage-test]').forEach(btn => {
+    btn.addEventListener('click', () => showQuizTestModal(pool.find(q => q.id === btn.dataset.manageTest)));
+  });
   container.querySelectorAll('[data-manage-edit]').forEach(btn => {
     btn.addEventListener('click', () => showQuizAdminModal(btn.dataset.manageEdit, showQuizManageList));
   });
@@ -3537,6 +3541,31 @@ async function showQuizHistory() {
   document.body.appendChild(overlay);
   overlay.querySelector('#quiz-history-close').addEventListener('click', () => overlay.remove());
 }
+function showQuizTestModal(q) {
+  if (!q) return;
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;';
+  overlay.innerHTML = `
+    <div style="background:#163C74;border-radius:16px;padding:20px;width:100%;max-width:400px;max-height:85vh;overflow-y:auto;">
+      <div style="color:#9FB3D6;font-size:12px;margin-bottom:6px;">👁 Aperçu — ${q.category || ''}</div>
+      <div class="card highlight">
+        <div style="color:#fff;font-size:15px;font-weight:500;">${q.question}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px;">
+        ${q.options.map((opt, i) => `
+          <div class="detail-action-btn" style="text-align:left;${i === q.correctIndex ? 'background:#12351F;border:1.5px solid #639922;' : ''}">
+            ${opt} ${i === q.correctIndex ? '✅' : ''}
+          </div>
+        `).join('')}
+      </div>
+      ${q.explication ? `<div class="consignes-box" style="margin-top:12px;"><div class="consignes-title">Explication</div><div style="color:#fff;font-size:13px;">${q.explication}</div></div>` : ''}
+      <button class="detail-action-btn primary" id="quiz-test-close" style="margin-top:14px;">Fermer</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.querySelector('#quiz-test-close').addEventListener('click', () => overlay.remove());
+}
+
 
 function showQuizAdminModal(questionId, onSaveCallback) {
   const isEdit = !!questionId;
