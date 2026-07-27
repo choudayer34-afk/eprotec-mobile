@@ -7850,10 +7850,37 @@ async function loadLexiqueCustom() {
 }
 
 async function addLexiqueEntry(term, def) {
-  lexiqueCustomEntries.push({ term, def });
+  lexiqueCustomEntries.push({ id: Date.now(), term, def, custom: true });
   await fetch(FIREBASE_URL + '/contenu-partage/lexique-custom.json', {
     method: 'PUT',
     body: JSON.stringify(lexiqueCustomEntries)
+  });
+}
+
+function showEditLexiqueModal(id) {
+  const entry = lexiqueCustomEntries.find(l => l.id === id);
+  if (!entry) return;
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:999;display:flex;align-items:center;justify-content:center;padding:20px;';
+  overlay.innerHTML = `
+    <div style="background:#163C74;border-radius:16px;padding:20px;width:100%;max-width:360px;">
+      <div style="color:#fff;font-size:15px;font-weight:600;margin-bottom:12px;">✏️ Modifier ce terme</div>
+      <div class="bilan-field-row"><label>Terme</label><input type="text" id="edit-lexique-term" value="${escapeHtml(entry.term)}"></div>
+      <div class="bilan-field-row"><label>Définition</label><textarea rows="3" class="bilan-textarea" id="edit-lexique-def">${escapeHtml(entry.def)}</textarea></div>
+      <div style="display:flex;gap:8px;">
+        <button class="detail-action-btn" id="edit-lexique-cancel" style="flex:1;">Annuler</button>
+        <button class="detail-action-btn primary" id="edit-lexique-save" style="flex:1;">Enregistrer</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.querySelector('#edit-lexique-cancel').addEventListener('click', () => overlay.remove());
+  overlay.querySelector('#edit-lexique-save').addEventListener('click', async () => {
+    entry.term = overlay.querySelector('#edit-lexique-term').value.trim();
+    entry.def = overlay.querySelector('#edit-lexique-def').value.trim();
+    await fetch(FIREBASE_URL + '/contenu-partage/lexique-custom.json', { method: 'PUT', body: JSON.stringify(lexiqueCustomEntries) });
+    overlay.remove();
+    renderLexique(document.getElementById('lexique-search').value);
   });
 }
 
@@ -7898,14 +7925,38 @@ function renderLexique(filter = '') {
 
   const sorted = [...filtered].sort((a, b) => a.term.localeCompare(b.term, 'fr'));
 
-  container.innerHTML = sorted.length === 0
+container.innerHTML = sorted.length === 0
     ? '<div class="empty">Aucun terme ne correspond à ta recherche.</div>'
     : sorted.map(l => `
       <div class="lexique-item">
-        <div class="lexique-term">${l.term}</div>
-        <div class="lexique-def">${l.def}</div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
+          <div style="flex:1;">
+            <div class="lexique-term">${l.term}</div>
+            <div class="lexique-def">${l.def}</div>
+          </div>
+          ${(l.custom && isAdminUser) ? `
+            <div style="display:flex;gap:4px;flex-shrink:0;">
+              <button class="icon-btn" style="width:26px;height:26px;font-size:12px;" data-lexique-edit="${l.id}">✏️</button>
+              <button class="icon-btn" style="width:26px;height:26px;font-size:12px;" data-lexique-delete="${l.id}">✕</button>
+            </div>
+          ` : ''}
+        </div>
       </div>
     `).join('');
+
+  container.querySelectorAll('[data-lexique-edit]').forEach(btn => {
+    btn.addEventListener('click', () => showEditLexiqueModal(parseInt(btn.dataset.lexiqueEdit, 10)));
+  });
+  container.querySelectorAll('[data-lexique-delete]').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const confirmDel = await promptChoice('Supprimer ce terme ?', ['Oui, supprimer', 'Annuler']);
+      if (confirmDel === 'Oui, supprimer') {
+        lexiqueCustomEntries = lexiqueCustomEntries.filter(l => l.id !== parseInt(btn.dataset.lexiqueDelete, 10));
+        await fetch(FIREBASE_URL + '/contenu-partage/lexique-custom.json', { method: 'PUT', body: JSON.stringify(lexiqueCustomEntries) });
+        renderLexique(document.getElementById('lexique-search').value);
+      }
+    });
+  });
 }
 
 document.getElementById('lexique-search').addEventListener('input', (e) => {
