@@ -5963,13 +5963,16 @@ function findBilanFieldByKey(key) {
 
 function refreshActionsField(key) {
   const f = findBilanFieldByKey(key);
-  const wrap = document.getElementById('actions-wrap-' + key);
-  if (!f || !wrap) return;
+  if (!f) return;
+  const wrapId = (f.type === 'membres-check') ? 'membres-wrap-' + key : 'actions-wrap-' + key;
+  const wrap = document.getElementById(wrapId);
+  if (!wrap) return;
   const temp = document.createElement('div');
   temp.innerHTML = renderBilanFieldInner(f);
   const newWrap = temp.firstElementChild;
   wrap.replaceWith(newWrap);
-  attachActionsFieldListeners(key);
+  if (f.type === 'membres-check') attachMembresCheckListeners(key);
+  else attachActionsFieldListeners(key);
 }
 
 function attachActionsFieldListeners(key) {
