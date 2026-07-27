@@ -1,5 +1,14 @@
 [
   {
+    "version": "18.3",
+    "date": "2026-07-27T08:43:00.765Z",
+    "title": "Correction définitive : distinction entre schéma intégré et image importée",
+    "items": [
+      "Le champ \"illustration\" pouvait contenir soit une clé vers un schéma SVG dessiné en dur, soit un nom de fichier importé — le code confondait les deux et affichait \"undefined\"",
+      "Détection automatique du bon cas, sans besoin de modifier les données déjà importées dans Firebase"
+    ]
+  },
+  {
     "version": "18.2",
     "date": "2026-07-27T08:31:18.220Z",
     "title": "Correction \"undefined\" + message clair pour illustration manquante",
