@@ -1,5 +1,14 @@
 [
   {
+    "version": "20.1",
+    "date": "2026-07-27T14:07:35.686Z",
+    "title": "Case \"tout cocher\" Neuro + réordonnancement des intoxications",
+    "items": [
+      "Neuro : tape \"Tout cocher\" → les 8 cases doivent se cocher (motricité + sensibilité × 4 membres) ; retape → elles se décochent toutes",
+      "Bilan complémentaire : l'ordre doit maintenant être Alcool → Médicaments → Nom du médicament (si oui) → Toxiques → Nom du toxique (si oui)"
+    ]
+  },
+  {
     "version": "20.0",
     "date": "2026-07-27T14:01:19.975Z",
     "title": "Bilan étape 3/5 : Neuro par membre, conscience en liste, intoxications conditionnelles",
