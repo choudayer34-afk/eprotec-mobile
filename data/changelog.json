@@ -1,5 +1,13 @@
 [
   {
+    "version": "19.0",
+    "date": "2026-07-27T09:48:07.525Z",
+    "title": "Bouton \"Tester\" pour prévisualiser une question de quizz",
+    "items": [
+      "Depuis \"Gérer les questions\", un bouton 👁 Tester affiche la question exactement comme elle apparaîtrait en vrai quizz, avec la bonne réponse mise en évidence, pour repérer une formulation incorrecte avant qu'elle apparaisse à un utilisateur"
+    ]
+  },
+  {
     "version": "18.9",
     "date": "2026-07-27T09:43:07.194Z",
     "title": "Le prompt universel génère aussi des questions de quizz, importées automatiquement",
