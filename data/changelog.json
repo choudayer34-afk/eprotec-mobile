@@ -1,5 +1,16 @@
 [
   {
+    "version": "18.5",
+    "date": "2026-07-27T09:28:05.477Z",
+    "title": "Mode Quizz complet : questions, quizz jouable, historique, admin",
+    "items": [
+      "Nouvelle tuile Quizz dans Secourisme : 16 questions de départ (urgences vitales, positions d'attente, bilan, lexique, malaises, mises en situation)",
+      "Choix de 5/10/20 questions aléatoires, QCM avec feedback immédiat et explication, score final",
+      "Historique personnel des scores conservé (30 derniers)",
+      "Ajout/modification de questions en mode admin, contenu évolutif partagé via Firebase"
+    ]
+  },
+  {
     "version": "18.4",
     "date": "2026-07-27T08:53:11.554Z",
     "title": "Ajouter/modifier une fiche : sections multiples, illustration, type consignes",
