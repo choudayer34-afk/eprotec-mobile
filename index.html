@@ -5240,12 +5240,16 @@ function attachDouleurListeners() {
   const body = document.getElementById('douleur-body');
   if (!body) return;
 
-  body.querySelectorAll('[data-douleur-field]').forEach(input => {
+body.querySelectorAll('[data-douleur-field]').forEach(input => {
     input.addEventListener('input', () => {
       const idx = parseInt(input.dataset.douleurIdx, 10);
       bilanData.douleurs[idx][input.dataset.douleurField] = input.value;
       saveBilanData();
-      if (input.dataset.douleurField === 'region') updateDouleurSuggestion(idx);
+      if (input.dataset.douleurField === 'region') {
+        updateDouleurSuggestion(idx);
+        const schemaDiv = document.getElementById('douleur-body-schema');
+        if (schemaDiv) schemaDiv.innerHTML = buildDouleurBodySchema();
+      }
     });
   });
 
