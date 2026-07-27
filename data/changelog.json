@@ -1,5 +1,13 @@
 [
   {
+    "version": "20.6",
+    "date": "2026-07-27T14:56:47.391Z",
+    "title": "PDF complet : toutes les nouvelles données du Bilan intégrées",
+    "items": [
+      "Le PDF inclut désormais : actions détaillées avec séquence/résultat/heure (Hémorragie, LVA, Circulation, AVC), auscultation et détresse ventilatoire, localisation du pouls, motricité/sensibilité par membre en tableau, état de conscience, intoxications avec noms précis, origine de la douleur en liste, schéma corporel des douleurs avec légende, suivi enrichi (FR/T°C/FC/Douleur), observations, suite donnée restructurée, décharge allégée"
+    ]
+  },
+  {
     "version": "20.5",
     "date": "2026-07-27T14:49:12.257Z",
     "title": "Bilan étape 5/5 : Suivi enrichi, Observations, Suite donnée restructurée, Décharge allégée",
