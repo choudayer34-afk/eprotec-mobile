@@ -8631,7 +8631,46 @@ document.getElementById('liens-urgence-btn').addEventListener('click', showEmerg
 document.getElementById('sos-alert-btn').addEventListener('click', triggerSosAlert);
 document.getElementById('import-analyser-btn').addEventListener('click', renderImportReport);
 
-  function sanitizeFilename(name) {
+ function showTokenPermissionHelp() {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;';
+  overlay.innerHTML = `
+    <div style="background:#163C74;border-radius:16px;padding:20px;width:100%;max-width:400px;max-height:85vh;overflow-y:auto;">
+      <div style="color:#F0997B;font-size:15px;font-weight:600;margin-bottom:10px;">❌ Jeton sans les bonnes permissions</div>
+      <div style="color:#fff;font-size:13px;line-height:1.7;">
+        <p>Ton jeton GitHub actuel ne permet pas d'écrire de fichiers. Il faut en créer un nouveau :</p>
+        <p style="margin-top:8px;"><b>1.</b> Ouvre GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)</p>
+        <p><b>2.</b> "Generate new token (classic)"</p>
+        <p><b>3.</b> Coche la case <b>repo</b></p>
+        <p><b>4.</b> Choisis une expiration, puis "Generate token"</p>
+        <p><b>5.</b> Copie le jeton immédiatement (il ne sera plus jamais affiché)</p>
+        <p style="margin-top:8px;"><b>6.</b> Reviens ici et colle-le dans le champ ci-dessous</p>
+      </div>
+      <a class="detail-action-btn primary" href="https://github.com/settings/tokens" target="_blank" style="display:block;margin-top:12px;text-align:center;">Ouvrir la page GitHub des jetons</a>
+      <div class="bilan-field-row" style="margin-top:10px;">
+        <label>Nouveau jeton</label>
+        <input type="text" id="new-token-input" placeholder="ghp_...">
+      </div>
+      <div style="display:flex;gap:8px;margin-top:10px;">
+        <button class="detail-action-btn" id="token-help-close" style="flex:1;">Fermer</button>
+        <button class="detail-action-btn primary" id="token-help-save" style="flex:1;">Enregistrer le jeton</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.querySelector('#token-help-close').addEventListener('click', () => overlay.remove());
+  overlay.querySelector('#token-help-save').addEventListener('click', () => {
+    const newToken = overlay.querySelector('#new-token-input').value.trim();
+    if (newToken) {
+      localStorage.setItem('github_token', newToken);
+      overlay.remove();
+      const status = document.getElementById('upload-status');
+      if (status) status.textContent = '✓ Jeton mis à jour, réessaie l\'envoi maintenant.';
+    }
+  });
+}
+
+function sanitizeFilename(name) {
   return name.trim().toLowerCase().replace(/[^a-z0-9.\-]/g, '-').replace(/-+/g, '-');
 }
 
@@ -8704,8 +8743,12 @@ document.getElementById('upload-confirm-btn').addEventListener('click', async ()
       status.textContent = `✓ ${filename} envoyé dans data/ — visible d'ici 1-2 minutes.`;
       fileInput.value = '';
       filenameInput.value = '';
-    } catch (err) {
-      status.textContent = `❌ Échec : ${err.message}`;
+} catch (err) {
+      if (err.message && err.message.toLowerCase().includes('not accessible')) {
+        showTokenPermissionHelp();
+      } else {
+        status.textContent = `❌ Échec : ${err.message}`;
+      }
       console.error(err);
     }
   };
