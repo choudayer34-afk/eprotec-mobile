@@ -4636,8 +4636,8 @@ options: [
     { key: 'hemorragieAction', label: 'Action réalisée', type: 'actions', options: ['Compression manuelle', 'Pansement imbibé', 'Garrot', 'Réchauffer', 'Allonger'], showIf: { field: 'hemorragie', value: 'Oui' } }
   ]},
   { key: 'a', label: '🫁 A — Voies aériennes', fields: [
-    { key: 'voiesAeriennes', label: 'État des voies aériennes', type: 'chip', options: ['Libres', 'Obstruées'] },
-    { key: 'voiesAeriennesAction', label: 'Action réalisée', type: 'text' }
+{ key: 'voiesAeriennes', label: 'État des voies aériennes', type: 'chip', options: ['Libres', 'Obstruées'] },
+    { key: 'voiesAeriennesAction', label: 'Action réalisée', type: 'actions', options: ['Claques dans le dos', 'Compressions abdominales (Heimlich)', 'Compressions thoraciques'], withCycles: true, showIf: { field: 'voiesAeriennes', value: 'Obstruées' } }
   ]},
   { key: 'b', label: '💨 B — Respiration', phraseCategory: 'respiration', fields: [
     { key: 'freqRespi', label: 'Fréquence (par minute)', type: 'number', info: 'freqRespi', timer: true, slider: { min: 0, max: 60, step: 1, major: 10, minor: 5, unit: '/min' } },
@@ -4647,12 +4647,14 @@ options: [
   ]},
   { key: 'c', label: '❤️ C — Circulation', phraseCategory: 'circulation', fields: [
     { key: 'freqCardiaque', label: 'Fréquence cardiaque (par minute)', type: 'number', info: 'freqCardiaque', timer: true, slider: { min: 20, max: 200, step: 1, major: 20, minor: 10, unit: '/min' } },
+{ key: 'poulsLocalisation', label: 'Localisation du pouls', type: 'chip', options: ['Radial', 'Carotidien', 'Autre'] },
+    { key: 'poulsLocalisationAutre', label: 'Préciser si Autre', type: 'text', showIf: { field: 'poulsLocalisation', value: 'Autre' } },
     { key: 'amplitudePouls', label: 'Amplitude', type: 'chip', options: ['Bien frappé', 'Filant'], info: 'pouls_amplitude' },
     { key: 'regularite', label: 'Régularité', type: 'chip', options: ['Régulier', 'Irrégulier'], info: 'pouls_regularite' },
     { key: 'coloration', label: 'Coloration / aspect peau', type: 'chip', options: ['Normale', 'Pâle', 'Marbrée', 'Cyanosée'], info: 'coloration' },
     { key: 'trc', label: 'TRC (réf. < 2s)', type: 'chip', options: ['< 2s', '≥ 2s'] },
- { key: 'ta', label: 'Tension artérielle', type: 'ta' },
-    { key: 'circulationAction', label: 'Action réalisée', type: 'text' }
+{ key: 'ta', label: 'Tension artérielle', type: 'ta' },
+    { key: 'circulationAction', label: 'Action réalisée', type: 'actions', options: ['Compression manuelle', 'Pansement imbibé', 'Garrot', 'Position d\'attente', 'Réchauffer'] }
   ]},
   { key: 'd', label: '🧠 D — Neurologique (Glasgow)', fields: [
     { key: 'conscience', label: 'Conscience (EVDA)', type: 'chip', options: ['Éveillé', 'Verbal', 'Douleur', 'Aréactif'] },
@@ -4668,8 +4670,8 @@ options: [
   { key: 'avcFace', label: 'Face', type: 'chip', options: ['Non', 'Oui'], info: 'avc_face', phrase: 'avc' },
     { key: 'avcArm', label: 'Arm', type: 'chip', options: ['Non', 'Oui'], info: 'avc_arm', phrase: 'avc' },
     { key: 'avcSpeech', label: 'Speech', type: 'chip', options: ['Non', 'Oui'], info: 'avc_speech', phrase: 'avc' },
-    { key: 'avcTimeOnset', label: 'Time — Heure d\'apparition', type: 'time', phrase: 'avc' },
-    { key: 'avcAction', label: 'Action réalisée', type: 'text' }
+{ key: 'avcTimeOnset', label: 'Time — Heure d\'apparition', type: 'time', phrase: 'avc' },
+    { key: 'avcAction', label: 'Action réalisée', type: 'actions', options: ['Position semi-assise', 'Rassurer', 'Desserrer les vêtements', 'Surveillance rapprochée'] }
   ]},
 { key: 'e', label: '🌡 E — Environnement', phraseCategory: 'temperature', fields: [
     { key: 'temperature', label: 'Température (°C)', type: 'number', info: 'temperature', slider: { min: 34, max: 42, step: 0.1, major: 1, minor: 0.5, unit: '°C' } },
@@ -4979,10 +4981,11 @@ if (f.type === 'checklist') {
       </div>
     `;
   }
-  if (f.type === 'actions') {
+if (f.type === 'actions') {
     const selected = Array.isArray(bilanData[f.key]) ? bilanData[f.key] : [];
     const autreValue = bilanData[f.key + 'Autre'] || '';
     const heure = bilanData[f.key + 'Heure'] ? formatHeureCourte(bilanData[f.key + 'Heure']) : '';
+    const cyclesData = bilanData[f.key + 'Cycles'] || {};
     return `
       <div class="bilan-field-row">
         <label>${f.label}</label>
@@ -4990,6 +4993,12 @@ if (f.type === 'checklist') {
           ${f.options.map(o => `<button class="bilan-chip ${selected.includes(o) ? 'active' : ''}" data-actions-field="${f.key}" data-value="${o}">${o}</button>`).join('')}
         </div>
         ${heure ? `<div style="color:#9FB3D6;font-size:11px;margin-top:4px;">Première action à ${heure}</div>` : ''}
+        ${f.withCycles ? selected.map(o => `
+          <div style="display:flex;align-items:center;gap:8px;margin-top:8px;">
+            <span style="color:#9FB3D6;font-size:12px;flex:1;">${o} — cycles</span>
+            <input type="number" min="0" data-cycles-field="${f.key}" data-cycles-action="${o}" value="${cyclesData[o] || ''}" style="width:60px;text-align:center;">
+          </div>
+        `).join('') : ''}
         <input type="text" data-bilan-field="${f.key}Autre" placeholder="Autre (préciser)" value="${escapeHtml(autreValue)}" style="margin-top:8px;">
       </div>
     `;
@@ -5932,7 +5941,7 @@ if (select.dataset.bilanField.startsWith('glasgow')) { updateGlasgowTotalDisplay
     });
   });
 
-  container.querySelectorAll('[data-actions-field]').forEach(btn => {
+ container.querySelectorAll('[data-actions-field]').forEach(btn => {
     btn.addEventListener('click', () => {
       const key = btn.dataset.actionsField;
       const value = btn.dataset.value;
@@ -5944,9 +5953,19 @@ if (select.dataset.bilanField.startsWith('glasgow')) { updateGlasgowTotalDisplay
         if (!bilanData[key + 'Heure']) bilanData[key + 'Heure'] = new Date().toISOString();
       }
       saveBilanData();
-      btn.classList.toggle('active');
+      renderBilanFill();
     });
   });
+
+  container.querySelectorAll('[data-cycles-field]').forEach(input => {
+    input.addEventListener('input', () => {
+      const key = input.dataset.cyclesField;
+      const action = input.dataset.cyclesAction;
+      if (!bilanData[key + 'Cycles']) bilanData[key + 'Cycles'] = {};
+      bilanData[key + 'Cycles'][action] = input.value;
+      saveBilanData();
+    });
+  });`
 
 
 container.querySelectorAll('[data-checklist-field]').forEach(btn => {
