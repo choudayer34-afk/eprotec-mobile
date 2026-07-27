@@ -1,5 +1,15 @@
 [
   {
+    "version": "21.1",
+    "date": "2026-07-27T19:08:42.316Z",
+    "title": "Correction : résumé/copier/WhatsApp incomplet (Identité, Gestes, Suite, Décharge manquants)",
+    "items": [
+      "Sexe, adresse, personne à prévenir et rédigé par n'apparaissaient jamais dans le résumé",
+      "Gestes effectués, Suite donnée et Décharge de responsabilité n'étaient jamais parcourus (catégories absentes de la boucle du résumé)",
+      "Nettoyage : suppression d'un bloc de code mort, et la logique de formatage des actions est maintenant partagée entre le résumé et le PDF pour garantir la cohérence"
+    ]
+  },
+  {
     "version": "21.0",
     "date": "2026-07-27T16:46:14.532Z",
     "title": "Schéma des douleurs : identifiant fiable par numéro, plus par texte",
