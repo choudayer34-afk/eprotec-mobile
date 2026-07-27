@@ -1,5 +1,15 @@
 [
   {
+    "version": "18.4",
+    "date": "2026-07-27T08:53:11.554Z",
+    "title": "Ajouter/modifier une fiche : sections multiples, illustration, type consignes",
+    "items": [
+      "Les fenêtres d'ajout et de modification de fiche gèrent désormais plusieurs sections indépendantes (ajout, suppression, modification une par une)",
+      "Chaque section peut avoir sa propre illustration et son propre type (normale, ou \"consignes\" pour l'encadré vert)",
+      "Ajout de la section \"Avant de la laisser partir\" au prompt universel de génération par IA"
+    ]
+  },
+  {
     "version": "18.3",
     "date": "2026-07-27T08:43:00.765Z",
     "title": "Correction définitive : distinction entre schéma intégré et image importée",
