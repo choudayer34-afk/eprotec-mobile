@@ -8994,9 +8994,31 @@ async function checkEprotecCidConfigured() {
   });
 }
 
+async function loadNotifPrefs() {
+  try {
+    const res = await fetch(FIREBASE_URL + '/users/' + currentUserUid + '/notif-prefs.json?t=' + Date.now(), { cache: 'no-store' });
+    const data = await res.json();
+    return {
+      enabled: data && typeof data.enabled === 'boolean' ? data.enabled : true,
+      email: (data && data.email) || currentUserEmail || ''
+    };
+  } catch {
+    return { enabled: true, email: currentUserEmail || '' };
+  }
+}
+
+async function saveNotifPrefs(prefs) {
+  await fetch(FIREBASE_URL + '/users/' + currentUserUid + '/notif-prefs.json', {
+    method: 'PUT',
+    body: JSON.stringify(prefs)
+  });
+}
+
 async function renderEprotecLien() {
   const container = document.getElementById('eprotec-lien-content');
   const currentCid = await loadEprotecCid();
+  const notifPrefs = await loadNotifPrefs();
+
   container.innerHTML = `
     <div class="card">
       <div class="card-title">Comment trouver mon identifiant ?</div>
@@ -9005,15 +9027,31 @@ async function renderEprotecLien() {
         <li>Étape 2 : tape sur l'icône calendrier bleu</li>
         <li>Copie le lien affiché (ou juste la partie après "cid=")</li>
       </ul>
-      <a class="detail-action-btn primary" href="https://eprotec.protection-civile.org/evenement_choice.php?tab=17&myagenda=1" target="_blank" style="display:block;margin-top:10px;text-align:center;">Ouvrir cette page sur Eprotec</a>
+      <a class="detail-action-btn" href="https://eprotec.protection-civile.org/evenement_choice.php?tab=17&myagenda=1" target="_blank" style="display:block;margin-top:10px;text-align:center;">Ouvrir cette page sur Eprotec</a>
     </div>
     <div class="card">
       <div class="card-title">Mon lien / identifiant</div>
       <div class="bilan-field-row">
         <textarea rows="2" class="bilan-textarea" id="eprotec-cid-input" placeholder="Colle ici ton lien complet, ou juste ton identifiant">${escapeHtml(currentCid)}</textarea>
       </div>
-     <button class="detail-action-btn primary" id="eprotec-cid-save">Enregistrer</button>
+      <button class="detail-action-btn primary" id="eprotec-cid-save">Enregistrer</button>
       <div id="eprotec-cid-status" style="color:#9FB3D6;font-size:12px;margin-top:8px;word-break:break-all;">${currentCid ? 'Lien utilisé : ' + EPROTEC_URL_BASE + currentCid : ''}</div>
+    </div>
+    <div class="card">
+      <div class="card-title">📧 Notifications par mail</div>
+      <div class="bilan-field-row">
+        <label>Recevoir les nouveautés par mail</label>
+        <div class="bilan-chip-row">
+          <button class="bilan-chip ${notifPrefs.enabled ? 'active' : ''}" data-notif-enabled="true">Oui</button>
+          <button class="bilan-chip ${!notifPrefs.enabled ? 'active' : ''}" data-notif-enabled="false">Non</button>
+        </div>
+      </div>
+      <div class="bilan-field-row">
+        <label>Adresse mail (par défaut : ton adresse de connexion)</label>
+        <input type="text" id="notif-email-input" value="${escapeHtml(notifPrefs.email)}">
+      </div>
+      <button class="detail-action-btn primary" id="notif-prefs-save">Enregistrer</button>
+      <div id="notif-prefs-status" style="color:#97C459;font-size:12px;margin-top:8px;"></div>
     </div>
   `;
 
@@ -9024,6 +9062,20 @@ async function renderEprotecLien() {
     const mins = minutesUntilNextEngineRun();
     container.querySelector('#eprotec-cid-status').textContent = `✓ Enregistré — pris en compte au prochain passage automatique (~${mins} min)`;
     setTimeout(() => { window.location.reload(); }, 2500);
+  });
+
+  let selectedNotifEnabled = notifPrefs.enabled;
+  container.querySelectorAll('[data-notif-enabled]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      selectedNotifEnabled = btn.dataset.notifEnabled === 'true';
+      container.querySelectorAll('[data-notif-enabled]').forEach(b => b.classList.toggle('active', b === btn));
+    });
+  });
+
+  container.querySelector('#notif-prefs-save').addEventListener('click', async () => {
+    const email = container.querySelector('#notif-email-input').value.trim() || currentUserEmail;
+    await saveNotifPrefs({ enabled: selectedNotifEnabled, email });
+    container.querySelector('#notif-prefs-status').textContent = '✓ Enregistré';
   });
 }
 
