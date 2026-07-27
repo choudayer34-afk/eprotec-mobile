@@ -5489,6 +5489,17 @@ function renderSuiviBody() {
   body.innerHTML = buildSuiviHtml();
   attachSuiviListeners();
 }
+function formatActionsField(f) {
+  const arr = bilanData[f.key];
+  if (!Array.isArray(arr) || arr.length === 0) return '';
+  let txt = arr.join(', ');
+  if (bilanData[f.key + 'Autre']) txt += ` (${bilanData[f.key + 'Autre']})`;
+  if (bilanData[f.key + 'Detail']) txt += ` — séquence : ${bilanData[f.key + 'Detail']}`;
+  if (bilanData[f.key + 'Outcome']) txt += ` — résultat : ${bilanData[f.key + 'Outcome']}`;
+  if (bilanData[f.key + 'Heure']) txt += ` — ${formatHeureCourte(bilanData[f.key + 'Heure'])}`;
+  return txt;
+}
+
 
 function buildBilanSummaryText() {
   let text = '';
@@ -5500,12 +5511,17 @@ function buildBilanSummaryText() {
     text += `Identité : ${bilanData.prenom || ''} ${bilanData.nom || ''}`.trim();
     const age = computeAge(bilanData.dateNaissance);
     if (age !== '') text += ` (${age} ans)`;
-    text += '\n\n';
+    if (bilanData.sexe) text += ` — ${bilanData.sexe}`;
+    text += '\n';
+    if (bilanData.adresse) text += `Adresse : ${bilanData.adresse}\n`;
+    if (bilanData.personnePrevenir) text += `Personne à prévenir : ${bilanData.personnePrevenir}${bilanData.personnePrevenirTel ? ' — ' + bilanData.personnePrevenirTel : ''}\n`;
+    if (bilanData.redacteur) text += `Rédigé par : ${bilanData.redacteur}\n`;
+    text += '\n';
   }
 
   BILAN_CATEGORIES.forEach(cat => {
     if (cat.key === 'identite') return;
-    const filled = cat.fields.filter(f => f.type !== 'glasgowQuick' && f.type !== 'age-display' && f.type !== 'glycemie' && f.type !== 'ta' && bilanData[f.key]);
+    const filled = cat.fields.filter(f => f.type !== 'glasgowQuick' && f.type !== 'age-display' && f.type !== 'glycemie' && f.type !== 'ta' && f.type !== 'actions' && f.type !== 'membres-check' && f.type !== 'checklist' && bilanData[f.key]);
     let catText = '';
     filled.forEach(f => {
       let displayValue = bilanData[f.key];
@@ -5556,11 +5572,7 @@ if (cat.key === 'd') {
         catText += line + '\n';
       }
     });
-    if (cat.key === 'gestes' || cat.key === 'suite' || cat.key === 'decharge') {
-      if (cat.key === 'gestes' && Array.isArray(bilanData.gestesEffectues) && bilanData.gestesEffectues.length > 0) {
-        catText += `- Gestes réalisés : ${bilanData.gestesEffectues.join(', ')}\n`;
-      }
-    }
+   
     
 if (cat.key === 'circonstanciel' && bilanData.situationLat && bilanData.situationLon) {
       const mapsUrl = `https://www.google.com/maps?q=${bilanData.situationLat},${bilanData.situationLon}`;
@@ -5570,6 +5582,26 @@ if (cat.key === 'circonstanciel' && bilanData.situationLat && bilanData.situatio
     if (catText) text += cat.label.replace(/^\S+\s/, '') + '\n' + catText + '\n';
   });
 
+  POST_SUIVI_CATEGORIES.forEach(cat => {
+    let catText = '';
+    cat.fields.forEach(f => {
+      if (f.type === 'actions') {
+        const val = formatActionsField(f);
+        if (val) catText += `- ${f.label} : ${val}\n`;
+      } else if (f.type === 'checklist') {
+        if (Array.isArray(bilanData[f.key]) && bilanData[f.key].length > 0) {
+          catText += `- ${f.label} : ${bilanData[f.key].join(', ')}\n`;
+        }
+      } else if (f.type === 'membres-check') {
+        // déjà couvert ailleurs si besoin, rien ici
+      } else if (bilanData[f.key]) {
+        catText += `- ${f.label} : ${bilanData[f.key]}\n`;
+      }
+    });
+    if (catText) text += cat.label.replace(/^\S+\s/, '') + '\n' + catText + '\n';
+  });
+
+  
   const douleurs = (bilanData.douleurs || []).filter(d => Object.values(d).some(v => v));
   if (douleurs.length > 0) {
     text += 'Douleur\n';
@@ -5656,15 +5688,8 @@ html += pdfSectionTitle('PLAINTE PRINCIPALE DE LA VICTIME');
   html += pdfField('', d.signes, true);
 
   html += pdfSectionTitle('BILAN D\'URGENCE VITALE');
-  function actionsSummary(key) {
-    const arr = bilanData[key];
-    if (!Array.isArray(arr) || arr.length === 0) return '';
-    let txt = arr.join(', ');
-    if (d[key + 'Autre']) txt += ` (${d[key + 'Autre']})`;
-    if (d[key + 'Detail']) txt += ` — séquence : ${d[key + 'Detail']}`;
-    if (d[key + 'Outcome']) txt += ` — résultat : ${d[key + 'Outcome']}`;
-    if (d[key + 'Heure']) txt += ` — ${formatHeureCourte(d[key + 'Heure'])}`;
-    return txt;
+function actionsSummary(key) {
+    return formatActionsField({ key });
   }
 
   html += pdfRow([
