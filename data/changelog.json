@@ -1,5 +1,13 @@
 [
   {
+    "version": "20.7",
+    "date": "2026-07-27T15:26:26.667Z",
+    "title": "Correction : \"Tout cocher\" ne rafraîchissait jamais l'affichage",
+    "items": [
+      "refreshActionsField cherchait systématiquement l'élément sous \"actions-wrap-\", alors que le champ Motricité/sensibilité est stocké sous \"membres-wrap-\" — la donnée se sauvegardait mais l'affichage ne se mettait jamais à jour"
+    ]
+  },
+  {
     "version": "20.6",
     "date": "2026-07-27T14:56:47.391Z",
     "title": "PDF complet : toutes les nouvelles données du Bilan intégrées",
