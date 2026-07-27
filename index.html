@@ -6040,14 +6040,13 @@ function attachMembresCheckListeners(key) {
     });
   }
 
-  wrap.querySelectorAll('[data-membre-check]').forEach(cell => {
+wrap.querySelectorAll('[data-membre-check]').forEach(cell => {
     cell.addEventListener('click', () => {
       if (!bilanData[key]) bilanData[key] = {};
       const dataKey = cell.dataset.membre + '_' + cell.dataset.critere;
       bilanData[key][dataKey] = !bilanData[key][dataKey];
       saveBilanData();
-      cell.classList.toggle('checked');
-      cell.textContent = bilanData[key][dataKey] ? '✓' : '';
+      refreshActionsField(key);
     });
   });
 }
