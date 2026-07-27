@@ -5191,7 +5191,7 @@ function buildDouleurCardsHtml() {
         <div class="bilan-chip-row" style="flex-wrap:wrap;">
           ${DOULEUR_ORIGINE_OPTIONS.map(o => `<button class="bilan-chip ${(Array.isArray(d.origine) ? d.origine : []).includes(o) ? 'active' : ''}" data-douleur-origine-chip="${idx}" data-value="${o}">${o}</button>`).join('')}
         </div>
-      </div>`
+      </div>
       <div class="bilan-field-row">
         <label>Provoqué par <button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;" data-info="douleur_provoque">i</button> <button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;" onclick="showPhraseModal('douleur')">🗣️</button></label>
         <div class="text-field-wrap ${d.provoquePar ? 'has-value' : ''}">
