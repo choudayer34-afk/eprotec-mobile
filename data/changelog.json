@@ -1,5 +1,15 @@
 [
   {
+    "version": "19.6",
+    "date": "2026-07-27T13:34:48.732Z",
+    "title": "Bilan étape 1/5 : conditions d'affichage, actions Hémorragie, auscultation",
+    "items": [
+      "Hémorragie \"Non\" → Localisation/Action cachées ; \"Oui\" → elles apparaissent",
+      "Coche une action → l'heure s'affiche",
+      "Auscultation \"Normale\" → case \"Aucun signe de détresse ventilatoire\" cochée automatiquement"
+    ]
+  },
+  {
     "version": "19.5",
     "date": "2026-07-27T12:36:23.630Z",
     "title": "Correction : le nom pré-rempli n'est plus écrasé au choix du fichier",
