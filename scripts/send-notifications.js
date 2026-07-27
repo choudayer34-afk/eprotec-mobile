@@ -1,5 +1,19 @@
 import nodemailer from 'nodemailer';
 import { readFileSync, existsSync } from 'fs';
+const FIREBASE_URL = 'https://eprotec-favoris-default-rtdb.europe-west1.firebasedatabase.app';
+
+async function loadNotificationRecipients() {
+  try {
+    const res = await fetch(FIREBASE_URL + '/users.json');
+    const data = await res.json();
+    if (!data || typeof data !== 'object') return [];
+    return Object.keys(data)
+      .map(uid => data[uid]['notif-prefs'])
+      .filter(p => p && p.enabled !== false && p.email);
+  } catch {
+    return [];
+  }
+}
 
 function formatDate(iso) {
   if (!iso) return 'date inconnue';
