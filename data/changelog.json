@@ -1,5 +1,14 @@
 [
   {
+    "version": "21.0",
+    "date": "2026-07-27T16:46:14.532Z",
+    "title": "Schéma des douleurs : identifiant fiable par numéro, plus par texte",
+    "items": [
+      "Quand la région est choisie via la carte du corps, l'identifiant exact (face + numéro du point) est désormais mémorisé et utilisé en priorité pour placer le marqueur, éliminant les erreurs de correspondance par nom (crâne/tête, avant-bras, cuisse arrière, creux poplité, confusion devant/derrière)",
+      "La recherche par texte reste utilisée uniquement en secours, si la région a été tapée à la main sans passer par la carte"
+    ]
+  },
+  {
     "version": "20.9",
     "date": "2026-07-27T15:53:45.266Z",
     "title": "Correction : le schéma corporel ignorait gauche/droite dans la Région",
