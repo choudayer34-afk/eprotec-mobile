@@ -5620,22 +5620,41 @@ html += pdfSectionTitle('PLAINTE PRINCIPALE DE LA VICTIME');
   html += pdfField('', d.signes, true);
 
   html += pdfSectionTitle('BILAN D\'URGENCE VITALE');
+  function actionsSummary(key) {
+    const arr = bilanData[key];
+    if (!Array.isArray(arr) || arr.length === 0) return '';
+    let txt = arr.join(', ');
+    if (d[key + 'Autre']) txt += ` (${d[key + 'Autre']})`;
+    if (d[key + 'Detail']) txt += ` — séquence : ${d[key + 'Detail']}`;
+    if (d[key + 'Outcome']) txt += ` — résultat : ${d[key + 'Outcome']}`;
+    if (d[key + 'Heure']) txt += ` — ${formatHeureCourte(d[key + 'Heure'])}`;
+    return txt;
+  }
+
   html += pdfRow([
-    `<b>X —</b>`, pdfCheck(d.hemorragie === 'Oui', 'Hémorragie'), pdfField('Localisation', d.hemorragieLieu), pdfField('Action', d.hemorragieAction)
+    `<b>X —</b>`, pdfCheck(d.hemorragie === 'Oui', 'Hémorragie'), pdfField('Localisation', d.hemorragieLieu), pdfField('Action', actionsSummary('hemorragieAction'))
   ]);
-  html += pdfRow([
+ html += pdfRow([
     `<b>AB —</b>`, pdfField('Fréquence', d.freqRespi ? d.freqRespi + '/min' : ''),
     pdfCheck(d.voiesAeriennes === 'Libres', 'Voies libres'), pdfCheck(d.voiesAeriennes === 'Obstruées', 'Obstruées'),
+    pdfField('Action LVA', actionsSummary('voiesAeriennesAction')),
     pdfField('SpO2', d.spo2 ? d.spo2 + '%' : ''),
-    pdfCheck(d.amplitudeRespi === 'Normale', 'Normale'), pdfCheck(d.amplitudeRespi === 'Superficielle', 'Superficielle'), pdfCheck(d.amplitudeRespi === 'Ample', 'Ample'),
-    pdfField('Auscultation', d.auscultation)
+    pdfCheck(d.amplitudeRespi === 'Normale', 'Normale'), pdfCheck(d.amplitudeRespi === 'Superficielle', 'Superficielle'), pdfCheck(d.amplitudeRespi === 'Ample', 'Ample')
   ]);
   html += pdfRow([
+    pdfCheck(d.auscultation === 'Normale', 'Ausc. Normale'), pdfCheck(d.auscultation === 'Superficielle', 'Superficielle'),
+    pdfCheck(d.auscultation === 'Bruyante', 'Bruyante'), pdfCheck(d.auscultation === 'Difficile', 'Difficile'),
+    pdfCheck(!!d.aucunSigneDetresseVentilatoire, 'Aucun signe de détresse ventilatoire')
+  ]);
+ html += pdfRow([
     `<b>C —</b>`, pdfField('Fréquence', d.freqCardiaque ? d.freqCardiaque + '/min' : ''),
+    pdfCheck(d.poulsLocalisation === 'Radial', 'Radial'), pdfCheck(d.poulsLocalisation === 'Carotidien', 'Carotidien'),
+    pdfCheck(d.poulsLocalisation === 'Autre', 'Autre : ' + (d.poulsLocalisationAutre || '')),
     pdfCheck(d.amplitudePouls === 'Bien frappé', 'Bien frappé'), pdfCheck(d.amplitudePouls === 'Filant', 'Filant'),
     pdfCheck(d.regularite === 'Régulier', 'Régulier'), pdfCheck(d.regularite === 'Irrégulier', 'Irrégulier'),
     pdfCheck(d.trc === '< 2s', 'TRC < 2s'), pdfCheck(d.trc === '≥ 2s', 'TRC ≥ 2s'), pdfField('Coloration', d.coloration)
   ]);
+  html += pdfRow([pdfField('Action circulation', actionsSummary('circulationAction'))]);
   html += pdfRow([
     pdfField('TA gauche', (d.taGaucheSys || '?') + '/' + (d.taGaucheDia || '?')),
     pdfField('TA droite', (d.taDroitSys || '?') + '/' + (d.taDroitDia || '?')),
@@ -5646,14 +5665,27 @@ html += pdfSectionTitle('PLAINTE PRINCIPALE DE LA VICTIME');
 pdfField('Y', glasgowFieldLabel('glasgowY', d.glasgowY)),
     pdfField('V', glasgowFieldLabel('glasgowV', d.glasgowV)),
     pdfField('M', glasgowFieldLabel('glasgowM', d.glasgowM)),
-    pdfField('Glasgow total', (d.glasgowY && d.glasgowV && d.glasgowM) ? glasgowTotal() + '/15' : ''),
-    pdfField('Pupilles', d.pupilles), pdfField('Motricité/sensibilité', d.motricite)
+   pdfField('Glasgow total', (d.glasgowY && d.glasgowV && d.glasgowM) ? glasgowTotal() + '/15' : ''),
   ]);
+  if (Array.isArray(d.consciencePresentation) && d.consciencePresentation.length > 0) {
+    html += pdfRow([pdfField('État de conscience', d.consciencePresentation.join(', '))]);
+  }
+  if (d.motriciteMembres && typeof d.motriciteMembres === 'object') {
+    const membres = ['Bras droit', 'Bras gauche', 'Jambe droite', 'Jambe gauche'];
+    html += `<table style="width:100%;border-collapse:collapse;margin:4px 8px;"><tr style="background:#eee;">
+      <th style="border:1px solid #333;padding:3px;">Membre</th><th style="border:1px solid #333;padding:3px;">Motricité</th><th style="border:1px solid #333;padding:3px;">Sensibilité</th></tr>`;
+    membres.forEach(m => {
+      html += `<tr><td style="border:1px solid #333;padding:3px;">${m}</td>
+        <td style="border:1px solid #333;padding:3px;text-align:center;">${d.motriciteMembres[m + '_motricite'] ? '☒' : '☐'}</td>
+        <td style="border:1px solid #333;padding:3px;text-align:center;">${d.motriciteMembres[m + '_sensibilite'] ? '☒' : '☐'}</td></tr>`;
+    });
+    html += `</table>`;
+  }
   if (d.avcFace === 'Oui' || d.avcArm === 'Oui' || d.avcSpeech === 'Oui') {
     html += pdfRow([
       `<b style="color:#c00;">Suspicion AVC —</b>`,
       pdfCheck(d.avcFace === 'Oui', 'Face'), pdfCheck(d.avcArm === 'Oui', 'Arm'), pdfCheck(d.avcSpeech === 'Oui', 'Speech'),
-      pdfField('Heure d\'apparition', d.avcTimeOnset)
+      pdfField('Heure d\'apparition', d.avcTimeOnset), pdfField('Action', actionsSummary('avcAction'))
     ]);
   }
 
@@ -5662,21 +5694,29 @@ pdfField('Y', glasgowFieldLabel('glasgowY', d.glasgowY)),
     pdfField('Température', d.temperature ? d.temperature + '°C' : ''),
     pdfField('Glycémie', d.glycemie ? d.glycemie + ' ' + (d.glycemieUnite || 'g/L') : '')
   ]);
-  (d.douleurs || []).forEach((doul, i) => {
+ (d.douleurs || []).forEach((doul, i) => {
     if (!Object.values(doul).some(v => v)) return;
+    const origineTxt = Array.isArray(doul.origine) ? doul.origine.join(', ') : doul.origine;
     html += pdfRow([
-      pdfField(`Douleur ${i + 1} — Origine`, doul.origine), pdfField('Provoqué par', doul.provoquePar),
+      pdfField(`Douleur ${i + 1} — Origine`, origineTxt), pdfField('Provoqué par', doul.provoquePar),
       pdfField('Qualité', doul.qualite === 'Autre' ? doul.qualiteAutre : doul.qualite),
       pdfField('Région', doul.region), pdfField('Sévérité', doul.severite != null ? doul.severite + '/10' : ''),
       pdfField('Temps', doul.temps)
     ]);
   });
-html += pdfRow([
+if ((d.douleurs || []).some(doul => doul.region && doul.origine)) {
+    html += `<div style="margin:8px;">${buildDouleurBodySchema()}</div>`;
+  }
+
+  html += pdfRow([
+    pdfCheck(d.intoxAlcool === 'Oui', 'Alcool'), pdfCheck(d.intoxMedicaments === 'Oui', 'Médicaments'), pdfCheck(d.intoxToxiques === 'Oui', 'Toxiques')
+  ]);
+  html += pdfRow([
     `<b>Intoxications —</b>`,
     pdfCheck(d.intoxAlcool === 'Oui', 'Alcool'), pdfCheck(d.intoxMedicaments === 'Oui', 'Médicaments'), pdfCheck(d.intoxToxiques === 'Oui', 'Toxiques')
   ]);
-  if (d.intoxMedicamentsNom) html += pdfRow([pdfField('Médicament(s)', d.intoxMedicamentsNom)]);
-  if (d.intoxToxiquesNom) html += pdfRow([pdfField('Toxique(s)', d.intoxToxiquesNom)]);
+if (d.intoxMedicamentsNom) html += pdfRow([pdfField('Médicament(s)', d.intoxMedicamentsNom)]);
+  if (d.intoxToxiquesNom) html += pdfRow([pdfField('Toxique(s)', d.intoxToxiquesNom === 'Autre' ? d.intoxToxiquesNomAutre : d.intoxToxiquesNom)]);
   html += pdfRow([pdfField('Allergies', d.allergies), pdfField('Médicaments', d.medicaments)]);
   html += pdfRow([pdfField('Passé médical', d.passeMedical), pdfField('Dernier repas', d.dernierRepas), pdfField('Risque', d.risque)]);
 
@@ -5684,18 +5724,25 @@ html += pdfRow([
   html += pdfRow([pdfField('Position', d.position)]);
   const gestesOptions = ['Repos', 'Refroidissement', 'Collier', 'Plan dur', 'Écharpe', 'Protection thermique', 'Matelas à dépression', 'Poche de froid', 'Pansement', 'Nettoyage / Désinfection', 'Sucre', 'Attelle', 'Aide à la prise de médicament'];
   html += pdfRow(gestesOptions.map(g => pdfCheck((d.gestesEffectues || []).includes(g), g)));
-  if (d.gestesAutre) html += pdfRow([pdfField('Autre', d.gestesAutre)]);
+if (d.gestesAutre) html += pdfRow([pdfField('Autre', d.gestesAutre)]);
+  if (d.observations) html += pdfField('Observations', d.observations, true);
 
   html += pdfSectionTitle('BILAN DE SURVEILLANCE');
   const suivi = d.suivi || [];
   if (suivi.length > 0) {
-    html += `<table style="width:100%;border-collapse:collapse;margin:4px 8px;"><tr style="background:#eee;">
-      <th style="border:1px solid #333;padding:3px;">Heure</th><th style="border:1px solid #333;padding:3px;">SpO2</th>
-      <th style="border:1px solid #333;padding:3px;">TA</th><th style="border:1px solid #333;padding:3px;">Complément</th></tr>`;
+    html += `<table style="width:100%;border-collapse:collapse;margin:4px 8px;font-size:10px;"><tr style="background:#eee;">
+      <th style="border:1px solid #333;padding:3px;">Heure</th><th style="border:1px solid #333;padding:3px;">FR</th>
+      <th style="border:1px solid #333;padding:3px;">SpO2</th><th style="border:1px solid #333;padding:3px;">FC</th>
+      <th style="border:1px solid #333;padding:3px;">TA</th><th style="border:1px solid #333;padding:3px;">T°C</th>
+      <th style="border:1px solid #333;padding:3px;">Douleur</th><th style="border:1px solid #333;padding:3px;">Complément</th></tr>`;
     suivi.forEach(s => {
       html += `<tr><td style="border:1px solid #333;padding:3px;text-align:center;">${formatDateHeureCourte(s.heure)}</td>
+        <td style="border:1px solid #333;padding:3px;text-align:center;">${s.freqRespi || ''}</td>
         <td style="border:1px solid #333;padding:3px;text-align:center;">${s.spo2 || ''}</td>
+        <td style="border:1px solid #333;padding:3px;text-align:center;">${s.freqCardiaque || ''}</td>
         <td style="border:1px solid #333;padding:3px;text-align:center;">${s.cote || ''} ${s.taSys || '?'}/${s.taDia || '?'}</td>
+        <td style="border:1px solid #333;padding:3px;text-align:center;">${s.temperature || ''}</td>
+        <td style="border:1px solid #333;padding:3px;text-align:center;">${s.douleur != null ? s.douleur : ''}</td>
         <td style="border:1px solid #333;padding:3px;">${s.complement || ''}</td></tr>`;
     });
     html += `</table>`;
@@ -5706,16 +5753,16 @@ html += pdfSectionTitle('OBSERVATIONS');
 
   html += pdfSectionTitle('SUITE DONNÉE');
   html += pdfRow([
-    pdfCheck(d.transmisPC === 'Oui', 'Bilan transmis au PC'), pdfField('Heure', d.transmisPCHeure),
-    pdfCheck(d.transmisSAMU === 'Oui', 'Bilan transmis au SAMU'), pdfField('Heure', d.transmisSAMUHeure),
+    pdfCheck(d.bilanTransmisA === 'SAMU', 'Bilan transmis au SAMU'),
+    pdfCheck(d.bilanTransmisA === 'Pompiers', 'Bilan transmis aux Pompiers'),
+    pdfCheck(d.bilanTransmisA === 'Autre', 'Autre : ' + (d.bilanTransmisAAutre || '')),
+    pdfField('Heure', d.bilanTransmisHeure),
     pdfCheck(d.repartiSeul === 'Oui', 'Reparti par ses propres moyens'), pdfField('Heure', d.repartiSeulHeure)
   ]);
 
   html += pdfSectionTitle('DÉCHARGE DE RESPONSABILITÉ');
-  html += pdfRow([
+html += pdfRow([
     pdfCheck(d.refusIntervention === 'Oui', "Refuse mon intervention"),
-    pdfCheck(d.refusTransport === 'Oui', 'Refuse le transport en milieu hospitalier'),
-    pdfCheck(d.quitteDispositif === 'Oui', 'Quitte le dispositif de secours'),
     pdfField('Heure', d.decisionHeure)
   ]);
   html += pdfRow([pdfField('Nom de la victime (valant signature)', d.nomVictimeSignature)]);
