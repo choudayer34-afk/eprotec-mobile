@@ -1,5 +1,13 @@
 [
   {
+    "version": "19.4",
+    "date": "2026-07-27T12:33:54.746Z",
+    "title": "Message d'illustration manquante cliquable pour l'admin",
+    "items": [
+      "Pour l'administrateur, taper sur le message \"Illustration pas encore uploadée\" ouvre directement l'écran d'upload avec le nom du fichier déjà pré-rempli"
+    ]
+  },
+  {
     "version": "19.3",
     "date": "2026-07-27T10:07:33.269Z",
     "title": "Correction : bonne clé de stockage utilisée pour le jeton GitHub",
