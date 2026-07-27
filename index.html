@@ -3655,8 +3655,22 @@ function buildDouleurBodySchema() {
   douleurs.forEach((d, i) => {
     const regionLower = normalizeText(d.region);
     const isBack = /dos|omoplate|fesse|talon|mollet|nuque|arriere/.test(regionLower);
+    const view = isBack ? 'back' : 'front';
     const regions = isBack ? BACK_BODY_REGIONS : FRONT_BODY_REGIONS;
-    let bestMatch = regions.find(r => regionLower.includes(normalizeText(r.label)));
+
+    const wantsDroite = /droit/.test(regionLower);
+    const wantsGauche = /gauche/.test(regionLower);
+
+    const candidates = regions.filter(r => regionLower.includes(normalizeText(r.label)));
+    let bestMatch = null;
+
+    if (candidates.length > 0 && (wantsDroite || wantsGauche)) {
+      bestMatch = candidates.find(r => {
+        const sideLabel = computeSideLabel(r, view);
+        return wantsDroite ? sideLabel.includes('droite') : sideLabel.includes('gauche');
+      });
+    }
+    if (!bestMatch) bestMatch = candidates[0];
     if (!bestMatch) bestMatch = regions[Math.min(i, regions.length - 1)];
 
     const codes = (Array.isArray(d.origine) ? d.origine : []).map(o => DOULEUR_ORIGINE_CODES[o]).filter(Boolean);
