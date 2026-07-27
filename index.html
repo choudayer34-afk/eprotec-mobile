@@ -3288,11 +3288,31 @@ function showEmergencyNumbersModal() {
   overlay.querySelector('#emergency-close').addEventListener('click', () => overlay.remove());
 }
 
-  function handleFicheImgError(imgEl, filename) {
+function handleFicheImgError(imgEl, filename) {
   const div = document.createElement('div');
   div.style.cssText = 'color:#9FB3D6;font-size:12px;background:#0B2A5C;padding:10px 12px;border-radius:8px;margin:8px 0;';
-  div.innerHTML = `📷 Illustration <b>${filename}</b> dans le dossier <b>data</b> — pas encore uploadée`;
+  if (isAdminUser) {
+    div.style.cursor = 'pointer';
+    div.style.textDecoration = 'underline';
+    div.innerHTML = `📷 Illustration <b>${filename}</b> dans le dossier <b>data</b> — pas encore uploadée (tape ici pour l'envoyer)`;
+    div.addEventListener('click', () => goToUploadWithFilename(filename));
+  } else {
+    div.innerHTML = `📷 Illustration <b>${filename}</b> dans le dossier <b>data</b> — pas encore uploadée`;
+  }
   imgEl.replaceWith(div);
+}
+
+function goToUploadWithFilename(filename) {
+  document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === 'plus-secourisme'));
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  document.getElementById('plus-import-fiches').classList.add('active');
+
+  setTimeout(() => {
+    const uploadForm = document.getElementById('upload-form');
+    uploadForm.style.display = 'block';
+    document.getElementById('upload-filename-input').value = filename;
+    document.getElementById('upload-status').textContent = `Prêt à recevoir le fichier pour remplacer "${filename}"`;
+  }, 100);
 }
 
 const QUIZ_DATA = [
