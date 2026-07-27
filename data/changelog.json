@@ -1,5 +1,15 @@
 [
   {
+    "version": "17.7",
+    "date": "2026-07-27T05:43:55.337Z",
+    "title": "Édition/suppression des fiches custom et de l'historique du Bilan",
+    "items": [
+      "Boutons ✏️ Modifier et ✕ Supprimer sur les termes de lexique et fiches ajoutés en mode admin",
+      "Bouton ✕ pour supprimer un bilan archivé de l'historique",
+      "Correction : l'heure d'ouverture originale est maintenant bien restaurée en mode édition"
+    ]
+  },
+  {
     "version": "17.6",
     "date": "2026-07-27T05:36:57.866Z",
     "title": "1 — Éditer/Supprimer tes termes de lexique ajoutés",
