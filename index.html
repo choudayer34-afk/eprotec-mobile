@@ -3781,6 +3781,12 @@ bc_signes: { title: 'Signes', html: `<p>Ce que tu observes toi-même : sueurs, p
   bc_dernierRepas: { title: 'Dernier repas', html: `<p>Heure et nature approximative du dernier repas ou de la dernière boisson</p>` },
   bc_evenements: { title: 'Évènements', html: `<p>Ce qui s'est passé juste avant : effort, chute, dispute, chaleur, prise de substance...</p>` },
   bc_risque: { title: 'Risque', html: `<p>Un risque identifié pour la suite : allergène toujours présent, danger de la zone, isolement...</p>` },
+  observations_evolution: {
+    title: 'Observations — exemple',
+    html: `<p>Décris l'évolution de la victime au fil du temps, ce qui a été dit/fait, et l'issue.</p>
+      <p style="margin-top:10px;font-style:italic;color:#9FB3D6;">"La victime se sent mieux au bout de 10 min, nous l'avons mise au frais et écartée du plein soleil. Nous contactons le SAMU à 19h27 pour un bilan.<br><br>Le médecin nous indique qu'elle peut repartir et que si elle a de nouveaux symptômes, d'appeler le 15.<br><br>Nous expliquons les conseils d'usage à la victime.<br><br>La victime repart."</p>`
+  },
+
   bc_toxique: { title: 'Exemples de toxiques', html: `<p>Monoxyde de carbone (CO)</p><p style="margin-top:6px;">Produits ménagers (eau de javel, ammoniaque...)</p><p style="margin-top:6px;">Fumées d'incendie</p><p style="margin-top:6px;">Produits phytosanitaires</p><p style="margin-top:6px;">Gaz industriels</p><p style="margin-top:6px;">Champignons ou plantes toxiques</p>` },
 ppa_dnd: {
     title: 'Autoriser Dylan et Alex la nuit',
@@ -4766,20 +4772,18 @@ const POST_SUIVI_CATEGORIES = [
   { key: 'gestes', label: '🛠 Gestes effectués', fields: [
     { key: 'position', label: 'Mise en position', type: 'chip', options: ['Assis', 'Demi-assis', 'Allongé', 'PLS', 'Jambes surélevées'] },
     { key: 'gestesEffectues', label: 'Gestes réalisés', type: 'checklist', options: ['Repos', 'Refroidissement', 'Collier', 'Plan dur', 'Écharpe', 'Protection thermique', 'Matelas à dépression', 'Poche de froid', 'Pansement', 'Nettoyage / Désinfection', 'Sucre', 'Attelle', 'Aide à la prise de médicament'] },
-    { key: 'gestesAutre', label: 'Autre geste', type: 'text' }
+    { key: 'gestesAutre', label: 'Autre geste', type: 'text' },
+    { key: 'observations', label: 'Observations', type: 'text', info: 'observations_evolution' }
   ]},
-  { key: 'suite', label: '📤 Suite donnée', fields: [
-    { key: 'transmisPC', label: 'Bilan transmis au PC', type: 'chip', options: ['Non', 'Oui'] },
-    { key: 'transmisPCHeure', label: 'Heure de transmission au PC', type: 'time' },
-    { key: 'transmisSAMU', label: 'Bilan transmis au SAMU', type: 'chip', options: ['Non', 'Oui'] },
-    { key: 'transmisSAMUHeure', label: 'Heure de transmission au SAMU', type: 'time' },
+{ key: 'suite', label: '📤 Suite donnée', fields: [
+    { key: 'bilanTransmisA', label: 'Bilan transmis à', type: 'chip', options: ['SAMU', 'Pompiers', 'Autre'] },
+    { key: 'bilanTransmisAAutre', label: 'Préciser si Autre', type: 'text', showIf: { field: 'bilanTransmisA', value: 'Autre' } },
+    { key: 'bilanTransmisHeure', label: 'Heure de transmission', type: 'time' },
     { key: 'repartiSeul', label: 'Reparti par ses propres moyens', type: 'chip', options: ['Non', 'Oui'] },
     { key: 'repartiSeulHeure', label: 'Heure de départ', type: 'time' }
   ]},
-  { key: 'decharge', label: '⚠️ Décharge de responsabilité', fields: [
+{ key: 'decharge', label: '⚠️ Décharge de responsabilité', fields: [
     { key: 'refusIntervention', label: "Refuse mon intervention", type: 'chip', options: ['Non', 'Oui'], phrase: 'decharge' },
-    { key: 'refusTransport', label: 'Refuse le transport en milieu hospitalier', type: 'chip', options: ['Non', 'Oui'] },
-    { key: 'quitteDispositif', label: 'Quitte le dispositif de secours', type: 'chip', options: ['Non', 'Oui'] },
     { key: 'decisionHeure', label: 'Heure de la décision', type: 'time' },
     { key: 'nomVictimeSignature', label: 'Nom de la victime (nom tapé valant signature)', type: 'text' },
     { key: 'temoin1', label: 'Témoin 1 — nom, prénom, date de naissance', type: 'text' },
@@ -5357,7 +5361,7 @@ function buildSuiviHtml() {
             ${['Gauche', 'Droit'].map(o => `<button class="bilan-chip ${s.cote === o ? 'active' : ''}" data-suivi-chip="${idx}" data-value="${o}">${o}</button>`).join('')}
           </div>
         </div>
-        <div class="bilan-field-row">
+       <div class="bilan-field-row">
           <label>Tension (Sys / Dia)</label>
           <div style="display:flex;align-items:center;gap:6px;">
             <input type="number" data-suivi-field="taSys" data-suivi-idx="${idx}" placeholder="Sys." value="${s.taSys || ''}" style="width:70px;text-align:center;">
@@ -5366,7 +5370,23 @@ function buildSuiviHtml() {
             <span style="color:#9FB3D6;font-size:12px;">mmHg</span>
           </div>
         </div>
-<div class="bilan-field-row">
+        <div class="bilan-field-row">
+          <label>Fréquence respiratoire</label>
+          <input type="number" data-suivi-field="freqRespi" data-suivi-idx="${idx}" value="${s.freqRespi || ''}">
+        </div>
+        <div class="bilan-field-row">
+          <label>Température (°C)</label>
+          <input type="number" step="0.1" data-suivi-field="temperature" data-suivi-idx="${idx}" value="${s.temperature || ''}">
+        </div>
+        <div class="bilan-field-row">
+          <label>Fréquence cardiaque</label>
+          <input type="number" data-suivi-field="freqCardiaque" data-suivi-idx="${idx}" value="${s.freqCardiaque || ''}">
+        </div>
+        <div class="bilan-field-row">
+          <label>Douleur (0 à 10)</label>
+          <input type="number" min="0" max="10" data-suivi-field="douleur" data-suivi-idx="${idx}" value="${s.douleur || ''}">
+        </div>
+        <div class="bilan-field-row">
           <label>Complément / évolution</label>
           <div class="text-field-wrap ${s.complement ? 'has-value' : ''}">
             <textarea rows="1" class="bilan-textarea" data-suivi-field="complement" data-suivi-idx="${idx}">${escapeHtml(s.complement || '')}</textarea>
@@ -5472,12 +5492,40 @@ if (cat.key === 'c') {
       }
       if (bilanData.taComplement) catText += `- Complément TA : ${bilanData.taComplement}\n`;
     }
- if (cat.key === 'd') {
+if (cat.key === 'd') {
       if (bilanData.glycemie) catText += `- Glycémie : ${bilanData.glycemie} ${bilanData.glycemieUnite || 'g/L'}\n`;
       if (bilanData.glasgowY || bilanData.glasgowV || bilanData.glasgowM) {
         catText += `- Score Glasgow total : ${glasgowTotal()} / 15\n`;
       }
+      if (Array.isArray(bilanData.consciencePresentation) && bilanData.consciencePresentation.length > 0) {
+        catText += `- État de conscience : ${bilanData.consciencePresentation.join(', ')}\n`;
+      }
+      if (bilanData.motriciteMembres && typeof bilanData.motriciteMembres === 'object') {
+        const membres = ['Bras droit', 'Bras gauche', 'Jambe droite', 'Jambe gauche'];
+        membres.forEach(m => {
+          const mot = bilanData.motriciteMembres[m + '_motricite'] ? 'motricité OK' : 'motricité absente';
+          const sens = bilanData.motriciteMembres[m + '_sensibilite'] ? 'sensibilité OK' : 'sensibilité absente';
+          catText += `- ${m} : ${mot}, ${sens}\n`;
+        });
+      }
     }
+    ['hemorragieAction', 'voiesAeriennesAction', 'circulationAction', 'avcAction'].forEach(key => {
+      const arr = bilanData[key];
+      if (Array.isArray(arr) && arr.length > 0) {
+        let line = `- ${key.replace('Action', '')} — actions : ${arr.join(', ')}`;
+        if (bilanData[key + 'Autre']) line += ` (${bilanData[key + 'Autre']})`;
+        if (bilanData[key + 'Detail']) line += ` — séquence : ${bilanData[key + 'Detail']}`;
+        if (bilanData[key + 'Outcome']) line += ` — résultat : ${bilanData[key + 'Outcome']}`;
+        if (bilanData[key + 'Heure']) line += ` — à ${formatHeureCourte(bilanData[key + 'Heure'])}`;
+        catText += line + '\n';
+      }
+    });
+    if (cat.key === 'gestes' || cat.key === 'suite' || cat.key === 'decharge') {
+      if (cat.key === 'gestes' && Array.isArray(bilanData.gestesEffectues) && bilanData.gestesEffectues.length > 0) {
+        catText += `- Gestes réalisés : ${bilanData.gestesEffectues.join(', ')}\n`;
+      }
+    }
+    
 if (cat.key === 'circonstanciel' && bilanData.situationLat && bilanData.situationLon) {
       const mapsUrl = `https://www.google.com/maps?q=${bilanData.situationLat},${bilanData.situationLon}`;
       catText += `- Coordonnées GPS : ${bilanData.situationLat.toFixed(5)}, ${bilanData.situationLon.toFixed(5)} (précision ±${bilanData.situationAccuracy} m)\n`;
@@ -5491,7 +5539,8 @@ if (cat.key === 'circonstanciel' && bilanData.situationLat && bilanData.situatio
     text += 'Douleur\n';
     douleurs.forEach((d, i) => {
       text += `Douleur ${i + 1} :\n`;
-      if (d.origine) text += `- Origine : ${d.origine}\n`;
+      const originesTxt = Array.isArray(d.origine) ? d.origine.join(', ') : d.origine;
+      if (originesTxt) text += `- Origine : ${originesTxt}\n`;
       if (d.provoquePar) text += `- Provoqué par : ${d.provoquePar}\n`;
       const qualite = d.qualite === 'Autre' ? d.qualiteAutre : d.qualite;
       if (qualite) text += `- Qualité : ${qualite}\n`;
@@ -5506,7 +5555,13 @@ if (cat.key === 'circonstanciel' && bilanData.situationLat && bilanData.situatio
   if (suivi.length > 0) {
     text += `Suivi (relevé toutes les ${bilanData.suiviVital === 'Oui' ? '5' : '15'} min)\n`;
 suivi.forEach(s => {
-      text += `${formatDateHeureCourte(s.heure)} — SpO2 : ${s.spo2 || '?'}% — TA (${s.cote || '?'}) : ${s.taSys || '?'}/${s.taDia || '?'}${s.complement ? ' — ' + s.complement : ''}\n`;
+      let line = `${formatDateHeureCourte(s.heure)} — SpO2 : ${s.spo2 || '?'}% — TA (${s.cote || '?'}) : ${s.taSys || '?'}/${s.taDia || '?'}`;
+      if (s.freqRespi) line += ` — FR : ${s.freqRespi}/min`;
+      if (s.temperature) line += ` — T° : ${s.temperature}°C`;
+      if (s.freqCardiaque) line += ` — FC : ${s.freqCardiaque}/min`;
+      if (s.douleur != null && s.douleur !== '') line += ` — Douleur : ${s.douleur}/10`;
+      if (s.complement) line += ` — ${s.complement}`;
+      text += line + '\n';
     });
     text += '\n';
   }
