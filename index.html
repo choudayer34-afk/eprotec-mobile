@@ -3298,12 +3298,56 @@ const QUIZ_DATA = [
   { id: 'q13', category: 'Malaises', question: 'Une hypoglycémie chez une personne consciente se traite en priorité par :', options: ['Un appel au 15 uniquement', 'Du sucre par voie orale', 'De l\'eau', 'La position PLS'], correctIndex: 1, explication: 'Le resucrage par voie orale est le geste de premier secours chez une personne consciente capable d\'avaler.' },
   { id: 'q14', category: 'Malaises', question: 'La méthode F.A.S.T. permet de repérer rapidement :', options: ['Une crise d\'asthme', 'Un AVC', 'Une hypoglycémie', 'Une allergie grave'], correctIndex: 1, explication: 'F.A.S.T. (Face, Arm, Speech, Time) est une méthode simple de repérage des signes d\'AVC.' },
   { id: 'q15', category: 'Mise en situation', question: 'Une victime consciente présente une plaie qui saigne abondamment malgré une compression directe efficace depuis 5 minutes. Que fais-tu ?', options: ['Tu retires le pansement pour vérifier', 'Tu maintiens la compression et alertes le 15 si pas déjà fait', 'Tu poses un garrot immédiatement sans plus attendre', 'Tu laisses la victime se reposer sans surveillance'], correctIndex: 1, explication: 'Une compression efficace se maintient sans interruption ; le garrot n\'est envisagé qu\'en cas d\'échec avéré de la compression.' },
-  { id: 'q16', category: 'Mise en situation', question: 'Tu retrouves une victime allongée, inconsciente, qui respire normalement. Aucun témoin ne peut te renseigner. Que fais-tu en priorité après avoir vérifié la respiration ?', options: ['Tu la laisses sur le dos et tu surveilles', 'Tu la mets en PLS et alertes les secours', 'Tu commences la RCP par précaution', 'Tu attends qu\'elle se réveille'], correctIndex: 1, explication: 'Une victime inconsciente qui respire doit être mise en PLS pour protéger ses voies aériennes, puis les secours doivent être alertés.' }
+{ id: 'q16', category: 'Mise en situation', question: 'Tu retrouves une victime allongée, inconsciente, qui respire normalement. Aucun témoin ne peut te renseigner. Que fais-tu en priorité après avoir vérifié la respiration ?', options: ['Tu la laisses sur le dos et tu surveilles', 'Tu la mets en PLS et alertes les secours', 'Tu commences la RCP par précaution', 'Tu attends qu\'elle se réveille'], correctIndex: 1, explication: 'Une victime inconsciente qui respire doit être mise en PLS pour protéger ses voies aériennes, puis les secours doivent être alertés.' },
+  { id: 'q17', category: 'Urgences vitales', question: 'Face à une victime en arrêt cardio-respiratoire, quel est l\'ordre correct des gestes ?', options: ['RCP puis alerte puis DAE', 'Alerte, RCP, DAE dès que disponible', 'DAE en premier systématiquement', 'Attendre les secours sans rien faire'], correctIndex: 1, explication: 'On alerte immédiatement (ou fait alerter), on débute la RCP sans délai, et on utilise le DAE dès qu\'il est disponible.' },
+  { id: 'q18', category: 'Urgences vitales', question: 'Quel est le ratio compressions/insufflations en RCP adulte à un seul sauveteur ?', options: ['15 pour 2', '30 pour 2', '10 pour 1', 'Compressions continues uniquement'], correctIndex: 1, explication: 'Le ratio standard chez l\'adulte est de 30 compressions pour 2 insufflations.' },
+  { id: 'q19', category: 'Urgences vitales', question: 'Quelle est la conduite face à une obstruction totale des voies aériennes chez un adulte conscient ?', options: ['Claques dans le dos puis compressions abdominales si inefficace', 'RCP immédiate', 'Position latérale de sécurité', 'Boire un grand verre d\'eau'], correctIndex: 0, explication: 'On alterne claques dans le dos et compressions abdominales (Heimlich) jusqu\'à désobstruction ou perte de connaissance.' },
+  { id: 'q20', category: 'AVC', question: 'La lettre "T" de la méthode F.A.S.T. signifie :', options: ['Température', 'Time (heure d\'apparition des signes)', 'Toux', 'Traitement'], correctIndex: 1, explication: 'Le "T" pour Time rappelle l\'importance de noter l\'heure exacte d\'apparition des signes, cruciale pour la prise en charge médicale.' },
+  { id: 'q21', category: 'AVC', question: 'Face à une suspicion d\'AVC, faut-il donner à boire à la victime ?', options: ['Oui, pour l\'hydrater', 'Non, risque de fausse route', 'Seulement de l\'eau tiède', 'Uniquement si elle a soif'], correctIndex: 1, explication: 'Des troubles de la déglutition sont possibles lors d\'un AVC, donc on ne donne rien à boire ni à manger.' },
+  { id: 'q22', category: 'Malaises', question: 'Quels sont les signes de gravité d\'une crise d\'asthme nécessitant une alerte sans délai ?', options: ['Toux légère isolée', 'Impossibilité de parler ou de tousser, cyanose', 'Essoufflement léger après un effort', 'Éternuements répétés'], correctIndex: 1, explication: 'L\'impossibilité de parler, la cyanose et l\'épuisement respiratoire sont des signes de gravité majeurs.' },
+  { id: 'q23', category: 'Malaises', question: 'Quel est le seuil généralement retenu pour évoquer une hypoglycémie ?', options: ['Moins de 0,60 g/L (3,3 mmol/L)', 'Moins de 1,50 g/L', 'Plus de 2 g/L', 'Il n\'existe pas de seuil'], correctIndex: 0, explication: 'En dessous de 0,60 g/L (3,3 mmol/L), on évoque une hypoglycémie.' },
+  { id: 'q24', category: 'Malaises', question: 'Une hyperthermie sévère avec troubles de la conscience nécessite en priorité :', options: ['De donner un antipyrétique', 'De refroidir et d\'alerter le 15 sans délai', 'De couvrir la victime', 'D\'attendre que ça passe'], correctIndex: 1, explication: 'C\'est une urgence vitale : refroidissement rapide et alerte immédiate, jamais de médicament sans avis médical dans ce contexte.' },
+  { id: 'q25', category: 'Malaises', question: 'Une victime hypotherme doit être mobilisée :', options: ['Normalement, sans précaution particulière', 'Avec une grande douceur, risque de trouble du rythme cardiaque', 'Rapidement pour la réchauffer plus vite', 'Uniquement en la portant debout'], correctIndex: 1, explication: 'Une mobilisation brusque peut déclencher un trouble du rythme cardiaque chez une victime hypotherme.' },
+  { id: 'q26', category: 'Malaises', question: 'Une personne alcoolisée présentant un traumatisme doit être :', options: ['Considérée comme une simple ivresse sans bilan complet', 'Évaluée avec un bilan complet, l\'alcool pouvant masquer d\'autres atteintes', 'Laissée dormir sans surveillance', 'Systématiquement évacuée sans bilan'], correctIndex: 1, explication: 'L\'intoxication alcoolique peut masquer un traumatisme ou une hypoglycémie — un bilan complet reste indispensable.' },
+  { id: 'q27', category: 'Plaies et brûlures', question: 'Combien de temps refroidir une brûlure à l\'eau tempérée en général ?', options: ['Quelques secondes', 'Environ 15 à 20 minutes', '1 heure minimum', 'Le refroidissement est déconseillé'], correctIndex: 1, explication: 'Un refroidissement prolongé (environ 15-20 minutes) à l\'eau tempérée limite l\'approfondissement de la brûlure.' },
+  { id: 'q28', category: 'Plaies et brûlures', question: 'Face à une plaie simple, quel geste réaliser en premier ?', options: ['Appliquer un désinfectant coloré', 'Se laver les mains puis nettoyer à l\'eau et au savon', 'Poser un pansement sans nettoyer', 'Percer une éventuelle cloque'], correctIndex: 1, explication: 'Le lavage des mains puis le nettoyage de la plaie sont les premiers gestes, avant toute autre chose.' },
+  { id: 'q29', category: 'Traumatologie', question: 'Une entorse de cheville doit dans les premières minutes bénéficier de :', options: ['Chaleur et massage', 'Glace et interdiction d\'appui', 'Appui forcé pour "tester"', 'Aucun geste particulier'], correctIndex: 1, explication: 'Glace (10 minutes) et interdiction d\'appui sont recommandées, avec consultation médicale ensuite.' },
+  { id: 'q30', category: 'Dégagement d\'urgence', question: 'Un dégagement d\'urgence se justifie lorsque :', options: ['La victime demande à être déplacée', 'Un danger immédiat menace la victime et le secouriste', 'Pour faciliter le confort de la victime', 'Systématiquement avant tout bilan'], correctIndex: 1, explication: 'Le dégagement d\'urgence n\'est justifié qu\'en présence d\'un danger réel et immédiat (feu, effondrement, gaz...).' },
+  { id: 'q31', category: 'NOVI', question: 'Dans le tri d\'une situation à nombreuses victimes, une victime décédée est classée :', options: ['Rouge', 'Jaune', 'Noir', 'Vert'], correctIndex: 2, explication: 'La couleur noire est utilisée pour les victimes décédées, qui sont laissées sur place.' },
+  { id: 'q32', category: 'NOVI', question: 'Une victime consciente et valide, sans détresse ni blessure, est envoyée vers :', options: ['Le PMA en urgence', 'Le Point de Rassemblement des Victimes (PRV)', 'Directement à l\'hôpital', 'Elle reste sur place'], correctIndex: 1, explication: 'Les victimes valides sont orientées vers le PRV pour libérer les équipes concentrées sur les blessés graves.' },
+  { id: 'q33', category: 'Pédiatrie', question: 'En RCP chez le nourrisson, la compression se fait avec :', options: ['Le talon d\'une main', 'Deux doigts, ou deux pouces à deux sauveteurs', 'Le poing fermé', 'Les deux mains superposées'], correctIndex: 1, explication: 'Chez le nourrisson, on utilise deux doigts (seul) ou les deux pouces en encerclant le thorax (à deux sauveteurs).' },
+  { id: 'q34', category: 'Pédiatrie', question: 'Avant de débuter les compressions en RCP pédiatrique, on réalise en premier :', options: ['5 insufflations initiales', 'Un appel au 15 uniquement', 'Rien de spécial, comme l\'adulte', 'Un massage cardiaque prolongé'], correctIndex: 0, explication: 'Chez l\'enfant et le nourrisson, on débute par 5 insufflations avant les compressions.' },
+  { id: 'q35', category: 'Psychologie', question: 'Face à un impliqué en état de choc psychologique, la méthode AERER rappelle notamment de :', options: ['L\'ignorer pour se concentrer sur la victime physique', 'Approcher, Écouter, Rassurer, Encourager, Relayer', 'Le faire parler en détail de l\'accident immédiatement', 'Le laisser seul pour qu\'il se calme'], correctIndex: 1, explication: 'AERER structure l\'accompagnement psychologique : Approcher, Écouter, Rassurer, Encourager, Relayer.' },
+  { id: 'q36', category: 'Matériel', question: 'Un saturomètre mesure :', options: ['La tension artérielle', 'La glycémie', 'La saturation en oxygène du sang (SpO2)', 'La température corporelle'], correctIndex: 2, explication: 'Le saturomètre (oxymètre de pouls) mesure la SpO2, le taux d\'oxygène dans le sang.' },
+  { id: 'q37', category: 'Lexique', question: 'Que signifie "DAE" ?', options: ['Défibrillateur Automatisé Externe', 'Dispositif d\'Alerte et d\'Évacuation', 'Détresse Aiguë et Évaluation', 'Diagnostic d\'Arrêt d\'Effort'], correctIndex: 0 },
+  { id: 'q38', category: 'Lexique', question: 'Que signifie "NOVI" ?', options: ['Nouvelle Organisation des Volontaires Intervenants', 'Nombreuses Victimes', 'Norme d\'Organisation Vitale Immédiate', 'Niveau d\'Observation des Victimes'], correctIndex: 1 },
+  { id: 'q39', category: 'Lexique', question: 'Que signifie "PMA" ?', options: ['Poste Médical Avancé', 'Plan de Mobilisation d\'Alerte', 'Protocole Médical d\'Assistance', 'Point de Manœuvre Avancé'], correctIndex: 0 },
+  { id: 'q40', category: 'Autodéfense', question: 'Face à une saisie du poignet à une main, le point le plus faible de la prise se situe :', options: ['Entre le pouce et l\'index de l\'agresseur', 'Au niveau du petit doigt', 'Sur l\'avant-bras', 'Il n\'y a pas de point faible'], correctIndex: 0, explication: 'L\'espace entre le pouce et l\'index est le point de moindre résistance d\'une prise à une main.' },
+  { id: 'q41', category: 'Autodéfense', question: 'En prévention, en cas de danger potentiel repéré, le premier réflexe recommandé est :', options: ['Foncer directement pour intervenir', 'Créer de la distance et observer', 'Ignorer et continuer son chemin sans vigilance', 'Provoquer pour tester la réaction'], correctIndex: 1, explication: 'Garder ses distances donne du temps pour évaluer la situation et réagir, avant toute autre chose.' },
+  { id: 'q42', category: 'Autodéfense', question: 'Face à un étranglement par derrière, dans quel sens faut-il pivoter pour se dégager ?', options: ['Vers la main de l\'agresseur', 'Vers le côté du coude de l\'agresseur', 'Peu importe le sens', 'Il ne faut jamais pivoter'], correctIndex: 1, explication: 'Pivoter vers le côté du coude (pas vers la main) permet de casser la prise efficacement.' },
+  { id: 'q43', category: 'Mise en situation', question: 'Tu arrives sur un DPS et une personne te dit avoir des vertiges et des sueurs depuis 10 minutes, sans autre signe. Que fais-tu en premier ?', options: ['Tu la rassures et l\'ignores, ce n\'est rien de grave', 'Tu réalises un bilan complet, y compris la glycémie', 'Tu appelles directement le 15 sans bilan', 'Tu lui donnes à boire de l\'alcool pour la réconforter'], correctIndex: 1, explication: 'Vertiges et sueurs peuvent évoquer plusieurs causes (dont l\'hypoglycémie) — un bilan complet est indispensable avant de conclure.' },
+  { id: 'q44', category: 'Mise en situation', question: 'Une victime consciente présente une douleur thoracique et te dit que "ça va passer". Que fais-tu ?', options: ['Tu la laisses repartir si elle se sent mieux', 'Tu alertes le 15 sans délai, même si ça semble s\'améliorer', 'Tu attends 30 minutes pour voir l\'évolution', 'Tu lui fais faire un effort pour vérifier'], correctIndex: 1, explication: 'Une douleur thoracique est toujours une urgence potentielle — l\'alerte reste indispensable même en cas d\'amélioration apparente.' },
+  { id: 'q45', category: 'Mise en situation', question: 'Sur un DPS, un bénévole se sent en insécurité face à un individu agressif verbalement. Quelle est la priorité ?', options: ['Rester pour ne pas paraître lâche', 'Assurer sa sécurité, créer de la distance, alerter si besoin', 'Répondre sur le même ton', 'Ignorer complètement la situation'], correctIndex: 1, explication: 'La sécurité du secouriste prime toujours — distance, désescalade, et alerte si la situation le justifie.' }
 ];
 
 let quizCustom = [];
 let quizSession = { questions: [], index: 0, score: 0 };
 
+  function buildQuizPool() {
+  const overridesById = new Map(quizCustom.map(q => [q.id, q]));
+  const pool = [];
+  QUIZ_DATA.forEach(q => {
+    const override = overridesById.get(q.id);
+    if (override) {
+      if (!override.deleted) pool.push(override);
+      overridesById.delete(q.id);
+    } else {
+      pool.push(q);
+    }
+  });
+  overridesById.forEach(q => { if (!q.deleted) pool.push(q); });
+  return pool;
+}
 async function loadQuizCustom() {
   try {
     const res = await fetch(FIREBASE_URL + '/contenu-partage/quiz-custom.json?t=' + Date.now(), { cache: 'no-store' });
@@ -3332,7 +3376,7 @@ function shuffleArray(arr) {
 
 function renderQuizHome() {
   const container = document.getElementById('quiz-content');
-  const total = QUIZ_DATA.length + quizCustom.length;
+  const total = buildQuizPool().length;
   const addBtnHtml = isAdminUser ? `<button class="detail-action-btn" id="quiz-add-btn" style="margin-bottom:14px;">➕ Ajouter une question (admin)</button>` : '';
 
   container.innerHTML = `
@@ -3347,19 +3391,56 @@ function renderQuizHome() {
       <button class="detail-action-btn primary" data-quiz-start="20">20 questions</button>
     </div>
     <button class="detail-action-btn" id="quiz-history-btn" style="margin-top:16px;">📊 Mon historique de scores</button>
+    ${isAdminUser ? `<button class="detail-action-btn" id="quiz-manage-btn" style="margin-top:8px;">🛠 Gérer les questions (admin)</button>` : ''}
   `;
 
   container.querySelectorAll('[data-quiz-start]').forEach(btn => {
     btn.addEventListener('click', () => startQuiz(parseInt(btn.dataset.quizStart, 10)));
   });
   document.getElementById('quiz-history-btn').addEventListener('click', showQuizHistory);
-  if (isAdminUser) {
+if (isAdminUser) {
     document.getElementById('quiz-add-btn').addEventListener('click', () => showQuizAdminModal());
+    document.getElementById('quiz-manage-btn').addEventListener('click', showQuizManageList);
   }
 }
 
+function showQuizManageList() {
+  const container = document.getElementById('quiz-content');
+  const pool = buildQuizPool();
+  container.innerHTML = `
+    <button class="detail-action-btn" id="quiz-back-home" style="margin-bottom:12px;">‹ Retour</button>
+    ${pool.map(q => `
+      <div class="card" style="margin-bottom:8px;">
+        <div style="color:#9FB3D6;font-size:11px;">${q.category || ''}</div>
+        <div style="color:#fff;font-size:14px;margin-bottom:8px;">${q.question}</div>
+        <div style="display:flex;gap:8px;">
+          <button class="detail-action-btn" data-manage-edit="${q.id}" style="flex:1;">✏️ Modifier</button>
+          <button class="detail-action-btn" data-manage-delete="${q.id}" style="flex:1;">✕ Supprimer</button>
+        </div>
+      </div>
+    `).join('')}
+  `;
+  document.getElementById('quiz-back-home').addEventListener('click', renderQuizHome);
+  container.querySelectorAll('[data-manage-edit]').forEach(btn => {
+    btn.addEventListener('click', () => showQuizAdminModal(btn.dataset.manageEdit, showQuizManageList));
+  });
+  container.querySelectorAll('[data-manage-delete]').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const confirmDel = await promptChoice('Supprimer cette question ?', ['Oui, supprimer', 'Annuler']);
+      if (confirmDel === 'Oui, supprimer') {
+        const id = btn.dataset.manageDelete;
+        const idx = quizCustom.findIndex(x => x.id === id);
+        if (idx >= 0) quizCustom[idx].deleted = true;
+        else quizCustom.push({ id, deleted: true });
+        await saveQuizCustom();
+        showQuizManageList();
+      }
+    });
+  });
+}
+
 function startQuiz(n) {
-  const allQuestions = QUIZ_DATA.concat(quizCustom);
+  const allQuestions = buildQuizPool();
   const picked = shuffleArray(allQuestions).slice(0, Math.min(n, allQuestions.length));
   quizSession = { questions: picked, index: 0, score: 0 };
   renderQuizQuestion();
@@ -3457,9 +3538,9 @@ async function showQuizHistory() {
   overlay.querySelector('#quiz-history-close').addEventListener('click', () => overlay.remove());
 }
 
-function showQuizAdminModal(questionId) {
+function showQuizAdminModal(questionId, onSaveCallback) {
   const isEdit = !!questionId;
-  const existing = isEdit ? quizCustom.find(q => q.id === questionId) : null;
+  const existing = isEdit ? (quizCustom.find(q => q.id === questionId) || QUIZ_DATA.find(q => q.id === questionId)) : null;
   const overlay = document.createElement('div');
   overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;';
   overlay.innerHTML = `
@@ -3490,15 +3571,17 @@ function showQuizAdminModal(questionId) {
       correctIndex: parseInt(overlay.querySelector('#qa-correct').value, 10) - 1,
       explication: overlay.querySelector('#qa-explication').value.trim()
     };
-    if (isEdit) {
+   if (isEdit) {
       const idx = quizCustom.findIndex(x => x.id === questionId);
-      quizCustom[idx] = q;
+      if (idx >= 0) quizCustom[idx] = q;
+      else quizCustom.push(q);
     } else {
       quizCustom.push(q);
     }
     await saveQuizCustom();
     overlay.remove();
-    renderQuizHome();
+    if (onSaveCallback) onSaveCallback();
+    else renderQuizHome();
   });
 }
 
