@@ -1,5 +1,17 @@
 [
   {
+    "version": "20.5",
+    "date": "2026-07-27T14:49:12.257Z",
+    "title": "Bilan étape 5/5 : Suivi enrichi, Observations, Suite donnée restructurée, Décharge allégée",
+    "items": [
+      "Suivi : ajout de la fréquence respiratoire, température, fréquence cardiaque et douleur, avant le complément",
+      "Gestes effectués : nouveau champ Observations avec exemple guidé (i)",
+      "Suite donnée : remplacement PC/SAMU séparés par une liste unique (SAMU/Pompiers/Autre) avec heure",
+      "Décharge de responsabilité : retrait de \"Refuse le transport\" et \"Quitte le dispositif\"",
+      "Résumé texte enrichi : motricité/sensibilité par membre, état de conscience, actions détaillées (séquence/résultat/heure) pour Hémorragie/LVA/Circulation/AVC"
+    ]
+  },
+  {
     "version": "20.4",
     "date": "2026-07-27T14:43:56.590Z",
     "title": "Correction : schéma corporel rafraîchi en direct à la saisie de la Région",
