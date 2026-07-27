@@ -1,5 +1,13 @@
 [
   {
+    "version": "19.3",
+    "date": "2026-07-27T10:07:33.269Z",
+    "title": "Correction : bonne clé de stockage utilisée pour le jeton GitHub",
+    "items": [
+      "Correction : bonne clé de stockage utilisée pour le jeton GitHub"
+    ]
+  },
+  {
     "version": "19.2",
     "date": "2026-07-27T10:06:55.885Z",
     "title": "Guide intégré en cas de jeton GitHub sans les bonnes permissions",
