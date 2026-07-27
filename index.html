@@ -4637,7 +4637,7 @@ options: [
   ]},
   { key: 'a', label: '🫁 A — Voies aériennes', fields: [
 { key: 'voiesAeriennes', label: 'État des voies aériennes', type: 'chip', options: ['Libres', 'Obstruées'] },
-    { key: 'voiesAeriennesAction', label: 'Action réalisée', type: 'actions', options: ['Claques dans le dos', 'Compressions abdominales (Heimlich)', 'Compressions thoraciques'], withCycles: true, showIf: { field: 'voiesAeriennes', value: 'Obstruées' } }
+{ key: 'voiesAeriennesAction', label: 'Action réalisée', type: 'actions', options: ['Claques dans le dos', 'Compressions abdominales (Heimlich)', 'Compressions thoraciques'], withDetail: true, outcomeOptions: ['Corps étranger expulsé', 'Perte de connaissance', 'Arrêt cardiaque'], showIf: { field: 'voiesAeriennes', value: 'Obstruées' } }
   ]},
   { key: 'b', label: '💨 B — Respiration', phraseCategory: 'respiration', fields: [
     { key: 'freqRespi', label: 'Fréquence (par minute)', type: 'number', info: 'freqRespi', timer: true, slider: { min: 0, max: 60, step: 1, major: 10, minor: 5, unit: '/min' } },
@@ -4985,20 +4985,29 @@ if (f.type === 'actions') {
     const selected = Array.isArray(bilanData[f.key]) ? bilanData[f.key] : [];
     const autreValue = bilanData[f.key + 'Autre'] || '';
     const heure = bilanData[f.key + 'Heure'] ? formatHeureCourte(bilanData[f.key + 'Heure']) : '';
-    const cyclesData = bilanData[f.key + 'Cycles'] || {};
+    const detailValue = bilanData[f.key + 'Detail'] || '';
+    const outcomeValue = bilanData[f.key + 'Outcome'] || '';
     return `
-      <div class="bilan-field-row">
+      <div class="bilan-field-row" id="actions-wrap-${f.key}">
         <label>${f.label}</label>
         <div class="bilan-chip-row" style="flex-wrap:wrap;">
           ${f.options.map(o => `<button class="bilan-chip ${selected.includes(o) ? 'active' : ''}" data-actions-field="${f.key}" data-value="${o}">${o}</button>`).join('')}
         </div>
         ${heure ? `<div style="color:#9FB3D6;font-size:11px;margin-top:4px;">Première action à ${heure}</div>` : ''}
-        ${f.withCycles ? selected.map(o => `
-          <div style="display:flex;align-items:center;gap:8px;margin-top:8px;">
-            <span style="color:#9FB3D6;font-size:12px;flex:1;">${o} — cycles</span>
-            <input type="number" min="0" data-cycles-field="${f.key}" data-cycles-action="${o}" value="${cyclesData[o] || ''}" style="width:60px;text-align:center;">
+        ${(f.withDetail && selected.length > 0) ? `
+          <div style="margin-top:8px;">
+            <div style="font-size:12px;color:#9FB3D6;margin-bottom:4px;">Détail de la séquence (ex : 5 claques, 5 compressions, 3 claques...)</div>
+            <textarea rows="2" class="bilan-textarea" data-actions-detail="${f.key}">${escapeHtml(detailValue)}</textarea>
           </div>
-        `).join('') : ''}
+        ` : ''}
+        ${(f.outcomeOptions && selected.length > 0) ? `
+          <div style="margin-top:8px;">
+            <div style="font-size:12px;color:#9FB3D6;margin-bottom:4px;">Résultat</div>
+            <div class="bilan-chip-row" style="flex-wrap:wrap;">
+              ${f.outcomeOptions.map(o => `<button class="bilan-chip ${outcomeValue === o ? 'active' : ''}" data-actions-outcome="${f.key}" data-value="${o}">${o}</button>`).join('')}
+            </div>
+          </div>
+        ` : ''}
         <input type="text" data-bilan-field="${f.key}Autre" placeholder="Autre (préciser)" value="${escapeHtml(autreValue)}" style="margin-top:8px;">
       </div>
     `;
@@ -5727,6 +5736,75 @@ function showArchivedBilanText(entry) {
   });
 }
 
+function findBilanFieldByKey(key) {
+  for (const cat of BILAN_CATEGORIES) {
+    const f = cat.fields.find(ff => ff.key === key);
+    if (f) return f;
+  }
+  for (const cat of POST_SUIVI_CATEGORIES) {
+    const f = cat.fields.find(ff => ff.key === key);
+    if (f) return f;
+  }
+  return null;
+}
+
+function refreshActionsField(key) {
+  const f = findBilanFieldByKey(key);
+  const wrap = document.getElementById('actions-wrap-' + key);
+  if (!f || !wrap) return;
+  const temp = document.createElement('div');
+  temp.innerHTML = renderBilanFieldInner(f);
+  const newWrap = temp.firstElementChild;
+  wrap.replaceWith(newWrap);
+  attachActionsFieldListeners(key);
+}
+
+function attachActionsFieldListeners(key) {
+  const wrap = document.getElementById('actions-wrap-' + key);
+  if (!wrap) return;
+
+  wrap.querySelectorAll('[data-actions-field]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const value = btn.dataset.value;
+      if (!Array.isArray(bilanData[key])) bilanData[key] = [];
+      const idx = bilanData[key].indexOf(value);
+      if (idx >= 0) bilanData[key].splice(idx, 1);
+      else {
+        bilanData[key].push(value);
+        if (!bilanData[key + 'Heure']) bilanData[key + 'Heure'] = new Date().toISOString();
+      }
+      saveBilanData();
+      refreshActionsField(key);
+    });
+  });
+
+  const detailInput = wrap.querySelector('[data-actions-detail]');
+  if (detailInput) {
+    detailInput.addEventListener('input', () => {
+      bilanData[key + 'Detail'] = detailInput.value;
+      saveBilanData();
+      detailInput.style.height = 'auto';
+      detailInput.style.height = detailInput.scrollHeight + 'px';
+    });
+  }
+
+  wrap.querySelectorAll('[data-actions-outcome]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      bilanData[key + 'Outcome'] = (bilanData[key + 'Outcome'] === btn.dataset.value) ? '' : btn.dataset.value;
+      saveBilanData();
+      refreshActionsField(key);
+    });
+  });
+
+  const autreInput = wrap.querySelector(`[data-bilan-field="${key}Autre"]`);
+  if (autreInput) {
+    autreInput.addEventListener('input', () => {
+      bilanData[key + 'Autre'] = autreInput.value;
+      saveBilanData();
+    });
+  }
+}
+
 function updateShowIfFields() {
   document.querySelectorAll('[data-showif-field]').forEach(el => {
     const cond = String(bilanData[el.dataset.showifField]) === el.dataset.showifValue;
@@ -5941,20 +6019,9 @@ if (select.dataset.bilanField.startsWith('glasgow')) { updateGlasgowTotalDisplay
     });
   });
 
- container.querySelectorAll('[data-actions-field]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const key = btn.dataset.actionsField;
-      const value = btn.dataset.value;
-      if (!Array.isArray(bilanData[key])) bilanData[key] = [];
-      const idx = bilanData[key].indexOf(value);
-      if (idx >= 0) bilanData[key].splice(idx, 1);
-      else {
-        bilanData[key].push(value);
-        if (!bilanData[key + 'Heure']) bilanData[key + 'Heure'] = new Date().toISOString();
-      }
-      saveBilanData();
-      renderBilanFill();
-    });
+container.querySelectorAll('[id^="actions-wrap-"]').forEach(wrap => {
+    const key = wrap.id.replace('actions-wrap-', '');
+    attachActionsFieldListeners(key);
   });
 
   container.querySelectorAll('[data-cycles-field]').forEach(input => {
