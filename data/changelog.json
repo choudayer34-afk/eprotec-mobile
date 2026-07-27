@@ -1,5 +1,13 @@
 [
   {
+    "version": "19.2",
+    "date": "2026-07-27T10:06:55.885Z",
+    "title": "Guide intégré en cas de jeton GitHub sans les bonnes permissions",
+    "items": [
+      "Si l'upload échoue par manque de permission, l'app affiche désormais directement les étapes pour créer un nouveau jeton, avec un lien vers la page GitHub concernée, et un champ pour l'enregistrer immédiatement sans quitter l'app"
+    ]
+  },
+  {
     "version": "19.1",
     "date": "2026-07-27T09:57:55.779Z",
     "title": "Upload d'image directement dans data/ depuis l'app",
