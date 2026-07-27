@@ -1,5 +1,22 @@
 {
-  "newEvents": [],
+  "newEvents": [
+    {
+      "tag": "MLA",
+      "titre": "[MLA 34] Nettoyage Materiel Humanitaire partie 1/2",
+      "lieu": "Route de Serignan 34500 Beziers",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1636812",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-08-05T06:00:00.000Z"
+    },
+    {
+      "tag": "MLA",
+      "titre": "[MLA 34] Nettoyage Materiel Humanitaire partie 2/2",
+      "lieu": "Route de Serignan 34500 Beziers",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1636812",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-08-05T12:30:00.000Z"
+    }
+  ],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
