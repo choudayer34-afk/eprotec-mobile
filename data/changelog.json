@@ -1,5 +1,14 @@
 [
   {
+    "version": "21.2",
+    "date": "2026-07-27T19:27:37.710Z",
+    "title": "Observations et Conseils prodigués regroupés dans la section Observations",
+    "items": [
+      "Nouveau champ \"Conseils prodigués\" dans Gestes effectués",
+      "Dans le PDF et le résumé (copier/WhatsApp), l'Observation et les Conseils prodigués apparaissent désormais dans la section \"Observations\" plutôt que dans \"Gestes effectués\", avec préfixe clair"
+    ]
+  },
+  {
     "version": "21.1",
     "date": "2026-07-27T19:08:42.316Z",
     "title": "Correction : résumé/copier/WhatsApp incomplet (Identité, Gestes, Suite, Décharge manquants)",
