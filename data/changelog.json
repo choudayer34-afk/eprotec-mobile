@@ -1,5 +1,13 @@
 [
   {
+    "version": "19.5",
+    "date": "2026-07-27T12:36:23.630Z",
+    "title": "Correction : le nom pré-rempli n'est plus écrasé au choix du fichier",
+    "items": [
+      "Le nom de fichier n'est désormais suggéré automatiquement que si le champ est vide, préservant un nom déjà pré-rempli (ex. depuis une illustration manquante)"
+    ]
+  },
+  {
     "version": "19.4",
     "date": "2026-07-27T12:33:54.746Z",
     "title": "Message d'illustration manquante cliquable pour l'admin",
