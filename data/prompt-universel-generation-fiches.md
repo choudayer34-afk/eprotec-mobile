@@ -57,6 +57,23 @@ Pour chaque fiche, produis :
 
 Structure logique habituelle d'une fiche secourisme : Reconnaissance → Conduite à tenir → Cas particuliers → Signes de gravité → (si pertinent) Consignes avant de laisser partir la victime.
 
+**Section "Avant de laisser partir" (obligatoire chaque fois qu'une victime peut repartir sans évacuation)** : ajoute une section avec `"type": "consignes"` (au lieu du type par défaut), avec pour titre "📋 Avant de la laisser partir" et pour `items` les consignes de surveillance/consultation à donner. Cette section s'affichera automatiquement avec un encadré vert distinct. Exemple pour un traumatisme de membre :
+
+```json
+{
+  "title": "📋 Avant de la laisser partir",
+  "type": "consignes",
+  "items": [
+    "Consulter un médecin dans les 24-48h, surtout si douleur persistante ou impotence (une radio pourra être envisagée)",
+    "Ne pas réappuyer sur le membre en attendant la consultation",
+    "Reconsulter en urgence si le membre devient froid, insensible, ou très gonflé",
+    "Ne pas rester seul(e) tout de suite après, si possible"
+  ]
+}
+```
+
+Ajoute cette section systématiquement pour : traumatismes/entorses, plaies simples, brûlures simples, malaises résolus, hypoglycémie resucrée, allergie traitée, convulsion isolée connue, hyperthermie récupérée, intoxication alcoolique légère, LVA efficace — c'est-à-dire chaque fois que la situation n'implique pas obligatoirement une évacuation.
+
 Structure logique habituelle d'une fiche autodéfense : présentation de la situation → technique étape par étape → variante(s) si pertinent → rappel de sécurité/proportionnalité.
 
 **Toujours ajouter, si le sujet s'y prête**, un rappel court en fin de fiche du type : *"Ceci est un pense-bête pour une pratique déjà acquise, pas un substitut à un entraînement encadré."* (autodéfense) ou équivalent pour le secourisme si le geste demande une vraie formation pratique.
