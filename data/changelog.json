@@ -1,5 +1,14 @@
 [
   {
+    "version": "18.2",
+    "date": "2026-07-27T08:31:18.220Z",
+    "title": "Correction \"undefined\" + message clair pour illustration manquante",
+    "items": [
+      "L'import de fiches stockait le nom d'image sous le mauvais champ, provoquant l'affichage littéral de \"undefined\"",
+      "Une fiche référençant une image pas encore uploadée affiche désormais un message clair au lieu d'une image cassée"
+    ]
+  },
+  {
     "version": "18.1",
     "date": "2026-07-27T08:00:42.293Z",
     "title": "Bouton pour récupérer le prompt universel directement dans l'app",
