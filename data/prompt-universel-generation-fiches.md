@@ -89,10 +89,10 @@ CLARIFICATIONS CRITIQUES À RESPECTER STRICTEMENT DANS CHAQUE CASE (aucune ambig
 Présente la scène en [3 à 6] cases numérotées, disposées [horizontalement / en grille 2x2 / en 2 rangées de 3], séparées par de fines lignes blanches :
 
 Case 1 : [description précise de ce qui doit être visible, avec la trajectoire des mouvements indiquée par des flèches blanches]
-Légende : "1. [texte court]"
+Légende : 1. [texte court]
 
 Case 2 : [...]
-Légende : "2. [texte court]"
+Légende : 2. [texte court]
 
 [... autant de cases que nécessaire]
 
@@ -199,6 +199,27 @@ Le résultat final doit être un JSON strictement valide et directement parsable
 - Ne jamais omettre la section `rapport`, même si tout est parfaitement clair (dans ce cas, les listes concernées restent vides `[]`)
 
 ---
+## Contrôle final obligatoire avant réponse
+
+Avant de générer la réponse finale, vérifie que le contenu respecte simultanément les contraintes de fond et de syntaxe.
+
+Le résultat doit être un objet JSON unique et strictement valide.
+
+Effectue une vérification finale spécifique des chaînes longues, notamment les champs `prompt`, car ils peuvent contenir :
+- des guillemets doubles ;
+- des retours à la ligne ;
+- des antislashs ;
+- des légendes ;
+- des exemples de texte.
+
+Tout guillemet double appartenant au contenu d'une chaîne doit être échappé avec `\"`.
+Tout retour à la ligne appartenant au contenu d'une chaîne doit être encodé avec `\n`.
+
+Ne fournis jamais un JSON approximatif ou pseudo-JSON.
+Ne fournis jamais de Markdown autour du JSON.
+Ne fournis jamais de texte explicatif avant ou après le JSON.
+
+Le JSON doit être directement copiable-collable dans un parseur JSON et importable sans modification manuelle.
 
 ## NOTES À TRAITER
 
