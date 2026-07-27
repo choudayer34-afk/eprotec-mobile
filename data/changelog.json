@@ -1,5 +1,13 @@
 [
   {
+    "version": "17.9",
+    "date": "2026-07-27T07:37:32.354Z",
+    "title": "Correction critique : \"Nouveau bilan\" n'effaçait plus les données",
+    "items": [
+      "Une précédente modification avait accidentellement fusionné le contenu de handleBilanNew avec celui destiné à l'édition d'un bilan archivé"
+    ]
+  },
+  {
     "version": "17.8",
     "date": "2026-07-27T07:01:42.415Z",
     "title": "Correction : référence à un élément d'en-tête supprimé (bilan-icons)",
