@@ -1,5 +1,13 @@
 [
   {
+    "version": "20.4",
+    "date": "2026-07-27T14:43:56.590Z",
+    "title": "Correction : schéma corporel rafraîchi en direct à la saisie de la Région",
+    "items": [
+      "Attends 1-2 minutes, tire vers le bas, teste : tape dans \"Région\" (ex. \"genou droit\") → le schéma en dessous doit se mettre à jour immédiatement, sans sortir/revenir dans le bilan."
+    ]
+  },
+  {
     "version": "20.3",
     "date": "2026-07-27T14:40:13.453Z",
     "title": "Corr.",
