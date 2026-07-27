@@ -161,6 +161,17 @@ Indique à la place :
 - Le type de photo attendu (ex. "photo du boîtier réel du DAE utilisé par l'organisation, vue de face, boutons visibles")
 - La justification (pourquoi une vraie photo apporte plus qu'un schéma ici)
 
+## Étape 4bis — Générer des questions de quizz sur le même sujet
+
+En plus de la ou des fiches, génère **3 à 5 questions de quizz** portant sur le contenu que tu viens de traiter, pour aider à mémoriser durablement l'information.
+
+Règles pour chaque question :
+- Un QCM à 4 propositions, une seule bonne réponse
+- Les 3 mauvaises réponses doivent être plausibles (pas absurdes), pour un vrai test de connaissance
+- Ajoute une courte explication (1-2 phrases) justifiant la bonne réponse
+- Varie les formats : question factuelle directe, et au moins une question de type "mise en situation" si le sujet s'y prête (ex. "Tu es face à... Que fais-tu ?")
+- La catégorie de la question doit reprendre le thème identifié à l'Étape 1
+
 ## Étape 5 — Format de sortie exigé
 
 Règle de construction du JSON
@@ -214,13 +225,23 @@ Produis **un seul bloc JSON**, structuré exactement ainsi :
       "prompt": "Le prompt complet rédigé selon le gabarit de l'Étape 4"
     }
   ],
+"quiz": [
+    {
+      "category": "Thème identifié",
+      "question": "Texte de la question",
+      "options": ["Réponse 1", "Réponse 2", "Réponse 3", "Réponse 4"],
+      "correctIndex": 0,
+      "explication": "Courte explication de la bonne réponse"
+    }
+  ],
   "rapport": {
     "nombre_fiches_generees": 1,
     "logique_de_decoupage": "Explication courte de comment/pourquoi les notes ont été scindées ou regroupées",
     "thematiques_identifiees": ["Thème 1", "Thème 2"],
     "illustrations_proposees": ["Liste des noms de fichiers proposés, avec une phrase de justification chacun"],
     "ambiguites_detectees": ["Toute zone floue des notes d'origine qui a nécessité une interprétation"],
-    "informations_manquantes_ou_a_valider": ["Toute donnée que tu n'as pas pu vérifier avec certitude, à faire relire par un humain formé"]
+"informations_manquantes_ou_a_valider": ["Toute donnée que tu n'as pas pu vérifier avec certitude, à faire relire par un humain formé"],
+    "questions_generees": 0
   }
 }
 ```
