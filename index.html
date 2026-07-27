@@ -8274,7 +8274,7 @@ container.innerHTML = addBtnHtml + filtered.map(geste => {
             ${geste.sections.map(sec => `
               <div style="margin-top:14px;">
                 <div style="color:#F5821F;font-size:13px;font-weight:500;margin-bottom:6px;">${sec.title}</div>
-                ${sec.illustration ? GESTE_ILLUSTRATIONS[sec.illustration] : ''}${sec.image ? `<img src="data/${sec.image}" style="width:100%;border-radius:8px;margin:8px 0;display:block;" alt="${sec.title}" onerror="handleFicheImgError(this, '${sec.image}')">` : ''}
+                ${(sec.illustration && GESTE_ILLUSTRATIONS[sec.illustration]) ? GESTE_ILLUSTRATIONS[sec.illustration] : ''}${(sec.image || (sec.illustration && !GESTE_ILLUSTRATIONS[sec.illustration])) ? `<img src="data/${sec.image || sec.illustration}" style="width:100%;border-radius:8px;margin:8px 0;display:block;" alt="${sec.title}" onerror="handleFicheImgError(this, '${sec.image || sec.illustration}')">` : ''}
                 ${sec.customHtml ? sec.customHtml : `
                 <ul class="reason-list" style="color:#fff;">
                   ${sec.items.map(i => `<li style="margin-bottom:4px;">${i}</li>`).join('')}
