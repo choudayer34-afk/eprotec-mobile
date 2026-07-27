@@ -1,5 +1,14 @@
 [
   {
+    "version": "18.8",
+    "date": "2026-07-27T09:38:09.304Z",
+    "title": "Quizz : toutes questions éditables/supprimables + 29 nouvelles questions",
+    "items": [
+      "Toutes les questions (y compris celles codées en dur au départ) sont désormais modifiables ou supprimables en mode admin, via une nouvelle liste \"Gérer les questions\"",
+      "29 questions supplémentaires ajoutées, couvrant AVC, malaises, plaies/brûlures, NOVI, pédiatrie, matériel, lexique, autodéfense et mises en situation — total 45 questions"
+    ]
+  },
+  {
     "version": "18.7",
     "date": "2026-07-27T09:32:58.106Z",
     "title": "Notifications mail personnalisées par utilisateur",
