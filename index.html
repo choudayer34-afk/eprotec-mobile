@@ -4809,7 +4809,8 @@ const POST_SUIVI_CATEGORIES = [
     { key: 'position', label: 'Mise en position', type: 'chip', options: ['Assis', 'Demi-assis', 'Allongé', 'PLS', 'Jambes surélevées'] },
     { key: 'gestesEffectues', label: 'Gestes réalisés', type: 'checklist', options: ['Repos', 'Refroidissement', 'Collier', 'Plan dur', 'Écharpe', 'Protection thermique', 'Matelas à dépression', 'Poche de froid', 'Pansement', 'Nettoyage / Désinfection', 'Sucre', 'Attelle', 'Aide à la prise de médicament'] },
     { key: 'gestesAutre', label: 'Autre geste', type: 'text' },
-    { key: 'observations', label: 'Observations', type: 'text', info: 'observations_evolution' }
+   { key: 'observations', label: 'Observations', type: 'text', info: 'observations_evolution' },
+    { key: 'conseilsProdigues', label: 'Conseils prodigués', type: 'text' }
   ]},
 { key: 'suite', label: '📤 Suite donnée', fields: [
     { key: 'bilanTransmisA', label: 'Bilan transmis à', type: 'chip', options: ['SAMU', 'Pompiers', 'Autre'] },
@@ -5573,7 +5574,10 @@ if (cat.key === 'd') {
       }
     });
    
-    
+  if (cat.key === 'e') {
+      if (bilanData.observations) catText += `- Observation : ${bilanData.observations}\n`;
+      if (bilanData.conseilsProdigues) catText += `- Conseils prodigués : ${bilanData.conseilsProdigues}\n`;
+    }  
 if (cat.key === 'circonstanciel' && bilanData.situationLat && bilanData.situationLon) {
       const mapsUrl = `https://www.google.com/maps?q=${bilanData.situationLat},${bilanData.situationLon}`;
       catText += `- Coordonnées GPS : ${bilanData.situationLat.toFixed(5)}, ${bilanData.situationLon.toFixed(5)} (précision ±${bilanData.situationAccuracy} m)\n`;
@@ -5582,9 +5586,10 @@ if (cat.key === 'circonstanciel' && bilanData.situationLat && bilanData.situatio
     if (catText) text += cat.label.replace(/^\S+\s/, '') + '\n' + catText + '\n';
   });
 
-  POST_SUIVI_CATEGORIES.forEach(cat => {
+POST_SUIVI_CATEGORIES.forEach(cat => {
     let catText = '';
     cat.fields.forEach(f => {
+      if (f.key === 'observations' || f.key === 'conseilsProdigues') return;
       if (f.type === 'actions') {
         const val = formatActionsField(f);
         if (val) catText += `- ${f.label} : ${val}\n`;
@@ -5786,7 +5791,6 @@ if (d.intoxMedicamentsNom) html += pdfRow([pdfField('Médicament(s)', d.intoxMed
   const gestesOptions = ['Repos', 'Refroidissement', 'Collier', 'Plan dur', 'Écharpe', 'Protection thermique', 'Matelas à dépression', 'Poche de froid', 'Pansement', 'Nettoyage / Désinfection', 'Sucre', 'Attelle', 'Aide à la prise de médicament'];
   html += pdfRow(gestesOptions.map(g => pdfCheck((d.gestesEffectues || []).includes(g), g)));
 if (d.gestesAutre) html += pdfRow([pdfField('Autre', d.gestesAutre)]);
-  if (d.observations) html += pdfField('Observations', d.observations, true);
 
   html += pdfSectionTitle('BILAN DE SURVEILLANCE');
   const suivi = d.suivi || [];
@@ -5811,6 +5815,8 @@ if (d.gestesAutre) html += pdfRow([pdfField('Autre', d.gestesAutre)]);
 
 html += pdfSectionTitle('OBSERVATIONS');
   html += pdfField('', d.environnement, true);
+  if (d.observations) html += pdfField('Observation', d.observations, true);
+  if (d.conseilsProdigues) html += pdfField('Conseils prodigués', d.conseilsProdigues, true);
 
   html += pdfSectionTitle('SUITE DONNÉE');
   html += pdfRow([
