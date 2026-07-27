@@ -1,5 +1,14 @@
 [
   {
+    "version": "19.1",
+    "date": "2026-07-27T09:57:55.779Z",
+    "title": "Upload d'image directement dans data/ depuis l'app",
+    "items": [
+      "Nouveau bouton dans l'écran Import : choisir une photo depuis le téléphone, la renommer si besoin, et l'envoyer directement dans le dossier data/ du dépôt via l'API GitHub",
+      "Ferme la boucle génération d'illustration → envoi, sans passer par le site GitHub"
+    ]
+  },
+  {
     "version": "19.0",
     "date": "2026-07-27T09:48:07.525Z",
     "title": "Bouton \"Tester\" pour prévisualiser une question de quizz",
