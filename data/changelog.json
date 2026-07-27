@@ -1,5 +1,13 @@
 [
   {
+    "version": "17.8",
+    "date": "2026-07-27T07:01:42.415Z",
+    "title": "Correction : référence à un élément d'en-tête supprimé (bilan-icons)",
+    "items": [
+      "Correction : référence à un élément d'en-tête supprimé (bilan-icons)"
+    ]
+  },
+  {
     "version": "17.7",
     "date": "2026-07-27T05:43:55.337Z",
     "title": "Édition/suppression des fiches custom et de l'historique du Bilan",
