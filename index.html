@@ -5413,8 +5413,13 @@ function renderGeolocExtra() {
 
 function renderBilan() {
   loadBilanData();
-  if (bilanMode === 'reference') { renderBilanReference(); document.getElementById('bilan-icons').innerHTML = ''; }
-  else renderBilanFill();
+  if (bilanMode === 'reference') {
+    renderBilanReference();
+    const actionBar = document.getElementById('bilan-action-bar');
+    if (actionBar) actionBar.innerHTML = '';
+  } else {
+    renderBilanFill();
+  }
 }
 
 document.querySelectorAll('[data-bilan-mode]').forEach(btn => {
