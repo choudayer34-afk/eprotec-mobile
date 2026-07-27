@@ -8660,9 +8660,9 @@ document.getElementById('import-analyser-btn').addEventListener('click', renderI
   document.body.appendChild(overlay);
   overlay.querySelector('#token-help-close').addEventListener('click', () => overlay.remove());
   overlay.querySelector('#token-help-save').addEventListener('click', () => {
-    const newToken = overlay.querySelector('#new-token-input').value.trim();
+const newToken = overlay.querySelector('#new-token-input').value.trim();
     if (newToken) {
-      localStorage.setItem('github_token', newToken);
+      localStorage.setItem(GH_TOKEN_KEY, newToken);
       overlay.remove();
       const status = document.getElementById('upload-status');
       if (status) status.textContent = '✓ Jeton mis à jour, réessaie l\'envoi maintenant.';
