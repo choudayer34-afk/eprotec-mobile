@@ -633,7 +633,10 @@
         <div class="tile-icon">📞</div>
         <div class="tile-title">Numéros d'urgence</div>
       </div>
-
+<div class="tile" id="import-fiches-tile" style="display:none;" data-open="import-fiches">
+        <div class="tile-icon">📥</div>
+        <div class="tile-title">Importer des fiches</div>
+      </div>
       <div class="tile" data-open="plus-pediatrie">
         <div class="tile-icon">👶</div>
         <div class="tile-title">Enfant / Nourrisson</div>
@@ -872,7 +875,16 @@
     </div>
     <div id="sos-contacts-content"><div class="empty">Chargement...</div></div>
   </section>
-
+<section id="plus-import-fiches">
+    <div class="detail-header">
+      <button class="plus-back" data-target="plus-secourisme">‹</button>
+      <span>Importer des fiches</span>
+    </div>
+    <div style="color:#9FB3D6;font-size:12px;margin-bottom:12px;">Colle ici le JSON produit par le prompt universel, puis tape "Analyser".</div>
+    <textarea rows="10" class="bilan-textarea" id="import-json-input" placeholder='{"fiches": [...], "rapport": {...}}'></textarea>
+    <button class="detail-action-btn primary" id="import-analyser-btn" style="margin-top:10px;">🔍 Analyser</button>
+    <div id="import-report-content" style="margin-top:14px;"></div>
+  </section>
   <section id="plus-lexique">
     <div class="detail-header">
       <button class="plus-back" data-target="plus-secourisme">‹</button>
@@ -1625,6 +1637,12 @@ document.querySelectorAll('.tile[data-open]').forEach(tile => {
       showEmergencyNumbersModal();
       return;
     }
+    if (tile.dataset.open === 'import-fiches') {
+      document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === 'plus-secourisme'));
+      document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+      document.getElementById('plus-import-fiches').classList.add('active');
+      return;
+    }
     if (tile.dataset.open === 'calendrier') {
 
       document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
@@ -1668,6 +1686,7 @@ if (subId === 'plus-pretapartir') renderPretAPartir();
 if (subId === 'plus-materiel') renderGestesList('materiel-content', ['materiel']);
 if (subId === 'plus-novi') renderGestesList('novi-content', ['novi']);
   if (subId === 'plus-pediatrie') renderGestesList('pediatrie-content', ['pediatrie']);
+  if (subId === 'plus-import-fiches') { document.getElementById('import-report-content').innerHTML = ''; }
   if (subId === 'plus-sos-contacts') renderSosContactsScreen();
 
   if (subId === 'plus-autodef-prevention') renderGestesList('autodef-prevention-content', ['prevention']);
@@ -3534,6 +3553,94 @@ function showEditFicheModal(ficheKey, containerId, categories) {
     renderGestesList(containerId, categories);
   });
 }
+
+  let importParsedData = null;
+
+function renderImportReport() {
+  const container = document.getElementById('import-report-content');
+  const raw = document.getElementById('import-json-input').value.trim();
+
+  let parsed;
+  try {
+    parsed = JSON.parse(raw);
+  } catch (err) {
+    container.innerHTML = `<div class="consignes-box" style="background:#4A1B0C;border-color:#E24B4A;"><div class="consignes-title" style="color:#F0997B;">❌ JSON invalide</div><div style="color:#fff;font-size:13px;">${escapeHtml(err.message)}</div></div>`;
+    importParsedData = null;
+    return;
+  }
+
+  if (!parsed.fiches || !Array.isArray(parsed.fiches) || parsed.fiches.length === 0) {
+    container.innerHTML = '<div class="empty">Aucune fiche trouvée dans ce JSON.</div>';
+    importParsedData = null;
+    return;
+  }
+
+  importParsedData = parsed;
+  const rapport = parsed.rapport || {};
+
+  let html = `<div class="card highlight"><div class="card-title">📋 Rapport de traitement</div>`;
+  html += `<div class="bilan-ref-item">Fiches générées : ${parsed.fiches.length}</div>`;
+  if (rapport.logique_de_decoupage) html += `<div class="bilan-ref-item">Découpage : ${escapeHtml(rapport.logique_de_decoupage)}</div>`;
+  if (rapport.thematiques_identifiees && rapport.thematiques_identifiees.length) {
+    html += `<div class="bilan-ref-item">Thématiques : ${rapport.thematiques_identifiees.map(escapeHtml).join(', ')}</div>`;
+  }
+  html += `</div>`;
+
+  if (rapport.ambiguites_detectees && rapport.ambiguites_detectees.length) {
+    html += `<div class="consignes-box" style="background:#3A2A0E;border-color:#EF9F27;"><div class="consignes-title" style="color:#FAC775;">⚠️ Ambiguïtés détectées</div><ul style="padding-left:18px;color:#fff;font-size:13px;">${rapport.ambiguites_detectees.map(a => `<li>${escapeHtml(a)}</li>`).join('')}</ul></div>`;
+  }
+  if (rapport.informations_manquantes_ou_a_valider && rapport.informations_manquantes_ou_a_valider.length) {
+    html += `<div class="consignes-box" style="background:#3A2A0E;border-color:#EF9F27;"><div class="consignes-title" style="color:#FAC775;">🔎 À valider par un humain formé</div><ul style="padding-left:18px;color:#fff;font-size:13px;">${rapport.informations_manquantes_ou_a_valider.map(a => `<li>${escapeHtml(a)}</li>`).join('')}</ul></div>`;
+  }
+
+  html += `<div class="card"><div class="card-title">Fiches à importer</div>`;
+  parsed.fiches.forEach(f => {
+    html += `<div class="bilan-ref-item"><b>${escapeHtml(f.title)}</b> — catégorie : ${escapeHtml(f.category)} — ${(f.sections || []).length} section(s)</div>`;
+  });
+  html += `</div>`;
+
+  const illustrations = parsed.illustrations_a_generer || [];
+  if (illustrations.length > 0) {
+    html += `<div class="card"><div class="card-title">🎨 Illustrations à générer et uploader</div>`;
+    illustrations.forEach(img => {
+      html += `
+        <div style="margin-bottom:12px;border-top:0.5px solid #223258;padding-top:8px;">
+          <div style="color:#F5821F;font-size:13px;font-weight:600;">${escapeHtml(img.nom_fichier)}</div>
+          <div style="color:#9FB3D6;font-size:11px;margin-bottom:4px;">${escapeHtml(img.emplacement || '')}</div>
+          <div class="text-field-wrap has-value">
+            <textarea rows="3" class="bilan-textarea" readonly style="font-size:11px;">${escapeHtml(img.prompt || '')}</textarea>
+          </div>
+        </div>
+      `;
+    });
+    html += `<div style="color:#9FB3D6;font-size:11px;">Génère ces images avec le prompt fourni, puis uploade-les dans le dossier "data" de GitHub avec le nom exact indiqué — la fiche les affichera automatiquement.</div></div>`;
+  }
+
+  html += `<button class="detail-action-btn primary" id="import-confirm-btn" style="margin-top:10px;">✅ Confirmer l'import de ${parsed.fiches.length} fiche(s)</button>`;
+
+  container.innerHTML = html;
+
+  container.querySelector('#import-confirm-btn').addEventListener('click', async () => {
+    importParsedData.fiches.forEach((f, i) => {
+      fichesCustom.push({
+        key: 'custom_' + Date.now() + '_' + i,
+        title: f.title,
+        category: f.category,
+        summary: f.summary || [],
+        sections: (f.sections || []).map(s => ({
+          title: s.title,
+          items: s.items || [],
+          illustration: s.illustration || undefined
+        }))
+      });
+    });
+    await saveFichesCustom();
+    document.getElementById('import-json-input').value = '';
+    container.innerHTML = `<div class="consignes-box"><div class="consignes-title">✓ Import terminé</div><div style="color:#fff;font-size:13px;">${importParsedData.fiches.length} fiche(s) ajoutée(s). Retrouve-les dans leurs catégories respectives.</div></div>`;
+    importParsedData = null;
+  });
+}
+
 
 function showAddFicheModal(category, containerId) {
   const overlay = document.createElement('div');
@@ -8022,6 +8129,7 @@ document.getElementById('lexique-add-btn').addEventListener('click', showAddLexi
 document.getElementById('liens-urgence-btn').addEventListener('click', showEmergencyNumbersModal);
 
 document.getElementById('sos-alert-btn').addEventListener('click', triggerSosAlert);
+document.getElementById('import-analyser-btn').addEventListener('click', renderImportReport);
 document.getElementById('sos-config-btn').addEventListener('click', () => {
   document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === 'plus-secourisme'));
   document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
@@ -8919,6 +9027,8 @@ if (identity.email) {
       const shareBtn = document.getElementById('share-app-btn');
       const forceUpdateBtn = document.getElementById('force-update-btn');
 if (adminTile) adminTile.style.display = 'block';
+      const importTile = document.getElementById('import-fiches-tile');
+      if (importTile) importTile.style.display = 'block';
       const lexiqueAddBtn = document.getElementById('lexique-add-btn');
       if (lexiqueAddBtn) lexiqueAddBtn.style.display = 'block';
       if (cloudFormationTile) cloudFormationTile.style.display = 'block';
