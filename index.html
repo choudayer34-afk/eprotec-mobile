@@ -883,6 +883,19 @@
       <span>Importer des fiches</span>
     </div>
 <button class="detail-action-btn" id="get-prompt-btn" style="margin-bottom:10px;">📄 Récupérer le prompt universel</button>
+    <button class="detail-action-btn" id="show-upload-btn" style="margin-bottom:10px;">📤 Uploader une image dans data/</button>
+    <div id="upload-form" style="display:none;margin-bottom:14px;">
+      <div class="bilan-field-row">
+        <label>Choisir l'image</label>
+        <input type="file" id="upload-file-input" accept="image/*">
+      </div>
+      <div class="bilan-field-row">
+        <label>Nom du fichier (renommer si besoin)</label>
+        <input type="text" id="upload-filename-input">
+      </div>
+      <button class="detail-action-btn primary" id="upload-confirm-btn">Envoyer vers data/</button>
+      <div id="upload-status" style="color:#9FB3D6;font-size:12px;margin-top:8px;"></div>
+    </div>
     <div style="color:#9FB3D6;font-size:12px;margin-bottom:12px;">Colle ici le JSON produit par le prompt universel, puis tape "Analyser".</div>
     <textarea rows="10" class="bilan-textarea" id="import-json-input" placeholder='{"fiches": [...], "rapport": {...}}'></textarea>
     <button class="detail-action-btn primary" id="import-analyser-btn" style="margin-top:10px;">🔍 Analyser</button>
@@ -8617,6 +8630,88 @@ document.getElementById('liens-urgence-btn').addEventListener('click', showEmerg
 
 document.getElementById('sos-alert-btn').addEventListener('click', triggerSosAlert);
 document.getElementById('import-analyser-btn').addEventListener('click', renderImportReport);
+
+  function sanitizeFilename(name) {
+  return name.trim().toLowerCase().replace(/[^a-z0-9.\-]/g, '-').replace(/-+/g, '-');
+}
+
+async function uploadFileToGithub(filename, base64Content) {
+  const token = await getGithubToken();
+  const path = `data/${filename}`;
+  const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${path}`;
+
+  let sha = null;
+  try {
+    const existing = await fetch(apiUrl, {
+      headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github+json' }
+    });
+    if (existing.ok) {
+      const data = await existing.json();
+      sha = data.sha;
+    }
+  } catch {}
+
+  const res = await fetch(apiUrl, {
+    method: 'PUT',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Accept': 'application/vnd.github+json'
+    },
+    body: JSON.stringify({
+      message: `Upload de ${filename} via l'app`,
+      content: base64Content,
+      ...(sha ? { sha } : {})
+    })
+  });
+
+  if (!res.ok) {
+    const errData = await res.json().catch(() => ({}));
+    throw new Error(errData.message || `Erreur ${res.status}`);
+  }
+}
+
+document.getElementById('show-upload-btn').addEventListener('click', () => {
+  const form = document.getElementById('upload-form');
+  form.style.display = form.style.display === 'none' ? 'block' : 'none';
+});
+
+document.getElementById('upload-file-input').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    document.getElementById('upload-filename-input').value = sanitizeFilename(file.name);
+  }
+});
+
+document.getElementById('upload-confirm-btn').addEventListener('click', async () => {
+  const fileInput = document.getElementById('upload-file-input');
+  const filenameInput = document.getElementById('upload-filename-input');
+  const status = document.getElementById('upload-status');
+  const file = fileInput.files[0];
+  const filename = sanitizeFilename(filenameInput.value);
+
+  if (!file || !filename) {
+    status.textContent = '❌ Choisis un fichier et un nom valide.';
+    return;
+  }
+
+  status.textContent = 'Envoi en cours...';
+
+  const reader = new FileReader();
+  reader.onload = async () => {
+    const base64 = reader.result.split(',')[1];
+    try {
+      await uploadFileToGithub(filename, base64);
+      status.textContent = `✓ ${filename} envoyé dans data/ — visible d'ici 1-2 minutes.`;
+      fileInput.value = '';
+      filenameInput.value = '';
+    } catch (err) {
+      status.textContent = `❌ Échec : ${err.message}`;
+      console.error(err);
+    }
+  };
+  reader.readAsDataURL(file);
+});
+
 
 document.getElementById('get-prompt-btn').addEventListener('click', async () => {
   const btn = document.getElementById('get-prompt-btn');
