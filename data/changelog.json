@@ -1,5 +1,13 @@
 [
   {
+    "version": "18.1",
+    "date": "2026-07-27T08:00:42.293Z",
+    "title": "Bouton pour récupérer le prompt universel directement dans l'app",
+    "items": [
+      "Le prompt universel de génération de fiches est désormais hébergé dans data/, récupérable en un tap depuis l'écran d'import (copié directement dans le presse-papiers)"
+    ]
+  },
+  {
     "version": "18.0",
     "date": "2026-07-27T07:46:21.199Z",
     "title": "Import de fiches en masse via prompt universel (admin)",
