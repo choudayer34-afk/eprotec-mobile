@@ -1,5 +1,15 @@
 [
   {
+    "version": "18.7",
+    "date": "2026-07-27T09:32:58.106Z",
+    "title": "Notifications mail personnalisées par utilisateur",
+    "items": [
+      "Chaque utilisateur choisit désormais s'il reçoit les nouveautés par mail, et à quelle adresse (par défaut son adresse de connexion, enregistrée automatiquement)",
+      "Le mail inclut la suggestion du mois propre à chacun, plutôt qu'une suggestion partagée",
+      "Repli automatique sur MAIL_TO si aucun destinataire n'est encore configuré dans Firebase, pour ne perdre aucune notification pendant la transition"
+    ]
+  },
+  {
     "version": "18.6",
     "date": "2026-07-27T09:32:19.031Z",
     "title": "VSuivante",
