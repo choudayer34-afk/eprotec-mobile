@@ -1,5 +1,14 @@
 [
   {
+    "version": "20.2",
+    "date": "2026-07-27T14:21:43.289Z",
+    "title": "Bilan étape 4/5 : Origine en liste + schéma corporel des douleurs",
+    "items": [
+      "Origine de la douleur devient une liste à choix multiples (fracture, brûlure, traumatique, cardiaque...)",
+      "Nouveau schéma corporel avant/arrière affichant automatiquement les codes (FO, FF, DL, DE, B, H, P, G, TR, SP, DI, CA, AU) à l'emplacement de chaque douleur renseignée, avec légende complète"
+    ]
+  },
+  {
     "version": "20.1",
     "date": "2026-07-27T14:07:35.686Z",
     "title": "Case \"tout cocher\" Neuro + réordonnancement des intoxications",
