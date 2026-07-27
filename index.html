@@ -4954,10 +4954,10 @@ function archiveCurrentBilan() {
 async function handleBilanNew() {
   const confirmClear = await promptChoice('Effacer le bilan en cours et en commencer un nouveau ?', ['Oui, effacer', 'Annuler']);
   if (confirmClear === 'Oui, effacer') {
-archiveCurrentBilan();
-    bilanData = JSON.parse(JSON.stringify(entry.data));
-    bilanData.dateHeureOuverture = entry.data.dateHeureOuverture || entry.savedAt;
+    archiveCurrentBilan();
+    bilanData = {};
     saveBilanData();
+    renderBilanFill();
   }
 }
 
