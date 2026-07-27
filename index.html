@@ -4643,8 +4643,7 @@ options: [
     { key: 'freqRespi', label: 'Fréquence (par minute)', type: 'number', info: 'freqRespi', timer: true, slider: { min: 0, max: 60, step: 1, major: 10, minor: 5, unit: '/min' } },
     { key: 'amplitudeRespi', label: 'Amplitude', type: 'chip', options: ['Normale', 'Superficielle', 'Ample'], info: 'amplitudeRespi' },
     { key: 'spo2', label: 'SpO2 %', type: 'number', info: 'spo2' },
-    { key: 'auscultation', label: 'Auscultation / bruits anormaux', type: 'chip', options: ['Normale', 'Superficielle', 'Bruyante', 'Difficile'], info: 'auscultation' },
-    { key: 'aucunSigneDetresseVentilatoire', label: 'Aucun signe de détresse ventilatoire', type: 'auto-checkbox' }
+    { key: 'auscultation', label: 'Auscultation / bruits anormaux', type: 'chip', options: ['Normale', 'Superficielle', 'Bruyante', 'Difficile'], info: 'auscultation' }
   ]},
   { key: 'c', label: '❤️ C — Circulation', phraseCategory: 'circulation', fields: [
     { key: 'freqCardiaque', label: 'Fréquence cardiaque (par minute)', type: 'number', info: 'freqCardiaque', timer: true, slider: { min: 20, max: 200, step: 1, major: 20, minor: 10, unit: '/min' } },
@@ -5972,7 +5971,6 @@ bilanData[key] = bilanData[key] === value ? '' : value;
       saveBilanData();
       refreshChipGroup(container, key);
       updateShowIfFields();
-      if (key === 'auscultation') bilanData.aucunSigneDetresseVentilatoire = (bilanData.auscultation === 'Normale');
       if (SUGGESTION_FIELDS.has(key)) updateFieldSuggestion(key);
       if (key === 'avcFace' || key === 'avcArm' || key === 'avcSpeech') updateFieldSuggestion('avcSpeech');
     });
