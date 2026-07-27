@@ -5257,6 +5257,8 @@ function attachDouleurListeners() {
       renderDouleurBody();
     });
   });
+
+
 body.querySelectorAll('[data-douleur-origine-chip]').forEach(btn => {
     btn.addEventListener('click', () => {
       const idx = parseInt(btn.dataset.douleurOrigineChip, 10);
@@ -5269,10 +5271,10 @@ body.querySelectorAll('[data-douleur-origine-chip]').forEach(btn => {
       saveBilanData();
       const schemaDiv = document.getElementById('douleur-body-schema');
       if (schemaDiv) schemaDiv.innerHTML = buildDouleurBodySchema();
+      btn.classList.toggle('active');
     });
   });
 
-  
   body.querySelectorAll('[data-douleur-pain]').forEach(btn => {
     btn.addEventListener('click', () => {
       const idx = parseInt(btn.dataset.douleurPain, 10);
