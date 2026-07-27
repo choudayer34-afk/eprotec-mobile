@@ -1,5 +1,14 @@
 [
   {
+    "version": "18.9",
+    "date": "2026-07-27T09:43:07.194Z",
+    "title": "Le prompt universel génère aussi des questions de quizz, importées automatiquement",
+    "items": [
+      "Le prompt universel produit désormais 3 à 5 questions de quizz par sujet traité, en plus des fiches",
+      "L'écran d'import affiche ces questions dans le rapport et les ajoute automatiquement au quizz lors de la confirmation"
+    ]
+  },
+  {
     "version": "18.8",
     "date": "2026-07-27T09:38:09.304Z",
     "title": "Quizz : toutes questions éditables/supprimables + 29 nouvelles questions",
