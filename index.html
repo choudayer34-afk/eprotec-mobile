@@ -3648,6 +3648,67 @@ function showQuizAdminModal(questionId, onSaveCallback) {
   });
 }
 
+function buildDouleurBodySchema() {
+  const douleurs = (bilanData.douleurs || []).filter(d => d.region && d.origine);
+  const markers = [];
+
+  douleurs.forEach((d, i) => {
+    const regionLower = normalizeText(d.region);
+    const isBack = /dos|omoplate|fesse|talon|mollet|nuque|arriere/.test(regionLower);
+    const regions = isBack ? BACK_BODY_REGIONS : FRONT_BODY_REGIONS;
+    let bestMatch = regions.find(r => regionLower.includes(normalizeText(r.label)));
+    if (!bestMatch) bestMatch = regions[Math.min(i, regions.length - 1)];
+
+    const codes = (Array.isArray(d.origine) ? d.origine : []).map(o => DOULEUR_ORIGINE_CODES[o]).filter(Boolean);
+    markers.push({ x: bestMatch.x, y: bestMatch.y, codes: codes.join('/') || '?', isBack });
+  });
+
+  const frontMarkers = markers.filter(m => !m.isBack);
+  const backMarkers = markers.filter(m => m.isBack);
+
+  function buildSvgWithCodes(regionMarkers, baseSvgRegions) {
+    const markerHtml = regionMarkers.map(m => `
+      <circle cx="${m.x}" cy="${m.y}" r="11" fill="#E24B4A" stroke="#fff" stroke-width="1.5"/>
+      <text x="${m.x}" y="${m.y + 4}" font-size="9" font-weight="700" fill="#fff" text-anchor="middle">${m.codes}</text>
+    `).join('');
+    return `<svg viewBox="0 0 200 320" style="width:100%;max-width:200px;display:block;margin:0 auto;">
+      <circle cx="100" cy="30" r="18" fill="none" stroke="#9FB3D6" stroke-width="2"/>
+      <line x1="100" y1="48" x2="100" y2="160" stroke="#9FB3D6" stroke-width="2"/>
+      <line x1="65" y1="60" x2="135" y2="60" stroke="#9FB3D6" stroke-width="2"/>
+      <line x1="65" y1="60" x2="45" y2="110" stroke="#9FB3D6" stroke-width="2"/>
+      <line x1="45" y1="110" x2="40" y2="160" stroke="#9FB3D6" stroke-width="2"/>
+      <line x1="135" y1="60" x2="155" y2="110" stroke="#9FB3D6" stroke-width="2"/>
+      <line x1="155" y1="110" x2="160" y2="160" stroke="#9FB3D6" stroke-width="2"/>
+      <line x1="100" y1="160" x2="80" y2="230" stroke="#9FB3D6" stroke-width="2"/>
+      <line x1="80" y1="230" x2="78" y2="300" stroke="#9FB3D6" stroke-width="2"/>
+      <line x1="100" y1="160" x2="120" y2="230" stroke="#9FB3D6" stroke-width="2"/>
+      <line x1="120" y1="230" x2="122" y2="300" stroke="#9FB3D6" stroke-width="2"/>
+      ${markerHtml}
+    </svg>`;
+  }
+
+  return `
+    <div class="card">
+      <div class="card-title">🧍 Localisation des douleurs</div>
+      <div style="display:flex;gap:10px;margin-top:8px;">
+        <div style="flex:1;text-align:center;">
+          <div style="color:#9FB3D6;font-size:11px;margin-bottom:4px;">Face avant</div>
+          ${buildSvgWithCodes(frontMarkers)}
+        </div>
+        <div style="flex:1;text-align:center;">
+          <div style="color:#9FB3D6;font-size:11px;margin-bottom:4px;">Face arrière</div>
+          ${buildSvgWithCodes(backMarkers)}
+        </div>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:#fff;line-height:1.8;">
+        <b>FO</b> Fracture ouverte · <b>FF</b> Fracture fermée · <b>DL</b> Douleur · <b>DE</b> Déformation · <b>B</b> Brûlure ·
+        <b>H</b> Hémorragie · <b>P</b> Plaie · <b>G</b> Gonflement · <b>TR</b> Traumatique · <b>SP</b> Spontanée ·
+        <b>DI</b> Digestive · <b>CA</b> Cardiaque · <b>AU</b> Autre origine médicale
+      </div>
+    </div>
+  `;
+}
+
 
 function showBodyMapModal(targetSelector) {
 
@@ -4698,6 +4759,8 @@ options: [
 ];
 
 const DOULEUR_QUALITE_OPTIONS = ['Brûlure', 'Piqûre', 'Crampe', 'Pesanteur', 'Décharge électrique', 'En étau / qui serre', 'Autre'];
+const DOULEUR_ORIGINE_OPTIONS = ['Fracture ouverte', 'Fracture fermée', 'Douleur', 'Déformation', 'Brûlure', 'Hémorragie', 'Plaie', 'Gonflement', 'Traumatique (chute, coup)', 'Mécanique (effort, mouvement)', 'Spontanée, sans cause apparente', 'Digestive', 'Cardiaque', 'Autre origine médicale'];
+const DOULEUR_ORIGINE_CODES = { 'Fracture ouverte': 'FO', 'Fracture fermée': 'FF', 'Douleur': 'DL', 'Déformation': 'DE', 'Brûlure': 'B', 'Hémorragie': 'H', 'Plaie': 'P', 'Gonflement': 'G', 'Traumatique (chute, coup)': 'TR', 'Spontanée, sans cause apparente': 'SP', 'Digestive': 'DI', 'Cardiaque': 'CA', 'Autre origine médicale': 'AU' };
 
 const POST_SUIVI_CATEGORIES = [
   { key: 'gestes', label: '🛠 Gestes effectués', fields: [
@@ -5124,12 +5187,11 @@ function buildDouleurCardsHtml() {
         ${bilanData.douleurs.length > 1 ? `<button class="icon-btn" style="width:26px;height:26px;font-size:13px;" data-douleur-remove="${idx}">✕</button>` : ''}
 </div>
 <div class="bilan-field-row">
-        <label>Origine <button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;" data-info="douleur_origine">i</button> <button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;" onclick="showPhraseModal('douleur')">🗣️</button></label>
-        <div class="text-field-wrap ${d.origine ? 'has-value' : ''}">
-          <textarea rows="1" class="bilan-textarea" data-douleur-field="origine" data-douleur-idx="${idx}">${escapeHtml(d.origine || '')}</textarea>
-          <button class="text-clear-btn" type="button">✕</button>
+<label>Origine <button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;" data-info="douleur_origine">i</button> <button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;" onclick="showPhraseModal('douleur')">🗣️</button></label>
+        <div class="bilan-chip-row" style="flex-wrap:wrap;">
+          ${DOULEUR_ORIGINE_OPTIONS.map(o => `<button class="bilan-chip ${(Array.isArray(d.origine) ? d.origine : []).includes(o) ? 'active' : ''}" data-douleur-origine-chip="${idx}" data-value="${o}">${o}</button>`).join('')}
         </div>
-      </div>
+      </div>`
       <div class="bilan-field-row">
         <label>Provoqué par <button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;" data-info="douleur_provoque">i</button> <button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;" onclick="showPhraseModal('douleur')">🗣️</button></label>
         <div class="text-field-wrap ${d.provoquePar ? 'has-value' : ''}">
@@ -5195,7 +5257,22 @@ function attachDouleurListeners() {
       renderDouleurBody();
     });
   });
+body.querySelectorAll('[data-douleur-origine-chip]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = parseInt(btn.dataset.douleurOrigineChip, 10);
+      if (!Array.isArray(bilanData.douleurs[idx].origine)) bilanData.douleurs[idx].origine = [];
+      const value = btn.dataset.value;
+      const arr = bilanData.douleurs[idx].origine;
+      const pos = arr.indexOf(value);
+      if (pos >= 0) arr.splice(pos, 1);
+      else arr.push(value);
+      saveBilanData();
+      const schemaDiv = document.getElementById('douleur-body-schema');
+      if (schemaDiv) schemaDiv.innerHTML = buildDouleurBodySchema();
+    });
+  });
 
+  
   body.querySelectorAll('[data-douleur-pain]').forEach(btn => {
     btn.addEventListener('click', () => {
       const idx = parseInt(btn.dataset.douleurPain, 10);
@@ -5240,10 +5317,9 @@ function attachDouleurListeners() {
 }
 
 function renderDouleurBody() {
-
   const body = document.getElementById('douleur-body');
   if (!body) return;
-  body.innerHTML = buildDouleurCardsHtml();
+  body.innerHTML = buildDouleurCardsHtml() + `<div id="douleur-body-schema">${buildDouleurBodySchema()}</div>`;
   attachDouleurListeners();
 }
 
@@ -5958,8 +6034,9 @@ function renderBilanFill() {
         <span>⚡ Douleur</span>
         <span class="month-chevron">▸</span>
       </button>
-      <div class="month-body" id="douleur-body" style="display:none">
+     <div class="month-body" id="douleur-body" style="display:none">
         ${buildDouleurCardsHtml()}
+        <div id="douleur-body-schema">${buildDouleurBodySchema()}</div>
       </div>
     </div>
     <div class="month-group">
