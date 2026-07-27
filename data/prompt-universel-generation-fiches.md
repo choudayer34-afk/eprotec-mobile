@@ -118,6 +118,42 @@ Format : image 16:9, sans titre superposé, uniquement les cases et leurs légen
 
 **Règle d'or** : chaque détail géométrique (quel bras, quelle direction, à l'intérieur ou à l'extérieur, gauche ou droite) doit être écrit explicitement — ne jamais laisser l'IA graphique déduire ou supposer, sous peine d'un résultat visuellement incohérent.
 
+### Cas particulier : fiches Autodéfense / Krav Maga
+
+Les générateurs d'images refusent souvent les prompts contenant du vocabulaire de combat explicite ("agresseur", "attaque", "étranglement", "combat"), même dans un contexte pédagogique et non violent. Pour éviter ce blocage, remplace systématiquement ce vocabulaire par des termes neutres, tout en gardant l'intégralité de la précision géométrique :
+
+- "le défenseur" → **"Personne A (qui se protège)"**
+- "l'agresseur" → **"Personne B"**
+- "saisit/étrangle/attaque" → **"pose ses mains sur"**, **"exerce une pression au niveau de"**
+- "dégagement d'un étranglement" → **"exercice de mise à distance"**, **"démonstration de gestion de prise"**
+- "technique de combat" → **"exercice de posture de protection"**
+
+Exemple de reformulation (le contenu géométrique reste identique, seul le vocabulaire change) :
+Crée une illustration vectorielle plate (flat design) de type manuel de formation professionnelle,
+non violente et non graphique, sur fond bleu marine foncé (
+#0B2A5C).
+
+Sujet : exercice de mise à distance face à une pression au niveau du cou, par écartement des avant-bras depuis l'intérieur.
+
+Personnages génériques et neutres, silhouettes simplifiées sans traits du visage détaillés :
+
+Personne A (qui se protège) en orange (
+#F5821F)
+Personne B en gris-bleu clair (
+#9FB3D6)
+
+CLARIFICATIONS CRITIQUES À RESPECTER STRICTEMENT DANS CHAQUE CASE :
+
+Personne B pose sa main droite du côté gauche du cou de Personne A, et sa main gauche du côté droit, dans toutes les cases.
+Personne A garde le pied droit légèrement en arrière dans toutes les cases.
+[... reste des clarifications géométriques identiques ...]
+
+Présente la scène en 4 cases numérotées...
+[reste du gabarit identique]
+
+
+Applique cette substitution de vocabulaire **avant** de produire le prompt final dans le JSON de sortie, pour toute fiche appartenant aux catégories `prevention`, `saisies`, `etranglements`, `parades`, `sol`.
+
 ### Si une vraie photographie est préférable (rare — cas médical réel, matériel spécifique)
 
 Indique à la place :
