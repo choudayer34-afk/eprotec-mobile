@@ -596,11 +596,11 @@
       <h2 class="screen-title">Secourisme</h2>
       <div class="screen-side"></div>
     </div>
-    <div class="tile-grid">
-      <div class="tile" data-open="plus-bilan">
+        <div class="tile span-2" data-open="plus-bilan">
         <div class="tile-icon">🩺</div>
         <div class="tile-title">Bilan patient</div>
       </div>
+    <div class="tile-grid">
       <div class="tile" data-open="plus-gestes">
         <div class="tile-icon">📚</div>
         <div class="tile-title">Fiches gestes</div>
@@ -872,6 +872,7 @@
       <button class="plus-back" data-target="plus-secourisme">‹</button>
       <span>Importer des fiches</span>
     </div>
+<button class="detail-action-btn" id="get-prompt-btn" style="margin-bottom:10px;">📄 Récupérer le prompt universel</button>
     <div style="color:#9FB3D6;font-size:12px;margin-bottom:12px;">Colle ici le JSON produit par le prompt universel, puis tape "Analyser".</div>
     <textarea rows="10" class="bilan-textarea" id="import-json-input" placeholder='{"fiches": [...], "rapport": {...}}'></textarea>
     <button class="detail-action-btn primary" id="import-analyser-btn" style="margin-top:10px;">🔍 Analyser</button>
@@ -8122,6 +8123,22 @@ document.getElementById('liens-urgence-btn').addEventListener('click', showEmerg
 
 document.getElementById('sos-alert-btn').addEventListener('click', triggerSosAlert);
 document.getElementById('import-analyser-btn').addEventListener('click', renderImportReport);
+
+document.getElementById('get-prompt-btn').addEventListener('click', async () => {
+  const btn = document.getElementById('get-prompt-btn');
+  const original = btn.textContent;
+  btn.textContent = 'Récupération...';
+  try {
+    const res = await fetch('data/prompt-universel-generation-fiches.md?t=' + Date.now(), { cache: 'no-store' });
+    const text = await res.text();
+    await navigator.clipboard.writeText(text);
+    btn.textContent = '✓ Copié dans le presse-papiers';
+  } catch (err) {
+    btn.textContent = '❌ Erreur, réessaie';
+    console.error(err);
+  }
+  setTimeout(() => { btn.textContent = original; }, 2500);
+});
 document.getElementById('sos-config-btn').addEventListener('click', () => {
   document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === 'plus-secourisme'));
   document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
