@@ -154,8 +154,47 @@ Produis **un seul bloc JSON**, structuré exactement ainsi :
 }
 ```
 
+### Règles obligatoires d'échappement JSON
+
+Le résultat final doit être un JSON strictement valide et directement parsable par un parseur JSON standard.
+
+- Tous les textes contenus dans les valeurs JSON doivent respecter strictement la syntaxe JSON.
+- Si un texte à l'intérieur d'une valeur contient un guillemet double `"`, celui-ci doit obligatoirement être échappé avec un antislash `\"`.
+- Exemple valide :
+  `"Légende : \"1. Immobiliser le membre\""`
+- Exemple invalide :
+  `"Légende : "1. Immobiliser le membre""`
+- Cette règle s'applique à tous les champs de type chaîne, notamment :
+  - `title`
+  - `summary`
+  - `items`
+  - `emplacement`
+  - `prompt`
+  - `logique_de_decoupage`
+  - `illustrations_proposees`
+  - `ambiguites_detectees`
+  - `informations_manquantes_ou_a_valider`
+- Les guillemets doubles utilisés par la syntaxe JSON elle-même pour délimiter les propriétés et les valeurs ne doivent évidemment pas être échappés.
+- Les guillemets doubles présents dans le contenu textuel d'une valeur doivent toujours être échappés.
+- Les retours à la ligne présents à l'intérieur d'une chaîne JSON doivent être représentés par `\n` et non par un retour à la ligne littéral.
+- Les antislashs présents dans le contenu textuel doivent être correctement échappés selon la syntaxe JSON.
+- Ne jamais utiliser de guillemets doubles non échappés à l'intérieur d'une chaîne JSON.
+- Avant de fournir la réponse finale, effectuer mentalement une validation syntaxique complète du JSON :
+  1. chaque `{` possède son `}`;
+  2. chaque `[` possède son `]`;
+  3. chaque propriété est séparée de la suivante par une virgule ;
+  4. aucune virgule finale n'est présente avant `}` ou `]` ;
+  5. chaque chaîne commence et se termine par un guillemet double correctement positionné ;
+  6. tous les guillemets doubles internes aux chaînes sont échappés avec `\"` ;
+  7. tous les retours à la ligne internes aux chaînes sont encodés avec `\n`.
+- Le JSON final doit pouvoir être copié-collé directement dans un parseur JSON sans aucune correction manuelle.
+  
+
 **Contraintes strictes sur le JSON** :
-- Toujours un JSON valide, sans commentaire, sans texte avant/après le bloc
+- Toujours produire un JSON strictement valide, directement parsable par un parseur JSON standard.
+- Ne produire aucun commentaire, aucune explication et aucun texte avant ou après le JSON.
+- Ne pas entourer le JSON de balises Markdown telles que ```json ou ```.
+- La réponse finale doit commencer directement par `{` et se terminer directement par `}`.
 - Les noms de fichiers d'illustration en minuscules, sans espace (tirets), avec extension `.png`
 - Ne jamais omettre la section `rapport`, même si tout est parfaitement clair (dans ce cas, les listes concernées restent vides `[]`)
 
