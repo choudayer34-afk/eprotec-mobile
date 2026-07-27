@@ -9442,6 +9442,10 @@ if (identity.email) {
       currentUserEmail = identity.email;
       currentUserUid = sanitizeUid(identity.email);
       await loadMonNom();
+      fetch(FIREBASE_URL + '/users/' + currentUserUid + '/email.json', {
+        method: 'PUT',
+        body: JSON.stringify(identity.email)
+      }).catch(() => {});
     }
     if (identity.email === 'ch-houdayer@hotmail.fr') {
       isAdminUser = true;
