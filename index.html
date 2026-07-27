@@ -644,7 +644,10 @@
         <div class="tile-icon">📥</div>
         <div class="tile-title">Importer des fiches</div>
       </div>
-
+<div class="tile" data-open="plus-quiz">
+        <div class="tile-icon">🎓</div>
+        <div class="tile-title">Quizz</div>
+      </div>
 
 
       
@@ -884,6 +887,13 @@
     <textarea rows="10" class="bilan-textarea" id="import-json-input" placeholder='{"fiches": [...], "rapport": {...}}'></textarea>
     <button class="detail-action-btn primary" id="import-analyser-btn" style="margin-top:10px;">🔍 Analyser</button>
     <div id="import-report-content" style="margin-top:14px;"></div>
+  </section>
+  <section id="plus-quiz">
+    <div class="detail-header">
+      <button class="plus-back" data-target="plus-secourisme">‹</button>
+      <span>Quizz</span>
+    </div>
+    <div id="quiz-content"></div>
   </section>
   <section id="plus-lexique">
     <div class="detail-header">
@@ -1687,6 +1697,7 @@ if (subId === 'plus-materiel') renderGestesList('materiel-content', ['materiel']
 if (subId === 'plus-novi') renderGestesList('novi-content', ['novi']);
   if (subId === 'plus-pediatrie') renderGestesList('pediatrie-content', ['pediatrie']);
   if (subId === 'plus-import-fiches') { document.getElementById('import-report-content').innerHTML = ''; }
+  if (subId === 'plus-quiz') renderQuizHome();
   if (subId === 'plus-sos-contacts') renderSosContactsScreen();
 
   if (subId === 'plus-autodef-prevention') renderGestesList('autodef-prevention-content', ['prevention']);
@@ -3269,6 +3280,226 @@ function showEmergencyNumbersModal() {
   div.style.cssText = 'color:#9FB3D6;font-size:12px;background:#0B2A5C;padding:10px 12px;border-radius:8px;margin:8px 0;';
   div.innerHTML = `📷 Illustration <b>${filename}</b> dans le dossier <b>data</b> — pas encore uploadée`;
   imgEl.replaceWith(div);
+}
+
+const QUIZ_DATA = [
+  { id: 'q1', category: 'Urgences vitales', question: 'Quelle est la fréquence recommandée pour les compressions thoraciques en RCP ?', options: ['60 à 80/min', '100 à 120/min', '140 à 160/min', '30 à 50/min'], correctIndex: 1, explication: 'La fréquence recommandée est de 100 à 120 compressions par minute, chez l\'adulte comme chez l\'enfant.' },
+  { id: 'q2', category: 'Urgences vitales', question: 'Face à une hémorragie externe importante, quel est le premier geste ?', options: ['Poser un garrot immédiatement', 'Comprimer directement la plaie', 'Surélever le membre', 'Alerter avant tout geste'], correctIndex: 1, explication: 'La compression directe est le premier geste — le garrot n\'est utilisé qu\'en dernier recours si la compression est inefficace ou impossible.' },
+  { id: 'q3', category: 'Positions d\'attente', question: 'Quelle position adopter pour une victime consciente en détresse respiratoire ?', options: ['Allongée à plat', 'PLS', 'Assise ou demi-assise', 'Jambes surélevées'], correctIndex: 2, explication: 'La position assise ou demi-assise facilite le travail respiratoire.' },
+  { id: 'q4', category: 'Positions d\'attente', question: 'Une victime inconsciente qui respire normalement doit être mise :', options: ['Assise', 'En PLS', 'Jambes surélevées', 'À plat sur le dos'], correctIndex: 1, explication: 'La Position Latérale de Sécurité protège les voies aériennes en cas de vomissement.' },
+  { id: 'q5', category: 'Positions d\'attente', question: 'En cas de signes de choc (détresse circulatoire), quelle position privilégier ?', options: ['Assise', 'PLS', 'Allongée, jambes surélevées', 'Demi-assise'], correctIndex: 2, explication: 'Allonger et surélever les jambes favorise le retour veineux vers le cœur, sauf contre-indication (traumatisme des membres inférieurs).' },
+  { id: 'q6', category: 'Positions d\'attente', question: 'Une victime suspectée de traumatisme du dos ou de la tête doit être :', options: ['Laissée dans la position où elle se trouve, sans la mobiliser', 'Mise en PLS systématiquement', 'Assise pour la rassurer', 'Allongée jambes surélevées'], correctIndex: 0, explication: 'On évite toute mobilisation sauf nécessité vitale (LVA, RCP), pour ne pas aggraver une éventuelle lésion.' },
+  { id: 'q7', category: 'Bilan', question: 'Le score de Glasgow évalue :', options: ['La douleur', 'Le niveau de conscience', 'La fréquence cardiaque', 'La tension artérielle'], correctIndex: 1, explication: 'Le score de Glasgow (de 3 à 15) évalue le niveau de conscience à partir de l\'ouverture des yeux, la réponse verbale et la réponse motrice.' },
+  { id: 'q8', category: 'Bilan', question: 'Un score de Glasgow de 15 correspond à :', options: ['Un coma profond', 'Une conscience normale', 'Une altération légère', 'Un arrêt cardio-respiratoire'], correctIndex: 1, explication: '15/15 est le score maximal, correspondant à une conscience normale.' },
+  { id: 'q9', category: 'Bilan', question: 'Que signifie une mydriase ?', options: ['Pupilles resserrées', 'Pupilles dilatées', 'Pupilles asymétriques', 'Absence de réflexe pupillaire'], correctIndex: 1, explication: 'La mydriase correspond à des pupilles dilatées, plus larges que la normale.' },
+  { id: 'q10', category: 'Bilan', question: 'Un TRC (temps de recoloration cutanée) normal doit être :', options: ['Inférieur à 2 secondes', 'Supérieur à 5 secondes', 'Entre 5 et 10 secondes', 'Impossible à évaluer'], correctIndex: 0, explication: 'Un TRC normal est inférieur à 2 secondes ; au-delà, cela peut évoquer une mauvaise circulation périphérique.' },
+  { id: 'q11', category: 'Lexique', question: 'Que signifie l\'abréviation "PLS" ?', options: ['Poste de Liaison Secours', 'Position Latérale de Sécurité', 'Plan Local de Sécurité', 'Premiers Locaux de Soin'], correctIndex: 1 },
+  { id: 'q12', category: 'Lexique', question: 'Que signifie "TRC" ?', options: ['Temps de Réaction Cardiaque', 'Temps de Recoloration Cutanée', 'Trouble du Rythme Cardiaque', 'Traitement Rapide en Cas d\'urgence'], correctIndex: 1 },
+  { id: 'q13', category: 'Malaises', question: 'Une hypoglycémie chez une personne consciente se traite en priorité par :', options: ['Un appel au 15 uniquement', 'Du sucre par voie orale', 'De l\'eau', 'La position PLS'], correctIndex: 1, explication: 'Le resucrage par voie orale est le geste de premier secours chez une personne consciente capable d\'avaler.' },
+  { id: 'q14', category: 'Malaises', question: 'La méthode F.A.S.T. permet de repérer rapidement :', options: ['Une crise d\'asthme', 'Un AVC', 'Une hypoglycémie', 'Une allergie grave'], correctIndex: 1, explication: 'F.A.S.T. (Face, Arm, Speech, Time) est une méthode simple de repérage des signes d\'AVC.' },
+  { id: 'q15', category: 'Mise en situation', question: 'Une victime consciente présente une plaie qui saigne abondamment malgré une compression directe efficace depuis 5 minutes. Que fais-tu ?', options: ['Tu retires le pansement pour vérifier', 'Tu maintiens la compression et alertes le 15 si pas déjà fait', 'Tu poses un garrot immédiatement sans plus attendre', 'Tu laisses la victime se reposer sans surveillance'], correctIndex: 1, explication: 'Une compression efficace se maintient sans interruption ; le garrot n\'est envisagé qu\'en cas d\'échec avéré de la compression.' },
+  { id: 'q16', category: 'Mise en situation', question: 'Tu retrouves une victime allongée, inconsciente, qui respire normalement. Aucun témoin ne peut te renseigner. Que fais-tu en priorité après avoir vérifié la respiration ?', options: ['Tu la laisses sur le dos et tu surveilles', 'Tu la mets en PLS et alertes les secours', 'Tu commences la RCP par précaution', 'Tu attends qu\'elle se réveille'], correctIndex: 1, explication: 'Une victime inconsciente qui respire doit être mise en PLS pour protéger ses voies aériennes, puis les secours doivent être alertés.' }
+];
+
+let quizCustom = [];
+let quizSession = { questions: [], index: 0, score: 0 };
+
+async function loadQuizCustom() {
+  try {
+    const res = await fetch(FIREBASE_URL + '/contenu-partage/quiz-custom.json?t=' + Date.now(), { cache: 'no-store' });
+    const data = await res.json();
+    quizCustom = Array.isArray(data) ? data : [];
+  } catch {
+    quizCustom = [];
+  }
+}
+
+async function saveQuizCustom() {
+  await fetch(FIREBASE_URL + '/contenu-partage/quiz-custom.json', {
+    method: 'PUT',
+    body: JSON.stringify(quizCustom)
+  });
+}
+
+function shuffleArray(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function renderQuizHome() {
+  const container = document.getElementById('quiz-content');
+  const total = QUIZ_DATA.length + quizCustom.length;
+  const addBtnHtml = isAdminUser ? `<button class="detail-action-btn" id="quiz-add-btn" style="margin-bottom:14px;">➕ Ajouter une question (admin)</button>` : '';
+
+  container.innerHTML = `
+    ${addBtnHtml}
+    <div class="card highlight">
+      <div class="card-title">🎓 Teste tes connaissances</div>
+      <div style="color:#fff;font-size:13px;margin-top:6px;">${total} questions disponibles au total.</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px;">
+      <button class="detail-action-btn primary" data-quiz-start="5">5 questions</button>
+      <button class="detail-action-btn primary" data-quiz-start="10">10 questions</button>
+      <button class="detail-action-btn primary" data-quiz-start="20">20 questions</button>
+    </div>
+    <button class="detail-action-btn" id="quiz-history-btn" style="margin-top:16px;">📊 Mon historique de scores</button>
+  `;
+
+  container.querySelectorAll('[data-quiz-start]').forEach(btn => {
+    btn.addEventListener('click', () => startQuiz(parseInt(btn.dataset.quizStart, 10)));
+  });
+  document.getElementById('quiz-history-btn').addEventListener('click', showQuizHistory);
+  if (isAdminUser) {
+    document.getElementById('quiz-add-btn').addEventListener('click', () => showQuizAdminModal());
+  }
+}
+
+function startQuiz(n) {
+  const allQuestions = QUIZ_DATA.concat(quizCustom);
+  const picked = shuffleArray(allQuestions).slice(0, Math.min(n, allQuestions.length));
+  quizSession = { questions: picked, index: 0, score: 0 };
+  renderQuizQuestion();
+}
+
+function renderQuizQuestion() {
+  const container = document.getElementById('quiz-content');
+  const q = quizSession.questions[quizSession.index];
+  const optionOrder = shuffleArray(q.options.map((opt, i) => ({ opt, i })));
+
+  container.innerHTML = `
+    <div style="color:#9FB3D6;font-size:12px;margin-bottom:6px;">Question ${quizSession.index + 1} / ${quizSession.questions.length} — ${q.category || ''}</div>
+    <div class="card highlight">
+      <div style="color:#fff;font-size:15px;font-weight:500;">${q.question}</div>
+    </div>
+    <div id="quiz-options" style="display:flex;flex-direction:column;gap:8px;margin-top:12px;">
+      ${optionOrder.map((o, idx) => `<button class="detail-action-btn" data-quiz-option="${o.i}" style="text-align:left;">${o.opt}</button>`).join('')}
+    </div>
+    <div id="quiz-feedback" style="margin-top:12px;"></div>
+  `;
+
+  container.querySelectorAll('[data-quiz-option]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const chosenIdx = parseInt(btn.dataset.quizOption, 10);
+      const correct = chosenIdx === q.correctIndex;
+      if (correct) quizSession.score++;
+
+      container.querySelectorAll('[data-quiz-option]').forEach(b => {
+        b.disabled = true;
+        if (parseInt(b.dataset.quizOption, 10) === q.correctIndex) b.style.background = '#12351F', b.style.border = '1.5px solid #639922';
+        else if (b === btn) b.style.background = '#3A1F1F', b.style.border = '1.5px solid #E24B4A';
+      });
+
+      const feedback = document.getElementById('quiz-feedback');
+      feedback.innerHTML = `
+        <div class="consignes-box" style="background:${correct ? '#12351F' : '#3A2A0E'};border-color:${correct ? '#639922' : '#EF9F27'};">
+          <div class="consignes-title" style="color:${correct ? '#97C459' : '#FAC775'};">${correct ? '✅ Bonne réponse !' : '❌ Pas tout à fait'}</div>
+          ${q.explication ? `<div style="color:#fff;font-size:13px;">${q.explication}</div>` : ''}
+        </div>
+        <button class="detail-action-btn primary" id="quiz-next-btn" style="margin-top:10px;">${quizSession.index < quizSession.questions.length - 1 ? 'Question suivante' : 'Voir mon score'}</button>
+      `;
+      document.getElementById('quiz-next-btn').addEventListener('click', () => {
+        quizSession.index++;
+        if (quizSession.index < quizSession.questions.length) renderQuizQuestion();
+        else finishQuiz();
+      });
+    });
+  });
+}
+
+async function finishQuiz() {
+  const container = document.getElementById('quiz-content');
+  const pct = Math.round((quizSession.score / quizSession.questions.length) * 100);
+
+  let history = [];
+  try {
+    const res = await fetch(FIREBASE_URL + '/users/' + currentUserUid + '/data/quiz-history.json?t=' + Date.now(), { cache: 'no-store' });
+    const data = await res.json();
+    history = Array.isArray(data) ? data : [];
+  } catch {}
+  history.unshift({ date: new Date().toISOString(), score: quizSession.score, total: quizSession.questions.length });
+  if (history.length > 30) history = history.slice(0, 30);
+  await fetch(FIREBASE_URL + '/users/' + currentUserUid + '/data/quiz-history.json', { method: 'PUT', body: JSON.stringify(history) });
+
+  container.innerHTML = `
+    <div class="card highlight" style="text-align:center;padding:24px;">
+      <div style="font-size:32px;font-weight:700;color:#F5821F;">${quizSession.score} / ${quizSession.questions.length}</div>
+      <div style="color:#9FB3D6;font-size:13px;margin-top:6px;">${pct}% de bonnes réponses</div>
+    </div>
+    <button class="detail-action-btn primary" id="quiz-restart-btn" style="margin-top:16px;">🔄 Refaire un quizz</button>
+  `;
+  document.getElementById('quiz-restart-btn').addEventListener('click', renderQuizHome);
+}
+
+async function showQuizHistory() {
+  let history = [];
+  try {
+    const res = await fetch(FIREBASE_URL + '/users/' + currentUserUid + '/data/quiz-history.json?t=' + Date.now(), { cache: 'no-store' });
+    const data = await res.json();
+    history = Array.isArray(data) ? data : [];
+  } catch {}
+
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;';
+  overlay.innerHTML = `
+    <div style="background:#163C74;border-radius:16px;padding:16px;width:100%;max-width:360px;max-height:80vh;overflow-y:auto;">
+      <div style="color:#fff;font-size:16px;font-weight:600;margin-bottom:12px;text-align:center;">📊 Historique de mes scores</div>
+      ${history.length === 0 ? '<div class="empty">Aucun quizz réalisé pour le moment.</div>' : history.map(h => `
+        <div class="bilan-ref-item">${formatDateHeureCourte(h.date)} — ${h.score}/${h.total} (${Math.round(h.score / h.total * 100)}%)</div>
+      `).join('')}
+      <button class="detail-action-btn primary" id="quiz-history-close" style="margin-top:12px;">Fermer</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.querySelector('#quiz-history-close').addEventListener('click', () => overlay.remove());
+}
+
+function showQuizAdminModal(questionId) {
+  const isEdit = !!questionId;
+  const existing = isEdit ? quizCustom.find(q => q.id === questionId) : null;
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;';
+  overlay.innerHTML = `
+    <div style="background:#163C74;border-radius:16px;padding:20px;width:100%;max-width:400px;max-height:85vh;overflow-y:auto;">
+      <div style="color:#fff;font-size:15px;font-weight:600;margin-bottom:12px;">${isEdit ? '✏️ Modifier' : '➕ Ajouter'} une question</div>
+      <div class="bilan-field-row"><label>Catégorie</label><input type="text" id="qa-category" value="${escapeHtml(existing?.category || '')}"></div>
+      <div class="bilan-field-row"><label>Question</label><textarea rows="2" class="bilan-textarea" id="qa-question">${escapeHtml(existing?.question || '')}</textarea></div>
+      <div class="bilan-field-row"><label>Réponse 1</label><input type="text" id="qa-opt0" value="${escapeHtml(existing?.options?.[0] || '')}"></div>
+      <div class="bilan-field-row"><label>Réponse 2</label><input type="text" id="qa-opt1" value="${escapeHtml(existing?.options?.[1] || '')}"></div>
+      <div class="bilan-field-row"><label>Réponse 3</label><input type="text" id="qa-opt2" value="${escapeHtml(existing?.options?.[2] || '')}"></div>
+      <div class="bilan-field-row"><label>Réponse 4</label><input type="text" id="qa-opt3" value="${escapeHtml(existing?.options?.[3] || '')}"></div>
+      <div class="bilan-field-row"><label>Numéro de la bonne réponse (1 à 4)</label><input type="number" min="1" max="4" id="qa-correct" value="${existing ? existing.correctIndex + 1 : ''}"></div>
+      <div class="bilan-field-row"><label>Explication (facultatif)</label><textarea rows="2" class="bilan-textarea" id="qa-explication">${escapeHtml(existing?.explication || '')}</textarea></div>
+      <div style="display:flex;gap:8px;">
+        <button class="detail-action-btn" id="qa-cancel" style="flex:1;">Annuler</button>
+        <button class="detail-action-btn primary" id="qa-save" style="flex:1;">Enregistrer</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.querySelector('#qa-cancel').addEventListener('click', () => overlay.remove());
+  overlay.querySelector('#qa-save').addEventListener('click', async () => {
+    const q = {
+      id: isEdit ? questionId : 'custom_' + Date.now(),
+      category: overlay.querySelector('#qa-category').value.trim(),
+      question: overlay.querySelector('#qa-question').value.trim(),
+      options: [0, 1, 2, 3].map(i => overlay.querySelector(`#qa-opt${i}`).value.trim()),
+      correctIndex: parseInt(overlay.querySelector('#qa-correct').value, 10) - 1,
+      explication: overlay.querySelector('#qa-explication').value.trim()
+    };
+    if (isEdit) {
+      const idx = quizCustom.findIndex(x => x.id === questionId);
+      quizCustom[idx] = q;
+    } else {
+      quizCustom.push(q);
+    }
+    await saveQuizCustom();
+    overlay.remove();
+    renderQuizHome();
+  });
 }
 
 
@@ -9264,7 +9495,8 @@ await checkCloudflareIdentity(); tick();
   await loadOadSettings(); tick();
 await loadChangelog(); tick();
 await loadLexiqueCustom();
-  await loadFichesCustom();
+await loadFichesCustom();
+  await loadQuizCustom();
 
   renderParametres();
 
