@@ -3502,6 +3502,39 @@ async function saveFichesCustom() {
   });
 }
 
+function showEditFicheModal(ficheKey, containerId, categories) {
+  const fiche = fichesCustom.find(f => f.key === ficheKey);
+  if (!fiche) return;
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;';
+  overlay.innerHTML = `
+    <div style="background:#163C74;border-radius:16px;padding:20px;width:100%;max-width:400px;max-height:85vh;overflow-y:auto;">
+      <div style="color:#fff;font-size:15px;font-weight:600;margin-bottom:12px;">✏️ Modifier la fiche</div>
+      <div class="bilan-field-row"><label>Titre</label><input type="text" id="edit-fiche-title" value="${escapeHtml(fiche.title)}"></div>
+      <div class="bilan-field-row"><label>Résumé express (une ligne par point)</label><textarea rows="4" class="bilan-textarea" id="edit-fiche-summary">${escapeHtml(fiche.summary.join('\n'))}</textarea></div>
+      <div class="bilan-field-row"><label>Titre de la section détaillée</label><input type="text" id="edit-fiche-section-title" value="${escapeHtml(fiche.sections[0].title)}"></div>
+      <div class="bilan-field-row"><label>Contenu détaillé (une ligne par point)</label><textarea rows="6" class="bilan-textarea" id="edit-fiche-content">${escapeHtml(fiche.sections[0].items.join('\n'))}</textarea></div>
+      <div style="display:flex;gap:8px;">
+        <button class="detail-action-btn" id="edit-fiche-cancel" style="flex:1;">Annuler</button>
+        <button class="detail-action-btn primary" id="edit-fiche-save" style="flex:1;">Enregistrer</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.querySelector('#edit-fiche-cancel').addEventListener('click', () => overlay.remove());
+  overlay.querySelector('#edit-fiche-save').addEventListener('click', async () => {
+    fiche.title = overlay.querySelector('#edit-fiche-title').value.trim();
+    fiche.summary = overlay.querySelector('#edit-fiche-summary').value.trim().split('\n').map(s => s.trim()).filter(Boolean);
+    fiche.sections = [{
+      title: overlay.querySelector('#edit-fiche-section-title').value.trim() || 'Détails',
+      items: overlay.querySelector('#edit-fiche-content').value.trim().split('\n').map(s => s.trim()).filter(Boolean)
+    }];
+    await saveFichesCustom();
+    overlay.remove();
+    renderGestesList(containerId, categories);
+  });
+}
+
 function showAddFicheModal(category, containerId) {
   const overlay = document.createElement('div');
   overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;';
@@ -4921,10 +4954,10 @@ function archiveCurrentBilan() {
 async function handleBilanNew() {
   const confirmClear = await promptChoice('Effacer le bilan en cours et en commencer un nouveau ?', ['Oui, effacer', 'Annuler']);
   if (confirmClear === 'Oui, effacer') {
-    archiveCurrentBilan();
-    bilanData = {};
+archiveCurrentBilan();
+    bilanData = JSON.parse(JSON.stringify(entry.data));
+    bilanData.dateHeureOuverture = entry.data.dateHeureOuverture || entry.savedAt;
     saveBilanData();
-    renderBilanFill();
   }
 }
 
@@ -4944,9 +4977,12 @@ function showBilanHistoryModal() {
       ${history.length === 0
         ? '<div class="empty">Aucun bilan archivé pour le moment.</div>'
         : history.map((h, i) => `
-          <div class="card card-clickable" data-history-idx="${i}" style="margin-bottom:8px;">
-            <div style="color:#fff;font-size:14px;font-weight:500;">${h.label}</div>
-            <div style="color:#9FB3D6;font-size:12px;">${formatDateHeureCourte(h.savedAt)}</div>
+          <div class="card" style="margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
+            <div class="card-clickable" data-history-idx="${i}" style="flex:1;">
+              <div style="color:#fff;font-size:14px;font-weight:500;">${h.label}</div>
+              <div style="color:#9FB3D6;font-size:12px;">${formatDateHeureCourte(h.savedAt)}</div>
+            </div>
+            <button class="icon-btn" data-history-delete="${i}" style="margin-left:8px;">✕</button>
           </div>
         `).join('')}
       <button class="detail-action-btn primary" id="bilan-history-close" style="margin-top:8px;">Fermer</button>
@@ -4955,11 +4991,24 @@ function showBilanHistoryModal() {
   document.body.appendChild(overlay);
   overlay.querySelector('#bilan-history-close').addEventListener('click', () => overlay.remove());
 
-  overlay.querySelectorAll('[data-history-idx]').forEach(card => {
+overlay.querySelectorAll('[data-history-idx]').forEach(card => {
     card.addEventListener('click', () => {
       const entry = history[parseInt(card.dataset.historyIdx, 10)];
       overlay.remove();
       showArchivedBilanText(entry);
+    });
+  });
+
+  overlay.querySelectorAll('[data-history-delete]').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      const confirmDel = await promptChoice('Supprimer ce bilan archivé ?', ['Oui, supprimer', 'Annuler']);
+      if (confirmDel === 'Oui, supprimer') {
+        history.splice(parseInt(btn.dataset.historyDelete, 10), 1);
+        localStorage.setItem(BILAN_HISTORY_KEY, JSON.stringify(history));
+        overlay.remove();
+        showBilanHistoryModal();
+      }
     });
   });
 }
@@ -8061,12 +8110,17 @@ function renderGestesList(containerId, categories) {
     return;
   }
 
-  container.innerHTML = addBtnHtml + filtered.map(geste => `
+container.innerHTML = addBtnHtml + filtered.map(geste => {
+    const isCustom = fichesCustom.some(fc => fc.key === geste.key);
+    return `
     <div class="geste-group" data-geste-key="${geste.key}">
-      <button class="month-toggle">
-        <span>${geste.title}</span>
-        <span class="month-chevron">▸</span>
-      </button>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <button class="month-toggle" style="flex:1;">
+          <span>${geste.title}</span>
+          <span class="month-chevron">▸</span>
+        </button>
+        ${isCustom ? `<button class="icon-btn" data-fiche-edit="${geste.key}">✏️</button><button class="icon-btn" data-fiche-delete="${geste.key}">✕</button>` : ''}
+      </div>
       <div class="month-body" style="display:none">
         <div class="card highlight" style="margin-bottom:12px;">
           <div class="card-title">⚡ Résumé express</div>
@@ -8095,7 +8149,8 @@ function renderGestesList(containerId, categories) {
         </div>
       </div>
     </div>
-  `).join('');
+ `;
+  }).join('');
 
   setupAccordion(container, '.geste-group');
   setupAccordion(container);
@@ -8103,6 +8158,24 @@ function renderGestesList(containerId, categories) {
   if (isAdminUser) {
     const addBtn = document.getElementById('add-fiche-btn');
     if (addBtn) addBtn.addEventListener('click', () => showAddFicheModal(categories[0], containerId));
+
+    container.querySelectorAll('[data-fiche-edit]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showEditFicheModal(btn.dataset.ficheEdit, containerId, categories);
+      });
+    });
+    container.querySelectorAll('[data-fiche-delete]').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const confirmDel = await promptChoice('Supprimer cette fiche ?', ['Oui, supprimer', 'Annuler']);
+        if (confirmDel === 'Oui, supprimer') {
+          fichesCustom = fichesCustom.filter(f => f.key !== btn.dataset.ficheDelete);
+          await saveFichesCustom();
+          renderGestesList(containerId, categories);
+        }
+      });
+    });
   }
 }
 
