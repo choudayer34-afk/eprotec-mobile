@@ -3264,6 +3264,14 @@ function showEmergencyNumbersModal() {
   overlay.querySelector('#emergency-close').addEventListener('click', () => overlay.remove());
 }
 
+  function handleFicheImgError(imgEl, filename) {
+  const div = document.createElement('div');
+  div.style.cssText = 'color:#9FB3D6;font-size:12px;background:#0B2A5C;padding:10px 12px;border-radius:8px;margin:8px 0;';
+  div.innerHTML = `📷 Illustration <b>${filename}</b> dans le dossier <b>data</b> — pas encore uploadée`;
+  imgEl.replaceWith(div);
+}
+
+
 function showBodyMapModal(targetSelector) {
 
   const overlay = document.createElement('div');
@@ -3627,10 +3635,10 @@ function renderImportReport() {
         title: f.title,
         category: f.category,
         summary: f.summary || [],
-        sections: (f.sections || []).map(s => ({
+sections: (f.sections || []).map(s => ({
           title: s.title,
           items: s.items || [],
-          illustration: s.illustration || undefined
+          image: s.illustration || undefined
         }))
       });
     });
@@ -8266,7 +8274,7 @@ container.innerHTML = addBtnHtml + filtered.map(geste => {
             ${geste.sections.map(sec => `
               <div style="margin-top:14px;">
                 <div style="color:#F5821F;font-size:13px;font-weight:500;margin-bottom:6px;">${sec.title}</div>
-                ${sec.illustration ? GESTE_ILLUSTRATIONS[sec.illustration] : ''}${sec.image ? `<img src="data/${sec.image}" style="width:100%;border-radius:8px;margin:8px 0;display:block;" alt="${sec.title}">` : ''}
+                ${sec.illustration ? GESTE_ILLUSTRATIONS[sec.illustration] : ''}${sec.image ? `<img src="data/${sec.image}" style="width:100%;border-radius:8px;margin:8px 0;display:block;" alt="${sec.title}" onerror="handleFicheImgError(this, '${sec.image}')">` : ''}
                 ${sec.customHtml ? sec.customHtml : `
                 <ul class="reason-list" style="color:#fff;">
                   ${sec.items.map(i => `<li style="margin-bottom:4px;">${i}</li>`).join('')}
