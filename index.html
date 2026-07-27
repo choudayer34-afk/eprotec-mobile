@@ -4688,10 +4688,10 @@ options: [
     { key: 'dernierRepas', label: 'Dernier repas', type: 'text', info: 'bc_dernierRepas' },
     { key: 'evenements', label: 'Évènements', type: 'text', info: 'bc_evenements', phrase: 'accueil' },
 { key: 'risque', label: 'Risque', type: 'text', info: 'bc_risque' },
-    { key: 'intoxAlcool', label: 'Intoxication alcool', type: 'chip', options: ['Non', 'Oui'], phrase: 'intoxications' },
+{ key: 'intoxAlcool', label: 'Intoxication alcool', type: 'chip', options: ['Non', 'Oui'], phrase: 'intoxications' },
     { key: 'intoxMedicaments', label: 'Intoxication médicaments', type: 'chip', options: ['Non', 'Oui'] },
-{ key: 'intoxToxiques', label: 'Intoxication toxiques', type: 'chip', options: ['Non', 'Oui'] },
     { key: 'intoxMedicamentsNom', label: 'Nom du/des médicament(s)', type: 'text', showIf: { field: 'intoxMedicaments', value: 'Oui' } },
+    { key: 'intoxToxiques', label: 'Intoxication toxiques', type: 'chip', options: ['Non', 'Oui'] },
     { key: 'intoxToxiquesNom', label: 'Nom du/des toxique(s)', type: 'chip', options: ['Monoxyde de carbone', 'Produit ménager', 'Fumées d\'incendie', 'Produit phytosanitaire', 'Gaz industriel', 'Champignon/plante', 'Autre'], info: 'bc_toxique', showIf: { field: 'intoxToxiques', value: 'Oui' } },
     { key: 'intoxToxiquesNomAutre', label: 'Préciser si Autre', type: 'text', showIf: { field: 'intoxToxiquesNom', value: 'Autre' } }
   ]}
@@ -5019,9 +5019,14 @@ if (f.type === 'actions') {
 if (f.type === 'membres-check') {
     const data = bilanData[f.key] || {};
     const membres = ['Bras droit', 'Bras gauche', 'Jambe droite', 'Jambe gauche'];
+    const allChecked = membres.every(m => data[m + '_motricite'] && data[m + '_sensibilite']);
     return `
       <div class="bilan-field-row" id="membres-wrap-${f.key}">
         <label>${f.label}</label>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:6px;">
+          <div class="ppa-checkbox ${allChecked ? 'checked' : ''}" data-membre-checkall="${f.key}">${allChecked ? '✓' : ''}</div>
+          <span style="color:#fff;font-size:13px;">Tout cocher (4 membres normaux)</span>
+        </div>
         <table style="width:100%;border-collapse:collapse;margin-top:6px;">
           <tr><td></td><td style="text-align:center;color:#9FB3D6;font-size:11px;">Motricité</td><td style="text-align:center;color:#9FB3D6;font-size:11px;">Sensibilité</td></tr>
           ${membres.map(m => `
@@ -5829,9 +5834,25 @@ function attachActionsFieldListeners(key) {
   }
 }
 
-  function attachMembresCheckListeners(key) {
+function attachMembresCheckListeners(key) {
   const wrap = document.getElementById('membres-wrap-' + key);
   if (!wrap) return;
+
+  const checkAllEl = wrap.querySelector('[data-membre-checkall]');
+  if (checkAllEl) {
+    checkAllEl.addEventListener('click', () => {
+      const membres = ['Bras droit', 'Bras gauche', 'Jambe droite', 'Jambe gauche'];
+      if (!bilanData[key]) bilanData[key] = {};
+      const allChecked = membres.every(m => bilanData[key][m + '_motricite'] && bilanData[key][m + '_sensibilite']);
+      membres.forEach(m => {
+        bilanData[key][m + '_motricite'] = !allChecked;
+        bilanData[key][m + '_sensibilite'] = !allChecked;
+      });
+      saveBilanData();
+      refreshActionsField(key);
+    });
+  }
+
   wrap.querySelectorAll('[data-membre-check]').forEach(cell => {
     cell.addEventListener('click', () => {
       if (!bilanData[key]) bilanData[key] = {};
