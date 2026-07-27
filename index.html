@@ -8736,8 +8736,9 @@ document.getElementById('show-upload-btn').addEventListener('click', () => {
 
 document.getElementById('upload-file-input').addEventListener('change', (e) => {
   const file = e.target.files[0];
-  if (file) {
-    document.getElementById('upload-filename-input').value = sanitizeFilename(file.name);
+  const filenameInput = document.getElementById('upload-filename-input');
+  if (file && !filenameInput.value.trim()) {
+    filenameInput.value = sanitizeFilename(file.name);
   }
 });
 
