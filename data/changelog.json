@@ -1,5 +1,14 @@
 [
   {
+    "version": "18.0",
+    "date": "2026-07-27T07:46:21.199Z",
+    "title": "Import de fiches en masse via prompt universel (admin)",
+    "items": [
+      "Nouvelle tuile \"Importer des fiches\" dans Secourisme (admin uniquement)",
+      "Colle le JSON produit par une IA externe (à partir du prompt universel fourni), analyse le rapport de traitement, liste les illustrations à générer avec leurs prompts, puis importe en un tap toutes les fiches dans Firebase"
+    ]
+  },
+  {
     "version": "17.9",
     "date": "2026-07-27T07:37:32.354Z",
     "title": "Correction critique : \"Nouveau bilan\" n'effaçait plus les données",
