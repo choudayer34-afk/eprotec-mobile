@@ -1,5 +1,15 @@
 [
   {
+    "version": "19.7",
+    "date": "2026-07-27T13:42:26.377Z",
+    "title": "Bilan étape 2/5 : LVA avec cycles, Circulation et AVC enrichis",
+    "items": [
+      "LVA : Action réalisée n'apparaît que si voies aériennes obstruées, avec compteur de cycles par technique choisie",
+      "Circulation : localisation du pouls en liste (Radial/Carotidien/Autre), nouvelle liste d'actions",
+      "AVC : nouvelle liste d'actions réalisées"
+    ]
+  },
+  {
     "version": "19.6",
     "date": "2026-07-27T13:34:48.732Z",
     "title": "Bilan étape 1/5 : conditions d'affichage, actions Hémorragie, auscultation",
