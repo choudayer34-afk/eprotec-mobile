@@ -127,6 +127,24 @@ Indique à la place :
 
 ## Étape 5 — Format de sortie exigé
 
+Règle de construction du JSON
+
+Construis la réponse comme un véritable objet JSON, et non comme du texte ressemblant à du JSON.
+
+La structure doit respecter exactement la hiérarchie définie dans le schéma de sortie.
+
+Pour chaque tableau contenant plusieurs éléments, sépare obligatoirement les éléments par une virgule.
+
+Pour chaque objet contenant plusieurs propriétés, sépare obligatoirement les propriétés par une virgule.
+
+Ne jamais utiliser de syntaxe Markdown à l'intérieur ou autour du JSON.
+
+Avant de répondre, considère la sortie comme destinée à être exécutée directement par JSON.parse().
+
+Si tu génères plusieurs fiches, plusieurs sections, plusieurs illustrations ou plusieurs éléments dans une liste, vérifie explicitement la présence d'une virgule entre chaque élément successif.
+
+La validité syntaxique du JSON est une exigence prioritaire : un contenu incomplet ou légèrement moins détaillé est préférable à un JSON invalide.
+
 Produis **un seul bloc JSON**, structuré exactement ainsi :
 
 ```json
@@ -218,23 +236,117 @@ Le résultat final doit être un JSON strictement valide et directement parsable
 ---
 ## Contrôle final obligatoire avant réponse
 
-Avant de générer la réponse finale, vérifie que le contenu respecte simultanément les contraintes de fond et de syntaxe.
+Avant de générer la réponse finale, effectue une validation syntaxique et structurelle complète du JSON.
 
-Le résultat doit être un objet JSON unique et strictement valide.
+Le résultat final doit respecter toutes les règles suivantes :
 
-Effectue une vérification finale spécifique des chaînes longues, notamment les champs `prompt`, car ils peuvent contenir :
-- des guillemets doubles ;
-- des retours à la ligne ;
-- des antislashs ;
-- des légendes ;
-- des exemples de texte.
+La réponse contient un seul objet JSON racine, commençant par { et se terminant par }.
+La réponse ne contient aucun texte avant ou après le JSON.
+La réponse ne contient aucune balise Markdown, notamment pas de bloc ```json.
+Le JSON doit être directement accepté par un parseur JSON standard comme JSON.parse() en JavaScript ou json.loads() en Python.
+Chaque objet JSON ouvert avec { doit être fermé par }.
+Chaque tableau JSON ouvert avec [ doit être fermé par ].
+Chaque propriété d'un objet JSON doit être séparée de la suivante par une virgule ,.
+Chaque élément d'un tableau JSON doit être séparé du suivant par une virgule ,.
+Il ne doit jamais y avoir de virgule finale avant } ou ].
+Chaque chaîne de caractères doit être entourée par des guillemets doubles ".
+Tout guillemet double présent à l'intérieur d'une chaîne de caractères doit être échappé avec \".
+Tout antislash \ présent dans une chaîne doit être correctement échappé.
+Tout retour à la ligne présent dans une chaîne doit être représenté par \n.
+Les emojis et caractères Unicode sont autorisés directement dans les chaînes JSON.
+Les noms de fichiers doivent respecter les contraintes définies précédemment : minuscules, sans espace, avec des tirets et l'extension .png.
+Validation spécifique des tableaux
 
-Tout guillemet double appartenant au contenu d'une chaîne doit être échappé avec `\"`.
-Tout retour à la ligne appartenant au contenu d'une chaîne doit être encodé avec `\n`.
+Vérifie particulièrement chaque tableau JSON :
 
-Ne fournis jamais un JSON approximatif ou pseudo-JSON.
-Ne fournis jamais de Markdown autour du JSON.
-Ne fournis jamais de texte explicatif avant ou après le JSON.
+"fiches": [ ... ]
+"summary": [ ... ]
+"sections": [ ... ]
+"items": [ ... ]
+"illustrations_a_generer": [ ... ]
+"rapport.thematiques_identifiees": [ ... ]
+"rapport.illustrations_proposees": [ ... ]
+"rapport.ambiguites_detectees": [ ... ]
+"rapport.informations_manquantes_ou_a_valider": [ ... ]
+
+Dans chaque tableau contenant plusieurs objets, la structure doit obligatoirement suivre ce modèle :
+
+{
+"elements": [
+{
+"champ": "valeur"
+},
+{
+"champ": "valeur"
+}
+]
+}
+
+Il doit y avoir une virgule , entre } et { lorsqu'ils représentent deux objets successifs dans le même tableau.
+
+Exemple correct :
+
+"sections": [
+{
+"title": "Section 1",
+"items": ["Point 1", "Point 2"]
+},
+{
+"title": "Section 2",
+"items": ["Point 3", "Point 4"]
+}
+]
+
+Exemple incorrect :
+
+"sections": [
+{
+"title": "Section 1",
+"items": ["Point 1", "Point 2"]
+}
+{
+"title": "Section 2",
+"items": ["Point 3", "Point 4"]
+}
+]
+
+Dans l'exemple incorrect, une virgule manque entre les deux objets.
+
+Validation des chaînes longues
+
+Avant de répondre, vérifie particulièrement les champs suivants :
+
+prompt
+logique_de_decoupage
+illustrations_proposees
+ambiguites_detectees
+informations_manquantes_ou_a_valider
+
+Ces champs peuvent contenir des caractères susceptibles de casser le JSON.
+
+Pour chaque chaîne longue, vérifie que :
+
+les guillemets internes sont échappés avec \" ;
+les retours à la ligne sont encodés avec \n ;
+les antislashs sont correctement échappés ;
+aucune chaîne n'est interrompue prématurément ;
+aucun caractère ou texte ne se trouve entre deux éléments JSON sans séparateur valide.
+Vérification finale obligatoire
+
+Avant de fournir la réponse, effectue mentalement les contrôles suivants :
+
+Vérifier l'équilibre de tous les { et }.
+Vérifier l'équilibre de tous les [ et ].
+Vérifier qu'une virgule sépare chaque propriété successive d'un objet.
+Vérifier qu'une virgule sépare chaque élément successif d'un tableau.
+Vérifier qu'aucune virgule finale n'est présente.
+Vérifier que chaque chaîne commence et se termine correctement par ".
+Vérifier tous les guillemets doubles internes.
+Vérifier tous les retours à la ligne dans les chaînes.
+Vérifier les champs prompt particulièrement longs.
+Vérifier que le résultat est un JSON unique et complet.
+
+Important : ne jamais produire un JSON approximatif ou pseudo-JSON. Si une erreur de syntaxe est détectée pendant cette validation, corrige-la avant d'envoyer la réponse.
 
 Le JSON doit être directement copiable-collable dans un parseur JSON et importable sans modification manuelle.
 
