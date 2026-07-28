@@ -3685,7 +3685,7 @@ function buildDouleurBodySchema() {
     }
 
     const codes = (Array.isArray(d.origine) ? d.origine : []).map(o => DOULEUR_ORIGINE_CODES[o]).filter(Boolean);
-    markers.push({ x: bestMatch.x, y: bestMatch.y, codes: codes.join('/') || '?', isBack });
+    markers.push({ x: bestMatch.x, y: bestMatch.y, codes: codes.join('/') || ''}, isBack });
   });
 
   const frontMarkers = markers.filter(m => !m.isBack);
@@ -5538,10 +5538,10 @@ function buildBilanSummaryText() {
     });
 if (cat.key === 'c') {
       if (bilanData.taGaucheSys || bilanData.taGaucheDia) {
-        catText += `- TA bras gauche : ${bilanData.taGaucheSys || '?'}/${bilanData.taGaucheDia || '?'} mmHg${bilanData.taGaucheHeure ? ' à ' + formatHeureCourte(bilanData.taGaucheHeure) : ''}\n`;
+        catText += `- TA bras gauche : ${bilanData.taGaucheSys || ''}}/${bilanData.taGaucheDia || ''}} mmHg${bilanData.taGaucheHeure ? ' à ' + formatHeureCourte(bilanData.taGaucheHeure) : ''}\n`;
       }
       if (bilanData.taDroitSys || bilanData.taDroitDia) {
-        catText += `- TA bras droit : ${bilanData.taDroitSys || '?'}/${bilanData.taDroitDia || '?'} mmHg${bilanData.taDroitHeure ? ' à ' + formatHeureCourte(bilanData.taDroitHeure) : ''}\n`;
+        catText += `- TA bras droit : ${bilanData.taDroitSys || ''}}/${bilanData.taDroitDia || ''}} mmHg${bilanData.taDroitHeure ? ' à ' + formatHeureCourte(bilanData.taDroitHeure) : ''}\n`;
       }
       if (bilanData.taComplement) catText += `- Complément TA : ${bilanData.taComplement}\n`;
     }
@@ -5628,7 +5628,7 @@ POST_SUIVI_CATEGORIES.forEach(cat => {
   if (suivi.length > 0) {
     text += `Suivi (relevé toutes les ${bilanData.suiviVital === 'Oui' ? '5' : '15'} min)\n`;
 suivi.forEach(s => {
-      let line = `${formatDateHeureCourte(s.heure)} — SpO2 : ${s.spo2 || '?'}% — TA (${s.cote || '?'}) : ${s.taSys || '?'}/${s.taDia || '?'}`;
+      let line = `${formatDateHeureCourte(s.heure)} — SpO2 : ${s.spo2 || ''}}% — TA (${s.cote || ''}}) : ${s.taSys || ''}}/${s.taDia || ''}}`;
       if (s.freqRespi) line += ` — FR : ${s.freqRespi}/min`;
       if (s.temperature) line += ` — T° : ${s.temperature}°C`;
       if (s.freqCardiaque) line += ` — FC : ${s.freqCardiaque}/min`;
@@ -5722,8 +5722,8 @@ function actionsSummary(key) {
   ]);
   html += pdfRow([pdfField('Action circulation', actionsSummary('circulationAction'))]);
   html += pdfRow([
-    pdfField('TA gauche', (d.taGaucheSys || '?') + '/' + (d.taGaucheDia || '?')),
-    pdfField('TA droite', (d.taDroitSys || '?') + '/' + (d.taDroitDia || '?')),
+    pdfField('TA gauche', (d.taGaucheSys || ''}) + '/' + (d.taGaucheDia || ''})),
+    pdfField('TA droite', (d.taDroitSys || ''}) + '/' + (d.taDroitDia || ''})),
     pdfField('Complément', d.taComplement)
   ]);
   html += pdfRow([
@@ -5805,7 +5805,7 @@ if (d.gestesAutre) html += pdfRow([pdfField('Autre', d.gestesAutre)]);
         <td style="border:1px solid #333;padding:3px;text-align:center;">${s.freqRespi || ''}</td>
         <td style="border:1px solid #333;padding:3px;text-align:center;">${s.spo2 || ''}</td>
         <td style="border:1px solid #333;padding:3px;text-align:center;">${s.freqCardiaque || ''}</td>
-        <td style="border:1px solid #333;padding:3px;text-align:center;">${s.cote || ''} ${s.taSys || '?'}/${s.taDia || '?'}</td>
+        <td style="border:1px solid #333;padding:3px;text-align:center;">${s.cote || ''} ${s.taSys || ''}}/${s.taDia || ''}}</td>
         <td style="border:1px solid #333;padding:3px;text-align:center;">${s.temperature || ''}</td>
         <td style="border:1px solid #333;padding:3px;text-align:center;">${s.douleur != null ? s.douleur : ''}</td>
         <td style="border:1px solid #333;padding:3px;">${s.complement || ''}</td></tr>`;
