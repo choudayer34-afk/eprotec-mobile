@@ -5722,8 +5722,8 @@ function actionsSummary(key) {
   ]);
   html += pdfRow([pdfField('Action circulation', actionsSummary('circulationAction'))]);
   html += pdfRow([
-    pdfField('TA gauche', (d.taGaucheSys || ''}) + '/' + (d.taGaucheDia || ''})),
-    pdfField('TA droite', (d.taDroitSys || ''}) + '/' + (d.taDroitDia || ''})),
+    pdfField('TA gauche', (d.taGaucheSys || '') + '/' + (d.taGaucheDia || '')),
+    pdfField('TA droite', (d.taDroitSys || '') + '/' + (d.taDroitDia || '')),
     pdfField('Complément', d.taComplement)
   ]);
   html += pdfRow([
