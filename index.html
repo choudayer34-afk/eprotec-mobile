@@ -3494,11 +3494,23 @@ function renderQuizQuestion() {
     <div class="card highlight">
       <div style="color:#fff;font-size:15px;font-weight:500;">${q.question}</div>
     </div>
+    ${isAdminUser ? `<button class="detail-action-btn" id="quiz-inline-edit-btn" style="margin-top:8px;">✏️ Modifier cette question</button>` : ''}
     <div id="quiz-options" style="display:flex;flex-direction:column;gap:8px;margin-top:12px;">
       ${optionOrder.map((o, idx) => `<button class="detail-action-btn" data-quiz-option="${o.i}" style="text-align:left;">${o.opt}</button>`).join('')}
     </div>
     <div id="quiz-feedback" style="margin-top:12px;"></div>
   `;
+
+if (isAdminUser) {
+    document.getElementById('quiz-inline-edit-btn').addEventListener('click', () => {
+      showQuizAdminModal(q.id, () => {
+        const refreshedPool = buildQuizPool();
+        const updated = refreshedPool.find(x => x.id === q.id);
+        if (updated) quizSession.questions[quizSession.index] = updated;
+        renderQuizQuestion();
+      });
+    });
+  }
 
   container.querySelectorAll('[data-quiz-option]').forEach(btn => {
     btn.addEventListener('click', () => {
