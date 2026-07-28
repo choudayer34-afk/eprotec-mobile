@@ -1,14 +1,5 @@
 {
-  "newEvents": [
-    {
-      "tag": "MLA",
-      "titre": "[MLA 34] Depose du VPSP SALAGOU - FIRST STOP",
-      "lieu": "First stop",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1637008",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-07-30T08:30:00.000Z"
-    }
-  ],
+  "newEvents": [],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
