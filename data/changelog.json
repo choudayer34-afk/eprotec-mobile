@@ -1,5 +1,13 @@
 [
   {
+    "version": "21.6",
+    "date": "2026-07-28T05:35:30.357Z",
+    "title": "Correction d'une question en plein quizz, sans perdre sa progression",
+    "items": [
+      "En admin, un bouton \"Modifier cette question\" apparaît pendant le quizz — la correction s'applique immédiatement à la question affichée, et le quizz reprend exactement où on en était (index, score conservés)"
+    ]
+  },
+  {
     "version": "21.5",
     "date": "2026-07-28T05:33:44.368Z",
     "title": "co",
