@@ -721,7 +721,14 @@ async function main() {
   };
   writeFileSync('data/pending-notification.json', JSON.stringify(pendingNotification, null, 2));
 
-  console.log('Récupération des statistiques Firebase...');
+console.log('Récupération des statistiques Firebase...');
+  const mailjetStats = await fetchMailjetUsageStats();
+  if (mailjetStats) {
+    await fetch(FIREBASE_URL + '/admin-stats-mailjet.json', { method: 'PUT', body: JSON.stringify(mailjetStats) });
+    console.log(`Mailjet : ${mailjetStats.sentThisMonth} mail(s) envoyé(s) ce mois-ci`);
+  } else {
+    console.log('Statistiques Mailjet non disponibles.');
+  }
   const usageStats = await fetchFirebaseUsageStats();
   if (usageStats) {
     await fetch(FIREBASE_URL + '/admin-stats.json', { method: 'PUT', body: JSON.stringify(usageStats) });
