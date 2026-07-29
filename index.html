@@ -918,10 +918,10 @@
       <span>Administration</span>
     </div>
     <div class="tile-grid">
-      <a class="tile" href="https://one.dash.cloudflare.com/b2daa5e2f876743239f965f620add66d/access/apps" target="_blank">
+<button class="tile" id="cf-access-guide-btn" style="border:none;width:100%;">
         <div class="tile-icon">🔐</div>
         <div class="tile-title">Gérer les accès</div>
-      </a>
+      </button>
       <a class="tile" href="https://console.firebase.google.com/" target="_blank">
         <div class="tile-icon">🔥</div>
         <div class="tile-title">Base de données</div>
@@ -3321,6 +3321,29 @@ function showSosSendChooser(contacts, message) {
 }
 
   async function showMailjetStatsModal() {
+    function showCloudflareAccessGuideModal() {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;';
+  overlay.innerHTML = `
+    <div style="background:#163C74;border-radius:16px;padding:20px;width:100%;max-width:400px;max-height:85vh;overflow-y:auto;">
+      <div style="color:#fff;font-size:16px;font-weight:600;margin-bottom:12px;">🔐 Gérer qui peut se connecter</div>
+      <div style="color:#fff;font-size:13px;line-height:1.8;">
+        <p><b>1.</b> Ouvre la liste de tes applications Access (bouton ci-dessous)</p>
+        <p><b>2.</b> Tape sur <b>eprotec-mobile</b></p>
+        <p><b>3.</b> Onglet <b>"Policies"</b></p>
+        <p><b>4.</b> Tape sur la politique existante → <b>"Configure"</b></p>
+        <p><b>5.</b> Dans <b>"Rules"</b> :</p>
+        <p style="padding-left:14px;">→ Pour <b>ajouter</b> quelqu'un : ajoute une ligne "Emails" avec sa nouvelle adresse, à côté des existantes</p>
+        <p style="padding-left:14px;">→ Pour <b>retirer</b> quelqu'un : supprime simplement son adresse de la liste</p>
+        <p><b>6.</b> <b>"Save"</b></p>
+      </div>
+      <a class="detail-action-btn primary" href="https://one.dash.cloudflare.com/b2daa5e2f876743239f965f620add66d/access/apps" target="_blank" style="display:block;margin-top:14px;text-align:center;">Ouvrir les applications Access</a>
+      <button class="detail-action-btn" id="cf-access-guide-close" style="margin-top:8px;">Fermer</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.querySelector('#cf-access-guide-close').addEventListener('click', () => overlay.remove());
+}
   const overlay = document.createElement('div');
   overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;';
   overlay.innerHTML = `
@@ -9275,6 +9298,7 @@ document.getElementById('liens-urgence-btn').addEventListener('click', showEmerg
 document.getElementById('firebase-stats-btn-admin').addEventListener('click', showFirebaseStatsModal);
 document.getElementById('ntfy-share-btn').addEventListener('click', showNtfyShareModal);
 document.getElementById('mailjet-stats-btn').addEventListener('click', showMailjetStatsModal);
+document.getElementById('cf-access-guide-btn').addEventListener('click', showCloudflareAccessGuideModal);
 document.getElementById('share-app-btn-admin').addEventListener('click', showShareWithQrModal);
 
 document.getElementById('sos-alert-btn').addEventListener('click', triggerSosAlert);
