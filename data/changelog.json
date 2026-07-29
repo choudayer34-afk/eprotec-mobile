@@ -1,5 +1,14 @@
 [
   {
+    "version": "21.9",
+    "date": "2026-07-29T09:10:57.514Z",
+    "title": "Section Administration centralisée avec QR code de partage",
+    "items": [
+      "Nouvelle section \"Administration\" regroupant : gestion des accès Cloudflare, base de données Firebase, Cloud Formation, dépôt GitHub, consommation Firebase, et partage de l'app avec QR code",
+      "Ces éléments ont été retirés de Liens utiles, désormais réservé aux liens externes non-admin"
+    ]
+  },
+  {
     "version": "21.8",
     "date": "2026-07-29T08:33:31.675Z",
     "title": "\"Récupération des statistiques Firebase",
