@@ -1,5 +1,14 @@
 {
-  "newEvents": [],
+  "newEvents": [
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] Soiree lancement MHR",
+      "lieu": "Avenue de Vanieres 34070 Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1637723",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-08-25T16:30:00.000Z"
+    }
+  ],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",

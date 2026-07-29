@@ -877,6 +877,43 @@
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1628563"
   },
   {
+    "uid": "evt16377231@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] Soiree lancement MHR",
+    "lieu": "Avenue de Vanieres 34070 Montpellier",
+    "dateDebut": "2026-08-25T16:30:00.000Z",
+    "dateFin": "2026-08-25T18:00:00.000Z",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1637723'>Lien vers l'activité</a>",
+    "tag": "DPS",
+    "score": 12,
+    "reasons": [
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour : Mardi (+0)",
+        "category": "neutral"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (5 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (17 jours)",
+        "category": "positive"
+      }
+    ],
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1637723"
+  },
+  {
     "uid": "evt16204881@https://eprotec.protection-civile.org",
     "titre": "[DPS 34] Run & Trail",
     "lieu": "515 Avenue de la Monnaie, 34170 Castelnau-le-Lez, France",
@@ -1003,42 +1040,5 @@
       }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1637581"
-  },
-  {
-    "uid": "evt16204641@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] Festival InvitationS",
-    "lieu": "Cave des vignerons, Maraussan",
-    "dateDebut": "2026-08-22T16:30:00.000Z",
-    "dateFin": "2026-08-22T21:30:00.000Z",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1620464'>Lien vers l'activité</a>",
-    "tag": "DPS",
-    "score": 9,
-    "reasons": [
-      {
-        "text": "Mois sans DPS planifié",
-        "category": "positive"
-      },
-      {
-        "text": "Jour : Samedi (+3)",
-        "category": "positive"
-      },
-      {
-        "text": "Créneau fin d'après-midi / soirée",
-        "category": "positive"
-      },
-      {
-        "text": "Durée raisonnable",
-        "category": "positive"
-      },
-      {
-        "text": "Trop éloigné (64.2 km)",
-        "category": "negative"
-      },
-      {
-        "text": "Espacement confortable (20 jours)",
-        "category": "positive"
-      }
-    ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1620464"
   }
 ]
