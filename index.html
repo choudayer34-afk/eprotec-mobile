@@ -928,6 +928,10 @@
       <button class="plus-back">‹</button>
       <span>Liens utiles</span>
     </div>
+    <button class="tile" id="firebase-stats-btn" style="border:none;width:100%;display:none;">
+        <div class="tile-icon">📊</div>
+        <div class="tile-title">Consommation Firebase</div>
+      </button>
           <button class="tile" id="liens-urgence-btn" style="border:none;width:100%;">
         <div class="tile-icon">📞</div>
         <div class="tile-title">Numéros d'urgence</div>
@@ -3264,6 +3268,55 @@ function showSosSendChooser(contacts, message) {
   });
 
   overlay.querySelector('#sos-cancel').addEventListener('click', () => overlay.remove());
+}
+
+async function showFirebaseStatsModal() {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;';
+  overlay.innerHTML = `
+    <div style="background:#163C74;border-radius:16px;padding:20px;width:100%;max-width:380px;">
+      <div style="color:#fff;font-size:16px;font-weight:600;margin-bottom:14px;text-align:center;">📊 Consommation Firebase</div>
+      <div id="firebase-stats-content" style="color:#9FB3D6;text-align:center;">Chargement...</div>
+      <a class="detail-action-btn" href="https://console.firebase.google.com/" target="_blank" style="display:block;margin-top:12px;text-align:center;">Ouvrir la console Firebase</a>
+      <button class="detail-action-btn primary" id="firebase-stats-close" style="margin-top:8px;">Fermer</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.querySelector('#firebase-stats-close').addEventListener('click', () => overlay.remove());
+
+  try {
+    const [statsRes, usersRes] = await Promise.all([
+      fetch(FIREBASE_URL + '/admin-stats.json?t=' + Date.now(), { cache: 'no-store' }),
+      fetch(FIREBASE_URL + '/users.json?t=' + Date.now(), { cache: 'no-store' })
+    ]);
+    const stats = await statsRes.json();
+    const users = await usersRes.json();
+    const nbUsers = users ? Object.keys(users).length : 0;
+
+    const content = document.getElementById('firebase-stats-content');
+    if (!stats) {
+      content.innerHTML = 'Statistiques non encore disponibles — attends le prochain passage du moteur.';
+      return;
+    }
+
+    const usedMo = (stats.storageBytes / 1024 / 1024).toFixed(2);
+    const limitMo = (stats.storageLimit / 1024 / 1024).toFixed(0);
+    const pct = stats.storageLimit > 0 ? Math.min(100, Math.round((stats.storageBytes / stats.storageLimit) * 100)) : 0;
+
+    content.innerHTML = `
+      <div style="text-align:left;">
+        <div style="color:#fff;font-size:14px;margin-bottom:10px;">👥 ${nbUsers} utilisateur(s) enregistré(s)</div>
+        <div style="color:#fff;font-size:14px;margin-bottom:6px;">${usedMo} Mo / ${limitMo} Mo utilisés (${pct}%)</div>
+        <div style="background:#0B2A5C;border-radius:6px;height:10px;overflow:hidden;">
+          <div style="height:100%;width:${pct}%;background:${pct > 80 ? '#E24B4A' : '#F5821F'};"></div>
+        </div>
+        <div style="color:#9FB3D6;font-size:11px;margin-top:8px;">Dernière mesure : ${formatDateHeureCourte(stats.fetchedAt)}</div>
+      </div>
+    `;
+  } catch (err) {
+    document.getElementById('firebase-stats-content').textContent = 'Erreur de chargement.';
+    console.error(err);
+  }
 }
 
 function showEmergencyNumbersModal() {
@@ -9128,6 +9181,7 @@ document.getElementById('lexique-bodymap-btn').addEventListener('click', () => s
 document.getElementById('lexique-add-btn').addEventListener('click', showAddLexiqueModal);
 
 document.getElementById('liens-urgence-btn').addEventListener('click', showEmergencyNumbersModal);
+document.getElementById('firebase-stats-btn').addEventListener('click', showFirebaseStatsModal);
 
 document.getElementById('sos-alert-btn').addEventListener('click', triggerSosAlert);
 document.getElementById('import-analyser-btn').addEventListener('click', renderImportReport);
@@ -10229,7 +10283,9 @@ if (identity.email) {
       const adminTile = document.getElementById('cf-admin-tile');
       const cloudFormationTile = document.getElementById('cf-cloudformation-tile');
       const shareBtn = document.getElementById('share-app-btn');
-      const forceUpdateBtn = document.getElementById('force-update-btn');
+const forceUpdateBtn = document.getElementById('force-update-btn');
+      const firebaseStatsBtn = document.getElementById('firebase-stats-btn');
+      if (firebaseStatsBtn) firebaseStatsBtn.style.display = 'block';
 if (adminTile) adminTile.style.display = 'block';
       const importTile = document.getElementById('import-fiches-tile');
       if (importTile) importTile.style.display = 'block';
