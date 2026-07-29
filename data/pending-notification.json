@@ -1,22 +1,5 @@
 {
-  "newEvents": [
-    {
-      "tag": "DPS",
-      "titre": "[DPS 34] Renfort DPS-PE Tour de France feminin",
-      "lieu": "Tournon sur Rhone",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1637580",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-08-06T11:00:00.000Z"
-    },
-    {
-      "tag": "DPS",
-      "titre": "[DPS 34] Renfort DPS - Fan ZONE Tour de France Femmes",
-      "lieu": "Quai Jean Jaures 07800 La Voulte-sur-Rhone",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1637581",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-08-07T08:30:00.000Z"
-    }
-  ],
+  "newEvents": [],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
