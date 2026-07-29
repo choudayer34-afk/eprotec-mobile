@@ -1,5 +1,13 @@
 [
   {
+    "version": "22.3",
+    "date": "2026-07-29T10:01:53.046Z",
+    "title": "Guide intégré pour gérer les accès Cloudflare",
+    "items": [
+      "\"Gérer les accès\" ouvre désormais une fenêtre avec le chemin exact pour ajouter ou retirer une adresse email autorisée, avant de renvoyer vers Cloudflare"
+    ]
+  },
+  {
     "version": "22.2",
     "date": "2026-07-29T09:57:11.716Z",
     "title": "Suivi réel de la consommation Mailjet (admin)",
