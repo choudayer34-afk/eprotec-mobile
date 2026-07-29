@@ -942,9 +942,21 @@
         <div class="tile-icon">⏱️</div>
         <div class="tile-title">Cron / Moteur (Actions)</div>
       </a>
-      <a class="tile" href="https://ntfy.sh/app" target="_blank">
+<a class="tile" href="https://ntfy.sh/app" target="_blank">
         <div class="tile-icon">🔔</div>
         <div class="tile-title">Notifications (ntfy)</div>
+      </a>
+      <button class="tile" id="ntfy-share-btn" style="border:none;width:100%;">
+        <div class="tile-icon">📲</div>
+        <div class="tile-title">Partager les notifs (QR)</div>
+      </button>
+      <a class="tile" href="https://cron-job.org/en/members/" target="_blank">
+        <div class="tile-icon">⏰</div>
+        <div class="tile-title">Cron (cron-job.org)</div>
+      </a>
+      <a class="tile" href="https://app.mailjet.com/signin" target="_blank">
+        <div class="tile-icon">✉️</div>
+        <div class="tile-title">Envoi de mail (Mailjet)</div>
       </a>
     </div>
   </section>
@@ -9216,6 +9228,7 @@ document.getElementById('lexique-add-btn').addEventListener('click', showAddLexi
 
 document.getElementById('liens-urgence-btn').addEventListener('click', showEmergencyNumbersModal);
 document.getElementById('firebase-stats-btn-admin').addEventListener('click', showFirebaseStatsModal);
+document.getElementById('ntfy-share-btn').addEventListener('click', showNtfyShareModal);
 document.getElementById('share-app-btn-admin').addEventListener('click', showShareWithQrModal);
 
 document.getElementById('sos-alert-btn').addEventListener('click', triggerSosAlert);
@@ -9369,7 +9382,26 @@ document.getElementById('sos-config-btn').addEventListener('click', () => {
   renderSosContactsScreen();
 });
 
+function showNtfyShareModal() {
+  const topic = 'REMPLACE_PAR_TON_TOPIC_NTFY';
+  const subscribeUrl = `https://ntfy.sh/${topic}`;
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(subscribeUrl)}`;
 
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;';
+  overlay.innerHTML = `
+    <div style="background:#163C74;border-radius:16px;padding:20px;width:100%;max-width:340px;text-align:center;">
+      <div style="color:#fff;font-size:16px;font-weight:600;margin-bottom:6px;">📲 Recevoir les notifications</div>
+      <div style="color:#9FB3D6;font-size:12px;margin-bottom:12px;">La personne doit installer l'app gratuite "ntfy" (App Store/Play Store), puis scanner ce code pour s'abonner.</div>
+      <img src="${qrUrl}" alt="QR code" style="border-radius:10px;background:#fff;padding:10px;">
+      <div style="color:#9FB3D6;font-size:11px;margin-top:10px;word-break:break-all;">${subscribeUrl}</div>
+      <button class="detail-action-btn" id="ntfy-share-close" style="margin-top:14px;">Fermer</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.querySelector('#ntfy-share-close').addEventListener('click', () => overlay.remove());
+}
+  
 function showShareWithQrModal() {
   const url = window.location.origin + window.location.pathname;
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(url)}`;
