@@ -3320,8 +3320,7 @@ function showSosSendChooser(contacts, message) {
   overlay.querySelector('#sos-cancel').addEventListener('click', () => overlay.remove());
 }
 
-  async function showMailjetStatsModal() {
-    function showCloudflareAccessGuideModal() {
+      function showCloudflareAccessGuideModal() {
   const overlay = document.createElement('div');
   overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;';
   overlay.innerHTML = `
@@ -3344,6 +3343,9 @@ function showSosSendChooser(contacts, message) {
   document.body.appendChild(overlay);
   overlay.querySelector('#cf-access-guide-close').addEventListener('click', () => overlay.remove());
 }
+  
+  async function showMailjetStatsModal() {
+
   const overlay = document.createElement('div');
   overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;';
   overlay.innerHTML = `
