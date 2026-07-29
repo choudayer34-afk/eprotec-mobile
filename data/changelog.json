@@ -1,5 +1,13 @@
 [
   {
+    "version": "21.8",
+    "date": "2026-07-29T08:33:31.675Z",
+    "title": "\"Récupération des statistiques Firebase",
+    "items": [
+      "(J'ajoute aussi un vrai journal d'erreur ici — si le souci vient d'autre chose que la fenêtre de temps, ex. un droit manquant sur le compte de service, on le verra clairement dans les logs cette fois au lieu d'un simple 0 silencieux.)"
+    ]
+  },
+  {
     "version": "21.7",
     "date": "2026-07-29T08:13:10.516Z",
     "title": "Suivi réel de la consommation Firebase (admin)",
