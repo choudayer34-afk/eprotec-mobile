@@ -59,6 +59,44 @@ async function fetchGcpMetric(projectId, accessToken, metricType, startTime, end
   return 0;
 }
 
+async function fetchMailjetUsageStats() {
+  try {
+    const apiKey = process.env.SMTP_USER;
+    const apiSecret = process.env.SMTP_PASS;
+    if (!apiKey || !apiSecret) return null;
+
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const fromTs = Math.floor(startOfMonth.getTime() / 1000);
+    const toTs = Math.floor(now.getTime() / 1000);
+
+    const auth = Buffer.from(`${apiKey}:${apiSecret}`).toString('base64');
+    const url = `https://api.mailjet.com/v3/REST/statcounters?CounterSource=APIKey&CounterTiming=Message&CounterResolution=Month&FromTS=${fromTs}&ToTS=${toTs}`;
+
+    const res = await fetch(url, { headers: { Authorization: `Basic ${auth}` } });
+    const data = await res.json();
+
+    if (!res.ok) {
+      console.error('Erreur API Mailjet :', JSON.stringify(data));
+      return null;
+    }
+
+    console.log('Réponse brute Mailjet :', JSON.stringify(data));
+
+    let sentCount = 0;
+    if (Array.isArray(data.Data)) {
+      data.Data.forEach(entry => {
+        sentCount += entry.MessageSentCount || entry.SentCount || entry.Total || 0;
+      });
+    }
+
+    return { sentThisMonth: sentCount, monthlyLimit: 6000, dailyLimit: 200, fetchedAt: new Date().toISOString() };
+  } catch (err) {
+    console.error('Erreur récupération stats Mailjet :', err.message);
+    return null;
+  }
+}
+
 async function fetchFirebaseUsageStats() {
   try {
     const serviceAccountJson = process.env.GCP_MONITORING_KEY;
