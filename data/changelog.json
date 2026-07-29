@@ -1,5 +1,13 @@
 [
   {
+    "version": "22.1",
+    "date": "2026-07-29T09:53:36.834Z",
+    "title": "Ajout Cron/Mailjet dans Administration + partage des notifications par QR code",
+    "items": [
+      "Ajout Cron/Mailjet dans Administration + partage des notifications par QR code"
+    ]
+  },
+  {
     "version": "22.0",
     "date": "2026-07-29T09:47:57.881Z",
     "title": "Ajout des accès Cron et Notifications dans l'administration",
