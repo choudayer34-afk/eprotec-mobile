@@ -7,6 +7,76 @@ const RECENT_NEW_PATH = 'data/recent-new.json';
 const NEW_RETENTION_HOURS = 48;
 
 const FIREBASE_URL = 'https://eprotec-favoris-default-rtdb.europe-west1.firebasedatabase.app';
+import { createSign } from 'crypto';
+
+function base64url(input) {
+  return Buffer.from(input).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+async function getGcpAccessToken(serviceAccountJson) {
+  const key = JSON.parse(serviceAccountJson);
+  const now = Math.floor(Date.now() / 1000);
+  const header = { alg: 'RS256', typ: 'JWT' };
+  const payload = {
+    iss: key.client_email,
+    scope: 'https://www.googleapis.com/auth/monitoring.read',
+    aud: 'https://oauth2.googleapis.com/token',
+    iat: now,
+    exp: now + 3600
+  };
+  const signInput = `${base64url(JSON.stringify(header))}.${base64url(JSON.stringify(payload))}`;
+  const signer = createSign('RSA-SHA256');
+  signer.update(signInput);
+  signer.end();
+  const signature = signer.sign(key.private_key).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  const jwt = `${signInput}.${signature}`;
+
+  const res = await fetch('https://oauth2.googleapis.com/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=${jwt}`
+  });
+  const data = await res.json();
+  return data.access_token;
+}
+
+async function fetchGcpMetric(projectId, accessToken, metricType, startTime, endTime) {
+  const url = `https://monitoring.googleapis.com/v3/projects/${projectId}/timeSeries?filter=metric.type%3D%22${encodeURIComponent(metricType)}%22&interval.startTime=${startTime}&interval.endTime=${endTime}`;
+  const res = await fetch(url, { headers: { Authorization: `Bearer ${accessToken}` } });
+  const data = await res.json();
+  if (data.timeSeries && data.timeSeries.length > 0) {
+    const points = data.timeSeries[0].points;
+    if (points && points.length > 0) {
+      const val = points[0].value;
+      return val.int64Value ? Number(val.int64Value) : (val.doubleValue || 0);
+    }
+  }
+  return 0;
+}
+
+async function fetchFirebaseUsageStats() {
+  try {
+    const serviceAccountJson = process.env.GCP_MONITORING_KEY;
+    if (!serviceAccountJson) return null;
+
+    const key = JSON.parse(serviceAccountJson);
+    const accessToken = await getGcpAccessToken(serviceAccountJson);
+    const projectId = key.project_id;
+
+    const now = new Date();
+    const past = new Date(now.getTime() - 60 * 60 * 1000);
+    const startTime = past.toISOString();
+    const endTime = now.toISOString();
+
+    const storageBytes = await fetchGcpMetric(projectId, accessToken, 'firebasedatabase.googleapis.com/storage/total_bytes', startTime, endTime);
+    const storageLimit = await fetchGcpMetric(projectId, accessToken, 'firebasedatabase.googleapis.com/storage/limit', startTime, endTime);
+
+    return { storageBytes, storageLimit, fetchedAt: new Date().toISOString() };
+  } catch (err) {
+    console.error('Erreur récupération stats Firebase :', err.message);
+    return null;
+  }
+}
 
 const HOME = { lat: 43.5675, lon: 3.9010 };
 
@@ -608,6 +678,16 @@ async function main() {
   };
   writeFileSync('data/pending-notification.json', JSON.stringify(pendingNotification, null, 2));
 
+  console.log('Récupération des statistiques Firebase...');
+  const usageStats = await fetchFirebaseUsageStats();
+  if (usageStats) {
+    await fetch(FIREBASE_URL + '/admin-stats.json', { method: 'PUT', body: JSON.stringify(usageStats) });
+    console.log(`Stockage : ${(usageStats.storageBytes / 1024 / 1024).toFixed(2)} Mo / ${(usageStats.storageLimit / 1024 / 1024).toFixed(0)} Mo`);
+  } else {
+    console.log('Statistiques Firebase non disponibles (clé absente ou erreur).');
+  }
+
+ 
   console.log('Traitement des utilisateurs enregistrés...');
   const registeredUsers = await loadRegisteredUsers();
   console.log(`${registeredUsers.length} utilisateur(s) avec un lien Eprotec configuré`);
