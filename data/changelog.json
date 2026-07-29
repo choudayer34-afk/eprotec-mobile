@@ -1,5 +1,14 @@
 [
   {
+    "version": "22.2",
+    "date": "2026-07-29T09:57:11.716Z",
+    "title": "Suivi réel de la consommation Mailjet (admin)",
+    "items": [
+      "Le moteur récupère désormais les vrais chiffres d'envoi Mailjet (via l'API statcounters, réutilisant les identifiants SMTP déjà configurés)",
+      "Nouvel écran admin affichant le nombre de mails envoyés ce mois-ci sur la limite gratuite de 6000"
+    ]
+  },
+  {
     "version": "22.1",
     "date": "2026-07-29T09:53:36.834Z",
     "title": "Ajout Cron/Mailjet dans Administration + partage des notifications par QR code",
