@@ -44,6 +44,10 @@ async function fetchGcpMetric(projectId, accessToken, metricType, startTime, end
   const url = `https://monitoring.googleapis.com/v3/projects/${projectId}/timeSeries?filter=metric.type%3D%22${encodeURIComponent(metricType)}%22&interval.startTime=${startTime}&interval.endTime=${endTime}`;
   const res = await fetch(url, { headers: { Authorization: `Bearer ${accessToken}` } });
   const data = await res.json();
+  if (!res.ok) {
+    console.error(`Erreur métrique ${metricType} :`, JSON.stringify(data));
+    return 0;
+  }
   if (data.timeSeries && data.timeSeries.length > 0) {
     const points = data.timeSeries[0].points;
     if (points && points.length > 0) {
@@ -51,6 +55,7 @@ async function fetchGcpMetric(projectId, accessToken, metricType, startTime, end
       return val.int64Value ? Number(val.int64Value) : (val.doubleValue || 0);
     }
   }
+  console.log(`Aucune donnée pour ${metricType}`);
   return 0;
 }
 
@@ -63,8 +68,8 @@ async function fetchFirebaseUsageStats() {
     const accessToken = await getGcpAccessToken(serviceAccountJson);
     const projectId = key.project_id;
 
-    const now = new Date();
-    const past = new Date(now.getTime() - 60 * 60 * 1000);
+const now = new Date();
+    const past = new Date(now.getTime() - 48 * 60 * 60 * 1000);
     const startTime = past.toISOString();
     const endTime = now.toISOString();
 
