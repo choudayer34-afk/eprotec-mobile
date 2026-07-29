@@ -1,22 +1,5 @@
 {
-  "newEvents": [
-    {
-      "tag": "MLA",
-      "titre": "[MLA 34] Livraison Lit Picot BZR",
-      "lieu": "BZR Base nautique",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1637607",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-08-04T06:30:00.000Z"
-    },
-    {
-      "tag": "MLA",
-      "titre": "[MLA 34] Livraison Lits Picot BZR",
-      "lieu": "BZR Base nautique",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1637608",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-08-04T06:30:00.000Z"
-    }
-  ],
+  "newEvents": [],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
