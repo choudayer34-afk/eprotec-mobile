@@ -527,7 +527,11 @@
         <div class="tile-icon">🔗</div>
         <div class="tile-title">Mon lien Eprotec</div>
       </div>
-      <div class="tile" data-open="plus-changelog">
+    <div class="tile" id="admin-section-tile" style="display:none;" data-open="plus-admin">
+        <div class="tile-icon">🛠</div>
+        <div class="tile-title">Administration</div>
+      </div>
+     <div class="tile" data-open="plus-changelog">
         <div class="tile-icon">🆕</div>
         <div class="tile-title">Nouveautés de l'app</div>
       </div>
@@ -908,6 +912,40 @@
     </div>
     <div id="quiz-content"></div>
   </section>
+ <section id="plus-admin">
+    <div class="detail-header">
+      <button class="plus-back" data-target="plus">‹</button>
+      <span>Administration</span>
+    </div>
+    <div class="tile-grid">
+      <a class="tile" href="https://one.dash.cloudflare.com/b2daa5e2f876743239f965f620add66d/access/apps" target="_blank">
+        <div class="tile-icon">🔐</div>
+        <div class="tile-title">Gérer les accès</div>
+      </a>
+      <a class="tile" href="https://console.firebase.google.com/" target="_blank">
+        <div class="tile-icon">🔥</div>
+        <div class="tile-title">Base de données</div>
+      </a>
+      <a class="tile" href="https://drive.google.com/drive/folders/1SuSx23UacBrhPFYWF1W1R7Y6Pq2YK93_" target="_blank">
+        <div class="tile-icon">☁️</div>
+        <div class="tile-title">Cloud Formation</div>
+      </a>
+      <a class="tile" href="https://github.com/choudayer34-afk/eprotec-mobile" target="_blank">
+        <div class="tile-icon">💻</div>
+        <div class="tile-title">Dépôt GitHub</div>
+      </a>
+      <button class="tile" id="firebase-stats-btn-admin" style="border:none;width:100%;">
+        <div class="tile-icon">📊</div>
+        <div class="tile-title">Consommation Firebase</div>
+      </button>
+      <button class="tile" id="share-app-btn-admin" style="border:none;width:100%;">
+        <div class="tile-icon">📤</div>
+        <div class="tile-title">Partager l'app (QR code)</div>
+      </button>
+    </div>
+  </section>
+
+
   <section id="plus-lexique">
     <div class="detail-header">
       <button class="plus-back" data-target="plus-secourisme">‹</button>
@@ -928,10 +966,7 @@
       <button class="plus-back">‹</button>
       <span>Liens utiles</span>
     </div>
-    <button class="tile" id="firebase-stats-btn" style="border:none;width:100%;display:none;">
-        <div class="tile-icon">📊</div>
-        <div class="tile-title">Consommation Firebase</div>
-      </button>
+
           <button class="tile" id="liens-urgence-btn" style="border:none;width:100%;">
         <div class="tile-icon">📞</div>
         <div class="tile-title">Numéros d'urgence</div>
@@ -943,24 +978,15 @@
       </a>
       <a class="tile" href="https://academy.protection-civile-herault.org/" target="_blank">
         <div class="tile-icon">📘</div><div class="tile-title">Formation</div>
-      </a>
-      <a class="tile" id="cf-cloudformation-tile" href="https://drive.google.com/drive/folders/1SuSx23UacBrhPFYWF1W1R7Y6Pq2YK93_" target="_blank" style="display:none;">
-        <div class="tile-icon">☁️</div><div class="tile-title">Cloud Formation</div>
-      </a>
+    
       <a class="tile" href="https://cloud.protection-civile-herault.org/index.php/apps/dashboard/" target="_blank">
         <div class="tile-icon">📷</div><div class="tile-title">Photo</div>
       </a>
       <a class="tile" href="https://boutique.protection-civile.org/fr/" target="_blank">
         <div class="tile-icon">🛒</div><div class="tile-title">Boutique</div>
       </a>
-        <a class="tile" id="cf-admin-tile" href="https://one.dash.cloudflare.com/b2daa5e2f876743239f965f620add66d/access/apps" target="_blank" style="display:none;">
-        <div class="tile-icon">🔐</div>
-        <div class="tile-title">Gérer les accès (Cloudflare)</div>
-</a>
-      <button class="tile" id="share-app-btn" style="border:none;width:100%;display:none;">
-        <div class="tile-icon">📤</div>
-        <div class="tile-title">Partager l'app</div>
-      </button>
+       
+     
 <a class="tile" href="https://apps.apple.com/fr/app/staying-alive/id403117516" target="_blank">
         <img src="data/staying-alive-logo.png" style="width:40px;height:40px;border-radius:12px;object-fit:cover;margin:0 auto 8px;display:block;" alt="Staying Alive">
         <div class="tile-title">Staying Alive</div>
@@ -9181,7 +9207,8 @@ document.getElementById('lexique-bodymap-btn').addEventListener('click', () => s
 document.getElementById('lexique-add-btn').addEventListener('click', showAddLexiqueModal);
 
 document.getElementById('liens-urgence-btn').addEventListener('click', showEmergencyNumbersModal);
-document.getElementById('firebase-stats-btn').addEventListener('click', showFirebaseStatsModal);
+document.getElementById('firebase-stats-btn-admin').addEventListener('click', showFirebaseStatsModal);
+document.getElementById('share-app-btn-admin').addEventListener('click', showShareWithQrModal);
 
 document.getElementById('sos-alert-btn').addEventListener('click', triggerSosAlert);
 document.getElementById('import-analyser-btn').addEventListener('click', renderImportReport);
@@ -9335,25 +9362,39 @@ document.getElementById('sos-config-btn').addEventListener('click', () => {
 });
 
 
-document.getElementById('share-app-btn').addEventListener('click', async () => {
+function showShareWithQrModal() {
+  const url = window.location.origin + window.location.pathname;
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(url)}`;
 
-  const shareData = {
-    title: 'Mon eProtec',
-    text: "Une app pour la Protection Civile Hérault : événements, suggestions, secourisme, autodéfense et plus encore.",
-    url: window.location.origin + window.location.pathname
-  };
-  if (navigator.share) {
-    try { await navigator.share(shareData); } catch {}
-  } else {
-    navigator.clipboard.writeText(shareData.url).then(() => {
-      const btn = document.getElementById('share-app-btn');
-      const title = btn.querySelector('.tile-title');
-      const original = title.textContent;
-      title.textContent = '✓ Lien copié';
-      setTimeout(() => { title.textContent = original; }, 2000);
-    });
-  }
-});
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;';
+  overlay.innerHTML = `
+    <div style="background:#163C74;border-radius:16px;padding:20px;width:100%;max-width:340px;text-align:center;">
+      <div style="color:#fff;font-size:16px;font-weight:600;margin-bottom:14px;">📤 Partager l'app</div>
+      <img src="${qrUrl}" alt="QR code" style="border-radius:10px;background:#fff;padding:10px;">
+      <div style="color:#9FB3D6;font-size:11px;margin-top:10px;word-break:break-all;">${url}</div>
+      <button class="detail-action-btn primary" id="share-native-btn" style="margin-top:14px;">Partager le lien</button>
+      <button class="detail-action-btn" id="share-close-btn" style="margin-top:8px;">Fermer</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  overlay.querySelector('#share-close-btn').addEventListener('click', () => overlay.remove());
+  overlay.querySelector('#share-native-btn').addEventListener('click', async () => {
+    const shareData = {
+      title: 'Mon eProtec',
+      text: "Une app pour la Protection Civile Hérault : événements, suggestions, secourisme, autodéfense et plus encore.",
+      url
+    };
+    if (navigator.share) {
+      try { await navigator.share(shareData); } catch {}
+    } else {
+      navigator.clipboard.writeText(url).then(() => {
+        overlay.querySelector('#share-native-btn').textContent = '✓ Lien copié';
+      });
+    }
+  });
+}
 
 
 const GESTE_CATEGORIES_MAP = {
@@ -10287,8 +10328,10 @@ const forceUpdateBtn = document.getElementById('force-update-btn');
       const firebaseStatsBtn = document.getElementById('firebase-stats-btn');
       if (firebaseStatsBtn) firebaseStatsBtn.style.display = 'block';
 if (adminTile) adminTile.style.display = 'block';
-      const importTile = document.getElementById('import-fiches-tile');
+const importTile = document.getElementById('import-fiches-tile');
       if (importTile) importTile.style.display = 'block';
+      const adminSectionTile = document.getElementById('admin-section-tile');
+      if (adminSectionTile) adminSectionTile.style.display = 'block';
       const lexiqueAddBtn = document.getElementById('lexique-add-btn');
       if (lexiqueAddBtn) lexiqueAddBtn.style.display = 'block';
       if (cloudFormationTile) cloudFormationTile.style.display = 'block';
