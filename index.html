@@ -2969,7 +2969,7 @@ accueil: [
   { fr: "Vous parlez Français ?", en: "Do you speak English?", es: "¿Habla Español?", ar: "هل تتحدث [العربية]؟" },  
   { fr: "Bonjour, nous sommes secouristes, nous allons vérifier plusieurs paramètres de votre santé.", en: "Hello, we are first aiders, we are going to check several health parameters.", es: "Hola, somos socorristas, vamos a comprobar varios parámetros de su salud.", ar: "مرحباً، نحن مسعفون، سنقوم بفحص عدة مؤشرات صحية." },
     { fr: "Restez calme, nous allons vous aider.", en: "Stay calm, we are going to help you.", es: "Mantenga la calma, vamos a ayudarle.", ar: "ابقَ هادئاً، سنساعدك." },
-    { fr: "Quel est votre nom ?", en: "What is your last name?", es: "¿Cuál es su apellido?", ar: "ما هو اسم عائلتك؟" },
+    { key : 'nom', fr: "Quel est votre nom ?", en: "What is your last name?", es: "¿Cuál es su apellido?", ar: "ما هو اسم عائلتك؟" },
     { fr: "Quel est votre prénom ?", en: "What is your first name?", es: "¿Cuál es su nombre?", ar: "ما هو اسمك الأول؟" },
     { fr: "Quelle est votre date de naissance ?", en: "What is your date of birth?", es: "¿Cuál es su fecha de nacimiento?", ar: "ما هو تاريخ ميلادك؟" },
     { fr: "Quel âge avez-vous ?", en: "How old are you?", es: "¿Cuántos años tiene?", ar: "كم عمرك؟" },
@@ -4910,19 +4910,45 @@ function formatDateHeureCourte(iso) {
   return d.toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
 }
 
+const LANGUE_KEYS = {
+  'Français': 'fr',
+  'English': 'en',
+  'Español': 'es',
+  'العربية': 'ar'
+};
 
+function getPhraseForField(field, category, langueVictime) {
+  if (!field.phraseKey || !category?.phraseCategory) {
+    return '';
+  }
+
+  const phrases = PHRASES_DATA[category.phraseCategory] || [];
+
+  const phrase = phrases.find(
+    p => p.key === field.phraseKey
+  );
+
+  if (!phrase) {
+    return '';
+  }
+
+  const langKey = LANGUE_KEYS[langueVictime] || 'fr';
+
+  return phrase[langKey] || phrase.fr || '';
+}
+  
   const BILAN_CATEGORIES = [
  { key: 'identite', label: '🪪 Identité', phraseCategory: 'accueil', fields: [
+    { key: 'langueVictime', label: 'Langue de la victime', type: 'chip', options: ['Français', 'English', 'Español', 'العربية'] },
     { key: 'redacteur', label: 'Rédigé par', type: 'text' },
     { key: 'sexe', label: 'Sexe', type: 'chip', options: ['Homme', 'Femme'] },
-    { key: 'nom', label: 'Nom', type: 'text' },
+    { key: 'nom', label: 'Nom', type: 'text', phraseKey: 'nom' },
     { key: 'prenom', label: 'Prénom', type: 'text' },
     { key: 'dateNaissance', label: 'Date de naissance', type: 'date' },
     { key: 'age', label: 'Âge', type: 'age-display' },
     { key: 'adresse', label: 'Adresse d\'habitation', type: 'text' },
     { key: 'personnePrevenir', label: 'Personne à prévenir', type: 'text' },
-    { key: 'personnePrevenirTel', label: 'Téléphone de cette personne', type: 'text' },
-    { key: 'langueVictime', label: 'Langue de la victime', type: 'chip', options: ['Français', 'English', 'Español', 'العربية'] }
+    { key: 'personnePrevenirTel', label: 'Téléphone de cette personne', type: 'text' }
   ]},
  { key: 'circonstanciel', label: '🎬 Bilan circonstanciel (3S)', phraseCategory: 'trois', fields: [
     { key: 'scene', label: 'Scène', type: 'text' },
@@ -5180,20 +5206,33 @@ if (f.type === 'age-display') {
 
    const mapBtn = f.map ? `<button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;margin-left:6px;" data-bodymap-field="${f.key}">🗺️</button>` : '';
 
-    if (f.type === 'text') {
-    const phraseBtnText = f.phrase ? `<button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;margin-left:6px;" onclick="showPhraseModal('${f.phrase}')">🗣️</button>` : '';
-    return `
-      <div class="bilan-field-row">
-        <label>${f.label}${infoBtn}${mapBtn}${phraseBtnText}</label>
+  if (f.type === 'text') {
+  const phraseBtnText = f.phrase
+    ? `<button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;margin-left:6px;" onclick="showPhraseModal('${f.phrase}')">🗣️</button>`
+    : '';
 
-        <div class="text-field-wrap ${value ? 'has-value' : ''}">
-          <textarea rows="1" class="bilan-textarea" data-bilan-field="${f.key}">${escapeHtml(value)}</textarea>
-          <button class="text-clear-btn" type="button">✕</button>
-        </div>
-        ${suggestionDiv}
+  const placeholder = getPhraseForField(f, cat);
+
+  return `
+    <div class="bilan-field-row">
+      <label>${f.label}${infoBtn}${mapBtn}${phraseBtnText}</label>
+
+      <div class="text-field-wrap ${value ? 'has-value' : ''}">
+        <textarea
+          rows="1"
+          class="bilan-textarea"
+          data-bilan-field="${f.key}"
+          placeholder="${escapeHtml(placeholder)}"
+        >${escapeHtml(value)}</textarea>
+
+        <button class="text-clear-btn" type="button">✕</button>
       </div>
-    `;
-  }
+
+      ${suggestionDiv}
+    </div>
+  `;
+}
+  
  if (f.type === 'date') {
     return `
       <div class="bilan-field-row">
