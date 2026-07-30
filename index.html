@@ -4966,7 +4966,7 @@ options: [
     { key: 'hemorragieLieu', label: 'Localisation si oui', type: 'text', map: true, showIf: { field: 'hemorragie', value: 'Oui' } },
     { key: 'hemorragieAction', label: 'Action réalisée', type: 'actions', options: ['Compression manuelle', 'Pansement imbibé', 'Garrot', 'Réchauffer', 'Allonger'], showIf: { field: 'hemorragie', value: 'Oui' } }
   ]},
-  { key: 'a', label: '🫁 A — Voies aériennes', fields: [
+  { key: 'a', label: '🫁 A — Voies aériennes', phraseCategory: 'voiesaeriennes', fields: [
 { key: 'voiesAeriennes', label: 'État des voies aériennes', type: 'chip', options: ['Libres', 'Obstruées'] },
 { key: 'voiesAeriennesAction', label: 'Action réalisée', type: 'actions', options: ['Claques dans le dos', 'Compressions abdominales (Heimlich)', 'Compressions thoraciques'], withDetail: true, outcomeOptions: ['Corps étranger expulsé', 'Perte de connaissance', 'Arrêt cardiaque'], showIf: { field: 'voiesAeriennes', value: 'Obstruées' } }
   ]},
