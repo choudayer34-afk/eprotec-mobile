@@ -382,5 +382,17 @@
   "Place de l'Eglise Puechabon": {
     "lat": 43.7148254,
     "lon": 3.6169369
+  },
+  "Jardin Emile Ain, Beziers": {
+    "lat": 43.3384818,
+    "lon": 3.2073986
+  },
+  "Avenue de la Monnaie 34170 Castelnau-le-Lez": {
+    "lat": 43.6436051,
+    "lon": 3.9104898
+  },
+  "Boulevard des Alizes 34420 Cers": {
+    "lat": 43.3212924,
+    "lon": 3.3005378
   }
 }

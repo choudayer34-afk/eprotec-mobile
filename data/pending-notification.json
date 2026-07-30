@@ -2,11 +2,35 @@
   "newEvents": [
     {
       "tag": "DPS",
-      "titre": "[DPS 34] Securisation Intervention des services de l'Etat",
-      "lieu": "Confidentiel",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1638142",
+      "titre": "[DPS 34] Fete de la Liberation",
+      "lieu": "Jardin Emile Ain, Beziers",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1638154",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-09-08T04:00:00.000Z"
+      "dateDebutIso": "2026-08-22T16:30:00.000Z"
+    },
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] Seincere",
+      "lieu": "Avenue de la Monnaie 34170 Castelnau-le-Lez",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1638159",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-10-04T08:00:00.000Z"
+    },
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] ALMA CERSIUS",
+      "lieu": "Boulevard des Alizes 34420 Cers",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1638151",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-10-16T08:00:00.000Z"
+    },
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] ALMA CERSIUS",
+      "lieu": "Boulevard des Alizes 34420 Cers",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1638152",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-10-16T15:00:00.000Z"
     }
   ],
   "topSuggestion": {

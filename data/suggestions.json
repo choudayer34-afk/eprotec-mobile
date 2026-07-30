@@ -914,6 +914,39 @@
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1637723"
   },
   {
+    "uid": "evt16381591@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] Seincere",
+    "lieu": "Avenue de la Monnaie 34170 Castelnau-le-Lez",
+    "dateDebut": "2026-10-04T08:00:00.000Z",
+    "dateFin": "2026-10-04T11:00:00.000Z",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1638159'>Lien vers l'activité</a>",
+    "tag": "DPS",
+    "score": 12,
+    "reasons": [
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour : Dimanche (+2)",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (8.5 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (23 jours)",
+        "category": "positive"
+      }
+    ],
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1638159"
+  },
+  {
     "uid": "evt16204881@https://eprotec.protection-civile.org",
     "titre": "[DPS 34] Run & Trail",
     "lieu": "515 Avenue de la Monnaie, 34170 Castelnau-le-Lez, France",
@@ -1011,34 +1044,5 @@
       }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1634525"
-  },
-  {
-    "uid": "evt16375811@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] Renfort DPS - Fan ZONE Tour de France Femmes",
-    "lieu": "Quai Jean Jaures 07800 La Voulte-sur-Rhone",
-    "dateDebut": "2026-08-07T08:30:00.000Z",
-    "dateFin": "2026-08-07T13:00:00.000Z",
-    "description": "Sous selection DDO 8IS - 2 VPS<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1637581'>Lien vers l'activité</a>",
-    "tag": "DPS",
-    "score": 9,
-    "reasons": [
-      {
-        "text": "Mois sans DPS planifié",
-        "category": "positive"
-      },
-      {
-        "text": "Jour : Vendredi (+3)",
-        "category": "positive"
-      },
-      {
-        "text": "Durée raisonnable",
-        "category": "positive"
-      },
-      {
-        "text": "Espacement confortable (15 jours)",
-        "category": "positive"
-      }
-    ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1637581"
   }
 ]
