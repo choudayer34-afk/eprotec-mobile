@@ -2966,7 +2966,8 @@ const BACK_BODY_LEGEND = [
 
   const PHRASES_DATA = {
 accueil: [
-    { fr: "Bonjour, nous sommes secouristes, nous allons vérifier plusieurs paramètres de votre santé.", en: "Hello, we are first aiders, we are going to check several health parameters.", es: "Hola, somos socorristas, vamos a comprobar varios parámetros de su salud.", ar: "مرحباً، نحن مسعفون، سنقوم بفحص عدة مؤشرات صحية." },
+  { fr: "Vous parlez Français ?", en: "Do you speak English?", es: "¿Habla Español?", ar: "هل تتحدث [العربية]؟" },  
+  { fr: "Bonjour, nous sommes secouristes, nous allons vérifier plusieurs paramètres de votre santé.", en: "Hello, we are first aiders, we are going to check several health parameters.", es: "Hola, somos socorristas, vamos a comprobar varios parámetros de su salud.", ar: "مرحباً، نحن مسعفون، سنقوم بفحص عدة مؤشرات صحية." },
     { fr: "Restez calme, nous allons vous aider.", en: "Stay calm, we are going to help you.", es: "Mantenga la calma, vamos a ayudarle.", ar: "ابقَ هادئاً، سنساعدك." },
     { fr: "Quel est votre nom ?", en: "What is your last name?", es: "¿Cuál es su apellido?", ar: "ما هو اسم عائلتك؟" },
     { fr: "Quel est votre prénom ?", en: "What is your first name?", es: "¿Cuál es su nombre?", ar: "ما هو اسمك الأول؟" },
@@ -2974,13 +2975,32 @@ accueil: [
     { fr: "Quel âge avez-vous ?", en: "How old are you?", es: "¿Cuántos años tiene?", ar: "كم عمرك؟" },
     { fr: "Quelle est votre adresse ?", en: "What is your address?", es: "¿Cuál es su dirección?", ar: "ما هو عنوانك؟" },
     { fr: "Qui souhaitez-vous que l'on prévienne ?", en: "Who would you like us to notify?", es: "¿A quién le gustaría que avisáramos?", ar: "من تريد أن نُبلغ؟" },
-    { fr: "Quel est son numéro de téléphone ?", en: "What is their phone number?", es: "¿Cuál es su número de teléfono?", ar: "ما هو رقم هاتفه؟" },
-    { fr: "Que s'est-il passé ?", en: "What happened?", es: "¿Qué pasó?", ar: "ماذا حدث؟" }
+    { fr: "Êtes-vous venu avec quelqu'un ? Quel est son nom ?", en: "Did you come with someone? What is their name?", es: "¿Ha venido con alguien? ¿Cómo se llama?", ar: "هل جئت مع شخص آخر؟ ما اسمه؟" },
+  { fr: "Quel est son numéro de téléphone ?", en: "What is their phone number?", es: "¿Cuál es su número de teléfono?", ar: "ما هو رقم هاتفه؟" },
+  { fr: "Peut-elle vous raccompagner ?", en: "Can she accompany you home?", es: "¿Puede ella acompañarle?", ar: "هل يمكنها أن ترافقك إلى المنزل؟" },  
+  { fr: "Que s'est-il passé ?", en: "What happened?", es: "¿Qué pasó?", ar: "ماذا حدث؟" }
   ],
+    3S: [
+{ fr: "Décrivez-moi ce qu'il s'est passé.", en: "Please describe what happened.", es: "Descríbame lo que ha pasado.", ar: "صِف لي ما حدث." },
+{ fr: "L'environnement est-il sécurisé ? Personne ne risque de se blesser ?", en: "Is the area safe? Is anyone at risk of getting injured?", es: "¿Es seguro el entorno? ¿Hay alguien que corra el riesgo de hacerse daño?", ar: "هل المكان آمن؟ هل هناك خطر من إصابة أي شخص؟" },
+{ fr: "Pouvez-vous me dire l'adresse exacte où nous sommes ?", en: "Can you tell me the exact address of where we are?", es: "¿Puede decirme la dirección exacta de donde estamos?", ar: "هل يمكنك أن تخبرني بالعنوان الدقيق لمكان وجودنا؟" }
+      ],
+    hemorragie : [
+{ fr: "Saignez-vous ?", en: "Are you bleeding?", es: "¿Está sangrando?", ar: "هل تنزف؟" },
+      { fr: "Pouvez-vous me montrer où ?", en: "Can you show me where?", es: "¿Puede mostrarme dónde?", ar: "هل يمكنك أن تريني أين؟" }
+      ],
+  voiesaeriennes : [
+{ fr: "Pouvez-vous parler ?", en: "Can you speak?", es: "¿Puede hablar?", ar: "هل يمكنك التحدث؟" },
+{ fr: "Pouvez-vous tousser ?", en: "Can you cough?", es: "¿Puede toser?", ar: "هل يمكنك السعال؟" },
+{ fr: "Je ne dois rien faire au risque d'obstruer totalement la trachée. Je vous invite à tousser.", en: "I must not do anything that could completely obstruct your airway. I would like you to cough.", es: "No debo hacer nada que pueda obstruir por completo las vías respiratorias. Le invito a toser.", ar: "لا يجب أن أفعل أي شيء قد يؤدي إلى انسداد مجرى التنفس تمامًا. أطلب منك أن تسعل." }
+
+    ],
   respiration: [
     { fr: "Je vais poser ma main sur votre abdomen pour observer votre respiration. Est-ce que ça vous convient ?", en: "I am going to place my hand on your abdomen to observe your breathing. Is that okay with you?", es: "Voy a poner mi mano sobre su abdomen para observar su respiración. ¿Está de acuerdo?", ar: "سأضع يدي على بطنك لمراقبة تنفسك. هل توافق على ذلك؟" },
     { fr: "Respirez normalement, comme d'habitude.", en: "Breathe normally, as usual.", es: "Respire con normalidad, como de costumbre.", ar: "تنفس بشكل طبيعي، كالمعتاد." },
-    { fr: "Avez-vous du mal à respirer ?", en: "Are you having trouble breathing?", es: "¿Le cuesta respirar?", ar: "هل تجد صعوبة في التنفس؟" }
+    { fr: "Avez-vous du mal à respirer ?", en: "Are you having trouble breathing?", es: "¿Le cuesta respirar?", ar: "هل تجد صعوبة في التنفس؟" },
+    { fr: "Depuis quand avez-vous du mal à respirer ?", en: "How long have you been having trouble breathing?", es: "¿Desde cuándo tiene dificultad para respirar?", ar: "منذ متى وأنت تجد صعوبة في التنفس؟" }
+
   ],
   circulation: [
     { fr: "Je vais vous prendre le pouls au poignet.", en: "I am going to check your pulse at the wrist.", es: "Voy a tomarle el pulso en la muñeca.", ar: "سأقيس نبضك عند معصمك." },
@@ -4033,6 +4053,11 @@ ppa_dnd: {
       <p style="margin-top:8px;"><b>Superficielle</b> — mouvements faibles, peu amples, signe possible de détresse</p>
       <p style="margin-top:8px;"><b>Ample</b> — mouvements marqués, respiration profonde, peut évoquer une hyperventilation</p>`
   },
+  hemorragie: {
+        title: 'Définition',
+    html: `Une hémorragie correspond à une perte sanguine prolongée, visible ou non, en provenance d'une plaie, d'un orifice naturel ou d'un organe qui ne se stoppe pas de façon spontanée.`
+  },
+    ],
   freqRespi: {
     title: 'Fréquence respiratoire — références par âge',
     html: `<table style="width:100%;border-collapse:collapse;">
@@ -4885,7 +4910,7 @@ function formatDateHeureCourte(iso) {
     { key: 'personnePrevenirTel', label: 'Téléphone de cette personne', type: 'text' },
     { key: 'langueVictime', label: 'Langue de la victime', type: 'chip', options: ['Français', 'English', 'Español', 'العربية'] }
   ]},
- { key: 'circonstanciel', label: '🎬 Bilan circonstanciel (3S)', phraseCategory: 'accueil', fields: [
+ { key: 'circonstanciel', label: '🎬 Bilan circonstanciel (3S)', phraseCategory: '3S', fields: [
     { key: 'scene', label: 'Scène', type: 'text' },
     { key: 'securite', label: 'Sécurité', type: 'text' },
         { key: 'situation', label: 'Situation (lieu)', type: 'geoloc' },
@@ -4921,8 +4946,8 @@ options: [
 
 
  
-{ key: 'x', label: '🩸 X — Hémorragie', fields: [
-{ key: 'hemorragie', label: 'Hémorragie visible', type: 'chip', options: ['Non', 'Oui'] },
+{ key: 'x', label: '🩸 X — Hémorragie', phraseCategory: 'hemorragie', fields: [
+{ key: 'hemorragie', label: 'Hémorragie visible', type: 'chip', info: 'hemorragie', options: ['Non', 'Oui'] },
     { key: 'hemorragieLieu', label: 'Localisation si oui', type: 'text', map: true, showIf: { field: 'hemorragie', value: 'Oui' } },
     { key: 'hemorragieAction', label: 'Action réalisée', type: 'actions', options: ['Compression manuelle', 'Pansement imbibé', 'Garrot', 'Réchauffer', 'Allonger'], showIf: { field: 'hemorragie', value: 'Oui' } }
   ]},
@@ -4934,7 +4959,8 @@ options: [
     { key: 'freqRespi', label: 'Fréquence (par minute)', type: 'number', info: 'freqRespi', timer: true, slider: { min: 0, max: 60, step: 1, major: 10, minor: 5, unit: '/min' } },
     { key: 'amplitudeRespi', label: 'Amplitude', type: 'chip', options: ['Normale', 'Superficielle', 'Ample'], info: 'amplitudeRespi' },
     { key: 'spo2', label: 'SpO2 %', type: 'number', info: 'spo2' },
-    { key: 'auscultation', label: 'Auscultation / bruits anormaux', type: 'chip', options: ['Normale', 'Superficielle', 'Bruyante', 'Difficile'], info: 'auscultation' }
+    { key: 'auscultation', label: 'Auscultation / bruits anormaux', type: 'chip', options: ['Normale', 'Superficielle', 'Bruyante', 'Difficile'], info: 'auscultation' },
+      { key: 'auscultation', label: 'Durée des difficultés', type: 'time' }
   ]},
   { key: 'c', label: '❤️ C — Circulation', phraseCategory: 'circulation', fields: [
     { key: 'freqCardiaque', label: 'Fréquence cardiaque (par minute)', type: 'number', info: 'freqCardiaque', timer: true, slider: { min: 20, max: 200, step: 1, major: 20, minor: 10, unit: '/min' } },
