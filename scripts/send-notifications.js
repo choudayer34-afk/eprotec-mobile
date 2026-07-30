@@ -98,10 +98,6 @@ async function sendMail(newEvents) {
 
 async function sendPushNotification(newEvents) {
   const topic = process.env.NTFY_TOPIC;
-    console.log('===== NTFY =====');
-  console.log('NTFY_TOPIC =', topic);
-  console.log('URL =', `https://ntfy.sh/${topic}`);
-  console.log('================');
   if (!topic) return;
   const titles = newEvents.slice(0, 3).map(e => `[${e.tag}] ${e.titre}`).join('\n');
   const suffix = newEvents.length > 3 ? `\n...et ${newEvents.length - 3} autre(s)` : '';
