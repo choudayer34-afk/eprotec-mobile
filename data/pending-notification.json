@@ -1,5 +1,14 @@
 {
-  "newEvents": [],
+  "newEvents": [
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] Securisation Intervention des services de l'Etat",
+      "lieu": "Confidentiel",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1638142",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-09-08T04:00:00.000Z"
+    }
+  ],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
