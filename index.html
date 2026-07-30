@@ -4914,15 +4914,16 @@ function formatDateHeureCourte(iso) {
   const BILAN_CATEGORIES = [
  { key: 'identite', label: '🪪 Identité', phraseCategory: 'accueil', fields: [
     { key: 'redacteur', label: 'Rédigé par', type: 'text' },
-    { key: 'sexe', label: 'Sexe', type: 'chip', options: ['Homme', 'Femme'] },
+    { key: 'langueVictime', label: 'Langue de la victime', type: 'chip', options: ['Français', 'English', 'Español', 'العربية'] },
+   { key: 'sexe', label: 'Sexe', type: 'chip', options: ['Homme', 'Femme'] },
     { key: 'nom', label: 'Nom', type: 'text' },
     { key: 'prenom', label: 'Prénom', type: 'text' },
     { key: 'dateNaissance', label: 'Date de naissance', type: 'date' },
     { key: 'age', label: 'Âge', type: 'age-display' },
     { key: 'adresse', label: 'Adresse d\'habitation', type: 'text' },
     { key: 'personnePrevenir', label: 'Personne à prévenir', type: 'text' },
-    { key: 'personnePrevenirTel', label: 'Téléphone de cette personne', type: 'text' },
-    { key: 'langueVictime', label: 'Langue de la victime', type: 'chip', options: ['Français', 'English', 'Español', 'العربية'] }
+    { key: 'personnePrevenirTel', label: 'Téléphone de cette personne', type: 'text' }
+   
   ]},
  { key: 'circonstanciel', label: '🎬 Bilan circonstanciel (3S)', phraseCategory: 'trois', fields: [
     { key: 'scene', label: 'Scène', type: 'text' },
