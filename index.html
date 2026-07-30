@@ -4963,8 +4963,8 @@ options: [
 { key: 'x', label: '🩸 X — Hémorragie', phraseCategory: 'hemorragie', fields: [
 { key: 'hemorragie', label: 'Hémorragie visible', type: 'chip', info: 'hemorragie', options: ['Non', 'Oui'] },
     { key: 'hemorragieLieu', label: 'Localisation si oui', type: 'text', map: true, showIf: { field: 'hemorragie', value: 'Oui' } },
-    { key: 'hemorragieAction', label: 'Action réalisée', type: 'actions', options: ['Compression manuelle', 'Pansement imbibé', 'Garrot', 'Réchauffer', 'Allonger'], showIf: { field: 'hemorragie', value: 'Oui' } }
-  ]},
+    { key: 'hemorragieAction', label: 'Action réalisée', type: 'actions', options: ['Compression manuelle', 'Pansement imbibé', 'Garrot', 'Position d\'attente', 'Réchauffer'], showIf: { field: 'hemorragie', value: 'Oui' } } 
+]},
   { key: 'a', label: '🫁 A — Voies aériennes', phraseCategory: 'voiesaeriennes', fields: [
 { key: 'voiesAeriennes', label: 'État des voies aériennes', type: 'chip', options: ['Libres', 'Obstruées'] },
 { key: 'voiesAeriennesAction', label: 'Action réalisée', type: 'actions', options: ['Claques dans le dos', 'Compressions abdominales (Heimlich)', 'Compressions thoraciques'], withDetail: true, outcomeOptions: ['Corps étranger expulsé', 'Perte de connaissance', 'Arrêt cardiaque'], showIf: { field: 'voiesAeriennes', value: 'Obstruées' } }
@@ -4984,8 +4984,7 @@ options: [
     { key: 'regularite', label: 'Régularité', type: 'chip', options: ['Régulier', 'Irrégulier'], info: 'pouls_regularite' },
     { key: 'coloration', label: 'Coloration / aspect peau', type: 'chip', options: ['Normale', 'Pâle', 'Marbrée', 'Cyanosée'], info: 'coloration' },
     { key: 'trc', label: 'TRC (réf. < 2s)', type: 'chip', options: ['< 2s', '≥ 2s'] },
-{ key: 'ta', label: 'Tension artérielle', type: 'ta' },
-    { key: 'circulationAction', label: 'Action réalisée', type: 'actions', options: ['Compression manuelle', 'Pansement imbibé', 'Garrot', 'Position d\'attente', 'Réchauffer'] }
+{ key: 'ta', label: 'Tension artérielle', type: 'ta' }
   ]},
   { key: 'd', label: '🧠 D — Neurologique (Glasgow)', fields: [
     { key: 'conscience', label: 'Conscience (EVDA)', type: 'chip', options: ['Éveillé', 'Verbal', 'Douleur', 'Aréactif'] },
