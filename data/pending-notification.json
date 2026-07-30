@@ -2,11 +2,19 @@
   "newEvents": [
     {
       "tag": "MLA",
-      "titre": "[MLA 34] Depose VPSP Centurion garage",
-      "lieu": "Lignan sur orb",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1637955",
+      "titre": "[MLA 34] Depannage portail partie 2/2",
+      "lieu": "Beziers",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1638006",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-07-30T06:00:00.000Z"
+      "dateDebutIso": "2026-07-30T12:00:00.000Z"
+    },
+    {
+      "tag": "MLA",
+      "titre": "[MLA 34] Depannage portail partie 1/2",
+      "lieu": "Beziers",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1638006",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-07-30T07:30:00.000Z"
     }
   ],
   "topSuggestion": {
