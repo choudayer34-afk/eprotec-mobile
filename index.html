@@ -1233,6 +1233,13 @@ function showNavAppChooser({ address, lat, lon }) {
   `;
   document.body.appendChild(overlay);
 
+  document.body.insertAdjacentHTML(
+  'beforeend',
+  `<div style="position:fixed;top:10px;left:10px;padding:15px;background:#fff;border:2px solid red;z-index:99999;">
+    NTFY_TOPIC : <strong>${topic || 'NON DÉFINI'}</strong>
+  </div>`
+);
+
   overlay.querySelector('#nav-copy').addEventListener('click', () => {
     navigator.clipboard.writeText(copyText).then(() => {
       const btn = overlay.querySelector('#nav-copy');
