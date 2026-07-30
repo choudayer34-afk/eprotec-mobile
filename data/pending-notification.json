@@ -1,22 +1,5 @@
 {
-  "newEvents": [
-    {
-      "tag": "MLA",
-      "titre": "[MLA 34] Depannage portail partie 2/2",
-      "lieu": "Beziers",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1638006",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-07-30T12:00:00.000Z"
-    },
-    {
-      "tag": "MLA",
-      "titre": "[MLA 34] Depannage portail partie 1/2",
-      "lieu": "Beziers",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1638006",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-07-30T07:30:00.000Z"
-    }
-  ],
+  "newEvents": [],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
