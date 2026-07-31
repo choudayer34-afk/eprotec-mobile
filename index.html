@@ -143,7 +143,94 @@
   .status-frame-green { border-color: #639922; color: #97C459; }
   .status-frame-yellow { border-color: #EF9F27; color: #FAC775; }
   .empty { color: #9FB3D6; font-size: 13px; padding: 8px 0; }
+.conseils-suggestions {
+  margin: 8px 0 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f8f9fa;
+}
 
+.conseils-suggestions-title {
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.conseil-suggestion-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 5px 0;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.conseil-suggestion-item input {
+  margin-top: 2px;
+}
+
+.conseils-ajout {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.conseils-ajout input {
+  flex: 1;
+}
+  
+  .conseils-liste {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.conseil-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.conseil-item label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    cursor: pointer;
+}
+
+.conseil-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+}
+
+.btn-supprimer-conseil {
+    border: none;
+    background: transparent;
+    color: #999;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.btn-supprimer-conseil:hover {
+    color: #d32f2f;
+}
+
+.conseils-ajout {
+    display: flex;
+    gap: 8px;
+}
+
+.conseils-ajout input {
+    flex: 1;
+}
   .star-btn {
     background: none; border: none; font-size: 19px; color: #5F5E5A;
     padding: 2px 4px; line-height: 1;
@@ -3550,6 +3637,102 @@ function showEmergencyNumbersModal() {
   overlay.querySelector('#emergency-close').addEventListener('click', () => overlay.remove());
 }
 
+  function toggleConseilProdigue(checkbox) {
+  const conseil = checkbox.dataset.conseil;
+
+  const textarea = document.querySelector(
+    'textarea[data-bilan-field="conseilsProdigues"]'
+  );
+
+  if (!textarea) return;
+
+  let conseils = textarea.value
+    .split('\n')
+    .map(c => c.trim())
+    .filter(Boolean);
+
+  if (checkbox.checked) {
+    if (!conseils.includes(conseil)) {
+      conseils.push(conseil);
+    }
+  } else {
+    conseils = conseils.filter(c => c !== conseil);
+  }
+
+  textarea.value = conseils.join('\n');
+
+  bilanData.conseilsProdigues = textarea.value;
+
+  textarea.closest('.text-field-wrap')?.classList.toggle(
+    'has-value',
+    !!textarea.value.trim()
+  );
+
+  saveBilanData();
+}
+
+
+function ajouterConseilProdigue() {
+  const input = document.getElementById('nouveauConseilProdigue');
+
+  const textarea = document.querySelector(
+    'textarea[data-bilan-field="conseilsProdigues"]'
+  );
+
+  if (!input || !textarea) return;
+
+  const nouveauConseil = input.value.trim();
+
+  if (!nouveauConseil) return;
+
+  let conseils = textarea.value
+    .split('\n')
+    .map(c => c.trim())
+    .filter(Boolean);
+
+  if (!conseils.includes(nouveauConseil)) {
+    conseils.push(nouveauConseil);
+  }
+
+  textarea.value = conseils.join('\n');
+
+  bilanData.conseilsProdigues = textarea.value;
+
+  input.value = '';
+
+  textarea.closest('.text-field-wrap')?.classList.add('has-value');
+
+  saveBilanData();
+}
+
+
+function saveConseilsProdiguesFromTextarea(textarea) {
+  bilanData.conseilsProdigues = textarea.value;
+  saveBilanData();
+}
+
+
+function clearConseilsProdigues() {
+  const textarea = document.querySelector(
+    'textarea[data-bilan-field="conseilsProdigues"]'
+  );
+
+  if (!textarea) return;
+
+  textarea.value = '';
+  bilanData.conseilsProdigues = '';
+
+  document
+    .querySelectorAll('.conseils-suggestions input[type="checkbox"]')
+    .forEach(cb => {
+      cb.checked = false;
+    });
+
+  textarea.closest('.text-field-wrap')?.classList.remove('has-value');
+
+  saveBilanData();
+}
+  
 function handleFicheImgError(imgEl, filename) {
   const div = document.createElement('div');
   div.style.cssText = 'color:#9FB3D6;font-size:12px;background:#0B2A5C;padding:10px 12px;border-radius:8px;margin:8px 0;';
@@ -5089,7 +5272,7 @@ const POST_SUIVI_CATEGORIES = [
     { key: 'gestesEffectues', label: 'Gestes réalisés', type: 'checklist', options: ['Repos', 'Refroidissement', 'Collier', 'Plan dur', 'Écharpe', 'Protection thermique', 'Matelas à dépression', 'Poche de froid', 'Pansement', 'Nettoyage / Désinfection', 'Sucre', 'Attelle', 'Aide à la prise de médicament'] },
     { key: 'gestesAutre', label: 'Autre geste', type: 'text' },
    { key: 'observations', label: 'Observations', type: 'text', info: 'observations_evolution' },
-    { key: 'conseilsProdigues', label: 'Conseils prodigués', type: 'text' }
+   { key: 'conseilsProdigues', label: 'Conseils prodigués', type: 'conseils' }
   ]},
 { key: 'suite', label: '📤 Suite donnée', fields: [
     { key: 'bilanTransmisA', label: 'Bilan transmis à', type: 'chip', options: ['SAMU', 'Pompiers', 'Autre'] },
@@ -5107,10 +5290,306 @@ const POST_SUIVI_CATEGORIES = [
   ]}
 ];
 
+const CONSEILS_PAR_PROBLEME = {
+
+  hemorragie: [
+    "Maintenir la compression jusqu'à la prise en charge",
+    "Ne pas retirer le pansement ou le dispositif de compression",
+    "Maintenir la victime au chaud",
+    "Rester au repos et éviter les efforts",
+    "Surveiller l'évolution de l'état de la victime"
+  ],
+
+  lva: [
+    "Ne pas introduire les doigts dans la bouche",
+    "En cas de toux efficace, encourager la victime à tousser",
+    "Rester vigilant sur l'évolution de la respiration",
+    "Signaler immédiatement toute aggravation de la gêne respiratoire"
+  ],
+
+  avc: [
+    "Rester au calme et éviter tout effort",
+    "Ne rien faire manger ni boire sans consigne",
+    "Ne pas conduire soi-même pour consulter",
+    "Signaler immédiatement toute aggravation",
+    "Respecter les consignes données par les secours"
+  ],
+
+  douleurthoracique: [
+    "Rester au repos",
+    "Éviter tout effort",
+    "S'installer dans la position la mieux tolérée",
+    "Ne pas conduire soi-même pour consulter",
+    "Signaler immédiatement toute aggravation",
+    "Respecter les consignes données par les secours"
+  ],
+
+  malaise: [
+    "Rester au repos",
+    "S'installer dans la position la mieux tolérée",
+    "Éviter les efforts",
+    "Surveiller l'évolution des symptômes",
+    "Signaler toute aggravation",
+    "Demander un avis médical selon les consignes reçues"
+  ],
+
+  hypoglycemie: [
+    "Prendre du sucre si les conditions le permettent",
+    "Attendre l'amélioration avant de reprendre une activité",
+    "Ne pas rester seul pendant la surveillance",
+    "Signaler l'absence d'amélioration ou toute aggravation",
+    "Respecter les consignes données par les secours"
+  ],
+
+  allergie: [
+    "Éviter tout nouveau contact avec l'allergène connu",
+    "Rester au repos",
+    "Surveiller attentivement la respiration",
+    "Signaler immédiatement toute difficulté à respirer ou aggravation",
+    "Respecter les consignes données par les secours"
+  ],
+
+  convulsion: [
+    "Ne pas tenter de bloquer les mouvements",
+    "Ne rien mettre dans la bouche",
+    "Éloigner les objets susceptibles de blesser",
+    "Protéger la tête pendant la crise",
+    "Rester au calme après la crise",
+    "Signaler toute nouvelle crise ou aggravation",
+    "Respecter les consignes données par les secours"
+  ],
+
+  asthme: [
+    "Rester au repos",
+    "S'installer dans la position la mieux tolérée pour respirer",
+    "S'éloigner d'une éventuelle source de fumée ou d'irritant",
+    "Rester calme",
+    "Surveiller la respiration",
+    "Signaler toute aggravation de la gêne respiratoire",
+    "Respecter les consignes données par les secours"
+  ],
+
+  hyperthermie: [
+    "S'éloigner de la source de chaleur",
+    "Se mettre dans un endroit frais",
+    "Se reposer",
+    "Se rafraîchir progressivement",
+    "Boire si l'état de la victime le permet",
+    "Ne pas reprendre l'activité avant disparition complète des signes",
+    "Signaler toute aggravation"
+  ],
+
+  hypothermie: [
+    "S'abriter du froid et du vent",
+    "Éviter toute nouvelle déperdition de chaleur",
+    "Retirer les vêtements mouillés si nécessaire",
+    "Se réchauffer progressivement",
+    "Éviter les mouvements inutiles",
+    "Surveiller attentivement l'état de la victime",
+    "Signaler toute aggravation"
+  ],
+
+  intoxOH: [
+    "Rester au calme et sous surveillance",
+    "Ne pas reprendre la conduite",
+    "Ne pas rester seul",
+    "Ne rien faire ingérer sans consigne adaptée",
+    "Signaler toute modification de l'état de conscience",
+    "Respecter les consignes données par les secours"
+  ],
+
+  traumatismes: [
+    "Ne pas mobiliser inutilement le membre blessé",
+    "Éviter les mouvements de la zone douloureuse",
+    "Maintenir le membre dans la position la moins douloureuse",
+    "Respecter l'immobilisation mise en place",
+    "Surveiller l'évolution",
+    "Signaler toute aggravation"
+  ],
+
+  traumatismesEntorse: [
+    "Ne pas solliciter l'articulation blessée",
+    "Éviter les mouvements inutiles",
+    "Maintenir la zone dans la position la moins douloureuse",
+    "Surveiller l'évolution de la douleur et du gonflement",
+    "Demander un avis médical si nécessaire"
+  ],
+
+  traumatismesCranien: [
+    "Rester au repos",
+    "Éviter les mouvements inutiles",
+    "Ne pas reprendre une activité physique",
+    "Surveiller l'état de conscience",
+    "Signaler immédiatement toute aggravation",
+    "Respecter les consignes données par les secours"
+  ],
+
+  plaies: [
+    "Maintenir la plaie protégée",
+    "Ne pas manipuler inutilement la plaie",
+    "Surveiller l'évolution",
+    "Surveiller l'apparition de signes inhabituels",
+    "Demander un avis médical si nécessaire"
+  ],
+
+  brulures: [
+    "Maintenir la zone brûlée protégée",
+    "Ne pas appliquer de produit sur la brûlure",
+    "Ne pas percer les cloques",
+    "Éviter les frottements sur la zone brûlée",
+    "Surveiller l'évolution",
+    "Demander un avis médical si nécessaire"
+  ]
+};
 const BILAN_STORAGE_KEY = 'eprotec_bilan_current';
 let bilanMode = 'reference';
 let bilanData = {};
 
+if (!bilanData.conseilsProdigues) {
+    bilanData.conseilsProdigues = [];
+}
+
+function afficherConseilsProdigues() {
+    const container = document.getElementById("conseilsProdiguesListe");
+
+    if (!container) return;
+
+    if (!bilanData.conseilsProdigues) {
+        bilanData.conseilsProdigues = [];
+    }
+
+    container.innerHTML = "";
+
+    bilanData.conseilsProdigues.forEach((conseil, index) => {
+
+        const div = document.createElement("div");
+        div.className = "conseil-item";
+
+        div.innerHTML = `
+            <label>
+                <input
+                    type="checkbox"
+                    ${conseil.selectionne ? "checked" : ""}
+                    onchange="modifierConseil(${index}, this.checked)"
+                >
+
+                <span>${escapeHtml(conseil.texte)}</span>
+            </label>
+
+            <button
+                type="button"
+                class="btn-supprimer-conseil"
+                onclick="supprimerConseil(${index})"
+                title="Supprimer"
+            >
+                ×
+            </button>
+        `;
+
+        container.appendChild(div);
+    });
+}
+
+function actualiserConseilsSelonProblemes(problemesSelectionnes) {
+
+    if (!Array.isArray(problemesSelectionnes)) {
+        problemesSelectionnes = [problemesSelectionnes];
+    }
+
+    if (!bilanData.conseilsProdigues) {
+        bilanData.conseilsProdigues = [];
+    }
+
+    problemesSelectionnes.forEach(probleme => {
+
+        const conseils = CONSEILS_PAR_PROBLEME[probleme] || [];
+
+        conseils.forEach(texte => {
+
+            const existe = bilanData.conseilsProdigues.some(
+                conseil => conseil.texte === texte
+            );
+
+            if (!existe) {
+                bilanData.conseilsProdigues.push({
+                    texte: texte,
+                    selectionne: false,
+                    source: "automatique",
+                    probleme: probleme
+                });
+            }
+        });
+    });
+
+    afficherConseilsProdigues();
+}
+
+  document.addEventListener("DOMContentLoaded", () => {
+
+    const btn = document.getElementById("btnAjouterConseil");
+
+    if (btn) {
+        btn.addEventListener("click", ajouterConseilPersonnalise);
+    }
+});
+
+function supprimerConseil(index) {
+
+    if (!bilanData.conseilsProdigues) return;
+
+    bilanData.conseilsProdigues.splice(index, 1);
+
+    afficherConseilsProdigues();
+    saveBilan();
+}
+
+
+function escapeHtml(texte) {
+    return String(texte)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+  
+function modifierConseil(index, selectionne) {
+
+    if (!bilanData.conseilsProdigues[index]) return;
+
+    bilanData.conseilsProdigues[index].selectionne = selectionne;
+
+    saveBilan();
+}
+
+function ajouterConseilPersonnalise() {
+
+    const input = document.getElementById("nouveauConseil");
+
+    if (!input) return;
+
+    const texte = input.value.trim();
+
+    if (!texte) return;
+
+    if (!bilanData.conseilsProdigues) {
+        bilanData.conseilsProdigues = [];
+    }
+
+    bilanData.conseilsProdigues.push({
+        texte: texte,
+        selectionne: true,
+        source: "personnalise",
+        probleme: null
+    });
+
+    input.value = "";
+
+    afficherConseilsProdigues();
+    saveBilan();
+}
+
+  
 function loadBilanData() {
   try {
     bilanData = JSON.parse(localStorage.getItem(BILAN_STORAGE_KEY) || '{}');
@@ -5253,6 +5732,87 @@ if (f.type === 'age-display') {
 
    const mapBtn = f.map ? `<button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;margin-left:6px;" data-bodymap-field="${f.key}">🗺️</button>` : '';
 
+  if (f.type === 'conseils') {
+
+  const phraseBtnText = f.phrase
+    ? `<button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;margin-left:6px;" onclick="showPhraseModal('${f.phrase}')">🗣️</button>`
+    : '';
+
+  const typeProbleme = bilanData.typeProbleme || '';
+  const conseils = CONSEILS_PAR_PROBLEME[typeProbleme] || [];
+
+  const conseilsActuels = String(value || '')
+    .split('\n')
+    .map(c => c.trim())
+    .filter(Boolean);
+
+  const suggestionsHtml = conseils.length
+    ? `
+      <div class="conseils-suggestions">
+        <div class="conseils-suggestions-title">
+          Conseils suggérés
+        </div>
+
+        ${conseils.map(conseil => `
+          <label class="conseil-suggestion-item">
+            <input
+              type="checkbox"
+              ${conseilsActuels.includes(conseil) ? 'checked' : ''}
+              onchange="toggleConseilProdigue(this)"
+              data-conseil="${escapeHtml(conseil)}"
+            >
+            <span>${escapeHtml(conseil)}</span>
+          </label>
+        `).join('')}
+      </div>
+    `
+    : '';
+
+  return `
+    <div class="bilan-field-row">
+      <label>${f.label}${infoBtn}${mapBtn}${phraseBtnText}</label>
+
+      ${suggestionsHtml}
+
+      <div class="text-field-wrap ${value ? 'has-value' : ''}">
+        <textarea
+          rows="3"
+          class="bilan-textarea"
+          data-bilan-field="${f.key}"
+          placeholder="Ajouter ou compléter les conseils prodigués..."
+          oninput="saveConseilsProdiguesFromTextarea(this)"
+        >${escapeHtml(value)}</textarea>
+
+        <button
+          class="text-clear-btn"
+          type="button"
+          onclick="clearConseilsProdigues()"
+        >✕</button>
+      </div>
+
+      <div class="conseils-ajout">
+        <input
+          type="text"
+          id="nouveauConseilProdigue"
+          class="bilan-input"
+          placeholder="Ajouter un conseil personnalisé..."
+          onkeydown="if(event.key === 'Enter'){event.preventDefault();ajouterConseilProdigue();}"
+        >
+
+        <button
+          type="button"
+          class="btn-secondary"
+          onclick="ajouterConseilProdigue()"
+        >
+          + Ajouter
+        </button>
+      </div>
+
+      ${suggestionDiv}
+    </div>
+  `;
+}
+  
 if (f.type === 'text') {
   const phraseBtnText = f.phrase
     ? `<button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;margin-left:6px;" onclick="showPhraseModal('${f.phrase}')">🗣️</button>`
@@ -6627,7 +7187,10 @@ container.querySelectorAll('select[data-bilan-field]').forEach(select => {
       saveBilanData();
 if (select.dataset.bilanField.startsWith('glasgow')) { updateGlasgowTotalDisplay(); updateFieldSuggestion('glasgowM'); }
       if (select.dataset.bilanField === 'typeProbleme') updateFieldSuggestion('typeProbleme');
-
+if (select.dataset.bilanField === 'typeProbleme') {
+  updateFieldSuggestion('typeProbleme');
+  refreshConseilsProdigues();
+}
       if (select.dataset.bilanField === 'glycemieUnite') {
         applyGlycemieWarning();
         updateGlycemieSuggestion();
@@ -6644,6 +7207,52 @@ if (select.dataset.bilanField.startsWith('glasgow')) { updateGlasgowTotalDisplay
     });
   });
 
+  function refreshConseilsProdigues() {
+
+  const textarea = document.querySelector(
+    'textarea[data-bilan-field="conseilsProdigues"]'
+  );
+
+  if (!textarea) return;
+
+  const container = textarea.closest('.bilan-field-row');
+
+  if (!container) return;
+
+  const typeProbleme = bilanData.typeProbleme || '';
+
+  const conseils = CONSEILS_PAR_PROBLEME[typeProbleme] || [];
+
+  const conseilsActuels = textarea.value
+    .split('\n')
+    .map(c => c.trim())
+    .filter(Boolean);
+
+  const suggestions = container.querySelector('.conseils-suggestions');
+
+  if (!suggestions) return;
+
+  suggestions.innerHTML = conseils.length
+    ? `
+      <div class="conseils-suggestions-title">
+        Conseils suggérés
+      </div>
+
+      ${conseils.map(conseil => `
+        <label class="conseil-suggestion-item">
+          <input
+            type="checkbox"
+            ${conseilsActuels.includes(conseil) ? 'checked' : ''}
+            onchange="toggleConseilProdigue(this)"
+            data-conseil="${escapeHtml(conseil)}"
+          >
+          <span>${escapeHtml(conseil)}</span>
+        </label>
+      `).join('')}
+    `
+    : '';
+}
+  
 container.querySelectorAll('[id^="actions-wrap-"]').forEach(wrap => {
     const key = wrap.id.replace('actions-wrap-', '');
     attachActionsFieldListeners(key);
