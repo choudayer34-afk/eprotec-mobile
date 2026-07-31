@@ -6417,6 +6417,7 @@ function renderBilanIcons() {
     <button class="icon-btn" id="bilan-icon-copy" aria-label="Copier">📤</button>
     <button class="icon-btn" id="bilan-icon-whatsapp" aria-label="Envoyer par WhatsApp">💬</button>
     <button class="icon-btn" id="bilan-icon-pdf" aria-label="Export PDF">📄</button>
+     <button class="icon-btn" id="bilan-icon-translation" aria-label="Traduire une réponse">🌐</button>
    <button class="icon-btn" id="bilan-icon-urgence" aria-label="Numéros d'urgence">📞</button>
     <button class="icon-btn" id="bilan-icon-history" aria-label="Historique des bilans">🕐</button>
     <button class="icon-btn" id="mission-timer-btn" aria-label="Chrono mission"><span id="mission-timer-display">⏱</span></button>
@@ -6425,6 +6426,7 @@ function renderBilanIcons() {
   document.getElementById('bilan-icon-summary').addEventListener('click', showBilanSummary);
   document.getElementById('bilan-icon-copy').addEventListener('click', handleBilanCopy);
   document.getElementById('bilan-icon-whatsapp').addEventListener('click', handleBilanWhatsapp);
+  document.getElementById('bilan-icon-translation').addEventListener('click', showTranslationModal);
   document.getElementById('bilan-icon-pdf').addEventListener('click', exportBilanPdf);
  document.getElementById('bilan-icon-urgence').addEventListener('click', showEmergencyNumbersModal);
   document.getElementById('bilan-icon-history').addEventListener('click', showBilanHistoryModal);
@@ -6795,6 +6797,205 @@ function renderGeolocExtra() {
   });
 }
 
+let translationRecognition = null;
+let translationModalState = null;
+
+const TRANSLATION_SPEECH_LANGS = {
+  'Français': 'fr-FR',
+  'English': 'en-US',
+  'Español': 'es-ES',
+  'العربية': 'ar-SA'
+};
+
+const TRANSLATION_LANG_CODES = {
+  'Français': 'fr',
+  'English': 'en',
+  'Español': 'es',
+  'العربية': 'ar'
+};
+
+function getTranslationSpeechRecognition() {
+  const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  return Recognition ? new Recognition() : null;
+}
+
+async function translateTextToFrench(text, sourceLanguage) {
+  if (!text || !text.trim()) return '';
+  const source = TRANSLATION_LANG_CODES[sourceLanguage] || 'fr';
+  if (source === 'fr') return text.trim();
+
+  if (!('Translator' in window)) {
+    throw new Error('La traduction locale n\'est pas disponible dans ce navigateur.');
+  }
+
+  const availability = await Translator.availability({
+    sourceLanguage: source,
+    targetLanguage: 'fr'
+  });
+
+  if (availability === 'unavailable') {
+    throw new Error('La traduction de cette langue n\'est pas disponible dans ce navigateur.');
+  }
+
+  const translator = await Translator.create({
+    sourceLanguage: source,
+    targetLanguage: 'fr'
+  });
+
+  try {
+    return await translator.translate(text.trim());
+  } finally {
+    if (translator && typeof translator.destroy === 'function') translator.destroy();
+  }
+}
+
+function showTranslationModal() {
+  const langueVictime = bilanData.langueVictime || 'Français';
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;display:flex;align-items:center;justify-content:center;padding:14px;';
+  overlay.innerHTML = `
+    <div class="translation-modal-content">
+      <div style="color:#fff;font-size:16px;font-weight:500;margin-bottom:10px;text-align:center;">🌐 Traduire une réponse</div>
+
+      <div class="translation-section-title">Langue de la victime</div>
+      <div class="metric-toggle" id="translation-lang-toggle">
+        ${['Français','English','Español','العربية'].map(lang => `
+          <button data-lang="${lang}" class="${lang === langueVictime ? 'active' : ''}">${lang}</button>
+        `).join('')}
+      </div>
+
+      <button class="detail-action-btn primary" id="translation-record-btn" style="margin-top:10px;">🎤 Faire répondre</button>
+      <div class="translation-status" id="translation-status">Prêt.</div>
+
+      <div class="translation-section-title">Réponse originale</div>
+      <div class="translation-text translation-original" id="translation-original">—</div>
+
+      <div class="translation-section-title">Traduction française</div>
+      <div class="translation-text" id="translation-french">—</div>
+
+      <div style="display:flex;gap:8px;margin-top:12px;">
+        <button class="detail-action-btn primary" id="translation-copy-btn" style="flex:1;" disabled>📋 Copier la traduction</button>
+        <button class="detail-action-btn" id="translation-close-btn" style="flex:1;">Fermer</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  translationModalState = {
+    overlay,
+    langue: langueVictime,
+    original: '',
+    french: ''
+  };
+
+  const originalEl = overlay.querySelector('#translation-original');
+  const frenchEl = overlay.querySelector('#translation-french');
+  const statusEl = overlay.querySelector('#translation-status');
+  const recordBtn = overlay.querySelector('#translation-record-btn');
+  const copyBtn = overlay.querySelector('#translation-copy-btn');
+
+  overlay.querySelectorAll('#translation-lang-toggle button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      translationModalState.langue = btn.dataset.lang;
+      overlay.querySelectorAll('#translation-lang-toggle button').forEach(b => b.classList.toggle('active', b === btn));
+      statusEl.textContent = translationModalState.langue === 'Français'
+        ? 'La langue sélectionnée est le français.'
+        : 'Prêt à écouter la réponse.';
+    });
+  });
+
+  recordBtn.addEventListener('click', () => startTranslationRecognition());
+
+  copyBtn.addEventListener('click', async () => {
+    if (!translationModalState.french) return;
+    try {
+      await navigator.clipboard.writeText(translationModalState.french);
+      statusEl.textContent = '✓ Traduction copiée. Tu peux la coller dans un champ du bilan.';
+    } catch (err) {
+      statusEl.textContent = 'Impossible de copier automatiquement. Sélectionne le texte manuellement.';
+    }
+  });
+
+  overlay.querySelector('#translation-close-btn').addEventListener('click', () => {
+    stopTranslationRecognition();
+    overlay.remove();
+    translationModalState = null;
+  });
+
+  async function startTranslationRecognition() {
+    stopTranslationRecognition();
+
+    const recognition = getTranslationSpeechRecognition();
+    if (!recognition) {
+      statusEl.textContent = 'La reconnaissance vocale n\'est pas disponible dans ce navigateur.';
+      return;
+    }
+
+    const langue = translationModalState.langue;
+    recognition.lang = TRANSLATION_SPEECH_LANGS[langue] || 'fr-FR';
+    recognition.interimResults = false;
+    recognition.continuous = false;
+    recognition.maxAlternatives = 1;
+
+    translationRecognition = recognition;
+    recordBtn.classList.add('translation-recording');
+    recordBtn.textContent = '⏹️ Écoute en cours…';
+    statusEl.textContent = 'Parlez maintenant…';
+
+    recognition.onresult = async (event) => {
+      const transcript = Array.from(event.results)
+        .map(result => result[0]?.transcript || '')
+        .join(' ')
+        .trim();
+
+      translationModalState.original = transcript;
+      originalEl.textContent = transcript || '—';
+      frenchEl.textContent = 'Traduction en cours…';
+      translationModalState.french = '';
+      copyBtn.disabled = true;
+      statusEl.textContent = 'Traduction en cours…';
+
+      try {
+        const french = await translateTextToFrench(transcript, langue);
+        translationModalState.french = french;
+        frenchEl.textContent = french || '—';
+        copyBtn.disabled = !french;
+        statusEl.textContent = french ? 'Traduction terminée.' : 'Aucune traduction obtenue.';
+      } catch (err) {
+        frenchEl.textContent = '—';
+        statusEl.textContent = err?.message || 'Erreur pendant la traduction.';
+      }
+    };
+
+    recognition.onerror = (event) => {
+      statusEl.textContent = event.error === 'not-allowed'
+        ? 'Accès au microphone refusé.'
+        : `Erreur de reconnaissance vocale : ${event.error}`;
+    };
+
+    recognition.onend = () => {
+      recordBtn.classList.remove('translation-recording');
+      recordBtn.textContent = '🎤 Faire répondre';
+      if (translationRecognition === recognition) translationRecognition = null;
+    };
+
+    try {
+      recognition.start();
+    } catch (err) {
+      translationRecognition = null;
+      recordBtn.classList.remove('translation-recording');
+      recordBtn.textContent = '🎤 Faire répondre';
+      statusEl.textContent = 'Impossible de démarrer le microphone.';
+    }
+  }
+}
+
+function stopTranslationRecognition() {
+  if (!translationRecognition) return;
+  try { translationRecognition.stop(); } catch {}
+  translationRecognition = null;
+}
+  
 function renderBilan() {
   loadBilanData();
   if (bilanMode === 'reference') {
