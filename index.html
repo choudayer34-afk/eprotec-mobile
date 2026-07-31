@@ -63,6 +63,13 @@
   .screen-header .screen-side { min-width: 34px; display: flex; align-items: center; justify-content: center; }
   .screen-title { flex: 1; text-align: center; font-size: 19px; font-weight: 500; color: #fff; }
   .update-status { font-size: 11px; color: #9FB3D6; text-align: center; padding: 0 0 12px; }
+    #offline-indicator {
+    display:none; position:fixed; left:12px; right:12px; bottom:82px; z-index:1001;
+    background:#3A2A0E; color:#FAC775; border:1px solid #EF9F27;
+    border-radius:10px; padding:9px 12px; font-size:12px; text-align:center;
+    box-shadow:0 4px 14px rgba(0,0,0,0.25);
+  }
+  #offline-indicator.visible { display:block; }
   .swipe-wrap { position: relative; margin-bottom: 12px; }
   .swipe-wrap .card { margin-bottom: 0; position: relative; z-index: 1; }
 .swipe-label {
@@ -419,7 +426,7 @@
 <body>
 
 <div id="pull-indicator">↓ Tire pour actualiser</div>
-
+<div id="offline-indicator">📴 Hors ligne — les fonctions nécessitant Internet sont désactivées.</div>
 <main>
 
   <section id="accueil" class="active">
@@ -2601,6 +2608,11 @@ function cumulativeArray(values, stopAtMonth) {
 }
 
 function renderComparisonChart(entries) {
+    if (typeof Chart === 'undefined') {
+    const container = document.getElementById('rapport-chart');
+    if (container) container.innerHTML = '<div class="empty">Graphique indisponible hors ligne.</div>';
+    return;
+  }
   const canvas = document.getElementById('rapport-comparison-chart');
   if (!canvas) return;
 
@@ -10781,6 +10793,25 @@ function hideLoadingProgress() {
   showProgressUI = false;
 }
 
+  async function fetchJsonSafe(url, fallback) {
+  try {
+    const res = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    return await res.json();
+  } catch (err) {
+    return fallback;
+  }
+}
+
+function updateOfflineIndicator() {
+  const el = document.getElementById('offline-indicator');
+  if (el) el.classList.toggle('visible', !navigator.onLine);
+}
+
+window.addEventListener('online', updateOfflineIndicator);
+window.addEventListener('offline', updateOfflineIndicator);
+updateOfflineIndicator();
+  
 async function loadData() {
   const totalSteps = 8;
   let step = 0;
@@ -10802,10 +10833,10 @@ await loadFichesCustom();
 
   const bust = Date.now();
   const [events, sharedSuggestions, status, sharedHistory] = await Promise.all([
-    fetch('data/events.json?t=' + bust, { cache: 'no-store' }).then(r => r.json()),
-    fetch('data/suggestions.json?t=' + bust, { cache: 'no-store' }).then(r => r.json()),
-    fetch('data/status.json?t=' + bust, { cache: 'no-store' }).then(r => r.json()).catch(() => ({})),
-    fetch('data/registrations-history.json?t=' + bust, { cache: 'no-store' }).then(r => r.json()).catch(() => ({}))
+    fetchJsonSafe('data/events.json?t=' + bust, []),
+    fetchJsonSafe('data/suggestions.json?t=' + bust, []),
+    fetchJsonSafe('data/status.json?t=' + bust, {}),
+    fetchJsonSafe('data/registrations-history.json?t=' + bust, {})
   ]);
 
   const [registeredUidsArr, personalSuggestions, personalHistory] = await Promise.all([
@@ -10886,7 +10917,7 @@ renderTypeFilterChips();
 
 function startAutoRefreshWatcher() {
   setInterval(async () => {
-    if (document.hidden) return;
+    if (document.hidden || !navigator.onLine) return;
     try {
       const res = await fetch('data/status.json?t=' + Date.now(), { cache: 'no-store' });
       const status = await res.json();
@@ -10932,6 +10963,13 @@ function startAutoRefreshWatcher() {
     if (!pulling) return;
     const height = parseInt(indicator.style.height) || 0;
 if (height >= threshold) {
+        if (!navigator.onLine) {
+        indicator.textContent = '📴 Hors ligne';
+        indicator.style.height = '40px';
+        setTimeout(() => { indicator.style.height = '0px'; }, 1200);
+        pulling = false;
+        return;
+      }
       indicator.textContent = 'Actualisation...';
       indicator.style.height = '40px';
       window.location.reload();
@@ -11041,6 +11079,12 @@ startAutoRefreshWatcher();
 
 
 loadData()
+    .catch((err) => {
+    console.warn('eProtec initialisation partielle :', err);
+    hideLoadingProgress();
+    updateOfflineIndicator();
+    renderBilan();
+  })
   .then(() => {
     checkEprotecCidConfigured();
    if (window.location.hash === '#nouveautes') {
