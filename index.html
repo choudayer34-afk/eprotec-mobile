@@ -3034,7 +3034,7 @@ accueil: [
       ],
     hemorragie : [
 { fr: "Saignez-vous ?", en: "Are you bleeding?", es: "¿Está sangrando?", ar: "هل تنزف؟" },
-      { fr: "Pouvez-vous me montrer où ?", en: "Can you show me where?", es: "¿Puede mostrarme dónde?", ar: "هل يمكنك أن تريني أين؟" },
+      { key: 'hemorragielocalisation', fr: "Pouvez-vous me montrer où ?", en: "Can you show me where?", es: "¿Puede mostrarme dónde?", ar: "هل يمكنك أن تريني أين؟" },
       { fr: "Pouvez-vous comprimer la plaie avec votre main ? Est-ce que c'est efficace ?", en: "Can you press on the wound with your hand? Is it effective?", es: "¿Puede comprimir la herida con la mano? ¿Es eficaz?", ar: "هل يمكنك الضغط على الجرح بيدك؟ هل هذا فعال؟" },
 { fr: "Je vais comprimer la plaie.", en: "I am going to apply pressure to the wound.", es: "Voy a comprimir la herida.", ar: "سأضغط على الجرح." },
 { fr: "Je vais vous poser un pansement hémostatique.", en: "I am going to apply a hemostatic dressing to your wound.", es: "Voy a colocarle un apósito hemostático en la herida.", ar: "سأضع لك ضمادة لوقف النزيف على الجرح." },
@@ -5010,7 +5010,7 @@ options: [
  
 { key: 'x', label: '🩸 X — Hémorragie', phraseCategory: 'hemorragie', fields: [
 { key: 'hemorragie', label: 'Hémorragie visible', type: 'chip', info: 'hemorragie', options: ['Non', 'Oui'] },
-    { key: 'hemorragieLieu', label: 'Localisation si oui', type: 'text', map: true, showIf: { field: 'hemorragie', value: 'Oui' } },
+    { key: 'hemorragieLieu', label: 'Localisation si oui', type: 'text', map: true, showIf: { field: 'hemorragie', value: 'Oui' }, phraseKey: 'hemorragielocalisation' },
     { key: 'hemorragieAction', label: 'Action réalisée', type: 'actions', options: ['Compression manuelle', 'Pansement imbibé', 'Garrot', 'Position d\'attente', 'Réchauffer'], showIf: { field: 'hemorragie', value: 'Oui' } } 
 ]},
   { key: 'a', label: '🫁 A — Voies aériennes', phraseCategory: 'voiesaeriennes', fields: [
