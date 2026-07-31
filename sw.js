@@ -3,6 +3,7 @@ const CACHE_NAME = 'moneprotec-cache-v2';
 const APP_SHELL = [
   './',
   './index.html',
+  ./chart.umd.min.js',
 
   // Ressources locales utilisées par eProtec
   './data/protection-civile-logo.png',
