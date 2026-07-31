@@ -143,41 +143,82 @@
   .status-frame-green { border-color: #639922; color: #97C459; }
   .status-frame-yellow { border-color: #EF9F27; color: #FAC775; }
   .empty { color: #9FB3D6; font-size: 13px; padding: 8px 0; }
+.conseils-prodigues-field {
+  width: 100%;
+}
+
 .conseils-suggestions {
+  display: block !important;
+  width: 100%;
+  box-sizing: border-box;
   margin: 8px 0 10px;
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid #d9d9d9;
   border-radius: 8px;
   background: #f8f9fa;
 }
 
 .conseils-suggestions-title {
+  display: block;
   font-weight: 600;
   margin-bottom: 8px;
   font-size: 13px;
 }
 
-.conseil-suggestion-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  padding: 5px 0;
-  cursor: pointer;
-  font-size: 13px;
+.conseils-suggestions-list {
+  display: block;
+  width: 100%;
 }
 
-.conseil-suggestion-item input {
-  margin-top: 2px;
+.conseil-suggestion-item {
+  display: flex !important;
+  align-items: flex-start;
+  width: 100%;
+  box-sizing: border-box;
+  gap: 10px;
+  padding: 8px 4px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.conseil-suggestion-item input[type="checkbox"] {
+  display: block !important;
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
+  margin: 0;
+  opacity: 1;
+  visibility: visible;
+  appearance: auto;
+  -webkit-appearance: checkbox;
+}
+
+.conseil-suggestion-item span {
+  display: block;
+  flex: 1;
+}
+
+.conseils-empty {
+  padding: 6px 0;
+  color: #777;
+  font-size: 13px;
 }
 
 .conseils-ajout {
   display: flex;
+  width: 100%;
+  box-sizing: border-box;
   gap: 8px;
   margin-top: 8px;
 }
 
 .conseils-ajout input {
   flex: 1;
+  min-width: 0;
+  box-sizing: border-box;
 }
   
   .conseils-liste {
@@ -5732,54 +5773,66 @@ if (f.type === 'age-display') {
 
    const mapBtn = f.map ? `<button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;margin-left:6px;" data-bodymap-field="${f.key}">🗺️</button>` : '';
 
-  if (f.type === 'conseils') {
+if (f.type === 'conseils') {
 
   const phraseBtnText = f.phrase
     ? `<button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;margin-left:6px;" onclick="showPhraseModal('${f.phrase}')">🗣️</button>`
     : '';
-
-  const typeProbleme = bilanData.typeProbleme || '';
-  const conseils = CONSEILS_PAR_PROBLEME[typeProbleme] || [];
 
   const conseilsActuels = String(value || '')
     .split('\n')
     .map(c => c.trim())
     .filter(Boolean);
 
-  const suggestionsHtml = conseils.length
-    ? `
-      <div class="conseils-suggestions">
+  const typeProbleme = bilanData.typeProbleme || '';
+  const conseils = CONSEILS_PAR_PROBLEME[typeProbleme] || [];
+
+  return `
+    <div class="bilan-field-row conseils-prodigues-field">
+
+      <label>
+        ${f.label}${infoBtn}${mapBtn}${phraseBtnText}
+      </label>
+
+      <!-- Conteneur TOUJOURS présent -->
+      <div
+        class="conseils-suggestions"
+        data-conseils-container="true"
+      >
         <div class="conseils-suggestions-title">
           Conseils suggérés
         </div>
 
-        ${conseils.map(conseil => `
-          <label class="conseil-suggestion-item">
-            <input
-              type="checkbox"
-              ${conseilsActuels.includes(conseil) ? 'checked' : ''}
-              onchange="toggleConseilProdigue(this)"
-              data-conseil="${escapeHtml(conseil)}"
-            >
-            <span>${escapeHtml(conseil)}</span>
-          </label>
-        `).join('')}
+        <div class="conseils-suggestions-list">
+          ${
+            conseils.length
+              ? conseils.map(conseil => `
+                  <label class="conseil-suggestion-item">
+                    <input
+                      type="checkbox"
+                      ${conseilsActuels.includes(conseil) ? 'checked' : ''}
+                      onchange="toggleConseilProdigue(this)"
+                      data-conseil="${escapeHtml(conseil)}"
+                    >
+                    <span>${escapeHtml(conseil)}</span>
+                  </label>
+                `).join('')
+              : `
+                <div class="conseils-empty">
+                  Sélectionnez un type de problème pour afficher les conseils.
+                </div>
+              `
+          }
+        </div>
       </div>
-    `
-    : '';
 
-  return `
-    <div class="bilan-field-row">
-      <label>${f.label}${infoBtn}${mapBtn}${phraseBtnText}</label>
-
-      ${suggestionsHtml}
-
+      <!-- Conseils effectivement retenus -->
       <div class="text-field-wrap ${value ? 'has-value' : ''}">
         <textarea
           rows="3"
           class="bilan-textarea"
           data-bilan-field="${f.key}"
-          placeholder="Ajouter ou compléter les conseils prodigués..."
+          placeholder="Les conseils sélectionnés apparaîtront ici. Vous pouvez aussi les compléter..."
           oninput="saveConseilsProdiguesFromTextarea(this)"
         >${escapeHtml(value)}</textarea>
 
@@ -5790,13 +5843,14 @@ if (f.type === 'age-display') {
         >✕</button>
       </div>
 
+      <!-- Ajout manuel -->
       <div class="conseils-ajout">
         <input
           type="text"
           id="nouveauConseilProdigue"
           class="bilan-input"
           placeholder="Ajouter un conseil personnalisé..."
-          onkeydown="if(event.key === 'Enter'){event.preventDefault();ajouterConseilProdigue();}"
+          autocomplete="off"
         >
 
         <button
@@ -5809,6 +5863,7 @@ if (f.type === 'age-display') {
       </div>
 
       ${suggestionDiv}
+
     </div>
   `;
 }
@@ -7181,12 +7236,19 @@ input.addEventListener('blur', () => {
     });
   }
 
+requestAnimationFrame(() => {
+    refreshConseilsProdigues();
+});
+  
 container.querySelectorAll('select[data-bilan-field]').forEach(select => {
     select.addEventListener('change', () => {
       bilanData[select.dataset.bilanField] = select.value;
       saveBilanData();
 if (select.dataset.bilanField.startsWith('glasgow')) { updateGlasgowTotalDisplay(); updateFieldSuggestion('glasgowM'); }
-      if (select.dataset.bilanField === 'typeProbleme') updateFieldSuggestion('typeProbleme');
+if (select.dataset.bilanField === 'typeProbleme') {
+  updateFieldSuggestion('typeProbleme');
+  refreshConseilsProdigues();
+}
 if (select.dataset.bilanField === 'typeProbleme') {
   updateFieldSuggestion('typeProbleme');
   refreshConseilsProdigues();
@@ -7207,15 +7269,11 @@ if (select.dataset.bilanField === 'typeProbleme') {
     });
   });
 
-  function refreshConseilsProdigues() {
+ function refreshConseilsProdigues() {
 
-  const textarea = document.querySelector(
-    'textarea[data-bilan-field="conseilsProdigues"]'
+  const container = document.querySelector(
+    '[data-conseils-container="true"]'
   );
-
-  if (!textarea) return;
-
-  const container = textarea.closest('.bilan-field-row');
 
   if (!container) return;
 
@@ -7223,34 +7281,43 @@ if (select.dataset.bilanField === 'typeProbleme') {
 
   const conseils = CONSEILS_PAR_PROBLEME[typeProbleme] || [];
 
-  const conseilsActuels = textarea.value
-    .split('\n')
-    .map(c => c.trim())
-    .filter(Boolean);
+  const textarea = document.querySelector(
+    'textarea[data-bilan-field="conseilsProdigues"]'
+  );
 
-  const suggestions = container.querySelector('.conseils-suggestions');
+  const conseilsActuels = textarea
+    ? textarea.value
+        .split('\n')
+        .map(c => c.trim())
+        .filter(Boolean)
+    : [];
 
-  if (!suggestions) return;
+  const list = container.querySelector(
+    '.conseils-suggestions-list'
+  );
 
-  suggestions.innerHTML = conseils.length
-    ? `
-      <div class="conseils-suggestions-title">
-        Conseils suggérés
+  if (!list) return;
+
+  if (!conseils.length) {
+    list.innerHTML = `
+      <div class="conseils-empty">
+        Sélectionnez un type de problème pour afficher les conseils.
       </div>
+    `;
+    return;
+  }
 
-      ${conseils.map(conseil => `
-        <label class="conseil-suggestion-item">
-          <input
-            type="checkbox"
-            ${conseilsActuels.includes(conseil) ? 'checked' : ''}
-            onchange="toggleConseilProdigue(this)"
-            data-conseil="${escapeHtml(conseil)}"
-          >
-          <span>${escapeHtml(conseil)}</span>
-        </label>
-      `).join('')}
-    `
-    : '';
+  list.innerHTML = conseils.map(conseil => `
+    <label class="conseil-suggestion-item">
+      <input
+        type="checkbox"
+        ${conseilsActuels.includes(conseil) ? 'checked' : ''}
+        onchange="toggleConseilProdigue(this)"
+        data-conseil="${escapeHtml(conseil)}"
+      >
+      <span>${escapeHtml(conseil)}</span>
+    </label>
+  `).join('');
 }
   
 container.querySelectorAll('[id^="actions-wrap-"]').forEach(wrap => {
