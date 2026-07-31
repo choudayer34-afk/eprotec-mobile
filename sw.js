@@ -16,7 +16,6 @@ const APP_SHELL = [
   './data/autodefense-poignet-2mains-verticale.png',
   './data/autodefense-col-1main.png',
   './data/autodefense-col-2mains.png',
-  './data/autodefense-etranglement-devant.png',
   './data/autodefense-etranglement-derriere.png',
   './data/autodefense-parades-coups.png',
   './data/autodefense-sol-immobilisation.png',
