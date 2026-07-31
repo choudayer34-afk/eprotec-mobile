@@ -2997,13 +2997,13 @@ accueil: [
   { fr: "Bonjour, nous sommes secouristes, nous allons vérifier plusieurs paramètres de votre santé.", en: "Hello, we are first aiders, we are going to check several health parameters.", es: "Hola, somos socorristas, vamos a comprobar varios parámetros de su salud.", ar: "مرحباً، نحن مسعفون، سنقوم بفحص عدة مؤشرات صحية." },
     { fr: "Restez calme, nous allons vous aider.", en: "Stay calm, we are going to help you.", es: "Mantenga la calma, vamos a ayudarle.", ar: "ابقَ هادئاً، سنساعدك." },
     {  key: 'nom', fr: "Quel est votre nom ?", en: "What is your last name?", es: "¿Cuál es su apellido?", ar: "ما هو اسم عائلتك؟" },
-    { fr: "Quel est votre prénom ?", en: "What is your first name?", es: "¿Cuál es su nombre?", ar: "ما هو اسمك الأول؟" },
+    { key: 'prenom', fr: "Quel est votre prénom ?", en: "What is your first name?", es: "¿Cuál es su nombre?", ar: "ما هو اسمك الأول؟" },
     { fr: "Quelle est votre date de naissance ?", en: "What is your date of birth?", es: "¿Cuál es su fecha de nacimiento?", ar: "ما هو تاريخ ميلادك؟" },
     { fr: "Quel âge avez-vous ?", en: "How old are you?", es: "¿Cuántos años tiene?", ar: "كم عمرك؟" },
-    { fr: "Quelle est votre adresse ?", en: "What is your address?", es: "¿Cuál es su dirección?", ar: "ما هو عنوانك؟" },
-    { fr: "Qui souhaitez-vous que l'on prévienne ?", en: "Who would you like us to notify?", es: "¿A quién le gustaría que avisáramos?", ar: "من تريد أن نُبلغ؟" },
+    { key: 'adresse', fr: "Quelle est votre adresse ?", en: "What is your address?", es: "¿Cuál es su dirección?", ar: "ما هو عنوانك؟" },
+    { key: 'personnePrevenir', fr: "Qui souhaitez-vous que l'on prévienne ?", en: "Who would you like us to notify?", es: "¿A quién le gustaría que avisáramos?", ar: "من تريد أن نُبلغ؟" },
     { fr: "Êtes-vous venu avec quelqu'un ? Quel est son nom ?", en: "Did you come with someone? What is their name?", es: "¿Ha venido con alguien? ¿Cómo se llama?", ar: "هل جئت مع شخص آخر؟ ما اسمه؟" },
-  { fr: "Quel est son numéro de téléphone ?", en: "What is their phone number?", es: "¿Cuál es su número de teléfono?", ar: "ما هو رقم هاتفه؟" },
+  { key: 'personnePrevenirTel', fr: "Quel est son numéro de téléphone ?", en: "What is their phone number?", es: "¿Cuál es su número de teléfono?", ar: "ما هو رقم هاتفه؟" },
   { fr: "Peut-elle vous raccompagner ?", en: "Can she accompany you home?", es: "¿Puede ella acompañarle?", ar: "هل يمكنها أن ترافقك إلى المنزل؟" },  
   { fr: "Que s'est-il passé ?", en: "What happened?", es: "¿Qué pasó?", ar: "ماذا حدث؟" }
   ],
@@ -4943,13 +4943,13 @@ function formatDateHeureCourte(iso) {
     { key: 'redacteur', label: 'Rédigé par', type: 'text' },
     { key: 'langueVictime', label: 'Langue de la victime', type: 'chip', options: ['Français', 'English', 'Español', 'العربية'] },
    { key: 'sexe', label: 'Sexe', type: 'chip', options: ['Homme', 'Femme'] },
-    { key: 'nom', label: 'Nom', type: 'text', phraseKey: 'nom' },
-    { key: 'prenom', label: 'Prénom', type: 'text' },
+{ key: 'nom', label: 'Nom', type: 'text', phraseKey: 'nom' },
+{ key: 'prenom', label: 'Prénom', type: 'text', phraseKey: 'prenom' },
     { key: 'dateNaissance', label: 'Date de naissance', type: 'date' },
     { key: 'age', label: 'Âge', type: 'age-display' },
-    { key: 'adresse', label: 'Adresse d\'habitation', type: 'text' },
-    { key: 'personnePrevenir', label: 'Personne à prévenir', type: 'text' },
-    { key: 'personnePrevenirTel', label: 'Téléphone de cette personne', type: 'text' }
+ { key: 'adresse', label: 'Adresse d\'habitation', type: 'text', phraseKey: 'adresse' },
+{ key: 'personnePrevenir', label: 'Personne à prévenir', type: 'text', phraseKey: 'personnePrevenir' },
+{ key: 'personnePrevenirTel', label: 'Téléphone de cette personne', type: 'text', phraseKey: 'personnePrevenirTel' }
    
   ]},
  { key: 'circonstanciel', label: '🎬 Bilan circonstanciel (3S)', phraseCategory: 'trois', fields: [
