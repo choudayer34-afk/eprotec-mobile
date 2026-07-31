@@ -5071,7 +5071,7 @@ options: [
 { key: 'risque', label: 'Risque', type: 'text', info: 'bc_risque' },
 { key: 'intoxAlcool', label: 'Intoxication alcool', type: 'chip', options: ['Non', 'Oui'], phrase: 'intoxications' },
     { key: 'intoxMedicaments', label: 'Intoxication médicaments', type: 'chip', options: ['Non', 'Oui'] },
-    { key: 'intoxMedicamentsNom', label: 'Nom du/des médicament(s)', type: 'text', showIf: { field: 'intoxMedicaments', value: 'Oui' } },
+    { key: 'intoxMedicamentsNom', label: 'Nom du/des médicament(s)', type: 'text', showIf: { field: 'intoxMedicaments', value: 'Oui' }, phraseKey: 'nommedicament'  },
     { key: 'intoxToxiques', label: 'Intoxication toxiques', type: 'chip', options: ['Non', 'Oui'] },
     { key: 'intoxToxiquesNom', label: 'Nom du/des toxique(s)', type: 'chip', options: ['Monoxyde de carbone', 'Produit ménager', 'Fumées d\'incendie', 'Produit phytosanitaire', 'Gaz industriel', 'Champignon/plante', 'Autre'], info: 'bc_toxique', showIf: { field: 'intoxToxiques', value: 'Oui' } },
     { key: 'intoxToxiquesNomAutre', label: 'Préciser si Autre', type: 'text', showIf: { field: 'intoxToxiquesNom', value: 'Autre' } }
