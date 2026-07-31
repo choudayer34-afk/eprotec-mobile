@@ -5640,6 +5640,154 @@ function saveBilanData() {
   localStorage.setItem(BILAN_STORAGE_KEY, JSON.stringify(bilanData));
 }
 
+  function setupConseilsProdigues(container) {
+
+  if (!container) return;
+
+  // Gestion des conseils suggérés
+  container.querySelectorAll('.conseil-checklist-item').forEach(row => {
+
+    row.addEventListener('click', () => {
+
+      const conseil = row.dataset.conseil;
+
+      const textarea = container.querySelector(
+        'textarea[data-bilan-field="conseilsProdigues"]'
+      );
+
+      if (!textarea) return;
+
+      let conseils = textarea.value
+        .split('\n')
+        .map(c => c.trim())
+        .filter(Boolean);
+
+      const index = conseils.indexOf(conseil);
+      const checkbox = row.querySelector('.ppa-checkbox');
+
+      if (index >= 0) {
+
+        // Décocher
+        conseils.splice(index, 1);
+
+        checkbox.classList.remove('checked');
+        checkbox.textContent = '';
+
+      } else {
+
+        // Cocher
+        conseils.push(conseil);
+
+        checkbox.classList.add('checked');
+        checkbox.textContent = '✓';
+      }
+
+      textarea.value = conseils.join('\n');
+
+      bilanData.conseilsProdigues = textarea.value;
+
+      textarea.closest('.text-field-wrap')?.classList.toggle(
+        'has-value',
+        !!textarea.value.trim()
+      );
+
+      saveBilanData();
+    });
+  });
+
+
+  // Modification manuelle du textarea
+  const textarea = container.querySelector(
+    'textarea[data-bilan-field="conseilsProdigues"]'
+  );
+
+  if (textarea) {
+
+    textarea.addEventListener('input', () => {
+      bilanData.conseilsProdigues = textarea.value;
+      saveBilanData();
+    });
+
+  }
+
+
+  // Bouton X
+  const clearBtn = container.querySelector(
+    '.conseils-prodigues-field .text-clear-btn'
+  );
+
+  if (clearBtn) {
+
+    clearBtn.addEventListener('click', () => {
+
+      if (textarea) {
+        textarea.value = '';
+        bilanData.conseilsProdigues = '';
+      }
+
+      container
+        .querySelectorAll('.conseil-checklist-item .ppa-checkbox')
+        .forEach(cb => {
+          cb.classList.remove('checked');
+          cb.textContent = '';
+        });
+
+      textarea?.closest('.text-field-wrap')?.classList.remove('has-value');
+
+      saveBilanData();
+    });
+
+  }
+
+
+  // Ajout d'un conseil personnalisé
+  const addBtn = container.querySelector(
+    '#btn-ajouter-conseil-prodigue'
+  );
+
+  const addInput = container.querySelector(
+    '#nouveauConseilProdigue'
+  );
+
+  if (addBtn && addInput && textarea) {
+
+    const ajouter = () => {
+
+      const texte = addInput.value.trim();
+
+      if (!texte) return;
+
+      let conseils = textarea.value
+        .split('\n')
+        .map(c => c.trim())
+        .filter(Boolean);
+
+      if (!conseils.includes(texte)) {
+        conseils.push(texte);
+      }
+
+      textarea.value = conseils.join('\n');
+
+      bilanData.conseilsProdigues = textarea.value;
+
+      addInput.value = '';
+
+      textarea.closest('.text-field-wrap')?.classList.add('has-value');
+
+      saveBilanData();
+    };
+
+    addBtn.addEventListener('click', ajouter);
+
+    addInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        ajouter();
+      }
+    });
+  }
+}
+  
 function renderBilanReference() {
   releaseWakeLock();
   const container = document.getElementById('bilan-content');
@@ -7467,10 +7615,7 @@ if (select.dataset.bilanField === 'typeProbleme') {
 
   }).join('');
 
-  setupConseilsProdigues(
-    container.closest('.bilan-field-row') || document
-  );
-}
+  setupConseilsProdigues();
   
 container.querySelectorAll('[id^="actions-wrap-"]').forEach(wrap => {
     const key = wrap.id.replace('actions-wrap-', '');
