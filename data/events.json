@@ -1092,20 +1092,6 @@
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1620467'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt16274921@https://eprotec.protection-civile.org",
-    "tag": "DPS",
-    "titre": "[DPS 34] MHSC - US Boulogne CO",
-    "lieu": "Stade de la Mosson, 34080 Montpellier",
-    "dateDebut": "2026-08-28T16:30:00.000Z",
-    "dateFin": "2026-08-28T20:30:00.000Z",
-    "dureeHeures": 4,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1627492",
-    "description": "1h30 avant match - 1h45 de match - 30mn apres match. Bord de terrain uniquement et dedie extraction joueurs. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627492'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt16348321@https://eprotec.protection-civile.org",
     "tag": "AUTRE",
     "titre": "[CER 34] Ceremonie depart du Controleur General Flores",
@@ -1118,6 +1104,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1634832",
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1634832'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16274921@https://eprotec.protection-civile.org",
+    "tag": "DPS",
+    "titre": "[DPS 34] MHSC - US Boulogne CO",
+    "lieu": "Stade de la Mosson, 34080 Montpellier",
+    "dateDebut": "2026-08-28T16:30:00.000Z",
+    "dateFin": "2026-08-28T20:30:00.000Z",
+    "dureeHeures": 4,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1627492",
+    "description": "1h30 avant match - 1h45 de match - 30mn apres match. Bord de terrain uniquement et dedie extraction joueurs. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627492'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16092741@https://eprotec.protection-civile.org",
@@ -1442,20 +1442,6 @@
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1638142'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt15943091@https://eprotec.protection-civile.org",
-    "tag": "MAN",
-    "titre": "[MAN 34] Rassemblement Mensuel - MTP 15 -2026 -Revision PSE",
-    "lieu": "Centre de formation de Montpellier",
-    "dateDebut": "2026-09-08T16:45:00.000Z",
-    "dateFin": "2026-09-08T18:45:00.000Z",
-    "dureeHeures": 2,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1594309",
-    "description": "Nouveautes en 2026 : les rassemblements sont thematises .  Revision PSE  Arrivee possible apres l'heure prevue de 18h45, en fonction de vos disponibilites. Merci de l'indiquer en commentaire.  Evitons les annulations aux derniers moments merci.  Ouvert a tous, PSE ou non. Duree indicative dependant du nombre d'inscrits et des difficultes et des themes.<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1594309'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt15219981@https://eprotec.protection-civile.org",
     "tag": "FOR",
     "titre": "[FOR 34] Formation PSC",
@@ -1468,6 +1454,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1521998",
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1521998'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt15943091@https://eprotec.protection-civile.org",
+    "tag": "MAN",
+    "titre": "[MAN 34] Rassemblement Mensuel - MTP 15 -2026 -Revision PSE",
+    "lieu": "Centre de formation de Montpellier",
+    "dateDebut": "2026-09-08T16:45:00.000Z",
+    "dateFin": "2026-09-08T18:45:00.000Z",
+    "dureeHeures": 2,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1594309",
+    "description": "Nouveautes en 2026 : les rassemblements sont thematises .  Revision PSE  Arrivee possible apres l'heure prevue de 18h45, en fonction de vos disponibilites. Merci de l'indiquer en commentaire.  Evitons les annulations aux derniers moments merci.  Ouvert a tous, PSE ou non. Duree indicative dependant du nombre d'inscrits et des difficultes et des themes.<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1594309'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt15219911@https://eprotec.protection-civile.org",
@@ -2086,20 +2086,6 @@
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1521994'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt16356401@https://eprotec.protection-civile.org",
-    "tag": "FOR",
-    "titre": "[FOR 34] Stand Addictologie EXAPRINT partie 1/4",
-    "lieu": "Exaprint Mauguio",
-    "dateDebut": "2026-09-29T07:00:00.000Z",
-    "dateFin": "2026-09-29T14:30:00.000Z",
-    "dureeHeures": 7.5,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1635640",
-    "description": "Nous intervenons chez un imprimeur pour former au total 300 salaries. OUVERT A TOUS LES BENEVOLES Theme addictologie, tout les benevoles recevront une info de comment cela se passe. 2 journee et 2 soirees dans les ateliers. Un beau projet, il nous faut un maximum de monde. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1635640'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt16299981@https://eprotec.protection-civile.org",
     "tag": "FOR",
     "titre": "[FOR 34] ACIM F2059 - MAC SST",
@@ -2112,6 +2098,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1629998",
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1629998'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16356401@https://eprotec.protection-civile.org",
+    "tag": "FOR",
+    "titre": "[FOR 34] Stand Addictologie EXAPRINT partie 1/4",
+    "lieu": "Exaprint Mauguio",
+    "dateDebut": "2026-09-29T07:00:00.000Z",
+    "dateFin": "2026-09-29T14:30:00.000Z",
+    "dureeHeures": 7.5,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1635640",
+    "description": "Nous intervenons chez un imprimeur pour former au total 300 salaries. OUVERT A TOUS LES BENEVOLES Theme addictologie, tout les benevoles recevront une info de comment cela se passe. 2 journee et 2 soirees dans les ateliers. Un beau projet, il nous faut un maximum de monde. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1635640'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16356402@https://eprotec.protection-civile.org",
@@ -2884,20 +2884,6 @@
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1522017'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt16270962@https://eprotec.protection-civile.org",
-    "tag": "AUTRE",
-    "titre": "[REU 34] Session de recrutement MTP partie 2/2",
-    "lieu": "Local FO Mtp",
-    "dateDebut": "2026-10-28T18:00:00.000Z",
-    "dateFin": "2026-10-28T19:00:00.000Z",
-    "dureeHeures": 1,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1627096",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627096'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt16257482@https://eprotec.protection-civile.org",
     "tag": "FOR",
     "titre": "[FOR 34] Formation Continue Formateur PSC 2026 partie 2/2",
@@ -2910,6 +2896,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1625748",
     "description": "- Obligatoire pour l'ensemble des formateurs PSC meme ceux formes en 2026  - Il y aura une preparation en ligne qui sera envoyee 1 mois avant. - Vous devrez vous presenter avec vos documents et vous animerez une sequence dont le theme sera connu le jour meme. - C'est aussi un moment d'echange et non uniquement d'evaluation - SI vous avez des besoins ou des questions contactez la team formation !  <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1625748'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16270962@https://eprotec.protection-civile.org",
+    "tag": "AUTRE",
+    "titre": "[REU 34] Session de recrutement MTP partie 2/2",
+    "lieu": "Local FO Mtp",
+    "dateDebut": "2026-10-28T18:00:00.000Z",
+    "dateFin": "2026-10-28T19:00:00.000Z",
+    "dureeHeures": 1,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1627096",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627096'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt15943131@https://eprotec.protection-civile.org",
