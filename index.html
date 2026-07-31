@@ -7513,8 +7513,8 @@ input.addEventListener('blur', () => {
   }
 
 requestAnimationFrame(() => {
-  setupConseilsProdigues(container);
   refreshConseilsProdigues();
+  setupConseilsProdigues(container);
 });
   
 container.querySelectorAll('select[data-bilan-field]').forEach(select => {
@@ -7525,6 +7525,7 @@ if (select.dataset.bilanField.startsWith('glasgow')) { updateGlasgowTotalDisplay
 if (select.dataset.bilanField === 'typeProbleme') {
   updateFieldSuggestion('typeProbleme');
   refreshConseilsProdigues();
+  setupConseilsProdigues(container);
 }
       if (select.dataset.bilanField === 'glycemieUnite') {
         applyGlycemieWarning();
@@ -7603,7 +7604,6 @@ if (select.dataset.bilanField === 'typeProbleme') {
 
   }).join('');
  }
-  setupConseilsProdigues();
   
 container.querySelectorAll('[id^="actions-wrap-"]').forEach(wrap => {
     const key = wrap.id.replace('actions-wrap-', '');
