@@ -235,6 +235,10 @@
     padding: 10px 34px 10px 12px; border-radius: 8px; box-sizing: border-box; resize: none; overflow: hidden;
     font-family: inherit; line-height: 1.4; min-height: 42px; display: block;
   }
+  .bilan-textarea::placeholder {
+  font-style: italic;
+  color: #9FB3D6;
+}
   .bilan-textarea:focus { border-color: #F5821F; outline: none; }
   .text-clear-btn {
     position: absolute; right: 8px; top: 10px;
@@ -2691,6 +2695,22 @@ function renderComparisonChart(entries) {
   }
 }
 
+  function updateBilanPhrasePlaceholders() {
+  document
+    .querySelectorAll('textarea[data-bilan-field]')
+    .forEach(textarea => {
+      const fieldKey = textarea.dataset.bilanField;
+
+      const field = BILAN_CATEGORIES
+        .flatMap(cat => cat.fields)
+        .find(f => f.key === fieldKey);
+
+      if (!field || !field.phraseKey) return;
+
+      textarea.placeholder = getPhraseForField(field);
+    });
+}
+  
 function renderRapport(history) {
   const container = document.getElementById('rapport-content');
   const now = new Date();
@@ -2964,12 +2984,19 @@ const BACK_BODY_LEGEND = [
   '13 — Mollet', '14 — Talon / cheville (arrière)'
 ];
 
+  const LANGUE_KEYS = {
+  'Français': 'fr',
+  'English': 'en',
+  'Español': 'es',
+  'العربية': 'ar'
+};
+  
   const PHRASES_DATA = {
 accueil: [
   { fr: "Vous parlez Français ?", en: "Do you speak English?", es: "¿Habla Español?", ar: "هل تتحدث [العربية]؟" },  
   { fr: "Bonjour, nous sommes secouristes, nous allons vérifier plusieurs paramètres de votre santé.", en: "Hello, we are first aiders, we are going to check several health parameters.", es: "Hola, somos socorristas, vamos a comprobar varios parámetros de su salud.", ar: "مرحباً، نحن مسعفون، سنقوم بفحص عدة مؤشرات صحية." },
     { fr: "Restez calme, nous allons vous aider.", en: "Stay calm, we are going to help you.", es: "Mantenga la calma, vamos a ayudarle.", ar: "ابقَ هادئاً، سنساعدك." },
-    { fr: "Quel est votre nom ?", en: "What is your last name?", es: "¿Cuál es su apellido?", ar: "ما هو اسم عائلتك؟" },
+    {  key: 'nom', fr: "Quel est votre nom ?", en: "What is your last name?", es: "¿Cuál es su apellido?", ar: "ما هو اسم عائلتك؟" },
     { fr: "Quel est votre prénom ?", en: "What is your first name?", es: "¿Cuál es su nombre?", ar: "ما هو اسمك الأول؟" },
     { fr: "Quelle est votre date de naissance ?", en: "What is your date of birth?", es: "¿Cuál es su fecha de nacimiento?", ar: "ما هو تاريخ ميلادك؟" },
     { fr: "Quel âge avez-vous ?", en: "How old are you?", es: "¿Cuántos años tiene?", ar: "كم عمرك؟" },
@@ -4916,7 +4943,7 @@ function formatDateHeureCourte(iso) {
     { key: 'redacteur', label: 'Rédigé par', type: 'text' },
     { key: 'langueVictime', label: 'Langue de la victime', type: 'chip', options: ['Français', 'English', 'Español', 'العربية'] },
    { key: 'sexe', label: 'Sexe', type: 'chip', options: ['Homme', 'Femme'] },
-    { key: 'nom', label: 'Nom', type: 'text' },
+    { key: 'nom', label: 'Nom', type: 'text', phraseKey: 'nom' },
     { key: 'prenom', label: 'Prénom', type: 'text' },
     { key: 'dateNaissance', label: 'Date de naissance', type: 'date' },
     { key: 'age', label: 'Âge', type: 'age-display' },
@@ -5150,7 +5177,26 @@ function showFieldTimer(fieldKey) {
     overlay.remove();
   });
 }
+function getPhraseForField(field) {
+  if (!field.phraseKey) return '';
 
+  const category = BILAN_CATEGORIES.find(cat =>
+    cat.fields.some(f => f.key === field.key)
+  );
+
+  if (!category || !category.phraseCategory) return '';
+
+  const phrases = PHRASES_DATA[category.phraseCategory] || [];
+
+  const phrase = phrases.find(p => p.key === field.phraseKey);
+
+  if (!phrase) return '';
+
+  const langKey = LANGUE_KEYS[bilanData.langueVictime] || 'fr';
+
+  return phrase[langKey] || phrase.fr || '';
+}
+  
 function renderBilanField(f) {
   const html = renderBilanFieldInner(f);
   if (f.showIf) {
@@ -5181,20 +5227,31 @@ if (f.type === 'age-display') {
 
    const mapBtn = f.map ? `<button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;margin-left:6px;" data-bodymap-field="${f.key}">🗺️</button>` : '';
 
-    if (f.type === 'text') {
-    const phraseBtnText = f.phrase ? `<button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;margin-left:6px;" onclick="showPhraseModal('${f.phrase}')">🗣️</button>` : '';
-    return `
-      <div class="bilan-field-row">
-        <label>${f.label}${infoBtn}${mapBtn}${phraseBtnText}</label>
+if (f.type === 'text') {
+  const phraseBtnText = f.phrase
+    ? `<button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;margin-left:6px;" onclick="showPhraseModal('${f.phrase}')">🗣️</button>`
+    : '';
 
-        <div class="text-field-wrap ${value ? 'has-value' : ''}">
-          <textarea rows="1" class="bilan-textarea" data-bilan-field="${f.key}">${escapeHtml(value)}</textarea>
-          <button class="text-clear-btn" type="button">✕</button>
-        </div>
-        ${suggestionDiv}
+  const placeholder = getPhraseForField(f);
+
+  return `
+    <div class="bilan-field-row">
+      <label>${f.label}${infoBtn}${mapBtn}${phraseBtnText}</label>
+
+      <div class="text-field-wrap ${value ? 'has-value' : ''}">
+        <textarea
+          rows="1"
+          class="bilan-textarea"
+          data-bilan-field="${f.key}"
+          placeholder="${escapeHtml(placeholder)}"
+        >${escapeHtml(value)}</textarea>
+        <button class="text-clear-btn" type="button">✕</button>
       </div>
-    `;
-  }
+      ${suggestionDiv}
+    </div>
+  `;
+}
+  
  if (f.type === 'date') {
     return `
       <div class="bilan-field-row">
@@ -6601,6 +6658,11 @@ bilanData[key] = bilanData[key] === value ? '' : value;
       saveBilanData();
       refreshChipGroup(container, key);
       updateShowIfFields();
+
+      if (key === 'langueVictime') {
+  updateBilanPhrasePlaceholders();
+}
+      
       if (SUGGESTION_FIELDS.has(key)) updateFieldSuggestion(key);
       if (key === 'avcFace' || key === 'avcArm' || key === 'avcSpeech') updateFieldSuggestion('avcSpeech');
     });
