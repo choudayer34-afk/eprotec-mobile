@@ -3028,9 +3028,9 @@ accueil: [
   { fr: "Que s'est-il passé ?", en: "What happened?", es: "¿Qué pasó?", ar: "ماذا حدث؟" }
   ],
     trois : [
-{ fr: "Décrivez-moi ce qu'il s'est passé.", en: "Please describe what happened.", es: "Descríbame lo que ha pasado.", ar: "صِف لي ما حدث." },
-{ fr: "L'environnement est-il sécurisé ? Personne ne risque de se blesser ?", en: "Is the area safe? Is anyone at risk of getting injured?", es: "¿Es seguro el entorno? ¿Hay alguien que corra el riesgo de hacerse daño?", ar: "هل المكان آمن؟ هل هناك خطر من إصابة أي شخص؟" },
-{ fr: "Pouvez-vous me dire l'adresse exacte où nous sommes ?", en: "Can you tell me the exact address of where we are?", es: "¿Puede decirme la dirección exacta de donde estamos?", ar: "هل يمكنك أن تخبرني بالعنوان الدقيق لمكان وجودنا؟" }
+{key: 'scene', fr: "Décrivez-moi ce qu'il s'est passé.", en: "Please describe what happened.", es: "Descríbame lo que ha pasado.", ar: "صِف لي ما حدث." },
+{key: 'securite', fr: "L'environnement est-il sécurisé ? Personne ne risque de se blesser ?", en: "Is the area safe? Is anyone at risk of getting injured?", es: "¿Es seguro el entorno? ¿Hay alguien que corra el riesgo de hacerse daño?", ar: "هل المكان آمن؟ هل هناك خطر من إصابة أي شخص؟" },
+{ key: 'situation', fr: "Pouvez-vous me dire l'adresse exacte où nous sommes ?", en: "Can you tell me the exact address of where we are?", es: "¿Puede decirme la dirección exacta de donde estamos?", ar: "هل يمكنك أن تخبرني بالعنوان الدقيق لمكان وجودنا؟" }
       ],
     hemorragie : [
 { fr: "Saignez-vous ?", en: "Are you bleeding?", es: "¿Está sangrando?", ar: "هل تنزف؟" },
@@ -4973,9 +4973,9 @@ function formatDateHeureCourte(iso) {
    
   ]},
  { key: 'circonstanciel', label: '🎬 Bilan circonstanciel (3S)', phraseCategory: 'trois', fields: [
-    { key: 'scene', label: 'Scène', type: 'text' },
-    { key: 'securite', label: 'Sécurité', type: 'text' },
-        { key: 'situation', label: 'Situation (lieu)', type: 'geoloc' },
+    { key: 'scene', label: 'Scène', type: 'text', phraseKey: 'scene' },
+    { key: 'securite', label: 'Sécurité', type: 'text', phraseKey: 'securite' },
+        { key: 'situation', label: 'Situation (lieu)', type: 'geoloc', phraseKey: 'situation' },
     {
 key: 'typeProbleme',
 label: 'Type de problème',
