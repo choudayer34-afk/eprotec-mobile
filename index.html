@@ -6831,34 +6831,37 @@ function getTranslationSpeechRecognition() {
   return Recognition ? new Recognition() : null;
 }
 
+  const TRANSLATION_WORKER_URL = 'https://eprotec-translation.choudayer34.workers.dev/translate';
+  
 async function translateTextToFrench(text, sourceLanguage) {
-  if (!text || !text.trim()) return '';
-  const source = TRANSLATION_LANG_CODES[sourceLanguage] || 'fr';
-  if (source === 'fr') return text.trim();
-
-  if (!('Translator' in window)) {
-    throw new Error('La traduction locale n\'est pas disponible dans ce navigateur.');
-  }
-
-  const availability = await Translator.availability({
-    sourceLanguage: source,
-    targetLanguage: 'fr'
-  });
-
-  if (availability === 'unavailable') {
-    throw new Error('La traduction de cette langue n\'est pas disponible dans ce navigateur.');
-  }
-
-  const translator = await Translator.create({
-    sourceLanguage: source,
-    targetLanguage: 'fr'
-  });
-
-  try {
-    return await translator.translate(text.trim());
-  } finally {
-    if (translator && typeof translator.destroy === 'function') translator.destroy();
-  }
+    if (!text || !text.trim()) {
+        return '';
+    }
+    const source =
+        TRANSLATION_LANG_CODES[sourceLanguage] || 'fr';
+    if (source === 'fr') {
+        return text.trim();
+    }
+    const response = await fetch(
+        TRANSLATION_WORKER_URL,
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                text: text.trim(),
+                source
+            })
+        }
+    );
+    const data = await response.json();
+    if (!response.ok) {
+        throw new Error(
+            data.error || 'Erreur de traduction'
+        );
+    }
+    return data.translation;
 }
 
 function showTranslationModal() {
