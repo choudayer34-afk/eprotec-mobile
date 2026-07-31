@@ -10813,6 +10813,41 @@ window.addEventListener('offline', updateOfflineIndicator);
 updateOfflineIndicator();
   
 async function loadData() {
+
+  if (!navigator.onLine) {
+    console.info('[eProtec] Démarrage hors ligne');
+
+    renderParametres();
+
+    const events = await fetchJsonSafe('data/events.json', []);
+    const suggestions = await fetchJsonSafe('data/suggestions.json', []);
+    const status = await fetchJsonSafe('data/status.json', {});
+    const sharedHistory = await fetchJsonSafe('data/registrations-history.json', {});
+
+    allEvents = events;
+    allSuggestions = suggestions;
+    allHistory = sharedHistory;
+
+    events.forEach(e => {
+      e.dejaInscrit = false;
+    });
+
+    renderUpdateStatus(status.lastUpdate);
+    lastEngineUpdate = status.lastUpdate;
+
+    renderUpcomingRegistrations(events);
+    renderTopSuggestion();
+    buildCalendarEvents();
+    renderTypeFilterChips();
+    renderEvenements();
+    renderNouveautesCompletes(events);
+    hideLoadingProgress();
+
+    updateOfflineIndicator();
+    return;
+  }
+
+  
   const totalSteps = 8;
   let step = 0;
   const tick = () => {
@@ -11015,11 +11050,13 @@ new MutationObserver(() => {
   }
 }).observe(document.getElementById('plus-bilan'), { attributes: true, attributeFilter: ['class'] });
 
-  if ('serviceWorker' in navigator) {
+if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').catch((err) => {
-      console.error('Erreur enregistrement Service Worker :', err);
-    });
+    navigator.serviceWorker
+      .register('./sw.js')
+      .catch((err) => {
+        console.warn('Mode offline avancé indisponible :', err);
+      });
   });
 }
 function focusNextBilanField(currentEl) {
