@@ -170,35 +170,32 @@
   width: 100%;
 }
 
-.conseil-suggestion-item {
-  display: flex !important;
-  align-items: flex-start;
-  width: 100%;
-  box-sizing: border-box;
-  gap: 10px;
-  padding: 8px 4px;
-  cursor: pointer;
-  font-size: 14px;
-  line-height: 1.35;
+
+.conseils-suggestions {
+  margin-top: 8px;
 }
 
-.conseil-suggestion-item input[type="checkbox"] {
-  display: block !important;
-  flex: 0 0 auto;
-  width: 20px;
-  height: 20px;
-  min-width: 20px;
-  min-height: 20px;
-  margin: 0;
-  opacity: 1;
-  visibility: visible;
-  appearance: auto;
-  -webkit-appearance: checkbox;
+.conseils-suggestions-title {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
 }
 
-.conseil-suggestion-item span {
-  display: block;
+.conseils-ajout {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.conseils-ajout input {
   flex: 1;
+  min-width: 0;
+}
+
+.conseils-empty {
+  font-size: 13px;
+  opacity: 0.7;
+  padding: 8px 0;
 }
 
 .conseils-empty {
@@ -5773,11 +5770,7 @@ if (f.type === 'age-display') {
 
    const mapBtn = f.map ? `<button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;margin-left:6px;" data-bodymap-field="${f.key}">🗺️</button>` : '';
 
-if (f.type === 'conseils') {
-
-  const phraseBtnText = f.phrase
-    ? `<button class="icon-btn inline-icon-btn" style="width:22px;height:22px;font-size:11px;margin-left:6px;" onclick="showPhraseModal('${f.phrase}')">🗣️</button>`
-    : '';
+  if (f.type === 'conseils') {
 
   const conseilsActuels = String(value || '')
     .split('\n')
@@ -5790,11 +5783,8 @@ if (f.type === 'conseils') {
   return `
     <div class="bilan-field-row conseils-prodigues-field">
 
-      <label>
-        ${f.label}${infoBtn}${mapBtn}${phraseBtnText}
-      </label>
+      <label>${f.label}${infoBtn}${mapBtn}</label>
 
-      <!-- Conteneur TOUJOURS présent -->
       <div
         class="conseils-suggestions"
         data-conseils-container="true"
@@ -5804,46 +5794,53 @@ if (f.type === 'conseils') {
         </div>
 
         <div class="conseils-suggestions-list">
+
           ${
             conseils.length
-              ? conseils.map(conseil => `
-                  <label class="conseil-suggestion-item">
-                    <input
-                      type="checkbox"
-                      ${conseilsActuels.includes(conseil) ? 'checked' : ''}
-                      onchange="toggleConseilProdigue(this)"
+              ? conseils.map(conseil => {
+
+                  const checked = conseilsActuels.includes(conseil);
+
+                  return `
+                    <div
+                      class="ppa-checklist-item conseil-checklist-item"
                       data-conseil="${escapeHtml(conseil)}"
                     >
-                    <span>${escapeHtml(conseil)}</span>
-                  </label>
-                `).join('')
+                      <div class="ppa-checkbox ${checked ? 'checked' : ''}">
+                        ${checked ? '✓' : ''}
+                      </div>
+
+                      <div class="ppa-checklist-label">
+                        ${escapeHtml(conseil)}
+                      </div>
+                    </div>
+                  `;
+
+                }).join('')
               : `
                 <div class="conseils-empty">
                   Sélectionnez un type de problème pour afficher les conseils.
                 </div>
               `
           }
+
         </div>
       </div>
 
-      <!-- Conseils effectivement retenus -->
       <div class="text-field-wrap ${value ? 'has-value' : ''}">
         <textarea
           rows="3"
           class="bilan-textarea"
           data-bilan-field="${f.key}"
           placeholder="Les conseils sélectionnés apparaîtront ici. Vous pouvez aussi les compléter..."
-          oninput="saveConseilsProdiguesFromTextarea(this)"
         >${escapeHtml(value)}</textarea>
 
         <button
           class="text-clear-btn"
           type="button"
-          onclick="clearConseilsProdigues()"
         >✕</button>
       </div>
 
-      <!-- Ajout manuel -->
       <div class="conseils-ajout">
         <input
           type="text"
@@ -5856,7 +5853,7 @@ if (f.type === 'conseils') {
         <button
           type="button"
           class="btn-secondary"
-          onclick="ajouterConseilProdigue()"
+          id="btn-ajouter-conseil-prodigue"
         >
           + Ajouter
         </button>
@@ -5866,6 +5863,149 @@ if (f.type === 'conseils') {
 
     </div>
   `;
+}
+
+  function setupConseilsProdigues(container) {
+
+  container.querySelectorAll('.conseil-checklist-item').forEach(row => {
+
+    row.addEventListener('click', () => {
+
+      const conseil = row.dataset.conseil;
+
+      const textarea = container.querySelector(
+        'textarea[data-bilan-field="conseilsProdigues"]'
+      );
+
+      if (!textarea) return;
+
+      let conseils = textarea.value
+        .split('\n')
+        .map(c => c.trim())
+        .filter(Boolean);
+
+      const index = conseils.indexOf(conseil);
+
+      const checkbox = row.querySelector('.ppa-checkbox');
+
+      if (index >= 0) {
+
+        // Désélection
+        conseils.splice(index, 1);
+
+        checkbox.classList.remove('checked');
+        checkbox.textContent = '';
+
+      } else {
+
+        // Sélection
+        conseils.push(conseil);
+
+        checkbox.classList.add('checked');
+        checkbox.textContent = '✓';
+      }
+
+      textarea.value = conseils.join('\n');
+
+      bilanData.conseilsProdigues = textarea.value;
+
+      textarea.closest('.text-field-wrap')?.classList.toggle(
+        'has-value',
+        !!textarea.value.trim()
+      );
+
+      saveBilanData();
+    });
+  });
+
+
+  const textarea = container.querySelector(
+    'textarea[data-bilan-field="conseilsProdigues"]'
+  );
+
+  if (textarea) {
+
+    textarea.addEventListener('input', () => {
+      bilanData.conseilsProdigues = textarea.value;
+      saveBilanData();
+    });
+
+  }
+
+
+  const clearBtn = container.querySelector(
+    '.conseils-prodigues-field .text-clear-btn'
+  );
+
+  if (clearBtn) {
+
+    clearBtn.addEventListener('click', () => {
+
+      if (textarea) {
+        textarea.value = '';
+        bilanData.conseilsProdigues = '';
+      }
+
+      container
+        .querySelectorAll('.conseil-checklist-item .ppa-checkbox')
+        .forEach(cb => {
+          cb.classList.remove('checked');
+          cb.textContent = '';
+        });
+
+      textarea?.closest('.text-field-wrap')?.classList.remove('has-value');
+
+      saveBilanData();
+    });
+
+  }
+
+
+  const addBtn = container.querySelector(
+    '#btn-ajouter-conseil-prodigue'
+  );
+
+  const addInput = container.querySelector(
+    '#nouveauConseilProdigue'
+  );
+
+  if (addBtn && addInput && textarea) {
+
+    const ajouter = () => {
+
+      const texte = addInput.value.trim();
+
+      if (!texte) return;
+
+      let conseils = textarea.value
+        .split('\n')
+        .map(c => c.trim())
+        .filter(Boolean);
+
+      if (!conseils.includes(texte)) {
+        conseils.push(texte);
+      }
+
+      textarea.value = conseils.join('\n');
+
+      bilanData.conseilsProdigues = textarea.value;
+
+      addInput.value = '';
+
+      textarea.closest('.text-field-wrap')?.classList.add('has-value');
+
+      saveBilanData();
+    };
+
+    addBtn.addEventListener('click', ajouter);
+
+    addInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        ajouter();
+      }
+    });
+  }
 }
   
 if (f.type === 'text') {
@@ -7237,7 +7377,8 @@ input.addEventListener('blur', () => {
   }
 
 requestAnimationFrame(() => {
-    refreshConseilsProdigues();
+  setupConseilsProdigues(container);
+  refreshConseilsProdigues();
 });
   
 container.querySelectorAll('select[data-bilan-field]').forEach(select => {
@@ -7245,10 +7386,6 @@ container.querySelectorAll('select[data-bilan-field]').forEach(select => {
       bilanData[select.dataset.bilanField] = select.value;
       saveBilanData();
 if (select.dataset.bilanField.startsWith('glasgow')) { updateGlasgowTotalDisplay(); updateFieldSuggestion('glasgowM'); }
-if (select.dataset.bilanField === 'typeProbleme') {
-  updateFieldSuggestion('typeProbleme');
-  refreshConseilsProdigues();
-}
 if (select.dataset.bilanField === 'typeProbleme') {
   updateFieldSuggestion('typeProbleme');
   refreshConseilsProdigues();
@@ -7299,25 +7436,40 @@ if (select.dataset.bilanField === 'typeProbleme') {
   if (!list) return;
 
   if (!conseils.length) {
+
     list.innerHTML = `
       <div class="conseils-empty">
         Sélectionnez un type de problème pour afficher les conseils.
       </div>
     `;
+
     return;
   }
 
-  list.innerHTML = conseils.map(conseil => `
-    <label class="conseil-suggestion-item">
-      <input
-        type="checkbox"
-        ${conseilsActuels.includes(conseil) ? 'checked' : ''}
-        onchange="toggleConseilProdigue(this)"
+  list.innerHTML = conseils.map(conseil => {
+
+    const checked = conseilsActuels.includes(conseil);
+
+    return `
+      <div
+        class="ppa-checklist-item conseil-checklist-item"
         data-conseil="${escapeHtml(conseil)}"
       >
-      <span>${escapeHtml(conseil)}</span>
-    </label>
-  `).join('');
+        <div class="ppa-checkbox ${checked ? 'checked' : ''}">
+          ${checked ? '✓' : ''}
+        </div>
+
+        <div class="ppa-checklist-label">
+          ${escapeHtml(conseil)}
+        </div>
+      </div>
+    `;
+
+  }).join('');
+
+  setupConseilsProdigues(
+    container.closest('.bilan-field-row') || document
+  );
 }
   
 container.querySelectorAll('[id^="actions-wrap-"]').forEach(wrap => {
