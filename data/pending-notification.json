@@ -1,22 +1,5 @@
 {
-  "newEvents": [
-    {
-      "tag": "MLA",
-      "titre": "[MLA 34] Log vehicule - RDV VPSP HORTUS",
-      "lieu": "Renault Montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1638657",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-08-05T06:30:00.000Z"
-    },
-    {
-      "tag": "MLA",
-      "titre": "[MLA 34] Log vehicule - RDV VL Caroux",
-      "lieu": "Renault Montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1638658",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-08-05T07:30:00.000Z"
-    }
-  ],
+  "newEvents": [],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
