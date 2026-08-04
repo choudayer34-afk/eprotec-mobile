@@ -1,5 +1,14 @@
 {
-  "newEvents": [],
+  "newEvents": [
+    {
+      "tag": "MLA",
+      "titre": "[MLA 34] Nettoyage Oppidum Interieur / Exterieur",
+      "lieu": "75 Avenue Jean Moulin 34500 Beziers",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1639787",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-08-04T12:00:00.000Z"
+    }
+  ],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
