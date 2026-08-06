@@ -877,6 +877,43 @@
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1628563"
   },
   {
+    "uid": "evt16402811@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] Toro Pisicne",
+    "lieu": "Arenes du Cres",
+    "dateDebut": "2026-08-13T19:00:00.000Z",
+    "dateFin": "2026-08-13T21:00:00.000Z",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1640281'>Lien vers l'activité</a>",
+    "tag": "DPS",
+    "score": 12,
+    "reasons": [
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour : Jeudi (+0)",
+        "category": "neutral"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (8.9 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (21 jours)",
+        "category": "positive"
+      }
+    ],
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1640281"
+  },
+  {
     "uid": "evt16377231@https://eprotec.protection-civile.org",
     "titre": "[DPS 34] Soiree lancement MHR",
     "lieu": "Avenue de Vanieres 34070 Montpellier",
@@ -1011,38 +1048,5 @@
       }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1628927"
-  },
-  {
-    "uid": "evt16345251@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] Martor Puechabon",
-    "lieu": "Place de l'Eglise Puechabon",
-    "dateDebut": "2026-10-31T14:00:00.000Z",
-    "dateFin": "2026-10-31T22:59:00.000Z",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1634525'>Lien vers l'activité</a>",
-    "tag": "DPS",
-    "score": 10,
-    "reasons": [
-      {
-        "text": "Mois sans DPS planifié",
-        "category": "positive"
-      },
-      {
-        "text": "Jour : Samedi (+3)",
-        "category": "positive"
-      },
-      {
-        "text": "DPS long (fatigue)",
-        "category": "negative"
-      },
-      {
-        "text": "Distance raisonnable (28.1 km)",
-        "category": "positive"
-      },
-      {
-        "text": "Espacement confortable (50 jours)",
-        "category": "positive"
-      }
-    ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1634525"
   }
 ]

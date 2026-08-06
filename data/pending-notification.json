@@ -1,5 +1,14 @@
 {
-  "newEvents": [],
+  "newEvents": [
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] Toro Pisicne",
+      "lieu": "Arenes du Cres",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1640281",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-08-13T19:00:00.000Z"
+    }
+  ],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
