@@ -1,5 +1,14 @@
 {
-  "newEvents": [],
+  "newEvents": [
+    {
+      "tag": "FOR",
+      "titre": "[FOR 34] PSC - ELAN gymnastique",
+      "lieu": "277 chemin Pioch Viala",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1640139",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-08-26T07:00:00.000Z"
+    }
+  ],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
