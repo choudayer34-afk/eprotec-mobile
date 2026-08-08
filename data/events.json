@@ -1512,6 +1512,20 @@
     "description": "Repos sur place dans un mobile-home<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1626016'>Lien vers l'activité</a>"
   },
   {
+    "uid": "evt16011311@https://eprotec.protection-civile.org",
+    "tag": "DPS",
+    "titre": "[DPS 34] Enjooy festival",
+    "lieu": "Avenue de Septimanie 34970 Lattes",
+    "dateDebut": "2026-09-19T10:00:00.000Z",
+    "dateFin": "2026-09-20T00:00:00.000Z",
+    "dureeHeures": 14,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1601131",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1601131'>Lien vers l'activité</a>"
+  },
+  {
     "uid": "evt16285391@https://eprotec.protection-civile.org",
     "tag": "DPS",
     "titre": "[DPS 34] MHR - USA Perpignan",
@@ -1538,20 +1552,6 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1626017",
     "description": "Repos sur place dans un mobile-home<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1626017'>Lien vers l'activité</a>"
-  },
-  {
-    "uid": "evt16011311@https://eprotec.protection-civile.org",
-    "tag": "DPS",
-    "titre": "[DPS 34] Enjooy festival",
-    "lieu": "Avenue de Septimanie 34970 Lattes",
-    "dateDebut": "2026-09-19T10:00:00.000Z",
-    "dateFin": "2026-09-20T00:00:00.000Z",
-    "dureeHeures": 14,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1601131",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1601131'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt15219951@https://eprotec.protection-civile.org",
@@ -2422,20 +2422,6 @@
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1522008'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt16289281@https://eprotec.protection-civile.org",
-    "tag": "DPS",
-    "titre": "[DPS 34] Montpell'at",
-    "lieu": "Domaine Municipal de Veyrassi, Montpellier",
-    "dateDebut": "2026-10-18T07:00:00.000Z",
-    "dateFin": "2026-10-18T14:30:00.000Z",
-    "dureeHeures": 7.5,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1628928",
-    "description": "Competition de Softball<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628928'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt15874992@https://eprotec.protection-civile.org",
     "tag": "FOR",
     "titre": "[FOR 34] FORCO FF EPN partie 2/4",
@@ -2448,6 +2434,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1587499",
     "description": "Montpellier le 10 Perpignan le 18 Bayonne le 01/11 Bordeaux le 15/11<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1587499'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16289281@https://eprotec.protection-civile.org",
+    "tag": "DPS",
+    "titre": "[DPS 34] Montpell'at",
+    "lieu": "Domaine Municipal de Veyrassi, Montpellier",
+    "dateDebut": "2026-10-18T07:00:00.000Z",
+    "dateFin": "2026-10-18T14:30:00.000Z",
+    "dureeHeures": 7.5,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1628928",
+    "description": "Competition de Softball<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628928'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16257831@https://eprotec.protection-civile.org",
