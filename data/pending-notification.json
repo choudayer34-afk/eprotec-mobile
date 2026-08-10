@@ -1,14 +1,5 @@
 {
-  "newEvents": [
-    {
-      "tag": "MLA",
-      "titre": "[MLA 34] Depose VTU Navacelles au garage pour peinture",
-      "lieu": "Lignan sur Orb",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1641715",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-08-24T07:00:00.000Z"
-    }
-  ],
+  "newEvents": [],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
