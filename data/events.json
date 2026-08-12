@@ -532,20 +532,6 @@
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1521985'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt16204651@https://eprotec.protection-civile.org",
-    "tag": "DPS",
-    "titre": "[DPS 34] Festival InvitationS",
-    "lieu": "Place des Ecoles 34710 Lespignan",
-    "dateDebut": "2026-08-23T15:00:00.000Z",
-    "dateFin": "2026-08-23T19:00:00.000Z",
-    "dureeHeures": 4,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1620465",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1620465'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt16279231@https://eprotec.protection-civile.org",
     "tag": "DPS",
     "titre": "[DPS 34] Fete de Lattes",
@@ -558,6 +544,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1627923",
     "description": "Stand de prev 2 IS + 4IS<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627923'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16204651@https://eprotec.protection-civile.org",
+    "tag": "DPS",
+    "titre": "[DPS 34] Festival InvitationS",
+    "lieu": "Place des Ecoles 34710 Lespignan",
+    "dateDebut": "2026-08-23T15:00:00.000Z",
+    "dateFin": "2026-08-23T19:00:00.000Z",
+    "dureeHeures": 4,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1620465",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1620465'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16334771@https://eprotec.protection-civile.org",
@@ -826,20 +826,6 @@
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1609274'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt16204761@https://eprotec.protection-civile.org",
-    "tag": "DPS",
-    "titre": "[DPS 34] Festival InvitationS",
-    "lieu": "Domaine de Soustre 34310 Montady",
-    "dateDebut": "2026-08-30T15:00:00.000Z",
-    "dateFin": "2026-08-30T19:00:00.000Z",
-    "dureeHeures": 4,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1620476",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1620476'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt15361581@https://eprotec.protection-civile.org",
     "tag": "DPS",
     "titre": "[DPS 34] Nature Run de Bourbaki",
@@ -852,6 +838,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1536158",
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1536158'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16204761@https://eprotec.protection-civile.org",
+    "tag": "DPS",
+    "titre": "[DPS 34] Festival InvitationS",
+    "lieu": "Domaine de Soustre 34310 Montady",
+    "dateDebut": "2026-08-30T15:00:00.000Z",
+    "dateFin": "2026-08-30T19:00:00.000Z",
+    "dureeHeures": 4,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1620476",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1620476'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt15219321@https://eprotec.protection-civile.org",
@@ -3080,20 +3080,6 @@
     "description": "Prerequis : avoir la PICF, pour devenir formateur PSC Des deplacements peuvent etre organises : si vous venez de Beziers vers Montpellier, ou de Montpellier vers Beziers, un depart groupe peut etre mis en place. En cas d'absence, merci de prevenir le plus tot possible. Pour toute question : formation@protection-civile-herault.org <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1521943'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt15219883@https://eprotec.protection-civile.org",
-    "tag": "FOR",
-    "titre": "[FOR 34] {Benevole} -  Formation PSE2 partie 3/4",
-    "lieu": "Centre de formation de Montpellier",
-    "dateDebut": "2026-11-23T07:00:00.000Z",
-    "dateFin": "2026-11-23T16:00:00.000Z",
-    "dureeHeures": 9,
-    "dejaInscrit": true,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1521988",
-    "description": "Formation pour devenir equipier secouriste PSE2 Des deplacements peuvent etre organises : si vous venez de Beziers vers Montpellier, ou de Montpellier vers Beziers, un depart groupe peut etre mis en place. En cas d'absence, merci de prevenir le plus tot possible. Pre-requis : etre PSE1 Pour toute question : formation@protection-civile-herault.org Contrat de formation : 80h - 300 euros.<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1521988'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt16138321@https://eprotec.protection-civile.org",
     "tag": "FOR",
     "titre": "[FOR 34] ACIM SST - S0250 partie 1/2",
@@ -3106,6 +3092,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1613832",
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1613832'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt15219883@https://eprotec.protection-civile.org",
+    "tag": "FOR",
+    "titre": "[FOR 34] {Benevole} -  Formation PSE2 partie 3/4",
+    "lieu": "Centre de formation de Montpellier",
+    "dateDebut": "2026-11-23T07:00:00.000Z",
+    "dateFin": "2026-11-23T16:00:00.000Z",
+    "dureeHeures": 9,
+    "dejaInscrit": true,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1521988",
+    "description": "Formation pour devenir equipier secouriste PSE2 Des deplacements peuvent etre organises : si vous venez de Beziers vers Montpellier, ou de Montpellier vers Beziers, un depart groupe peut etre mis en place. En cas d'absence, merci de prevenir le plus tot possible. Pre-requis : etre PSE1 Pour toute question : formation@protection-civile-herault.org Contrat de formation : 80h - 300 euros.<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1521988'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt15219433@https://eprotec.protection-civile.org",
