@@ -1,14 +1,5 @@
 {
-  "newEvents": [
-    {
-      "tag": "AUTRE",
-      "titre": "[COM 34] BRICO DEPOT",
-      "lieu": "LATTES",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1643124",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-08-13T08:00:00.000Z"
-    }
-  ],
+  "newEvents": [],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
