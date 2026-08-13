@@ -1,5 +1,22 @@
 {
-  "newEvents": [],
+  "newEvents": [
+    {
+      "tag": "AUTRE",
+      "titre": "[REU 34] Reu GT Sante Populations",
+      "lieu": "Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1642963",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-08-27T09:00:00.000Z"
+    },
+    {
+      "tag": "AUTRE",
+      "titre": "[REU 34] Reu GT Organisations",
+      "lieu": "Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1642966",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-09-17T07:00:00.000Z"
+    }
+  ],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
