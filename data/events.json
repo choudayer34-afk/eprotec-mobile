@@ -140,20 +140,6 @@
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1609269'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt15588731@https://eprotec.protection-civile.org",
-    "tag": "DPS",
-    "titre": "[DPS 34] Fete du Cres",
-    "lieu": "Mas du pont, Le Cres",
-    "dateDebut": "2026-08-15T07:30:00.000Z",
-    "dateFin": "2026-08-15T11:30:00.000Z",
-    "dureeHeures": 4,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1558873",
-    "description": "9h30-11h45 : Dejeuner au pres Mas du pont Manade Vellas 12h30-13h30 : 2 vaches 1 veau Arenes <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1558873'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt16288121@https://eprotec.protection-civile.org",
     "tag": "DPS",
     "titre": "[DPS 34] Animations - Feria de Beziers",
@@ -166,6 +152,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1628812",
     "description": "Animations taurines, beer challenge sur les allees, bodega des pitchoun plateau des poetes. Contact Bodga : Matthieu Vidal 0786145070. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628812'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt15588731@https://eprotec.protection-civile.org",
+    "tag": "DPS",
+    "titre": "[DPS 34] Fete du Cres",
+    "lieu": "Mas du pont, Le Cres",
+    "dateDebut": "2026-08-15T07:30:00.000Z",
+    "dateFin": "2026-08-15T11:30:00.000Z",
+    "dureeHeures": 4,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1558873",
+    "description": "9h30-11h45 : Dejeuner au pres Mas du pont Manade Vellas 12h30-13h30 : 2 vaches 1 veau Arenes <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1558873'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16287081@https://eprotec.protection-civile.org",
@@ -210,20 +210,6 @@
     "description": "18h-20h Toro Piscine Arenes 20h30-21h30 : Bandidos rue des aiguerelles  21h30-1h : bal - Hotel de ville<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1558868'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt15588751@https://eprotec.protection-civile.org",
-    "tag": "DPS",
-    "titre": "[DPS 34] Fete du Cres",
-    "lieu": "Rue des Aiguerelles 34920 Le Cres",
-    "dateDebut": "2026-08-16T09:00:00.000Z",
-    "dateFin": "2026-08-16T11:30:00.000Z",
-    "dureeHeures": 2.5,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1558875",
-    "description": "11h-12h : Roussatiao / abrevado longue CHATEAU D'EAU , TRAMONTANE, AIGUERELLES, ROSIERS ET ROBERT 12h30-13h30 : 2 vaches 1 veau Arenes <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1558875'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt16288141@https://eprotec.protection-civile.org",
     "tag": "DPS",
     "titre": "[DPS 34] Animations - Feria de Beziers",
@@ -236,6 +222,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1628814",
     "description": "Animations taurines, lancee de tong sur les allees course de caisses a savon, bodega des pitchoun plateau des poetes. Contact Bodga : Matthieu Vidal 0786145070. Contact Caisse a Savon Nelly Canut : 0786840661<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628814'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt15588751@https://eprotec.protection-civile.org",
+    "tag": "DPS",
+    "titre": "[DPS 34] Fete du Cres",
+    "lieu": "Rue des Aiguerelles 34920 Le Cres",
+    "dateDebut": "2026-08-16T09:00:00.000Z",
+    "dateFin": "2026-08-16T11:30:00.000Z",
+    "dureeHeures": 2.5,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1558875",
+    "description": "11h-12h : Roussatiao / abrevado longue CHATEAU D'EAU , TRAMONTANE, AIGUERELLES, ROSIERS ET ROBERT 12h30-13h30 : 2 vaches 1 veau Arenes <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1558875'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16287191@https://eprotec.protection-civile.org",
@@ -700,20 +700,6 @@
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1593472'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt16204671@https://eprotec.protection-civile.org",
-    "tag": "DPS",
-    "titre": "[DPS 34] Festival InvitationS",
-    "lieu": "Place Emile Barthe 34440 Nissan-lez-Enserune",
-    "dateDebut": "2026-08-28T16:30:00.000Z",
-    "dateFin": "2026-08-28T21:30:00.000Z",
-    "dureeHeures": 5,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1620467",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1620467'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt16348321@https://eprotec.protection-civile.org",
     "tag": "AUTRE",
     "titre": "[CER 34] Ceremonie depart du Controleur General Flores",
@@ -726,6 +712,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1634832",
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1634832'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16204671@https://eprotec.protection-civile.org",
+    "tag": "DPS",
+    "titre": "[DPS 34] Festival InvitationS",
+    "lieu": "Place Emile Barthe 34440 Nissan-lez-Enserune",
+    "dateDebut": "2026-08-28T16:30:00.000Z",
+    "dateFin": "2026-08-28T21:30:00.000Z",
+    "dureeHeures": 5,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1620467",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1620467'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16274921@https://eprotec.protection-civile.org",
