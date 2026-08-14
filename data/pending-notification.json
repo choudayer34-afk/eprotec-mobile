@@ -1,5 +1,14 @@
 {
-  "newEvents": [],
+  "newEvents": [
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] Test ARGOS Fete du Cres",
+      "lieu": "Rue de la Monnaie 34920 Le Cres",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1643588",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-08-14T16:30:00.000Z"
+    }
+  ],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
