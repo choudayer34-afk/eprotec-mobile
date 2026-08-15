@@ -1,5 +1,14 @@
 {
-  "newEvents": [],
+  "newEvents": [
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] TEST NE PAS UTILISER",
+      "lieu": "16 Boulevard Marechal Joffre 34250 Palavas-les-Flots",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1643785",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-08-15T16:00:00.000Z"
+    }
+  ],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
