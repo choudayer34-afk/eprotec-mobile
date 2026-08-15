@@ -1,19 +1,5 @@
 [
   {
-    "uid": "evt16287071@https://eprotec.protection-civile.org",
-    "tag": "AUTRE",
-    "titre": "[GAR 34] Garde pompier - Hors feria",
-    "lieu": "Local de Beziers",
-    "dateDebut": "2026-08-14T17:00:00.000Z",
-    "dateFin": "2026-08-15T05:00:00.000Z",
-    "dureeHeures": 12,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1628707",
-    "description": "- Inscription ouverte : validation finale entre 7 et 10j avant du personnel  - 3 PSE2  (dont un CEPS) + 1 PSE 1/2 - Pas de stagiaire - Mineur interdit - Si depart de Montpellier : RDV 17h15 au local sauf info contraire - Beziers : directement sur place a 18h30 <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628707'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt16287171@https://eprotec.protection-civile.org",
     "tag": "AUTRE",
     "titre": "[GAR 34] Dispositif pompier - FERIA 2026",
@@ -54,6 +40,20 @@
     "nouveauDepuis": "2026-08-14T17:01:13.637Z",
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1643588",
     "description": "18h30 - 20h Festival de Bandidos 2 manades - Rue de la monnaie 20h-1h soiree bodega - Arenes<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1643588'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16287071@https://eprotec.protection-civile.org",
+    "tag": "AUTRE",
+    "titre": "[GAR 34] Garde pompier - Hors feria",
+    "lieu": "Local de Beziers",
+    "dateDebut": "2026-08-14T17:00:00.000Z",
+    "dateFin": "2026-08-15T05:00:00.000Z",
+    "dureeHeures": 12,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1628707",
+    "description": "- Inscription ouverte : validation finale entre 7 et 10j avant du personnel  - 3 PSE2  (dont un CEPS) + 1 PSE 1/2 - Pas de stagiaire - Mineur interdit - Si depart de Montpellier : RDV 17h15 au local sauf info contraire - Beziers : directement sur place a 18h30 <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628707'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16092691@https://eprotec.protection-civile.org",
@@ -238,20 +238,6 @@
     "description": "18h30-20h00 : Bandidos rue de la monnaie 20h-23h30 : bal - Hotel de ville + 21h-23h => toro pisicne arenes 23h30-00h30 : Bandidos rue des aiguerelles <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1558871'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt15588721@https://eprotec.protection-civile.org",
-    "tag": "DPS",
-    "titre": "[DPS 34] Fete du Cres",
-    "lieu": "Rue de la Monnaie 34920 Le Cres",
-    "dateDebut": "2026-08-18T15:30:00.000Z",
-    "dateFin": "2026-08-18T23:00:00.000Z",
-    "dureeHeures": 7.5,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1558872",
-    "description": "17h30-19h30 Toro Piscine Arenes 20h30-21h30 : Bandidos rue des aiguerelles  21h30-1h : bal - Hotel de ville<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1558872'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt15588771@https://eprotec.protection-civile.org",
     "tag": "DPS",
     "titre": "[DPS 34] Fete du Cres",
@@ -278,6 +264,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1521989",
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1521989'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt15588721@https://eprotec.protection-civile.org",
+    "tag": "DPS",
+    "titre": "[DPS 34] Fete du Cres",
+    "lieu": "Rue de la Monnaie 34920 Le Cres",
+    "dateDebut": "2026-08-18T15:30:00.000Z",
+    "dateFin": "2026-08-18T23:00:00.000Z",
+    "dureeHeures": 7.5,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1558872",
+    "description": "17h30-19h30 Toro Piscine Arenes 20h30-21h30 : Bandidos rue des aiguerelles  21h30-1h : bal - Hotel de ville<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1558872'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16402821@https://eprotec.protection-civile.org",
@@ -336,20 +336,6 @@
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1521984'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt16204631@https://eprotec.protection-civile.org",
-    "tag": "DPS",
-    "titre": "[DPS 34] Festival InvitationS",
-    "lieu": "Rue des Lavoirs 34350 Vendres",
-    "dateDebut": "2026-08-21T16:30:00.000Z",
-    "dateFin": "2026-08-21T21:30:00.000Z",
-    "dureeHeures": 5,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1620463",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1620463'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt15899351@https://eprotec.protection-civile.org",
     "tag": "DPS",
     "titre": "[DPS 34] Fete de Lattes",
@@ -376,6 +362,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1620458",
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1620458'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16204631@https://eprotec.protection-civile.org",
+    "tag": "DPS",
+    "titre": "[DPS 34] Festival InvitationS",
+    "lieu": "Rue des Lavoirs 34350 Vendres",
+    "dateDebut": "2026-08-21T16:30:00.000Z",
+    "dateFin": "2026-08-21T21:30:00.000Z",
+    "dureeHeures": 5,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1620463",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1620463'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt15219851@https://eprotec.protection-civile.org",
@@ -546,20 +546,6 @@
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1637723'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt15934731@https://eprotec.protection-civile.org",
-    "tag": "AUTRE",
-    "titre": "[REU 34] Session de recrutement MTP",
-    "lieu": "Local formation MTP",
-    "dateDebut": "2026-08-26T17:00:00.000Z",
-    "dateFin": "2026-08-26T19:00:00.000Z",
-    "dureeHeures": 2,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1593473",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1593473'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt15943081@https://eprotec.protection-civile.org",
     "tag": "MAN",
     "titre": "[MAN 34] Rassemblement Mensuel - MTP 14 -2026 -Bilan et detresse",
@@ -602,18 +588,18 @@
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1634916'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt16349162@https://eprotec.protection-civile.org",
-    "tag": "FOR",
-    "titre": "[FOR 34] IPS Enfants - Grand public com' partie 2/3",
-    "lieu": "Centre de formation de Beziers",
-    "dateDebut": "2026-08-27T08:00:00.000Z",
-    "dateFin": "2026-08-27T09:30:00.000Z",
-    "dureeHeures": 1.5,
+    "uid": "evt15934731@https://eprotec.protection-civile.org",
+    "tag": "AUTRE",
+    "titre": "[REU 34] Session de recrutement MTP",
+    "lieu": "Local formation MTP",
+    "dateDebut": "2026-08-26T17:00:00.000Z",
+    "dateFin": "2026-08-26T19:00:00.000Z",
+    "dureeHeures": 2,
     "dejaInscrit": false,
     "nouveau": false,
     "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1634916",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1634916'>Lien vers l'activité</a>"
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1593473",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1593473'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16349163@https://eprotec.protection-civile.org",
@@ -656,6 +642,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1593472",
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1593472'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16349162@https://eprotec.protection-civile.org",
+    "tag": "FOR",
+    "titre": "[FOR 34] IPS Enfants - Grand public com' partie 2/3",
+    "lieu": "Centre de formation de Beziers",
+    "dateDebut": "2026-08-27T08:00:00.000Z",
+    "dateFin": "2026-08-27T09:30:00.000Z",
+    "dureeHeures": 1.5,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1634916",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1634916'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16204671@https://eprotec.protection-civile.org",
@@ -826,20 +826,6 @@
     "description": "9 initiateurs/Formateurs <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627757'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt16278921@https://eprotec.protection-civile.org",
-    "tag": "MLA",
-    "titre": "[MLA 34] Rentree Logistique  Grand nettoyage & remise en etat",
-    "lieu": "Centre de formation de Montpellier",
-    "dateDebut": "2026-09-01T16:00:00.000Z",
-    "dateFin": "2026-09-01T19:00:00.000Z",
-    "dureeHeures": 3,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1627892",
-    "description": "C'est la rentree ! &#127881; Cette soiree est ouverte a toutes et tous, meme sans competence technique.  Au programme : &#129532; Nettoyage complet du centre de formation &#128230; Nettoyage, rangement et verification du materiel de formation &#128736;&#65039; Petites remises en etat si necessaire &#9749; Moment convivial pour bien demarrer la rentree  Plus nous serons nombreux, plus ce sera rapide ! Venez donner un coup de main pour preparer le materiel et les locaux avant la reprise des formations.<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627892'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt15219961@https://eprotec.protection-civile.org",
     "tag": "FOR",
     "titre": "[FOR 34] Formation PSC",
@@ -852,6 +838,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1521996",
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1521996'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16278921@https://eprotec.protection-civile.org",
+    "tag": "MLA",
+    "titre": "[MLA 34] Rentree Logistique  Grand nettoyage & remise en etat",
+    "lieu": "Centre de formation de Montpellier",
+    "dateDebut": "2026-09-01T16:00:00.000Z",
+    "dateFin": "2026-09-01T19:00:00.000Z",
+    "dureeHeures": 3,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1627892",
+    "description": "C'est la rentree ! &#127881; Cette soiree est ouverte a toutes et tous, meme sans competence technique.  Au programme : &#129532; Nettoyage complet du centre de formation &#128230; Nettoyage, rangement et verification du materiel de formation &#128736;&#65039; Petites remises en etat si necessaire &#9749; Moment convivial pour bien demarrer la rentree  Plus nous serons nombreux, plus ce sera rapide ! Venez donner un coup de main pour preparer le materiel et les locaux avant la reprise des formations.<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627892'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16278931@https://eprotec.protection-civile.org",
@@ -980,20 +980,6 @@
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1521990'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt16226201@https://eprotec.protection-civile.org",
-    "tag": "AUTRE",
-    "titre": "[COM 34] Forum des association de Lattes",
-    "lieu": "Lattes",
-    "dateDebut": "2026-09-06T07:00:00.000Z",
-    "dateFin": "2026-09-06T11:30:00.000Z",
-    "dureeHeures": 4.5,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1622620",
-    "description": "Forum annuel des associations, stand communication<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1622620'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt16204781@https://eprotec.protection-civile.org",
     "tag": "DPS",
     "titre": "[DPS 34] Festival InvitationS",
@@ -1020,6 +1006,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1619191",
     "description": "Forum annuel des associations, stand communication<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1619191'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16226201@https://eprotec.protection-civile.org",
+    "tag": "AUTRE",
+    "titre": "[COM 34] Forum des association de Lattes",
+    "lieu": "Lattes",
+    "dateDebut": "2026-09-06T07:00:00.000Z",
+    "dateFin": "2026-09-06T11:30:00.000Z",
+    "dureeHeures": 4.5,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1622620",
+    "description": "Forum annuel des associations, stand communication<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1622620'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16313411@https://eprotec.protection-civile.org",
@@ -1288,20 +1288,6 @@
     "description": "Nous intervenons chez un imprimeur pour former au total 300 salaries. OUVERT A TOUS LES BENEVOLES Theme premier secours, tout les benevoles recevront une info de comment cela se passe. 2 journee et 2 soirees dans les ateliers. Un beau projet, il nous faut un maximum de monde. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1635639'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt16356393@https://eprotec.protection-civile.org",
-    "tag": "FOR",
-    "titre": "[FOR 34] Stand premiers secours EXAPRINT partie 3/4",
-    "lieu": "Exaprint Mauguio",
-    "dateDebut": "2026-09-17T07:00:00.000Z",
-    "dateFin": "2026-09-17T14:30:00.000Z",
-    "dureeHeures": 7.5,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1635639",
-    "description": "Nous intervenons chez un imprimeur pour former au total 300 salaries. OUVERT A TOUS LES BENEVOLES Theme premier secours, tout les benevoles recevront une info de comment cela se passe. 2 journee et 2 soirees dans les ateliers. Un beau projet, il nous faut un maximum de monde. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1635639'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt16356394@https://eprotec.protection-civile.org",
     "tag": "FOR",
     "titre": "[FOR 34] Stand premiers secours EXAPRINT partie 4/4",
@@ -1342,6 +1328,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1521993",
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1521993'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16356393@https://eprotec.protection-civile.org",
+    "tag": "FOR",
+    "titre": "[FOR 34] Stand premiers secours EXAPRINT partie 3/4",
+    "lieu": "Exaprint Mauguio",
+    "dateDebut": "2026-09-17T07:00:00.000Z",
+    "dateFin": "2026-09-17T14:30:00.000Z",
+    "dureeHeures": 7.5,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1635639",
+    "description": "Nous intervenons chez un imprimeur pour former au total 300 salaries. OUVERT A TOUS LES BENEVOLES Theme premier secours, tout les benevoles recevront une info de comment cela se passe. 2 journee et 2 soirees dans les ateliers. Un beau projet, il nous faut un maximum de monde. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1635639'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16260161@https://eprotec.protection-civile.org",
@@ -1456,20 +1456,6 @@
     "description": "Depot CEVH TaM<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1634518'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt16270951@https://eprotec.protection-civile.org",
-    "tag": "AUTRE",
-    "titre": "[REU 34] Session de recrutement Beziers partie 1/2",
-    "lieu": "Local FO Beziers",
-    "dateDebut": "2026-09-21T17:00:00.000Z",
-    "dateFin": "2026-09-21T18:00:00.000Z",
-    "dureeHeures": 1,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1627095",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627095'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt16191851@https://eprotec.protection-civile.org",
     "tag": "FOR",
     "titre": "[FOR 34] GQS - CEREMA",
@@ -1482,6 +1468,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1619185",
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1619185'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16270951@https://eprotec.protection-civile.org",
+    "tag": "AUTRE",
+    "titre": "[REU 34] Session de recrutement Beziers partie 1/2",
+    "lieu": "Local FO Beziers",
+    "dateDebut": "2026-09-21T17:00:00.000Z",
+    "dateFin": "2026-09-21T18:00:00.000Z",
+    "dureeHeures": 1,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1627095",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627095'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16037491@https://eprotec.protection-civile.org",
@@ -1582,20 +1582,6 @@
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628910'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt16289111@https://eprotec.protection-civile.org",
-    "tag": "DPS",
-    "titre": "[DPS 34] Soiree Five Star",
-    "lieu": "Rue Saint-Louis, 34280 La Grande-Motte",
-    "dateDebut": "2026-09-26T17:00:00.000Z",
-    "dateFin": "2026-09-27T00:00:00.000Z",
-    "dureeHeures": 7,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1628911",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628911'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt16336861@https://eprotec.protection-civile.org",
     "tag": "AUTRE",
     "titre": "[COM 34] Journee communication et collectes",
@@ -1622,6 +1608,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1609243",
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1609243'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16289111@https://eprotec.protection-civile.org",
+    "tag": "DPS",
+    "titre": "[DPS 34] Soiree Five Star",
+    "lieu": "Rue Saint-Louis, 34280 La Grande-Motte",
+    "dateDebut": "2026-09-26T17:00:00.000Z",
+    "dateFin": "2026-09-27T00:00:00.000Z",
+    "dureeHeures": 7,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1628911",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628911'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt15684841@https://eprotec.protection-civile.org",
@@ -1652,20 +1652,6 @@
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1634516'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt15219941@https://eprotec.protection-civile.org",
-    "tag": "FOR",
-    "titre": "[FOR 34] Formation PSC",
-    "lieu": "Centre de formation de Beziers",
-    "dateDebut": "2026-09-28T06:30:00.000Z",
-    "dateFin": "2026-09-28T15:30:00.000Z",
-    "dureeHeures": 9,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1521994",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1521994'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt16270922@https://eprotec.protection-civile.org",
     "tag": "AUTRE",
     "titre": "[REU 34] Session de recrutement MTP partie 2/2",
@@ -1678,6 +1664,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1627092",
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627092'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt15219941@https://eprotec.protection-civile.org",
+    "tag": "FOR",
+    "titre": "[FOR 34] Formation PSC",
+    "lieu": "Centre de formation de Beziers",
+    "dateDebut": "2026-09-28T06:30:00.000Z",
+    "dateFin": "2026-09-28T15:30:00.000Z",
+    "dureeHeures": 9,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1521994",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1521994'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16356401@https://eprotec.protection-civile.org",
@@ -1834,20 +1834,6 @@
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1570531'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt16258361@https://eprotec.protection-civile.org",
-    "tag": "AUTRE",
-    "titre": "[REU 34] Monthly Formation {Formateurs} No8-2026 Octobre",
-    "lieu": "Presentiel et Visio",
-    "dateDebut": "2026-10-05T18:00:00.000Z",
-    "dateFin": "2026-10-05T18:30:00.000Z",
-    "dureeHeures": 0.5,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1625836",
-    "description": "Monthly' Formation, c'est notre nouveau rendez-vous regulier entre formateurs, tous les mois. L'objectif ? Prendre un temps pour echanger, partager les nouveautes, remonter les infos du terrain, et s'inspirer mutuellement des bonnes pratiques.  Un format simple, efficace, et convivial pour : - suivre l'evolution des outils et des consignes pedagogiques, - poser ses questions, proposer ses idees, -valoriser ce qui fonctionne bien dans vos formations, et garder le lien au sein de l'equipe pedagogique. -  connaitre les chiffres de la formation &#128205; Ce temps est ouvert a tous les formateurs actifs (PSC, SST, GQS, PSE, etc.). Il ne s'agit pas d'une reunion descendante, mais bien d'un temps d'echange collectif, pour continuer a progresser ensemble. Chacun participe en fonction.<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1625836'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt15835961@https://eprotec.protection-civile.org",
     "tag": "FOR",
     "titre": "[FOR 34] ACIM F1544 renomme 1550- PSC",
@@ -1860,6 +1846,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1583596",
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1583596'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16258361@https://eprotec.protection-civile.org",
+    "tag": "AUTRE",
+    "titre": "[REU 34] Monthly Formation {Formateurs} No8-2026 Octobre",
+    "lieu": "Presentiel et Visio",
+    "dateDebut": "2026-10-05T18:00:00.000Z",
+    "dateFin": "2026-10-05T18:30:00.000Z",
+    "dureeHeures": 0.5,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1625836",
+    "description": "Monthly' Formation, c'est notre nouveau rendez-vous regulier entre formateurs, tous les mois. L'objectif ? Prendre un temps pour echanger, partager les nouveautes, remonter les infos du terrain, et s'inspirer mutuellement des bonnes pratiques.  Un format simple, efficace, et convivial pour : - suivre l'evolution des outils et des consignes pedagogiques, - poser ses questions, proposer ses idees, -valoriser ce qui fonctionne bien dans vos formations, et garder le lien au sein de l'equipe pedagogique. -  connaitre les chiffres de la formation &#128205; Ce temps est ouvert a tous les formateurs actifs (PSC, SST, GQS, PSE, etc.). Il ne s'agit pas d'une reunion descendante, mais bien d'un temps d'echange collectif, pour continuer a progresser ensemble. Chacun participe en fonction.<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1625836'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt15943121@https://eprotec.protection-civile.org",
@@ -2002,20 +2002,6 @@
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1522012'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt15220061@https://eprotec.protection-civile.org",
-    "tag": "FOR",
-    "titre": "[FOR 34] Formation PSC",
-    "lieu": "Centre de formation de Beziers",
-    "dateDebut": "2026-10-10T06:30:00.000Z",
-    "dateFin": "2026-10-10T15:30:00.000Z",
-    "dureeHeures": 9,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1522006",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1522006'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt15874991@https://eprotec.protection-civile.org",
     "tag": "FOR",
     "titre": "[FOR 34] FORCO FF EPN partie 1/4",
@@ -2044,6 +2030,20 @@
     "description": "Formation pour devenir secouriste PSE1. Des deplacements peuvent etre organises : si vous venez de Beziers vers Montpellier, ou de Montpellier vers Beziers, un depart groupe peut etre mis en place. En cas d'absence, merci de prevenir le plus tot possible. Les ateliers sont ouverts a toutes et a tous, sans prerequis. Pour toute question : formation@protection-civile-herault.org Contrat de formation : 80h - 300 euros. Il est conseille de faire des postes en tant que stagiaire.<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1521973'>Lien vers l'activité</a>"
   },
   {
+    "uid": "evt16092441@https://eprotec.protection-civile.org",
+    "tag": "FOR",
+    "titre": "[FOR 34] SCN - Secours canin",
+    "lieu": "Centre de Formation Beziers",
+    "dateDebut": "2026-10-10T06:00:00.000Z",
+    "dateFin": "2026-10-10T15:30:00.000Z",
+    "dureeHeures": 9.5,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1609244",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1609244'>Lien vers l'activité</a>"
+  },
+  {
     "uid": "evt16257821@https://eprotec.protection-civile.org",
     "tag": "FOR",
     "titre": "[FOR 34] FC FF PAE PS",
@@ -2058,18 +2058,18 @@
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1625782'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt16092441@https://eprotec.protection-civile.org",
+    "uid": "evt15220061@https://eprotec.protection-civile.org",
     "tag": "FOR",
-    "titre": "[FOR 34] SCN - Secours canin",
-    "lieu": "Centre de Formation Beziers",
-    "dateDebut": "2026-10-10T06:00:00.000Z",
+    "titre": "[FOR 34] Formation PSC",
+    "lieu": "Centre de formation de Beziers",
+    "dateDebut": "2026-10-10T06:30:00.000Z",
     "dateFin": "2026-10-10T15:30:00.000Z",
-    "dureeHeures": 9.5,
+    "dureeHeures": 9,
     "dejaInscrit": false,
     "nouveau": false,
     "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1609244",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1609244'>Lien vers l'activité</a>"
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1522006",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1522006'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt15219732@https://eprotec.protection-civile.org",
@@ -2170,20 +2170,6 @@
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1522007'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt16014721@https://eprotec.protection-civile.org",
-    "tag": "FOR",
-    "titre": "[FOR 34] PSC - VYV Beziers",
-    "lieu": "182 rue Augustin Jean Fresnel  34537 BEZIERS CEDE",
-    "dateDebut": "2026-10-15T07:00:00.000Z",
-    "dateFin": "2026-10-15T15:00:00.000Z",
-    "dureeHeures": 8,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1601472",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1601472'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt15220141@https://eprotec.protection-civile.org",
     "tag": "FOR",
     "titre": "[FOR 34] Formation PSC",
@@ -2196,6 +2182,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1522014",
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1522014'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16014721@https://eprotec.protection-civile.org",
+    "tag": "FOR",
+    "titre": "[FOR 34] PSC - VYV Beziers",
+    "lieu": "182 rue Augustin Jean Fresnel  34537 BEZIERS CEDE",
+    "dateDebut": "2026-10-15T07:00:00.000Z",
+    "dateFin": "2026-10-15T15:00:00.000Z",
+    "dureeHeures": 8,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1601472",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1601472'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16381511@https://eprotec.protection-civile.org",
@@ -2212,20 +2212,6 @@
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1638151'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt16381521@https://eprotec.protection-civile.org",
-    "tag": "DPS",
-    "titre": "[DPS 34] ALMA CERSIUS",
-    "lieu": "Boulevard des Alizes 34420 Cers",
-    "dateDebut": "2026-10-16T15:00:00.000Z",
-    "dateFin": "2026-10-16T21:59:00.000Z",
-    "dureeHeures": 7,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1638152",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1638152'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt16286371@https://eprotec.protection-civile.org",
     "tag": "DPS",
     "titre": "[DPS 34] ASBH - Aurillac",
@@ -2238,6 +2224,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1628637",
     "description": "Horaires non defintiives, horaires post match inclus (1h30 avant match, 1h30 match + 2h apres match). DPS Public uniquement. 1 equipe en post match / 2. Essentiellement le vendredi a 18h00 (match a 19h30), exceptionnellement a 21h30 ou le jeudi soir.<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628637'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16381521@https://eprotec.protection-civile.org",
+    "tag": "DPS",
+    "titre": "[DPS 34] ALMA CERSIUS",
+    "lieu": "Boulevard des Alizes 34420 Cers",
+    "dateDebut": "2026-10-16T15:00:00.000Z",
+    "dateFin": "2026-10-16T21:59:00.000Z",
+    "dureeHeures": 7,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1638152",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1638152'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16289271@https://eprotec.protection-civile.org",
@@ -2744,20 +2744,6 @@
     "description": "Pedagogie Initiale Commune de Formation, necessaire avant de suivre une PAE et ainsi devenir formateur. Des deplacements peuvent etre organises : si vous venez de Beziers vers Montpellier, ou de Montpellier vers Beziers, un depart groupe peut etre mis en place. En cas d'absence, merci de prevenir le plus tot possible. Pre-requis : avoir fait 2 PSC en tant qu'assistant et s'engager a faire une PAE PSC ensuite pour donner a minima 10 PSC dans l'annee qui suit. Pour toute question : formation@protection-civile-herault.org <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1521936'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt15219363@https://eprotec.protection-civile.org",
-    "tag": "FOR",
-    "titre": "[FOR 34] {Benevole} - PICF partie 3/4",
-    "lieu": "Centre de formation de Montpellier",
-    "dateDebut": "2026-11-10T07:00:00.000Z",
-    "dateFin": "2026-11-10T16:00:00.000Z",
-    "dureeHeures": 9,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1521936",
-    "description": "Pedagogie Initiale Commune de Formation, necessaire avant de suivre une PAE et ainsi devenir formateur. Des deplacements peuvent etre organises : si vous venez de Beziers vers Montpellier, ou de Montpellier vers Beziers, un depart groupe peut etre mis en place. En cas d'absence, merci de prevenir le plus tot possible. Pre-requis : avoir fait 2 PSC en tant qu'assistant et s'engager a faire une PAE PSC ensuite pour donner a minima 10 PSC dans l'annee qui suit. Pour toute question : formation@protection-civile-herault.org <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1521936'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt15943141@https://eprotec.protection-civile.org",
     "tag": "MAN",
     "titre": "[MAN 34] Rassemblement Mensuel - MTP 19 -2026 - Plaies et brulures",
@@ -2798,6 +2784,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1629996",
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1629996'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt15219363@https://eprotec.protection-civile.org",
+    "tag": "FOR",
+    "titre": "[FOR 34] {Benevole} - PICF partie 3/4",
+    "lieu": "Centre de formation de Montpellier",
+    "dateDebut": "2026-11-10T07:00:00.000Z",
+    "dateFin": "2026-11-10T16:00:00.000Z",
+    "dureeHeures": 9,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1521936",
+    "description": "Pedagogie Initiale Commune de Formation, necessaire avant de suivre une PAE et ainsi devenir formateur. Des deplacements peuvent etre organises : si vous venez de Beziers vers Montpellier, ou de Montpellier vers Beziers, un depart groupe peut etre mis en place. En cas d'absence, merci de prevenir le plus tot possible. Pre-requis : avoir fait 2 PSC en tant qu'assistant et s'engager a faire une PAE PSC ensuite pour donner a minima 10 PSC dans l'annee qui suit. Pour toute question : formation@protection-civile-herault.org <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1521936'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt15219364@https://eprotec.protection-civile.org",
@@ -3038,20 +3038,6 @@
     "description": "Prerequis : avoir la PICF, pour devenir formateur PSC Des deplacements peuvent etre organises : si vous venez de Beziers vers Montpellier, ou de Montpellier vers Beziers, un depart groupe peut etre mis en place. En cas d'absence, merci de prevenir le plus tot possible. Pour toute question : formation@protection-civile-herault.org <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1521943'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt16138321@https://eprotec.protection-civile.org",
-    "tag": "FOR",
-    "titre": "[FOR 34] ACIM SST - S0250 partie 1/2",
-    "lieu": "26-28 PARC CLUB MILLENAIRE 1025 AV HENRI BECQUEREL",
-    "dateDebut": "2026-11-23T07:30:00.000Z",
-    "dateFin": "2026-11-23T16:00:00.000Z",
-    "dureeHeures": 8.5,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1613832",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1613832'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt15219883@https://eprotec.protection-civile.org",
     "tag": "FOR",
     "titre": "[FOR 34] {Benevole} -  Formation PSE2 partie 3/4",
@@ -3064,6 +3050,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1521988",
     "description": "Formation pour devenir equipier secouriste PSE2 Des deplacements peuvent etre organises : si vous venez de Beziers vers Montpellier, ou de Montpellier vers Beziers, un depart groupe peut etre mis en place. En cas d'absence, merci de prevenir le plus tot possible. Pre-requis : etre PSE1 Pour toute question : formation@protection-civile-herault.org Contrat de formation : 80h - 300 euros.<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1521988'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16138321@https://eprotec.protection-civile.org",
+    "tag": "FOR",
+    "titre": "[FOR 34] ACIM SST - S0250 partie 1/2",
+    "lieu": "26-28 PARC CLUB MILLENAIRE 1025 AV HENRI BECQUEREL",
+    "dateDebut": "2026-11-23T07:30:00.000Z",
+    "dateFin": "2026-11-23T16:00:00.000Z",
+    "dureeHeures": 8.5,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1613832",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1613832'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt15219433@https://eprotec.protection-civile.org",
@@ -3080,20 +3080,6 @@
     "description": "Prerequis : avoir la PICF, pour devenir formateur PSC Des deplacements peuvent etre organises : si vous venez de Beziers vers Montpellier, ou de Montpellier vers Beziers, un depart groupe peut etre mis en place. En cas d'absence, merci de prevenir le plus tot possible. Pour toute question : formation@protection-civile-herault.org <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1521943'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt16138322@https://eprotec.protection-civile.org",
-    "tag": "FOR",
-    "titre": "[FOR 34] ACIM SST - S0250 partie 2/2",
-    "lieu": "26-28 PARC CLUB MILLENAIRE 1025 AV HENRI BECQUEREL",
-    "dateDebut": "2026-11-24T07:00:00.000Z",
-    "dateFin": "2026-11-24T16:00:00.000Z",
-    "dureeHeures": 9,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1613832",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1613832'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt15219884@https://eprotec.protection-civile.org",
     "tag": "FOR",
     "titre": "[FOR 34] {Benevole} -  Formation PSE2 partie 4/4",
@@ -3106,6 +3092,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1521988",
     "description": "Formation pour devenir equipier secouriste PSE2 Des deplacements peuvent etre organises : si vous venez de Beziers vers Montpellier, ou de Montpellier vers Beziers, un depart groupe peut etre mis en place. En cas d'absence, merci de prevenir le plus tot possible. Pre-requis : etre PSE1 Pour toute question : formation@protection-civile-herault.org Contrat de formation : 80h - 300 euros.<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1521988'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16138322@https://eprotec.protection-civile.org",
+    "tag": "FOR",
+    "titre": "[FOR 34] ACIM SST - S0250 partie 2/2",
+    "lieu": "26-28 PARC CLUB MILLENAIRE 1025 AV HENRI BECQUEREL",
+    "dateDebut": "2026-11-24T07:00:00.000Z",
+    "dateFin": "2026-11-24T16:00:00.000Z",
+    "dureeHeures": 9,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1613832",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1613832'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt15219434@https://eprotec.protection-civile.org",
@@ -3220,20 +3220,6 @@
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1522028'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt15218671@https://eprotec.protection-civile.org",
-    "tag": "FOR",
-    "titre": "[FOR 34] {Benevole} - Atelier mensuel - Soutien psychologique",
-    "lieu": "A definir",
-    "dateDebut": "2026-12-02T18:00:00.000Z",
-    "dateFin": "2026-12-02T20:30:00.000Z",
-    "dureeHeures": 2.5,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1521867",
-    "description": "Atelier mensuel avec un theme different chaque mois. Si le lieu de l'atelier n'est pas encore defini, il sera communique un mois a l'avance. Des deplacements peuvent etre organises : si vous venez de Beziers vers Montpellier, ou de Montpellier vers Beziers, un depart groupe peut etre mis en place. En cas d'absence, merci de prevenir le plus tot possible. Les ateliers sont ouverts a toutes et a tous, sans prerequis. Pour toute question : formation@protection-civile-herault.org<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1521867'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt16257501@https://eprotec.protection-civile.org",
     "tag": "FOR",
     "titre": "[FOR 34] Formation Continue Formateur PSC 2026 partie 1/2",
@@ -3246,6 +3232,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1625750",
     "description": "- Obligatoire pour l'ensemble des formateurs PSC meme ceux formes en 2026  - Il y aura une preparation en ligne qui sera envoyee 1 mois avant. - Vous devrez vous presenter avec vos documents et vous animerez une sequence dont le theme sera connu le jour meme. - C'est aussi un moment d'echange et non uniquement d'evaluation - SI vous avez des besoins ou des questions contactez la team formation !  <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1625750'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt15218671@https://eprotec.protection-civile.org",
+    "tag": "FOR",
+    "titre": "[FOR 34] {Benevole} - Atelier mensuel - Soutien psychologique",
+    "lieu": "A definir",
+    "dateDebut": "2026-12-02T18:00:00.000Z",
+    "dateFin": "2026-12-02T20:30:00.000Z",
+    "dureeHeures": 2.5,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1521867",
+    "description": "Atelier mensuel avec un theme different chaque mois. Si le lieu de l'atelier n'est pas encore defini, il sera communique un mois a l'avance. Des deplacements peuvent etre organises : si vous venez de Beziers vers Montpellier, ou de Montpellier vers Beziers, un depart groupe peut etre mis en place. En cas d'absence, merci de prevenir le plus tot possible. Les ateliers sont ouverts a toutes et a tous, sans prerequis. Pour toute question : formation@protection-civile-herault.org<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1521867'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16258391@https://eprotec.protection-civile.org",
@@ -3514,20 +3514,6 @@
     "description": "1h30 avant match - 1h45 de match - 30mn apres match. Bord de terrain uniquement et dedie extraction joueurs. Horaire non definitif. Matchs en majorite le vendredi soir a 20h, possiblement a 20h45 et le samedi a 14h, ou 20h. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627498'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt16351181@https://eprotec.protection-civile.org",
-    "tag": "FOR",
-    "titre": "[FOR 34] Formation PSC",
-    "lieu": "Centre de formation de Montpellier",
-    "dateDebut": "2027-01-05T07:30:00.000Z",
-    "dateFin": "2027-01-05T16:30:00.000Z",
-    "dureeHeures": 9,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1635118",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1635118'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt16257881@https://eprotec.protection-civile.org",
     "tag": "AUTRE",
     "titre": "[REU 34] Monthly Formation {Formateurs} No1 -2027 Janvier",
@@ -3540,6 +3526,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1625788",
     "description": "Monthly' Formation, c'est notre nouveau rendez-vous regulier entre formateurs, tous les mois. L'objectif ? Prendre un temps pour echanger, partager les nouveautes, remonter les infos du terrain, et s'inspirer mutuellement des bonnes pratiques.  Un format simple, efficace, et convivial pour : - suivre l'evolution des outils et des consignes pedagogiques, - poser ses questions, proposer ses idees, -valoriser ce qui fonctionne bien dans vos formations, et garder le lien au sein de l'equipe pedagogique. -  connaitre les chiffres de la formation &#128205; Ce temps est ouvert a tous les formateurs actifs (PSC, SST, GQS, PSE, etc.). Il ne s'agit pas d'une reunion descendante, mais bien d'un temps d'echange collectif, pour continuer a progresser ensemble. Chacun participe en fonction.<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1625788'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16351181@https://eprotec.protection-civile.org",
+    "tag": "FOR",
+    "titre": "[FOR 34] Formation PSC",
+    "lieu": "Centre de formation de Montpellier",
+    "dateDebut": "2027-01-05T07:30:00.000Z",
+    "dateFin": "2027-01-05T16:30:00.000Z",
+    "dureeHeures": 9,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1635118",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1635118'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16351631@https://eprotec.protection-civile.org",
@@ -3780,20 +3780,6 @@
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1635165'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt16285541@https://eprotec.protection-civile.org",
-    "tag": "DPS",
-    "titre": "[DPS 34] MHR - Stade Francais Paris",
-    "lieu": "Avenue de Vanieres 34070 Montpellier",
-    "dateDebut": "2027-01-23T13:30:00.000Z",
-    "dateFin": "2027-01-23T20:00:00.000Z",
-    "dureeHeures": 6.5,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1628554",
-    "description": "Horaires non definitives - 2h avant match - 1h45 de match - 2h de post match (pour 8 IS seulement). En general, match a 16h30 le samedi. Peut etre a 14h30, 21h ou exceptionnellement le dimanche a 21h. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628554'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt16351221@https://eprotec.protection-civile.org",
     "tag": "FOR",
     "titre": "[FOR 34] Formation PSC",
@@ -3806,6 +3792,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1635122",
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1635122'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16285541@https://eprotec.protection-civile.org",
+    "tag": "DPS",
+    "titre": "[DPS 34] MHR - Stade Francais Paris",
+    "lieu": "Avenue de Vanieres 34070 Montpellier",
+    "dateDebut": "2027-01-23T13:30:00.000Z",
+    "dateFin": "2027-01-23T20:00:00.000Z",
+    "dureeHeures": 6.5,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1628554",
+    "description": "Horaires non definitives - 2h avant match - 1h45 de match - 2h de post match (pour 8 IS seulement). En general, match a 16h30 le samedi. Peut etre a 14h30, 21h ou exceptionnellement le dimanche a 21h. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628554'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16258191@https://eprotec.protection-civile.org",
@@ -4116,20 +4116,6 @@
     "description": "Formation pour devenir equipier secouriste PSE2 Des deplacements peuvent etre organises : si vous venez de Beziers vers Montpellier, ou de Montpellier vers Beziers, un depart groupe peut etre mis en place. En cas d'absence, merci de prevenir le plus tot possible. Pre-requis : etre PSE1 Pour toute question : formation@protection-civile-herault.org Contrat de formation : 80h - 300 euros.<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1635114'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt16257961@https://eprotec.protection-civile.org",
-    "tag": "FOR",
-    "titre": "[FOR 34] Formation Continue PSE - FC PSE 2027 partie 1/2",
-    "lieu": "Centre de formation de Beziers",
-    "dateDebut": "2027-02-16T17:30:00.000Z",
-    "dateFin": "2027-02-16T21:00:00.000Z",
-    "dureeHeures": 3.5,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1625796",
-    "description": "FC 2027 OBLIGATOIRE pour l'ensemble des PSE1 et PSE2  Module en ligne a faire quelques jours avant 2 soirs : revision, nouveautes et mise en situations. Pause repas : prevoyez votre repas (15min)<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1625796'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt16351281@https://eprotec.protection-civile.org",
     "tag": "FOR",
     "titre": "[FOR 34] Formation PSC",
@@ -4142,6 +4128,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1635128",
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1635128'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16257961@https://eprotec.protection-civile.org",
+    "tag": "FOR",
+    "titre": "[FOR 34] Formation Continue PSE - FC PSE 2027 partie 1/2",
+    "lieu": "Centre de formation de Beziers",
+    "dateDebut": "2027-02-16T17:30:00.000Z",
+    "dateFin": "2027-02-16T21:00:00.000Z",
+    "dureeHeures": 3.5,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1625796",
+    "description": "FC 2027 OBLIGATOIRE pour l'ensemble des PSE1 et PSE2  Module en ligne a faire quelques jours avant 2 soirs : revision, nouveautes et mise en situations. Pause repas : prevoyez votre repas (15min)<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1625796'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16257962@https://eprotec.protection-civile.org",
@@ -4578,20 +4578,6 @@
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1635138'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt16351391@https://eprotec.protection-civile.org",
-    "tag": "FOR",
-    "titre": "[FOR 34] Formation PSC",
-    "lieu": "Centre de formation de Montpellier",
-    "dateDebut": "2027-04-01T06:30:00.000Z",
-    "dateFin": "2027-04-01T15:30:00.000Z",
-    "dureeHeures": 9,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1635139",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1635139'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt16258281@https://eprotec.protection-civile.org",
     "tag": "FOR",
     "titre": "[FOR 34] {Benevole} - Technicien radio",
@@ -4604,6 +4590,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1625828",
     "description": "Des deplacements peuvent etre organises : si vous venez de Beziers vers Montpellier, ou de Montpellier vers Beziers, un depart groupe peut etre mis en place. En cas d'absence, merci de prevenir le plus tot possible. Pre-requis : PSE1 minimum Pour toute question : formation@protection-civile-herault.org <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1625828'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16351391@https://eprotec.protection-civile.org",
+    "tag": "FOR",
+    "titre": "[FOR 34] Formation PSC",
+    "lieu": "Centre de formation de Montpellier",
+    "dateDebut": "2027-04-01T06:30:00.000Z",
+    "dateFin": "2027-04-01T15:30:00.000Z",
+    "dureeHeures": 9,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1635139",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1635139'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16275091@https://eprotec.protection-civile.org",
@@ -4662,20 +4662,6 @@
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1635140'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt16351731@https://eprotec.protection-civile.org",
-    "tag": "FOR",
-    "titre": "[FOR 34] Formation PSC",
-    "lieu": "Centre de formation de Beziers",
-    "dateDebut": "2027-04-08T06:30:00.000Z",
-    "dateFin": "2027-04-08T15:30:00.000Z",
-    "dureeHeures": 9,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1635173",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1635173'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt16258131@https://eprotec.protection-civile.org",
     "tag": "MAN",
     "titre": "[MAN 34] Rassemblement Mensuel - MTP 7 -2027 - Les kits du VPSP",
@@ -4688,6 +4674,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1625813",
     "description": "Nouveautes depuis 2026 : les rassemblements sont thematises .  Arrivee possible apres l'heure prevue de 18h45, en fonction de vos disponibilites. Merci de l'indiquer en commentaire.  Evitons les annulations aux derniers moments merci.  Ouvert a tous, PSE ou non. Duree indicative dependant du nombre d'inscrits et des difficultes et des themes.<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1625813'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16351731@https://eprotec.protection-civile.org",
+    "tag": "FOR",
+    "titre": "[FOR 34] Formation PSC",
+    "lieu": "Centre de formation de Beziers",
+    "dateDebut": "2027-04-08T06:30:00.000Z",
+    "dateFin": "2027-04-08T15:30:00.000Z",
+    "dureeHeures": 9,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1635173",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1635173'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16351411@https://eprotec.protection-civile.org",
@@ -5292,20 +5292,6 @@
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1635180'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt16258051@https://eprotec.protection-civile.org",
-    "tag": "FOR",
-    "titre": "[FOR 34] Formation Conduite remorque",
-    "lieu": "Centre de formation de Montpellier",
-    "dateDebut": "2027-06-14T17:00:00.000Z",
-    "dateFin": "2027-06-14T20:00:00.000Z",
-    "dureeHeures": 3,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1625805",
-    "description": "Formation a la conduite d'urgence permettant de conduire les remorques Des deplacements peuvent etre organises : si vous venez de Beziers vers Montpellier, ou de Montpellier vers Beziers, un depart groupe peut etre mis en place. En cas d'absence, merci de prevenir le plus tot possible. Pre-requis : Permis B sans periode probatoire. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1625805'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt16258171@https://eprotec.protection-civile.org",
     "tag": "MAN",
     "titre": "[MAN 34] Rassemblement Mensuel - MTP 11 -2027 - Bilan et administrati",
@@ -5318,6 +5304,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1625817",
     "description": "Nouveautes depuis 2026 : les rassemblements sont thematises .  Arrivee possible apres l'heure prevue de 18h45, en fonction de vos disponibilites. Merci de l'indiquer en commentaire.  Evitons les annulations aux derniers moments merci.  Ouvert a tous, PSE ou non. Duree indicative dependant du nombre d'inscrits et des difficultes et des themes.<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1625817'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16258051@https://eprotec.protection-civile.org",
+    "tag": "FOR",
+    "titre": "[FOR 34] Formation Conduite remorque",
+    "lieu": "Centre de formation de Montpellier",
+    "dateDebut": "2027-06-14T17:00:00.000Z",
+    "dateFin": "2027-06-14T20:00:00.000Z",
+    "dureeHeures": 3,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1625805",
+    "description": "Formation a la conduite d'urgence permettant de conduire les remorques Des deplacements peuvent etre organises : si vous venez de Beziers vers Montpellier, ou de Montpellier vers Beziers, un depart groupe peut etre mis en place. En cas d'absence, merci de prevenir le plus tot possible. Pre-requis : Permis B sans periode probatoire. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1625805'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16351581@https://eprotec.protection-civile.org",
