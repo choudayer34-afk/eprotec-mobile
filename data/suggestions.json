@@ -481,6 +481,43 @@
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1627514"
   },
   {
+    "uid": "evt16442921@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] Feu pyromelodie",
+    "lieu": "Sete",
+    "dateDebut": "2026-08-22T20:00:00.000Z",
+    "dateFin": "2026-08-22T21:15:00.000Z",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1644292'>Lien vers l'activité</a>",
+    "tag": "DPS",
+    "score": 14,
+    "reasons": [
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour : Samedi (+3)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Distance raisonnable (24.8 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (20 jours)",
+        "category": "positive"
+      }
+    ],
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1644292"
+  },
+  {
     "uid": "evt16285401@https://eprotec.protection-civile.org",
     "titre": "[DPS 34] MHR - RC Toulon",
     "lieu": "Avenue de Vanieres 34070 Montpellier",
@@ -980,12 +1017,12 @@
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1620488"
   },
   {
-    "uid": "evt16289271@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] Montpell'at",
-    "lieu": "Domaine Municipal de Veyrassi, Montpellier",
-    "dateDebut": "2026-10-17T08:00:00.000Z",
-    "dateFin": "2026-10-17T16:00:00.000Z",
-    "description": "Competition de Softball<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628927'>Lien vers l'activité</a>",
+    "uid": "evt16442941@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] Feu cloture St Louis",
+    "lieu": "Sete",
+    "dateDebut": "2026-08-25T19:30:00.000Z",
+    "dateFin": "2026-08-25T21:00:00.000Z",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1644294'>Lien vers l'activité</a>",
     "tag": "DPS",
     "score": 11,
     "reasons": [
@@ -994,55 +1031,26 @@
         "category": "positive"
       },
       {
-        "text": "Jour : Samedi (+3)",
-        "category": "positive"
-      },
-      {
-        "text": "DPS long (fatigue)",
-        "category": "negative"
-      },
-      {
-        "text": "Très proche (9.2 km)",
-        "category": "positive"
-      },
-      {
-        "text": "Espacement confortable (36 jours)",
-        "category": "positive"
-      }
-    ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1628927"
-  },
-  {
-    "uid": "evt16402821@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] Toro Pisicne",
-    "lieu": "Arenes du Cres",
-    "dateDebut": "2026-08-19T15:30:00.000Z",
-    "dateFin": "2026-08-19T17:30:00.000Z",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1640282'>Lien vers l'activité</a>",
-    "tag": "DPS",
-    "score": 10,
-    "reasons": [
-      {
-        "text": "Mois sans DPS planifié",
-        "category": "positive"
-      },
-      {
-        "text": "Jour : Mercredi (+0)",
+        "text": "Jour : Mardi (+0)",
         "category": "neutral"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
       },
       {
         "text": "Durée raisonnable",
         "category": "positive"
       },
       {
-        "text": "Très proche (8.9 km)",
+        "text": "Distance raisonnable (24.8 km)",
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (23 jours)",
+        "text": "Espacement confortable (17 jours)",
         "category": "positive"
       }
     ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1640282"
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1644294"
   }
 ]

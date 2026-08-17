@@ -1,5 +1,38 @@
 {
-  "newEvents": [],
+  "newEvents": [
+    {
+      "tag": "MLA",
+      "titre": "[MLA 34] Logistique",
+      "lieu": "CFO",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1644299",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-08-17T11:00:00.000Z"
+    },
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] Feu pyromelodie",
+      "lieu": "Sete",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1644292",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-08-22T20:00:00.000Z"
+    },
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] Feu cloture St Louis",
+      "lieu": "Sete",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1644294",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-08-25T19:30:00.000Z"
+    },
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] MFC - OM",
+      "lieu": "Domaine de Grammont, Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1644297",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-08-29T15:00:00.000Z"
+    }
+  ],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
