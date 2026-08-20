@@ -1,5 +1,46 @@
 {
-  "newEvents": [],
+  "newEvents": [
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] Horse Ball - Ligue Mediterranee",
+      "lieu": "Chateau La Vidalle 34350 Vendres",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1645538",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-10-31T08:00:00.000Z"
+    },
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] Horse Ball - Ligue Mediterranee",
+      "lieu": "Chateau La Vidalle 34350 Vendres",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1645539",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-11-01T08:00:00.000Z"
+    },
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] Horse Ball - Ligue Mediterranee",
+      "lieu": "Chateau La Vidalle 34350 Vendres",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1645541",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-12-19T08:00:00.000Z"
+    },
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] Horse Ball - Ligue Mediterranee",
+      "lieu": "Chateau La Vidalle 34350 Vendres",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1645540",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-12-20T08:00:00.000Z"
+    },
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] Horse Ball - Ligue Mediterranee",
+      "lieu": "Chateau La Vidalle 34350 Vendres",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1645542",
+      "dejaInscrit": false,
+      "dateDebutIso": "2027-04-04T07:00:00.000Z"
+    }
+  ],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
