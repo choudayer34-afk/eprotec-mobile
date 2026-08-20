@@ -406,5 +406,13 @@
   "Chateau La Vidalle 34350 Vendres": {
     "lat": 43.2888915,
     "lon": 3.2055668
+  },
+  "Rue du Barry, 34150 Montpeyroux, France": {
+    "lat": 43.7017487,
+    "lon": 3.5070156
+  },
+  "Parking du Millenaire, Puisserguier": {
+    "lat": 43.3662831,
+    "lon": 3.0430697
   }
 }
