@@ -74,6 +74,43 @@
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1627495"
   },
   {
+    "uid": "evt16462801@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] [Previ] MFC - OL Lyonnes",
+    "lieu": "La Mosson, Montpellier",
+    "dateDebut": "2026-10-31T16:00:00.000Z",
+    "dateFin": "2026-10-31T19:00:00.000Z",
+    "description": "Horaires non definitives<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1646280'>Lien vers l'activité</a>",
+    "tag": "DPS",
+    "score": 15,
+    "reasons": [
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour : Samedi (+3)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (3.6 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (50 jours)",
+        "category": "positive"
+      }
+    ],
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1646280"
+  },
+  {
     "uid": "evt16274961@https://eprotec.protection-civile.org",
     "titre": "[DPS 34] MHSC - FC Metz",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
@@ -109,6 +146,43 @@
       }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1627496"
+  },
+  {
+    "uid": "evt16462811@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] MFC - FC Fleury 91",
+    "lieu": "Domaine de Grammont, Montpellier",
+    "dateDebut": "2026-11-14T16:00:00.000Z",
+    "dateFin": "2026-11-14T19:00:00.000Z",
+    "description": "Horaires non definitives<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1646281'>Lien vers l'activité</a>",
+    "tag": "DPS",
+    "score": 15,
+    "reasons": [
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour : Samedi (+3)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (5.7 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (64 jours)",
+        "category": "positive"
+      }
+    ],
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1646281"
   },
   {
     "uid": "evt16274971@https://eprotec.protection-civile.org",
@@ -148,6 +222,43 @@
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1627497"
   },
   {
+    "uid": "evt16462821@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] MFC - FC Strasbourg",
+    "lieu": "Domaine de Grammont, Montpellier",
+    "dateDebut": "2026-12-12T16:00:00.000Z",
+    "dateFin": "2026-12-12T19:00:00.000Z",
+    "description": "Horaires non definitives<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1646282'>Lien vers l'activité</a>",
+    "tag": "DPS",
+    "score": 15,
+    "reasons": [
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour : Samedi (+3)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (5.7 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (92 jours)",
+        "category": "positive"
+      }
+    ],
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1646282"
+  },
+  {
     "uid": "evt16274991@https://eprotec.protection-civile.org",
     "titre": "[DPS 34] MHSC - Clermont Foot",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
@@ -185,6 +296,43 @@
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1627499"
   },
   {
+    "uid": "evt16462831@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] MFC - Paris FC",
+    "lieu": "Domaine de Grammont, Montpellier",
+    "dateDebut": "2027-01-23T16:00:00.000Z",
+    "dateFin": "2027-01-23T19:00:00.000Z",
+    "description": "Horaires non definitives<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1646283'>Lien vers l'activité</a>",
+    "tag": "DPS",
+    "score": 15,
+    "reasons": [
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour : Samedi (+3)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (5.7 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (134 jours)",
+        "category": "positive"
+      }
+    ],
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1646283"
+  },
+  {
     "uid": "evt16275021@https://eprotec.protection-civile.org",
     "titre": "[DPS 34] MHSC - Rodez AF",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
@@ -220,6 +368,43 @@
       }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1627502"
+  },
+  {
+    "uid": "evt16462841@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] MFC - US St Malo",
+    "lieu": "Domaine de Grammont, Montpellier",
+    "dateDebut": "2027-02-06T16:00:00.000Z",
+    "dateFin": "2027-02-06T19:00:00.000Z",
+    "description": "Horaires non definitives<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1646284'>Lien vers l'activité</a>",
+    "tag": "DPS",
+    "score": 15,
+    "reasons": [
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour : Samedi (+3)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (5.7 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (148 jours)",
+        "category": "positive"
+      }
+    ],
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1646284"
   },
   {
     "uid": "evt16275041@https://eprotec.protection-civile.org",
@@ -331,6 +516,80 @@
       }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1627507"
+  },
+  {
+    "uid": "evt16462851@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] MFC - FC Nantes",
+    "lieu": "Domaine de Grammont, Montpellier",
+    "dateDebut": "2027-03-13T16:00:00.000Z",
+    "dateFin": "2027-03-13T19:00:00.000Z",
+    "description": "Horaires non definitives<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1646285'>Lien vers l'activité</a>",
+    "tag": "DPS",
+    "score": 15,
+    "reasons": [
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour : Samedi (+3)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (5.7 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (183 jours)",
+        "category": "positive"
+      }
+    ],
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1646285"
+  },
+  {
+    "uid": "evt16462871@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] [Previ] MFC - Paris St Germain",
+    "lieu": "La Mosson, Montpellier",
+    "dateDebut": "2027-03-27T16:00:00.000Z",
+    "dateFin": "2027-03-27T19:00:00.000Z",
+    "description": "Horaires non definitives<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1646287'>Lien vers l'activité</a>",
+    "tag": "DPS",
+    "score": 15,
+    "reasons": [
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour : Samedi (+3)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (3.6 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (197 jours)",
+        "category": "positive"
+      }
+    ],
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1646287"
   },
   {
     "uid": "evt16275091@https://eprotec.protection-civile.org",
@@ -809,240 +1068,5 @@
       }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1628558"
-  },
-  {
-    "uid": "evt16285601@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] MHR - Stade Toulousain",
-    "lieu": "Avenue de Vanieres 34070 Montpellier",
-    "dateDebut": "2027-05-08T12:30:00.000Z",
-    "dateFin": "2027-05-08T19:00:00.000Z",
-    "description": "Horaires non definitives - 2h avant match - 1h45 de match - 2h de post match (pour 8 IS seulement). En general, match a 16h30 le samedi. Peut etre a 14h30, 21h ou exceptionnellement le dimanche a 21h. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628560'>Lien vers l'activité</a>",
-    "tag": "DPS",
-    "score": 13,
-    "reasons": [
-      {
-        "text": "Mois sans DPS planifié",
-        "category": "positive"
-      },
-      {
-        "text": "Jour : Samedi (+3)",
-        "category": "positive"
-      },
-      {
-        "text": "Durée raisonnable",
-        "category": "positive"
-      },
-      {
-        "text": "Très proche (5 km)",
-        "category": "positive"
-      },
-      {
-        "text": "Espacement confortable (239 jours)",
-        "category": "positive"
-      }
-    ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1628560"
-  },
-  {
-    "uid": "evt16285631@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] MHR - RC Vannes",
-    "lieu": "Avenue de Vanieres 34070 Montpellier",
-    "dateDebut": "2027-05-29T12:30:00.000Z",
-    "dateFin": "2027-05-29T19:00:00.000Z",
-    "description": "Horaires non definitives - 2h avant match - 1h45 de match - 2h de post match (pour 8 IS seulement). En general, match a 16h30 le samedi. Peut etre a 14h30, 21h ou exceptionnellement le dimanche a 21h. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628563'>Lien vers l'activité</a>",
-    "tag": "DPS",
-    "score": 13,
-    "reasons": [
-      {
-        "text": "Mois sans DPS planifié",
-        "category": "positive"
-      },
-      {
-        "text": "Jour : Samedi (+3)",
-        "category": "positive"
-      },
-      {
-        "text": "Durée raisonnable",
-        "category": "positive"
-      },
-      {
-        "text": "Très proche (5 km)",
-        "category": "positive"
-      },
-      {
-        "text": "Espacement confortable (260 jours)",
-        "category": "positive"
-      }
-    ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1628563"
-  },
-  {
-    "uid": "evt16377231@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] Soiree lancement MHR",
-    "lieu": "Avenue de Vanieres 34070 Montpellier",
-    "dateDebut": "2026-08-25T16:30:00.000Z",
-    "dateFin": "2026-08-25T18:00:00.000Z",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1637723'>Lien vers l'activité</a>",
-    "tag": "DPS",
-    "score": 12,
-    "reasons": [
-      {
-        "text": "Mois sans DPS planifié",
-        "category": "positive"
-      },
-      {
-        "text": "Jour : Mardi (+0)",
-        "category": "neutral"
-      },
-      {
-        "text": "Créneau fin d'après-midi / soirée",
-        "category": "positive"
-      },
-      {
-        "text": "Durée raisonnable",
-        "category": "positive"
-      },
-      {
-        "text": "Très proche (5 km)",
-        "category": "positive"
-      },
-      {
-        "text": "Espacement confortable (17 jours)",
-        "category": "positive"
-      }
-    ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1637723"
-  },
-  {
-    "uid": "evt16381591@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] Seincere",
-    "lieu": "Avenue de la Monnaie 34170 Castelnau-le-Lez",
-    "dateDebut": "2026-10-04T08:00:00.000Z",
-    "dateFin": "2026-10-04T11:00:00.000Z",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1638159'>Lien vers l'activité</a>",
-    "tag": "DPS",
-    "score": 12,
-    "reasons": [
-      {
-        "text": "Mois sans DPS planifié",
-        "category": "positive"
-      },
-      {
-        "text": "Jour : Dimanche (+2)",
-        "category": "positive"
-      },
-      {
-        "text": "Durée raisonnable",
-        "category": "positive"
-      },
-      {
-        "text": "Très proche (8.5 km)",
-        "category": "positive"
-      },
-      {
-        "text": "Espacement confortable (23 jours)",
-        "category": "positive"
-      }
-    ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1638159"
-  },
-  {
-    "uid": "evt16204881@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] Run & Trail",
-    "lieu": "515 Avenue de la Monnaie, 34170 Castelnau-le-Lez, France",
-    "dateDebut": "2026-10-11T06:45:00.000Z",
-    "dateFin": "2026-10-11T10:30:00.000Z",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1620488'>Lien vers l'activité</a>",
-    "tag": "DPS",
-    "score": 12,
-    "reasons": [
-      {
-        "text": "Mois sans DPS planifié",
-        "category": "positive"
-      },
-      {
-        "text": "Jour : Dimanche (+2)",
-        "category": "positive"
-      },
-      {
-        "text": "Durée raisonnable",
-        "category": "positive"
-      },
-      {
-        "text": "Très proche (8.8 km)",
-        "category": "positive"
-      },
-      {
-        "text": "Espacement confortable (30 jours)",
-        "category": "positive"
-      }
-    ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1620488"
-  },
-  {
-    "uid": "evt16289271@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] Montpell'at",
-    "lieu": "Domaine Municipal de Veyrassi, Montpellier",
-    "dateDebut": "2026-10-17T08:00:00.000Z",
-    "dateFin": "2026-10-17T16:00:00.000Z",
-    "description": "Competition de Softball<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628927'>Lien vers l'activité</a>",
-    "tag": "DPS",
-    "score": 11,
-    "reasons": [
-      {
-        "text": "Mois sans DPS planifié",
-        "category": "positive"
-      },
-      {
-        "text": "Jour : Samedi (+3)",
-        "category": "positive"
-      },
-      {
-        "text": "DPS long (fatigue)",
-        "category": "negative"
-      },
-      {
-        "text": "Très proche (9.2 km)",
-        "category": "positive"
-      },
-      {
-        "text": "Espacement confortable (36 jours)",
-        "category": "positive"
-      }
-    ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1628927"
-  },
-  {
-    "uid": "evt16345251@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] Martor Puechabon",
-    "lieu": "Place de l'Eglise Puechabon",
-    "dateDebut": "2026-10-31T14:00:00.000Z",
-    "dateFin": "2026-10-31T22:59:00.000Z",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1634525'>Lien vers l'activité</a>",
-    "tag": "DPS",
-    "score": 10,
-    "reasons": [
-      {
-        "text": "Mois sans DPS planifié",
-        "category": "positive"
-      },
-      {
-        "text": "Jour : Samedi (+3)",
-        "category": "positive"
-      },
-      {
-        "text": "DPS long (fatigue)",
-        "category": "negative"
-      },
-      {
-        "text": "Distance raisonnable (28.1 km)",
-        "category": "positive"
-      },
-      {
-        "text": "Espacement confortable (50 jours)",
-        "category": "positive"
-      }
-    ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1634525"
   }
 ]

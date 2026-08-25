@@ -1,5 +1,150 @@
 {
-  "newEvents": [],
+  "newEvents": [
+    {
+      "tag": "MLA",
+      "titre": "[MLA 34] Recup lits picots",
+      "lieu": "Giganc",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1647088",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-08-25T12:30:00.000Z"
+    },
+    {
+      "tag": "AUTRE",
+      "titre": "[REU 34] Point forum des Assos",
+      "lieu": "Herault",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1646954",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-08-30T07:00:00.000Z"
+    },
+    {
+      "tag": "FOR",
+      "titre": "[FOR 34] Point formation",
+      "lieu": "Centre ope de Lattes",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1646953",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-08-31T15:30:00.000Z"
+    },
+    {
+      "tag": "FOR",
+      "titre": "[FOR 34] Point Exaprint atelier",
+      "lieu": "Exaprint Mauguio",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1647084",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-09-04T12:30:00.000Z"
+    },
+    {
+      "tag": "AUTRE",
+      "titre": "[REU 34] Visio FNPC GT PF",
+      "lieu": "Visio",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1646460",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-09-09T16:00:00.000Z"
+    },
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] [Previ] MFC - OM",
+      "lieu": "La Mosson, Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1646278",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-09-19T15:00:00.000Z"
+    },
+    {
+      "tag": "FOR",
+      "titre": "[FOR 34] PSC - Club Alpin de Beziers",
+      "lieu": "MVA Beziers",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1646459",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-09-19T07:00:00.000Z"
+    },
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] MFC - Havre AC",
+      "lieu": "Dommaine de Grammont, Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1646279",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-10-17T15:00:00.000Z"
+    },
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] MFC - Havre AC LFFP",
+      "lieu": "Dommaine de Grammont, Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1646288",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-10-21T15:00:00.000Z"
+    },
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] [Previ] MFC - OL Lyonnes",
+      "lieu": "La Mosson, Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1646280",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-10-31T16:00:00.000Z"
+    },
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] MFC - FC Fleury 91",
+      "lieu": "Domaine de Grammont, Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1646281",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-11-14T16:00:00.000Z"
+    },
+    {
+      "tag": "AUTRE",
+      "titre": "[COM 34] (COM) Journee des droits de l'enfant",
+      "lieu": "ALSH Les Aiguerelles",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1646458",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-11-25T09:00:00.000Z"
+    },
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] MFC - FC Strasbourg",
+      "lieu": "Domaine de Grammont, Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1646282",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-12-12T16:00:00.000Z"
+    },
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] MFC - Paris FC",
+      "lieu": "Domaine de Grammont, Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1646283",
+      "dejaInscrit": false,
+      "dateDebutIso": "2027-01-23T16:00:00.000Z"
+    },
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] MFC - US St Malo",
+      "lieu": "Domaine de Grammont, Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1646284",
+      "dejaInscrit": false,
+      "dateDebutIso": "2027-02-06T16:00:00.000Z"
+    },
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] MFC - FC Nantes",
+      "lieu": "Domaine de Grammont, Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1646285",
+      "dejaInscrit": false,
+      "dateDebutIso": "2027-03-13T16:00:00.000Z"
+    },
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] [Previ] MFC - Paris St Germain",
+      "lieu": "La Mosson, Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1646287",
+      "dejaInscrit": false,
+      "dateDebutIso": "2027-03-27T16:00:00.000Z"
+    },
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] MFC - RC Lens",
+      "lieu": "Domaine de Grammont, Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1646286",
+      "dejaInscrit": false,
+      "dateDebutIso": "2027-05-01T15:00:00.000Z"
+    }
+  ],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",

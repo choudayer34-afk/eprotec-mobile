@@ -414,5 +414,9 @@
   "Parking du Millenaire, Puisserguier": {
     "lat": 43.3662831,
     "lon": 3.0430697
+  },
+  "La Mosson, Montpellier": {
+    "lat": 43.5393719,
+    "lon": 3.8788303
   }
 }
