@@ -1,5 +1,14 @@
 {
-  "newEvents": [],
+  "newEvents": [
+    {
+      "tag": "AUTRE",
+      "titre": "[REU 34] CA no3",
+      "lieu": "Visio",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1649591",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-09-23T17:30:00.000Z"
+    }
+  ],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
