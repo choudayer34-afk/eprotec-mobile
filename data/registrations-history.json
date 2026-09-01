@@ -439,5 +439,14 @@
     "dateDebut": "2026-07-26T15:50:00.000Z",
     "dureeHeures": 1,
     "statut": "Inscrit"
+  },
+  "evt16473861@https://eprotec.protection-civile.org": {
+    "uid": "evt16473861@https://eprotec.protection-civile.org",
+    "tag": "AUTRE",
+    "titre": "[WEB 34] La rentree des secouristes !",
+    "lieu": "Visio",
+    "dateDebut": "2026-09-07T18:00:00.000Z",
+    "dureeHeures": 0.5,
+    "statut": "Inscrit"
   }
 }

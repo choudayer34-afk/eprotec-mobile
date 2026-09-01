@@ -418,5 +418,13 @@
   "La Mosson, Montpellier": {
     "lat": 43.5393719,
     "lon": 3.8788303
+  },
+  "Aumes": {
+    "lat": 43.4668,
+    "lon": 3.46518
+  },
+  "Les Matelles": {
+    "lat": 43.7307496,
+    "lon": 3.8097343
   }
 }

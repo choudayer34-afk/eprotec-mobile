@@ -743,18 +743,22 @@
     "uid": "evt16285401@https://eprotec.protection-civile.org",
     "titre": "[DPS 34] MHR - RC Toulon",
     "lieu": "Avenue de Vanieres 34070 Montpellier",
-    "dateDebut": "2026-10-03T12:30:00.000Z",
-    "dateFin": "2026-10-03T19:00:00.000Z",
-    "description": "Horaires non definitives - 2h avant match - 1h45 de match - 2h de post match (pour 8 IS seulement). En general, match a 16h30 le samedi. Peut etre a 14h30, 21h ou exceptionnellement le dimanche a 21h. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628540'>Lien vers l'activité</a>",
+    "dateDebut": "2026-10-04T17:00:00.000Z",
+    "dateFin": "2026-10-04T23:30:00.000Z",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628540'>Lien vers l'activité</a>",
     "tag": "DPS",
-    "score": 13,
+    "score": 14,
     "reasons": [
       {
         "text": "Mois sans DPS planifié",
         "category": "positive"
       },
       {
-        "text": "Jour : Samedi (+3)",
+        "text": "Jour : Dimanche (+2)",
+        "category": "positive"
+      },
+      {
+        "text": "Créneau fin d'après-midi / soirée",
         "category": "positive"
       },
       {
@@ -766,7 +770,7 @@
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (22 jours)",
+        "text": "Espacement confortable (23 jours)",
         "category": "positive"
       }
     ],
