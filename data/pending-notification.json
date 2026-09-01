@@ -1,5 +1,14 @@
 {
-  "newEvents": [],
+  "newEvents": [
+    {
+      "tag": "AUTRE",
+      "titre": "[COM 34] (COM) Salon des maires de L'Herault",
+      "lieu": "Parc des expositions de Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1649572",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-11-02T09:00:00.000Z"
+    }
+  ],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
