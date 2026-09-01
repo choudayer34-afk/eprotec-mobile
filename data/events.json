@@ -56,20 +56,6 @@
     "description": "C'est la rentree ! &#127881; Cette soiree est ouverte a toutes et tous, meme sans competence technique.  Au programme : &#129532; Nettoyage complet du centre de formation &#128230; Nettoyage, rangement et verification du materiel de formation &#128736;&#65039; Petites remises en etat si necessaire &#9749; Moment convivial pour bien demarrer la rentree  Plus nous serons nombreux, plus ce sera rapide ! Venez donner un coup de main pour preparer le materiel et les locaux avant la reprise des formations.<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627893'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt16455481@https://eprotec.protection-civile.org",
-    "tag": "AUTRE",
-    "titre": "[REU 34] Jury PAE",
-    "lieu": "Montpellier",
-    "dateDebut": "2026-09-02T08:00:00.000Z",
-    "dateFin": "2026-09-02T09:00:00.000Z",
-    "dureeHeures": 1,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1645548",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1645548'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt16474981@https://eprotec.protection-civile.org",
     "tag": "AUTRE",
     "titre": "[REU 34] Point recrutement",
@@ -84,18 +70,18 @@
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1647498'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt16258331@https://eprotec.protection-civile.org",
+    "uid": "evt16455481@https://eprotec.protection-civile.org",
     "tag": "AUTRE",
-    "titre": "[REU 34] Monthly Formation {Formateurs} No7-2026 Septembre",
-    "lieu": "Presentiel et Visio",
-    "dateDebut": "2026-09-03T18:00:00.000Z",
-    "dateFin": "2026-09-03T18:30:00.000Z",
-    "dureeHeures": 0.5,
+    "titre": "[REU 34] Jury PAE",
+    "lieu": "Montpellier",
+    "dateDebut": "2026-09-02T08:00:00.000Z",
+    "dateFin": "2026-09-02T09:00:00.000Z",
+    "dureeHeures": 1,
     "dejaInscrit": false,
     "nouveau": false,
     "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1625833",
-    "description": "Monthly' Formation, c'est notre nouveau rendez-vous regulier entre formateurs, tous les mois. L'objectif ? Prendre un temps pour echanger, partager les nouveautes, remonter les infos du terrain, et s'inspirer mutuellement des bonnes pratiques.  Un format simple, efficace, et convivial pour : - suivre l'evolution des outils et des consignes pedagogiques, - poser ses questions, proposer ses idees, -valoriser ce qui fonctionne bien dans vos formations, et garder le lien au sein de l'equipe pedagogique. -  connaitre les chiffres de la formation &#128205; Ce temps est ouvert a tous les formateurs actifs (PSC, SST, GQS, PSE, etc.). Il ne s'agit pas d'une reunion descendante, mais bien d'un temps d'echange collectif, pour continuer a progresser ensemble. Chacun participe en fonction.<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1625833'>Lien vers l'activité</a>"
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1645548",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1645548'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16138301@https://eprotec.protection-civile.org",
@@ -110,6 +96,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1613830",
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1613830'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16258331@https://eprotec.protection-civile.org",
+    "tag": "AUTRE",
+    "titre": "[REU 34] Monthly Formation {Formateurs} No7-2026 Septembre",
+    "lieu": "Presentiel et Visio",
+    "dateDebut": "2026-09-03T18:00:00.000Z",
+    "dateFin": "2026-09-03T18:30:00.000Z",
+    "dureeHeures": 0.5,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1625833",
+    "description": "Monthly' Formation, c'est notre nouveau rendez-vous regulier entre formateurs, tous les mois. L'objectif ? Prendre un temps pour echanger, partager les nouveautes, remonter les infos du terrain, et s'inspirer mutuellement des bonnes pratiques.  Un format simple, efficace, et convivial pour : - suivre l'evolution des outils et des consignes pedagogiques, - poser ses questions, proposer ses idees, -valoriser ce qui fonctionne bien dans vos formations, et garder le lien au sein de l'equipe pedagogique. -  connaitre les chiffres de la formation &#128205; Ce temps est ouvert a tous les formateurs actifs (PSC, SST, GQS, PSE, etc.). Il ne s'agit pas d'une reunion descendante, mais bien d'un temps d'echange collectif, pour continuer a progresser ensemble. Chacun participe en fonction.<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1625833'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16204771@https://eprotec.protection-civile.org",
@@ -1092,20 +1092,6 @@
     "description": "Nous intervenons chez un imprimeur pour former au total 300 salaries. OUVERT A TOUS LES BENEVOLES Theme addictologie, tout les benevoles recevront une info de comment cela se passe. 2 journee et 2 soirees dans les ateliers. Un beau projet, il nous faut un maximum de monde. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1635640'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt16299981@https://eprotec.protection-civile.org",
-    "tag": "FOR",
-    "titre": "[FOR 34] ACIM F2059 - MAC SST",
-    "lieu": "260 rue du Puech radier Lattes",
-    "dateDebut": "2026-09-29T06:30:00.000Z",
-    "dateFin": "2026-09-29T15:00:00.000Z",
-    "dureeHeures": 8.5,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1629998",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1629998'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt15220051@https://eprotec.protection-civile.org",
     "tag": "FOR",
     "titre": "[FOR 34] Formation PSC",
@@ -1118,6 +1104,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1522005",
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1522005'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16299981@https://eprotec.protection-civile.org",
+    "tag": "FOR",
+    "titre": "[FOR 34] ACIM F2059 - MAC SST",
+    "lieu": "260 rue du Puech radier Lattes",
+    "dateDebut": "2026-09-29T06:30:00.000Z",
+    "dateFin": "2026-09-29T15:00:00.000Z",
+    "dureeHeures": 8.5,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1629998",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1629998'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16356403@https://eprotec.protection-civile.org",
@@ -3682,20 +3682,6 @@
     "description": "Formation pour devenir equipier secouriste PSE2 Des deplacements peuvent etre organises : si vous venez de Beziers vers Montpellier, ou de Montpellier vers Beziers, un depart groupe peut etre mis en place. En cas d'absence, merci de prevenir le plus tot possible. Pre-requis : etre PSE1 Pour toute question : formation@protection-civile-herault.org Contrat de formation : 80h - 300 euros.<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1635114'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt16462841@https://eprotec.protection-civile.org",
-    "tag": "DPS",
-    "titre": "[DPS 34] MFC - US St Malo",
-    "lieu": "Domaine de Grammont, Montpellier",
-    "dateDebut": "2027-02-06T16:00:00.000Z",
-    "dateFin": "2027-02-06T19:00:00.000Z",
-    "dureeHeures": 3,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1646284",
-    "description": "Horaires non definitives<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1646284'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt16351261@https://eprotec.protection-civile.org",
     "tag": "FOR",
     "titre": "[FOR 34] Formation PSC",
@@ -3708,6 +3694,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1635126",
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1635126'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16462841@https://eprotec.protection-civile.org",
+    "tag": "DPS",
+    "titre": "[DPS 34] MFC - US St Malo",
+    "lieu": "Domaine de Grammont, Montpellier",
+    "dateDebut": "2027-02-06T16:00:00.000Z",
+    "dateFin": "2027-02-06T19:00:00.000Z",
+    "dureeHeures": 3,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1646284",
+    "description": "Horaires non definitives<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1646284'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16351142@https://eprotec.protection-civile.org",
