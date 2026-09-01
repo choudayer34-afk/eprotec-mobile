@@ -1,5 +1,22 @@
 {
-  "newEvents": [],
+  "newEvents": [
+    {
+      "tag": "AUTRE",
+      "titre": "[REU 34] Reunion St Clement",
+      "lieu": "St Clement",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1649906",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-10-09T15:30:00.000Z"
+    },
+    {
+      "tag": "AUTRE",
+      "titre": "[COM 34] Operations com Marche St Clement",
+      "lieu": "St Clement de Riviere",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1649907",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-10-18T07:00:00.000Z"
+    }
+  ],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
