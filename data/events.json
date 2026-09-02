@@ -1,19 +1,5 @@
 [
   {
-    "uid": "evt16474981@https://eprotec.protection-civile.org",
-    "tag": "AUTRE",
-    "titre": "[REU 34] Point recrutement",
-    "lieu": "LOCAL FO MTP",
-    "dateDebut": "2026-09-02T16:30:00.000Z",
-    "dateFin": "2026-09-02T17:00:00.000Z",
-    "dureeHeures": 0.5,
-    "dejaInscrit": false,
-    "nouveau": true,
-    "nouveauDepuis": "2026-09-01T00:01:40.548Z",
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1647498",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1647498'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt16455481@https://eprotec.protection-civile.org",
     "tag": "AUTRE",
     "titre": "[REU 34] Jury PAE",
@@ -26,6 +12,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1645548",
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1645548'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16474981@https://eprotec.protection-civile.org",
+    "tag": "AUTRE",
+    "titre": "[REU 34] Point recrutement",
+    "lieu": "LOCAL FO MTP",
+    "dateDebut": "2026-09-02T16:30:00.000Z",
+    "dateFin": "2026-09-02T17:00:00.000Z",
+    "dureeHeures": 0.5,
+    "dejaInscrit": false,
+    "nouveau": true,
+    "nouveauDepuis": "2026-09-01T00:01:40.548Z",
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1647498",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1647498'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16278931@https://eprotec.protection-civile.org",
@@ -1932,20 +1932,6 @@
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1648562'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt16455761@https://eprotec.protection-civile.org",
-    "tag": "AUTRE",
-    "titre": "[GAR 34] Garde pompier",
-    "lieu": "Local de Beziers",
-    "dateDebut": "2026-10-24T17:00:00.000Z",
-    "dateFin": "2026-10-25T06:00:00.000Z",
-    "dureeHeures": 13,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1645576",
-    "description": "- Inscription ouverte : validation finale entre 7 et 10j avant du personnel  - 3 PSE2  (dont un CEPS) + 1 PSE 1/2 - Pas de stagiaire - Mineur interdit - Si depart de Montpellier : RDV 17h15 au local sauf info contraire - Beziers : directement sur place a 18h30 <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1645576'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt15219733@https://eprotec.protection-civile.org",
     "tag": "FOR",
     "titre": "[FOR 34] {Benevole} -  Formation PSE1 partie 3/4",
@@ -1958,6 +1944,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1521973",
     "description": "Formation pour devenir secouriste PSE1. Des deplacements peuvent etre organises : si vous venez de Beziers vers Montpellier, ou de Montpellier vers Beziers, un depart groupe peut etre mis en place. En cas d'absence, merci de prevenir le plus tot possible. Les ateliers sont ouverts a toutes et a tous, sans prerequis. Pour toute question : formation@protection-civile-herault.org Contrat de formation : 80h - 300 euros. Il est conseille de faire des postes en tant que stagiaire.<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1521973'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16455761@https://eprotec.protection-civile.org",
+    "tag": "AUTRE",
+    "titre": "[GAR 34] Garde pompier",
+    "lieu": "Local de Beziers",
+    "dateDebut": "2026-10-24T17:00:00.000Z",
+    "dateFin": "2026-10-25T06:00:00.000Z",
+    "dureeHeures": 13,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1645576",
+    "description": "- Inscription ouverte : validation finale entre 7 et 10j avant du personnel  - 3 PSE2  (dont un CEPS) + 1 PSE 1/2 - Pas de stagiaire - Mineur interdit - Si depart de Montpellier : RDV 17h15 au local sauf info contraire - Beziers : directement sur place a 18h30 <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1645576'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt15219734@https://eprotec.protection-civile.org",
@@ -3738,20 +3738,6 @@
     "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1635167'>Lien vers l'activité</a>"
   },
   {
-    "uid": "evt16351261@https://eprotec.protection-civile.org",
-    "tag": "FOR",
-    "titre": "[FOR 34] Formation PSC",
-    "lieu": "Centre de formation de Montpellier",
-    "dateDebut": "2027-02-06T07:30:00.000Z",
-    "dateFin": "2027-02-06T16:30:00.000Z",
-    "dureeHeures": 9,
-    "dejaInscrit": false,
-    "nouveau": false,
-    "nouveauDepuis": null,
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1635126",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1635126'>Lien vers l'activité</a>"
-  },
-  {
     "uid": "evt16462841@https://eprotec.protection-civile.org",
     "tag": "DPS",
     "titre": "[DPS 34] MFC - US St Malo",
@@ -3764,6 +3750,20 @@
     "nouveauDepuis": null,
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1646284",
     "description": "Horaires non definitives<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1646284'>Lien vers l'activité</a>"
+  },
+  {
+    "uid": "evt16351261@https://eprotec.protection-civile.org",
+    "tag": "FOR",
+    "titre": "[FOR 34] Formation PSC",
+    "lieu": "Centre de formation de Montpellier",
+    "dateDebut": "2027-02-06T07:30:00.000Z",
+    "dateFin": "2027-02-06T16:30:00.000Z",
+    "dureeHeures": 9,
+    "dejaInscrit": false,
+    "nouveau": false,
+    "nouveauDepuis": null,
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1635126",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1635126'>Lien vers l'activité</a>"
   },
   {
     "uid": "evt16351141@https://eprotec.protection-civile.org",
