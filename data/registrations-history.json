@@ -448,5 +448,14 @@
     "dateDebut": "2026-09-07T18:00:00.000Z",
     "dureeHeures": 0.5,
     "statut": "Inscrit"
+  },
+  "evt16258331@https://eprotec.protection-civile.org": {
+    "uid": "evt16258331@https://eprotec.protection-civile.org",
+    "tag": "AUTRE",
+    "titre": "[REU 34] Monthly Formation {Formateurs} No7-2026 Septembre",
+    "lieu": "Visio",
+    "dateDebut": "2026-09-03T18:00:00.000Z",
+    "dureeHeures": 0.5,
+    "statut": "Inscrit"
   }
 }

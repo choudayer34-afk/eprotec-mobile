@@ -1,28 +1,12 @@
 {
   "newEvents": [
     {
-      "tag": "MLA",
-      "titre": "[MLA 34] Fin amenagement des 2 VSO",
-      "lieu": "Centre ope de Montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1650091",
+      "tag": "AUTRE",
+      "titre": "[REU 34] Reunion - Equipe Com'",
+      "lieu": "Visio",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1650235",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-09-28T07:00:00.000Z"
-    },
-    {
-      "tag": "FOR",
-      "titre": "[FOR 34] GQS - Prive pour une famille",
-      "lieu": "2 Avenue du Vent Marin 34980 Saint-Clement-de-Riviere",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1650087",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-10-10T08:00:00.000Z"
-    },
-    {
-      "tag": "FOR",
-      "titre": "[FOR 34] J-0173 - GQS",
-      "lieu": "31 quai port neuf 34500 BEZIERS",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1650081",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-10-20T12:00:00.000Z"
+      "dateDebutIso": "2026-09-23T18:00:00.000Z"
     }
   ],
   "topSuggestion": {
