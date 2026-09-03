@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
 <title>Mon eProtec</title>
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#0B2A5C">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="eProtec">
 <script src="./chart.umd.min.js"></script>
 <script> 
 (function generateAppIcon() {
@@ -2419,6 +2424,24 @@ function renderUpcomingRegistrations(events) {
   container.querySelectorAll('[data-uid]').forEach(row => {
     row.addEventListener('click', () => openDetail(row.dataset.uid));
   });
+
+  updateAppBadge(upcoming.length);
+}
+
+// Pastille sur l'icône de l'app (écran d'accueil du téléphone) :
+// nombre d'inscriptions dans les 15 prochains jours.
+// Nécessite que l'app soit ajoutée à l'écran d'accueil (PWA installée).
+function updateAppBadge(count) {
+  if (!('setAppBadge' in navigator)) return;
+  try {
+    if (count > 0) {
+      navigator.setAppBadge(count).catch(() => {});
+    } else if ('clearAppBadge' in navigator) {
+      navigator.clearAppBadge().catch(() => {});
+    }
+  } catch (err) {
+    console.warn('[eProtec] Badge app non disponible :', err);
+  }
 }
 
 function groupByDetectionDate(items) {
