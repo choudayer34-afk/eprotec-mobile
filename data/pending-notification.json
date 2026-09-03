@@ -1,12 +1,12 @@
 {
   "newEvents": [
     {
-      "tag": "DPS",
-      "titre": "[DPS 34] DPS TEST IDE",
-      "lieu": "34000 montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1650767",
+      "tag": "AUTRE",
+      "titre": "[COM 34] Chateau Angarran",
+      "lieu": "Laverune",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1650946",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-09-03T06:00:00.000Z"
+      "dateDebutIso": "2026-09-03T13:00:00.000Z"
     }
   ],
   "topSuggestion": {
