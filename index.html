@@ -8,7 +8,7 @@
 <link rel="manifest" href="./manifest.json">
 <meta name="theme-color" content="#0B2A5C">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="eProtec">
 <script src="./chart.umd.min.js"></script>
 <script> 
@@ -64,7 +64,7 @@
     padding: 16px; position: sticky; top: 0; background: #0B2A5C; z-index: 5;
   }
   header h1 { font-size: 17px; font-weight: 500; }
-.screen-header { display: flex; align-items: center; justify-content: space-between; padding: 4px 0 20px; }
+.screen-header { display: flex; align-items: center; justify-content: space-between; padding: calc(4px + env(safe-area-inset-top)) 0 20px; }
   .screen-header .screen-side { min-width: 34px; display: flex; align-items: center; justify-content: center; }
   .screen-title { flex: 1; text-align: center; font-size: 19px; font-weight: 500; color: #fff; }
   .update-status { font-size: 11px; color: #9FB3D6; text-align: center; padding: 0 0 12px; }
@@ -104,7 +104,7 @@
   @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
   .spinning { display: inline-block; animation: spin 1s linear infinite; }
   #pull-indicator {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 20;
+    position: fixed; top: env(safe-area-inset-top); left: 0; right: 0; z-index: 20;
     display: flex; align-items: center; justify-content: center;
     height: 0; overflow: hidden; color: #F5821F; font-size: 13px;
     background: #0B2A5C; transition: height 0.15s ease;
