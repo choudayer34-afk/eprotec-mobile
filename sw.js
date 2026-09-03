@@ -1,8 +1,9 @@
-const CACHE_NAME = 'moneprotec-cache-v2';
+const CACHE_NAME = 'moneprotec-cache-v3';
 
 const APP_SHELL = [
   './',
   './index.html',
+  './manifest.json',
   './chart.umd.min.js',
 
   // Ressources locales utilisées par eProtec
