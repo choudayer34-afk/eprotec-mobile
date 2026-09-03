@@ -11308,15 +11308,24 @@ const run = await pollWorkflowRun(token, sinceMs);
 
 document.getElementById('force-update-btn').addEventListener('click', triggerWorkflow);
 
+// Le moteur (GitHub Actions) ne tourne plus qu'une fois par jour, le soir à 20h,
+// au lieu de toutes les heures.
+function nextEngineRunAfter(date) {
+  const next = new Date(date);
+  next.setHours(20, 0, 0, 0);
+  if (next <= date) next.setDate(next.getDate() + 1);
+  return next;
+}
+
 function renderUpdateStatus(lastUpdateIso) {
-  
+
   const el = document.getElementById('update-status');
   if (!lastUpdateIso) {
     el.textContent = 'Heure de mise à jour inconnue';
     return;
   }
   const last = new Date(lastUpdateIso);
-  const next = new Date(last.getTime() + 3600000);
+  const next = nextEngineRunAfter(new Date());
   const fmt = (d) => d.toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
   el.textContent = `Mise à jour : ${fmt(last)} · Prochaine : ${fmt(next)}`;
 }
@@ -11674,9 +11683,7 @@ async function renderEprotecLien() {
 
 function minutesUntilNextEngineRun() {
   const now = new Date();
-  const next = new Date(now);
-  next.setMinutes(1, 0, 0);
-  if (next <= now) next.setHours(next.getHours() + 1);
+  const next = nextEngineRunAfter(now);
   return Math.max(1, Math.round((next - now) / 60000));
 }
 
