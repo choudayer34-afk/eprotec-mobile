@@ -12171,6 +12171,23 @@ document.addEventListener('focusout', (e) => {
 
 startAutoRefreshWatcher();
 initAppBadgePermissionPrompt();
+
+// Réserve exactement la hauteur réelle de la barre de nav (variable selon
+// l'appareil/la zone de sécurité) au lieu d'une valeur fixe devinée, pour
+// que le dernier contenu (ex: la carte "Suggestion du mois") ne soit
+// jamais chevauché par la barre fixée en bas.
+function syncBottomNavSpacing() {
+  const nav = document.querySelector('nav');
+  if (!nav) return;
+  const h = Math.ceil(nav.getBoundingClientRect().height);
+  if (h > 0) {
+    document.body.style.paddingBottom = `calc(${h}px + 16px)`;
+  }
+}
+window.addEventListener('resize', syncBottomNavSpacing);
+window.addEventListener('orientationchange', syncBottomNavSpacing);
+syncBottomNavSpacing();
+setTimeout(syncBottomNavSpacing, 300);
   
 
 
