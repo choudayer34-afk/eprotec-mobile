@@ -2,7 +2,14 @@ name: Verification quotidienne eProtec
 
 on:
   schedule:
-    - cron: '1 * * * *'
+    # GitHub Actions ne connait que l'UTC (pas de fuseau horaire), et ne suit pas
+    # l'heure d'ete. On declenche donc a 18h UTC (= 20h a Paris en ete, heure d'ete
+    # CEST) ET a 19h UTC (= 20h a Paris en hiver, heure d'hiver CET). L'etape
+    # "Ne s'executer qu'a 20h heure de Paris" ci-dessous filtre celle des deux
+    # qui ne correspond pas vraiment a 20h a Paris, pour ne garder qu'un seul
+    # passage effectif par jour.
+    - cron: '0 18 * * *'
+    - cron: '0 19 * * *'
   workflow_dispatch:
 
 permissions:
@@ -12,23 +19,39 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
+      - name: Ne s'executer qu'a 20h heure de Paris
+        if: github.event_name == 'schedule'
+        run: |
+          HOUR=$(TZ="Europe/Paris" date +%H)
+          if [ "$HOUR" != "20" ]; then
+            echo "Il n'est pas 20h a Paris (il est ${HOUR}h) : ce declenchement est ignore."
+            echo "SKIP=true" >> "$GITHUB_ENV"
+          fi
+
       - uses: actions/checkout@v4
+        if: env.SKIP != 'true'
       - uses: actions/setup-node@v4
+        if: env.SKIP != 'true'
         with:
           node-version: 20
       - run: npm install
+        if: env.SKIP != 'true'
       - run: node scripts/check-events.js
+        if: env.SKIP != 'true'
         env:
           EPROTEC_ICS_URL: ${{ secrets.EPROTEC_ICS_URL }}
           EPROTEC_PERSO_URL: ${{ secrets.EPROTEC_PERSO_URL }}
           GCP_MONITORING_KEY: ${{ secrets.GCP_MONITORING_KEY }}
       - uses: stefanzweifel/git-auto-commit-action@v5
+        if: env.SKIP != 'true'
         with:
           commit_message: "Mise a jour de la liste des evenements connus"
           file_pattern: data/*.json
       - name: Attendre la publication sur GitHub Pages
+        if: env.SKIP != 'true'
         run: sleep 120
       - run: node scripts/send-notifications.js
+        if: env.SKIP != 'true'
         env:
           SMTP_HOST: ${{ secrets.SMTP_HOST }}
           SMTP_PORT: ${{ secrets.SMTP_PORT }}
