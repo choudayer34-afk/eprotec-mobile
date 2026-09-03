@@ -569,6 +569,13 @@
       <div class="kpi" id="kpi-inscrits-box"><div class="value" id="kpi-inscrits">-</div><div class="label">Déjà inscrits</div></div>
     </div>
 
+    <div class="card" id="badge-permission-card" style="display:none;">
+      <div class="card-title">🔴 Pastille sur l'icône</div>
+      <div style="color:#9FB3D6;font-size:13px;margin-bottom:10px;">Active les notifications pour afficher le nombre d'inscriptions à venir directement sur l'icône de l'app (écran d'accueil du téléphone).</div>
+      <button class="detail-action-btn primary" id="badge-permission-btn">Activer</button>
+      <div id="badge-permission-status" style="font-size:12px;margin-top:8px;"></div>
+    </div>
+
     <div class="card">
       <div class="card-title">📅 Mes inscriptions (15 prochains jours)</div>
       <div id="liste-inscriptions-proches"><div class="empty">Chargement...</div></div>
@@ -2425,12 +2432,18 @@ function renderUpcomingRegistrations(events) {
     row.addEventListener('click', () => openDetail(row.dataset.uid));
   });
 
+  lastUpcomingRegistrationsCount = upcoming.length;
   updateAppBadge(upcoming.length);
 }
 
 // Pastille sur l'icône de l'app (écran d'accueil du téléphone) :
 // nombre d'inscriptions dans les 15 prochains jours.
-// Nécessite que l'app soit ajoutée à l'écran d'accueil (PWA installée).
+// Nécessite que l'app soit ajoutée à l'écran d'accueil (PWA installée)
+// ET que la permission de notification ait été accordée : sur iOS/iPadOS,
+// le badge ne s'affiche jamais tant que Notification.permission !== 'granted'
+// (même si l'appli n'envoie aucune notification par ailleurs).
+let lastUpcomingRegistrationsCount = 0;
+
 function updateAppBadge(count) {
   if (!('setAppBadge' in navigator)) return;
   try {
@@ -2442,6 +2455,50 @@ function updateAppBadge(count) {
   } catch (err) {
     console.warn('[eProtec] Badge app non disponible :', err);
   }
+}
+
+// Affiche une carte d'accueil proposant d'activer les notifications
+// quand c'est nécessaire pour que la pastille fonctionne, et déclenche
+// la demande de permission native au clic.
+function initAppBadgePermissionPrompt() {
+  const card = document.getElementById('badge-permission-card');
+  if (!card) return;
+
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches
+    || window.navigator.standalone === true;
+
+  if (!('Notification' in window) || !('setAppBadge' in navigator) || !isStandalone) {
+    card.style.display = 'none';
+    return;
+  }
+
+  if (Notification.permission !== 'default') {
+    card.style.display = 'none';
+    return;
+  }
+
+  card.style.display = 'block';
+
+  const btn = document.getElementById('badge-permission-btn');
+  const status = document.getElementById('badge-permission-status');
+
+  btn.addEventListener('click', async () => {
+    try {
+      const result = await Notification.requestPermission();
+      if (result === 'granted') {
+        status.style.color = '#97C459';
+        status.textContent = '✓ Activé';
+        updateAppBadge(lastUpcomingRegistrationsCount);
+        setTimeout(() => { card.style.display = 'none'; }, 1500);
+      } else {
+        status.style.color = '#FAC775';
+        status.textContent = 'Refusé — tu peux réactiver depuis Réglages iOS/Android > eProtec > Notifications.';
+      }
+    } catch (err) {
+      status.style.color = '#FAC775';
+      status.textContent = 'Non disponible sur cet appareil.';
+    }
+  });
 }
 
 function groupByDetectionDate(items) {
@@ -12113,6 +12170,7 @@ document.addEventListener('focusout', (e) => {
 
 
 startAutoRefreshWatcher();
+initAppBadgePermissionPrompt();
   
 
 
