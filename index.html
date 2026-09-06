@@ -480,13 +480,13 @@
   }
 
 .detail-header {
-    display: flex; align-items: center; gap: 14px; padding: 4px 0 12px;
+    display: flex; align-items: center; gap: 14px; padding: calc(4px + env(safe-area-inset-top)) 0 12px;
   }
   #bilan-sticky-header, #bilan-action-bar {
     position: sticky; background: #0B2A5C; z-index: 10;
   }
-  #bilan-sticky-header { top: 0; padding-top: 8px; }
-  #bilan-action-bar { top: 46px; }
+  #bilan-sticky-header { top: 0; padding-top: calc(8px + env(safe-area-inset-top)); }
+  #bilan-action-bar { top: calc(46px + env(safe-area-inset-top)); }
   .detail-header button {
     background: none; border: none; color: #fff; font-size: 24px; line-height: 1; padding: 4px;
   }
