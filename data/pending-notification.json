@@ -1,14 +1,5 @@
 {
-  "newEvents": [
-    {
-      "tag": "DPS",
-      "titre": "[DPS 34] Test ARGOS asbh",
-      "lieu": "Stade Raoul barriere",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1651680",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-09-05T15:00:00.000Z"
-    }
-  ],
+  "newEvents": [],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
