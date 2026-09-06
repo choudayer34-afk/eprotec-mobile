@@ -517,7 +517,11 @@
   nav {
     position: fixed; bottom: 0; left: 0; right: 0;
     background: #163C74; display: flex; justify-content: space-around;
-    padding: 10px 4px calc(10px + env(safe-area-inset-bottom));
+    padding-top: 10px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-bottom: 10px;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
   }
   nav button {
     background: none; border: none; color: #9FB3D6;
@@ -1194,7 +1198,7 @@
 
 </main>
 
-<nav>
+<nav style="position:fixed;left:0;right:0;bottom:0;">
   <button data-tab="accueil" class="active"><span class="nav-icon">🏠</span>Accueil</button>
   <button data-tab="plus-evenements"><span class="nav-icon">🎯</span>Événements</button>
   <button data-tab="plus-secourisme"><span class="nav-icon">🆘</span>Secourisme</button>
@@ -12186,15 +12190,39 @@ initAppBadgePermissionPrompt();
 function syncBottomNavSpacing() {
   const nav = document.querySelector('nav');
   if (!nav) return;
-  const h = Math.ceil(nav.getBoundingClientRect().height);
+
+  // Sécurité : on force l'ancrage en bas d'écran, au cas où quoi que ce
+  // soit ailleurs aurait changé position/bottom sur cet élément.
+  nav.style.position = 'fixed';
+  nav.style.left = '0';
+  nav.style.right = '0';
+  nav.style.bottom = '0';
+
+  // Auto-correction : s'il reste un espace visible entre le bas réel de la
+  // barre et le vrai bas de l'écran (le bug "barre qui remonte" déjà vu sur
+  // iPhone), on comble directement ce vide avec du padding supplémentaire,
+  // en plus de la zone de sécurité déjà gérée en CSS.
+  const viewportH = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+  let rect = nav.getBoundingClientRect();
+  const gap = Math.round(viewportH - rect.bottom);
+  if (gap > 0) {
+    nav.style.paddingBottom = `calc(10px + env(safe-area-inset-bottom, 0px) + ${gap}px)`;
+    rect = nav.getBoundingClientRect();
+  }
+
+  const h = Math.ceil(rect.height);
   if (h > 0) {
     document.body.style.paddingBottom = `calc(${h}px + 16px)`;
   }
 }
 window.addEventListener('resize', syncBottomNavSpacing);
 window.addEventListener('orientationchange', syncBottomNavSpacing);
+if (window.visualViewport) {
+  window.visualViewport.addEventListener('resize', syncBottomNavSpacing);
+}
 syncBottomNavSpacing();
 setTimeout(syncBottomNavSpacing, 300);
+setTimeout(syncBottomNavSpacing, 1000);
   
 
 
