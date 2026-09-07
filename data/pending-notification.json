@@ -1,5 +1,22 @@
 {
-  "newEvents": [],
+  "newEvents": [
+    {
+      "tag": "AUTRE",
+      "titre": "[TEC 34] Autovision  - CT VPSP",
+      "lieu": "Lattes",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1651962",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-09-10T07:00:00.000Z"
+    },
+    {
+      "tag": "AUTRE",
+      "titre": "[REU 34] Reunion d'infos pour devenir formateur",
+      "lieu": "Visio",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1652168",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-10-15T18:00:00.000Z"
+    }
+  ],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
