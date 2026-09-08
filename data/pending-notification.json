@@ -1,20 +1,20 @@
 {
   "newEvents": [
     {
-      "tag": "AUTRE",
-      "titre": "[TEC 34] Autovision  - CT VPSP",
-      "lieu": "Lattes",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1651962",
+      "tag": "MLA",
+      "titre": "[MLA 34] Preparation materiel forum des assis BZR + LOG",
+      "lieu": "Centre de formation de Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1652906",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-09-10T07:00:00.000Z"
+      "dateDebutIso": "2026-09-08T14:30:00.000Z"
     },
     {
       "tag": "AUTRE",
-      "titre": "[REU 34] Reunion d'infos pour devenir formateur",
-      "lieu": "Visio",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1652168",
+      "titre": "[TEC 34] Depose Oppidum pour revision",
+      "lieu": "Renault Pezenas",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1652980",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-10-15T18:00:00.000Z"
+      "dateDebutIso": "2026-09-29T12:00:00.000Z"
     }
   ],
   "topSuggestion": {

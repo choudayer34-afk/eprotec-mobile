@@ -466,5 +466,14 @@
     "dateDebut": "2026-09-17T07:00:00.000Z",
     "dureeHeures": 7.5,
     "statut": "Inscrit"
+  },
+  "evt16285351@https://eprotec.protection-civile.org": {
+    "uid": "evt16285351@https://eprotec.protection-civile.org",
+    "tag": "AUTRE",
+    "titre": "[CER 34] La Grande Soiree Protec' 2026",
+    "lieu": "A decouvrir bientot !",
+    "dateDebut": "2026-11-28T18:00:00.000Z",
+    "dureeHeures": 9,
+    "statut": "Inscrit"
   }
 }
