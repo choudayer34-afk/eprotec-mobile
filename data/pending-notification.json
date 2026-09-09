@@ -1,20 +1,52 @@
 {
   "newEvents": [
     {
-      "tag": "MLA",
-      "titre": "[MLA 34] Preparation materiel forum des assis BZR + LOG",
-      "lieu": "Centre de formation de Montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1652906",
+      "tag": "AUTRE",
+      "titre": "[REU 34] GT JNR MPL",
+      "lieu": "Visio",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1653263",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-09-08T14:30:00.000Z"
+      "dateDebutIso": "2026-09-09T09:00:00.000Z"
     },
     {
       "tag": "AUTRE",
-      "titre": "[TEC 34] Depose Oppidum pour revision",
-      "lieu": "Renault Pezenas",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1652980",
+      "titre": "[REU 34] RETEX FDLM MPL",
+      "lieu": "Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1653264",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-09-29T12:00:00.000Z"
+      "dateDebutIso": "2026-09-09T12:00:00.000Z"
+    },
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] Cross College",
+      "lieu": "Stade de la Gayonne",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1653257",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-09-16T06:00:00.000Z"
+    },
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] Job dating sportif",
+      "lieu": "Rue du souvenir francais, Maugio",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1653259",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-09-17T07:00:00.000Z"
+    },
+    {
+      "tag": "AUTRE",
+      "titre": "[COM 34] JNR MPL",
+      "lieu": "Maison pour tous Francois Villon, Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1653425",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-10-13T06:30:00.000Z"
+    },
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] Ceremonie du Drakkar",
+      "lieu": "Cimetiere neuf, Beziers",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1653444",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-10-23T08:30:00.000Z"
     }
   ],
   "topSuggestion": {
