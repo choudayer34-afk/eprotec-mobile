@@ -2,99 +2,43 @@
   "newEvents": [
     {
       "tag": "AUTRE",
-      "titre": "[REU 34] Point recrutement (selection des candidats)",
-      "lieu": "Local formation MTP",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1653852",
+      "titre": "[COM 34] demo Canin Caserne SP",
+      "lieu": "Caserne SP Corneilhan",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1654561",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-09-10T16:30:00.000Z"
-    },
-    {
-      "tag": "MLA",
-      "titre": "[MLA 34] Reception Alpinter",
-      "lieu": "Beziers Nautique",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1653914",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-09-10T07:30:00.000Z"
-    },
-    {
-      "tag": "AUTRE",
-      "titre": "[COM 34] DON - Chateau Bas",
-      "lieu": "Aumelas",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1654000",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-09-10T08:45:00.000Z"
-    },
-    {
-      "tag": "MLA",
-      "titre": "[MLA 34] Logistique vehicule",
-      "lieu": "centre ope de Montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1654062",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-09-10T08:00:00.000Z"
-    },
-    {
-      "tag": "DPS",
-      "titre": "[DPS 34] Lancement Saison Culture Sud herault",
-      "lieu": "Impasse de l'Esplanade 34370 Creissan",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1654006",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-09-12T16:00:00.000Z"
-    },
-    {
-      "tag": "AUTRE",
-      "titre": "[REU 34] Reu SAP Perols",
-      "lieu": "CFO Lattes",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1654135",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-09-23T12:00:00.000Z"
-    },
-    {
-      "tag": "AUTRE",
-      "titre": "[COM 34] Signature Convention CCVH",
-      "lieu": "Gignac",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1653835",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-10-12T16:00:00.000Z"
+      "dateDebutIso": "2026-10-04T12:30:00.000Z"
     },
     {
       "tag": "FOR",
-      "titre": "[FOR 34] Formation Extincteurs - Yooz",
-      "lieu": "Aimargues",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1653820",
+      "titre": "[FOR 34] IPS Enfants - KLESIS JUNIOR",
+      "lieu": "KLESIS JUNIOR Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1654324",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-10-15T06:30:00.000Z"
+      "dateDebutIso": "2026-10-19T12:00:00.000Z"
+    },
+    {
+      "tag": "MAN",
+      "titre": "[MAN 34] Evacuation Maison de Retraite avec SP Corneihan",
+      "lieu": "3 Avenue de Thezan 34490 Corneilhan",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1654546",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-10-30T12:00:00.000Z"
     },
     {
       "tag": "FOR",
-      "titre": "[FOR 34] Formation PSC - Yooz",
-      "lieu": "Montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1653821",
+      "titre": "[FOR 34] GQS - Mana evenement",
+      "lieu": "zone moto parc - 91 rue du Rajol - 34 130 Mauguio",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1654323",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-10-15T06:30:00.000Z"
+      "dateDebutIso": "2026-11-10T09:00:00.000Z"
     },
     {
       "tag": "FOR",
-      "titre": "[FOR 34] F-2201 - PSC",
-      "lieu": "274 Avenue du Marechal Juin 34200 Sete",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1654022",
+      "titre": "[FOR 34] PSC - ALEC MONTPELLIER",
+      "lieu": "ALEC MONTPELLIER METROPOLE",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1654321",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-10-15T07:00:00.000Z"
-    },
-    {
-      "tag": "FOR",
-      "titre": "[FOR 34] AT-0305 - PSC",
-      "lieu": "520 allee Henri II de Montmorency CS 69007 34064 M",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1654020",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-11-17T08:00:00.000Z"
-    },
-    {
-      "tag": "FOR",
-      "titre": "[FOR 34] F-2202 PSC",
-      "lieu": "274 AVENUE DU MARECHAL JUIN - 34200 SETE",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1654018",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-11-19T08:00:00.000Z"
+      "dateDebutIso": "2026-12-03T08:00:00.000Z"
     }
   ],
   "topSuggestion": {
