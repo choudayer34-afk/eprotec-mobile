@@ -1,46 +1,5 @@
 {
-  "newEvents": [
-    {
-      "tag": "AUTRE",
-      "titre": "[COM 34] demo Canin Caserne SP",
-      "lieu": "Caserne SP Corneilhan",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1654561",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-10-04T12:30:00.000Z"
-    },
-    {
-      "tag": "FOR",
-      "titre": "[FOR 34] IPS Enfants - KLESIS JUNIOR",
-      "lieu": "KLESIS JUNIOR Montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1654324",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-10-19T12:00:00.000Z"
-    },
-    {
-      "tag": "MAN",
-      "titre": "[MAN 34] Evacuation Maison de Retraite avec SP Corneihan",
-      "lieu": "3 Avenue de Thezan 34490 Corneilhan",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1654546",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-10-30T12:00:00.000Z"
-    },
-    {
-      "tag": "FOR",
-      "titre": "[FOR 34] GQS - Mana evenement",
-      "lieu": "zone moto parc - 91 rue du Rajol - 34 130 Mauguio",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1654323",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-11-10T09:00:00.000Z"
-    },
-    {
-      "tag": "FOR",
-      "titre": "[FOR 34] PSC - ALEC MONTPELLIER",
-      "lieu": "ALEC MONTPELLIER METROPOLE",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1654321",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-12-03T08:00:00.000Z"
-    }
-  ],
+  "newEvents": [],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
