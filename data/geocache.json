@@ -430,5 +430,13 @@
   "Cimetiere neuf, Beziers": {
     "lat": 43.3584964,
     "lon": 3.2105295
+  },
+  "Parc Montcalm, Montpellier": {
+    "lat": 43.5970745,
+    "lon": 3.859078
+  },
+  "Lac du Salagou 34800 Clermont-l'Herault": {
+    "lat": 43.6435483,
+    "lon": 3.388636
   }
 }

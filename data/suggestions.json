@@ -777,6 +777,39 @@
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1628540"
   },
   {
+    "uid": "evt16550221@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] La balade Rose",
+    "lieu": "place jacques d aragon 34970 Lattes",
+    "dateDebut": "2026-10-03T13:00:00.000Z",
+    "dateFin": "2026-10-03T16:00:00.000Z",
+    "description": "Presence pour le Lions Club - Stand de com et IGQS + PAPS<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1655022'>Lien vers l'activité</a>",
+    "tag": "DPS",
+    "score": 13,
+    "reasons": [
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour : Samedi (+3)",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (0.4 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (22 jours)",
+        "category": "positive"
+      }
+    ],
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1655022"
+  },
+  {
     "uid": "evt16285411@https://eprotec.protection-civile.org",
     "titre": "[DPS 34] MHR - Castres Olympique",
     "lieu": "Avenue de Vanieres 34070 Montpellier",
@@ -1039,38 +1072,5 @@
       }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1628557"
-  },
-  {
-    "uid": "evt16285581@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] MHR - Union Bordeaux Begles",
-    "lieu": "Avenue de Vanieres 34070 Montpellier",
-    "dateDebut": "2027-04-17T12:30:00.000Z",
-    "dateFin": "2027-04-17T19:00:00.000Z",
-    "description": "Horaires non definitives - 2h avant match - 1h45 de match - 2h de post match (pour 8 IS seulement). En general, match a 16h30 le samedi. Peut etre a 14h30, 21h ou exceptionnellement le dimanche a 21h. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628558'>Lien vers l'activité</a>",
-    "tag": "DPS",
-    "score": 13,
-    "reasons": [
-      {
-        "text": "Mois sans DPS planifié",
-        "category": "positive"
-      },
-      {
-        "text": "Jour : Samedi (+3)",
-        "category": "positive"
-      },
-      {
-        "text": "Durée raisonnable",
-        "category": "positive"
-      },
-      {
-        "text": "Très proche (5 km)",
-        "category": "positive"
-      },
-      {
-        "text": "Espacement confortable (218 jours)",
-        "category": "positive"
-      }
-    ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1628558"
   }
 ]
