@@ -12559,6 +12559,13 @@ async function loadData() {
   if (!navigator.onLine) {
     console.info('[eProtec] Démarrage hors ligne');
 
+    await loadFichesCustom();
+    await loadQuizCustom();
+    await loadIllustrationPrompts();
+    await loadGestePseOverrides();
+    await loadPseSousRubriques();
+    await loadFicheCategoryOverrides();
+
     renderParametres();
 
     const events = await fetchJsonSafe('data/events.json', []);
