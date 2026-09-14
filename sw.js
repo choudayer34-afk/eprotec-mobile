@@ -1,4 +1,4 @@
-const CACHE_NAME = 'moneprotec-cache-v3';
+const CACHE_NAME = 'moneprotec-cache-v4';
 
 const APP_SHELL = [
   './',
