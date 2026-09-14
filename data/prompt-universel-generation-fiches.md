@@ -150,6 +150,10 @@ Adapte les repères de position au nombre de panneaux : `(Top-left)`, `(Top-righ
 
 Quand le sujet comporte plus de 3 personnages, une manipulation d'objet qui superpose des éléments (brancard glissé sous une victime, matériel manipulé à plusieurs mains), ou quand des essais précédents ont montré une dérive malgré un prompt conforme au gabarit ci-dessus : propose à la place, dans `illustrations_a_generer`, une entrée par panneau (donc plusieurs `nom_fichier` pour la même illustration logique, ex. `pont-ameliore-etape1.png`, `pont-ameliore-etape2.png`...), chacune avec son propre prompt complet et autonome décrivant une seule vue simple (mêmes couleurs, même style, un seul panneau, sans grille). Précise dans `emplacement` que ces images sont destinées à être assemblées manuellement (montage image) ou affichées comme illustrations successives d'une même section.
 
+### Terme de recherche en anglais, pour chaque illustration
+
+En plus du `nom_fichier` (en français, descriptif), ajoute systématiquement à chaque entrée de `illustrations_a_generer` un champ `terme_recherche_anglais` : un court terme ou expression en anglais (2 à 5 mots) décrivant le sujet de l'illustration, utilisable tel quel comme requête de recherche sur des banques d'images ou Wikimedia Commons (ex. `"abdominal pain patient monitoring"`, `"recovery position adult"`, `"cervical collar immobilization"`). Les banques d'images et Wikimedia Commons indexent presque exclusivement en anglais : un terme français y donne des résultats très pauvres. Ce champ est distinct du `prompt` de génération IA (qui reste en anglais technique mais n'est pas une requête de recherche) et s'applique à toute illustration, qu'une piste d'image existante soit signalée ou non.
+
 ### Alternative : signaler une piste de recherche d'image déjà existante
 
 Pour certains schémas très classiques et largement diffusés (RCP, PLS, désobstruction/Heimlich, positions anatomiques standard), il existe déjà des illustrations libres de droits, souvent plus fiables qu'une génération IA (proportions et gestes corrects, pas de dérive entre panneaux). Si le sujet de l'illustration te semble correspondre à ce cas de figure, ajoute en plus du prompt de génération (ne le retire pas, il sert de solution de repli) un champ `piste_recherche_image_existante` dans l'entrée correspondante de `illustrations_a_generer`.
@@ -275,6 +279,7 @@ Produis **un seul bloc JSON**, structuré exactement ainsi :
       "nom_fichier": "nom-fichier-descriptif.png",
       "emplacement": "Fiche '🩸 Titre de la fiche', section 'Conduite à tenir'",
       "prompt": "Le prompt complet rédigé selon le gabarit de l'Étape 4",
+      "terme_recherche_anglais": "short english search term",
       "piste_recherche_image_existante": "Optionnel — voir Étape 4, sous-section 'Alternative : signaler une piste de recherche d'image déjà existante'. Omets ce champ si aucune piste pertinente."
     }
   ],
@@ -317,6 +322,7 @@ Le résultat final doit être un JSON strictement valide et directement parsable
   - `pse.sousRubrique`
   - `emplacement`
   - `prompt`
+  - `terme_recherche_anglais`
   - `piste_recherche_image_existante`
   - `logique_de_decoupage`
   - `elements_completes_ou_corriges`
@@ -348,6 +354,7 @@ Le résultat final doit être un JSON strictement valide et directement parsable
 - Ne jamais omettre la section `rapport`, même si tout est parfaitement clair (dans ce cas, les listes concernées restent vides `[]`)
 - Le champ `pse` d'une fiche est facultatif : omets-le entièrement (plutôt que de mettre des valeurs vides) pour une fiche d'autodéfense ou si aucune rubrique n'est certaine.
 - Le champ `piste_recherche_image_existante` d'une illustration est facultatif : omets-le si aucune piste d'image existante pertinente n'a été identifiée, et ne le remplis jamais avec une URL inventée ou non vérifiée (voir Étape 4).
+- Le champ `terme_recherche_anglais` d'une illustration n'est en revanche pas facultatif : fournis-le systématiquement pour chaque entrée de `illustrations_a_generer` (voir Étape 4).
 
 ---
 ## Contrôle final obligatoire avant réponse
