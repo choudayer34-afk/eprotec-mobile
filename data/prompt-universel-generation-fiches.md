@@ -18,7 +18,12 @@ Ta tâche : transformer des notes brutes, brouillonnes ou non structurées en un
 4. Base-toi sur les référentiels officiels reconnus pour le sujet concerné :
    - Secourisme (PSE1/PSE2) : référentiels DGSCGC, Croix-Rouge française, Protection Civile
    - Autodéfense : techniques civiles standards (type Krav Maga grand public), jamais de technique létale ou disproportionnée
-5. **Si tu n'es pas certain d'une information technique précise** (valeur chiffrée, seuil médical, détail d'un geste), ne l'invente pas : indique-le explicitly dans le rapport de sortie (section "informations à valider").
+5. **Complète ou ajuste la prise de notes à l'aide du référentiel PSE1/PSE2 identifié** :
+   - Si une étape obligatoire du référentiel officiel est absente des notes (ex. vérification de sécurité, ordre des gestes, contre-indication, message d'alerte), ajoute-la.
+   - Si une information des notes diverge du référentiel officiel sur un point non ambigu, corrige-la en suivant le référentiel plutôt que la note d'origine.
+   - Ne complète/corrige que ce qui est explicitement prévu par le référentiel PSE1/PSE2 — en cas de doute ou de variante selon les organismes, ne tranche pas arbitrairement : signale-le plutôt comme ambiguïté (voir point 6).
+   - Liste **chaque ajout ou correction** dans le rapport de sortie, champ `elements_completes_ou_corriges` (voir Étape 5), avec une phrase indiquant ce qui a été ajouté/corrigé et pourquoi. Cela permet une relecture facile par un formateur avant publication.
+6. **Si tu n'es pas certain d'une information technique précise** (valeur chiffrée, seuil médical, détail d'un geste), ne l'invente pas : indique-le explicitement dans le rapport de sortie (section "informations à valider").
 
 ## Étape 2 — Choisir la bonne catégorie pour chaque fiche
 
@@ -94,29 +99,64 @@ non violente et non graphique, sur fond bleu marine foncé (#0B2A5C).
 
 Sujet : [décrire précisément le geste/la situation]
 
-Personnages génériques et neutres, silhouettes simplifiées sans traits du visage détaillés :
-- [Le défenseur/secouriste/premier rôle] en orange (#F5821F)
-- [L'agresseur/la victime/second rôle] en gris-bleu clair (#9FB3D6)
+Personnages génériques et neutres, silhouettes simplifiées sans traits du visage détaillés,
+identifiés par une étiquette fixe à utiliser MOT POUR MOT dans toute la suite du prompt
+(ne jamais reformuler différemment d'une case à l'autre) :
+- Personnage 1 = [rôle, ex. "le chef d'équipe"] en orange (#F5821F)
+- Personnage 2 = [rôle] en orange (#F5821F)
+- Personnage 3 = [rôle] en gris-bleu clair (#9FB3D6)
+- [... un personnage par ligne, avec son étiquette fixe]
 
-CLARIFICATIONS CRITIQUES À RESPECTER STRICTEMENT DANS CHAQUE CASE (aucune ambiguïté, aucune inversion gauche/droite d'une case à l'autre) :
-- [Préciser explicitement quel bras/main/jambe est utilisé, et le fixer pour toute la séquence]
-- [Préciser la trajectoire exacte de chaque mouvement : d'où part-il, où va-t-il, à l'intérieur ou à l'extérieur de quel repère]
-- [Préciser toute posture qui pourrait être mal comprise : allongé sur le ventre/dos, tête tournée de quel côté, etc.]
+RÈGLE DE CONSTANCE ENTRE LES CASES (priorité absolue, à ne jamais enfreindre) :
+- Le nombre exact de personnages est de [N] dans TOUTES les cases, sans exception. Aucun
+  personnage n'apparaît, ne disparaît, ni n'est remplacé d'une case à l'autre, sauf mention
+  explicite contraire ci-dessous.
+- Repère spatial fixe pour toute la séquence : [ex. "vue de dessus, la tête de la victime est
+  toujours orientée vers le haut de l'image et les pieds vers le bas, dans les 4 cases"].
+  Chaque personnage est positionné par rapport à CE repère fixe, jamais seulement par rapport
+  aux autres personnages.
+- Position invariante de chaque personnage (à répéter à l'identique dans chaque case où il
+  apparaît, sans paraphrase) :
+  - Personnage 1 : [ex. "toujours dans l'axe de la tête de la victime, mains de part et
+    d'autre du crâne"]
+  - Personnage 2 : [ex. "toujours du côté gauche de la victime, au niveau des épaules"]
+  - [...]
+- Seul(s) élément(s) qui change(nt) d'une case à l'autre : [préciser explicitement — ex.
+  "seule la position des mains de Personnage 3 change, le reste est identique"].
 
-Présente la scène en [3 à 6] cases numérotées, disposées [horizontalement / en grille 2x2 / en 2 rangées de 3], séparées par de fines lignes blanches :
+CLARIFICATIONS CRITIQUES À RESPECTER STRICTEMENT DANS CHAQUE CASE (aucune ambiguïté, aucune
+inversion gauche/droite d'une case à l'autre) :
+- Pour chaque prise/contact : préciser la main exacte (gauche ou droite) ET le point de
+  contact exact sur l'autre personnage (ex. "main droite de Personnage 2 sous l'aisselle
+  gauche de la victime, main gauche sur l'avant-bras droit de la victime") — jamais de
+  formulation vague type "prend appui" ou "maintient" sans préciser où.
+- [Préciser la trajectoire exacte de chaque mouvement : d'où part-il, où va-t-il, à
+  l'intérieur ou à l'extérieur de quel repère]
+- [Préciser toute posture qui pourrait être mal comprise : allongé sur le ventre/dos, tête
+  tournée de quel côté, etc.]
 
-Case 1 : [description précise de ce qui doit être visible, avec la trajectoire des mouvements indiquée par des flèches blanches]
+Présente la scène en [3 à 6] cases numérotées, disposées [horizontalement / en grille 2x2 /
+en 2 rangées de 3], séparées par de fines lignes blanches. Au début de la description de
+CHAQUE case, rappelle explicitement la présence des [N] personnages avec leurs étiquettes
+fixes, même si leur position ne change pas :
+
+Case 1 : Les [N] personnages ([liste des étiquettes]) sont visibles. [description précise de
+ce qui doit être visible dans cette case, avec la trajectoire des mouvements indiquée par des
+flèches blanches]
 Légende : 1. [texte court]
 
-Case 2 : [...]
+Case 2 : Les [N] mêmes personnages sont visibles, aux mêmes positions générales qu'en case 1
+sauf : [préciser uniquement ce qui change]. [description précise]
 Légende : 2. [texte court]
 
-[... autant de cases que nécessaire]
+[... autant de cases que nécessaire, chacune rappelant explicitement les [N] personnages]
 
 Format : image 16:9, sans titre superposé, uniquement les cases et leurs légendes en bas de chaque case, police sans-serif blanche, texte court et lisible.
 ```
 
-**Règle d'or** : chaque détail géométrique (quel bras, quelle direction, à l'intérieur ou à l'extérieur, gauche ou droite) doit être écrit explicitement — ne jamais laisser l'IA graphique déduire ou supposer, sous peine d'un résultat visuellement incohérent.
+**Règle d'or** : chaque détail géométrique (quel bras, quelle direction, à l'intérieur ou à l'extérieur, gauche ou droite) doit être écrit explicitement — ne jamais laisser l'IA graphique déduire ou supposer, sous peine d'un résultat visuellement incohérent. Le nombre de personnages et leur position de base doivent être répétés à l'identique dans chaque case plutôt que sous-entendus — c'est cette répétition explicite qui évite les dérives (personnage qui disparaît, main qui change de côté, etc.) d'une case à l'autre.
+
+**Si malgré un prompt conforme à ce gabarit des écarts persistent** (fréquent au-delà de 3-4 personnages sur 4 cases ou plus, limite connue des générateurs d'images) : le signaler dans `rapport.informations_manquantes_ou_a_valider` en proposant, en alternative, de générer chaque case comme une image séparée avec la même section "personnages / règle de constance" répétée à l'identique dans chaque prompt individuel, puis de composer la grille manuellement.
 
 ### Cas particulier : fiches Autodéfense / Krav Maga
 
@@ -127,6 +167,8 @@ Les générateurs d'images refusent souvent les prompts contenant du vocabulaire
 - "saisit/étrangle/attaque" → **"pose ses mains sur"**, **"exerce une pression au niveau de"**
 - "dégagement d'un étranglement" → **"exercice de mise à distance"**, **"démonstration de gestion de prise"**
 - "technique de combat" → **"exercice de posture de protection"**
+
+Utilise "Personne A" et "Personne B" comme étiquettes fixes au sens de la règle de constance ci-dessus : mêmes contraintes de répétition à l'identique dans chaque case.
 
 Exemple de reformulation (le contenu géométrique reste identique, seul le vocabulaire change) :
 Crée une illustration vectorielle plate (flat design) de type manuel de formation professionnelle,
@@ -142,13 +184,15 @@ Personne A (qui se protège) en orange (
 Personne B en gris-bleu clair (
 #9FB3D6)
 
+RÈGLE DE CONSTANCE ENTRE LES CASES : 2 personnages exactement dans les 4 cases, aucun de plus, aucun de moins.
+
 CLARIFICATIONS CRITIQUES À RESPECTER STRICTEMENT DANS CHAQUE CASE :
 
-Personne B pose sa main droite du côté gauche du cou de Personne A, et sa main gauche du côté droit, dans toutes les cases.
+Personne B pose sa main droite du côté gauche du cou de Personne A, et sa main gauche du côté droit, dans toutes les cases sauf mention contraire.
 Personne A garde le pied droit légèrement en arrière dans toutes les cases.
 [... reste des clarifications géométriques identiques ...]
 
-Présente la scène en 4 cases numérotées...
+Présente la scène en 4 cases numérotées, chacune rappelant "Personne A et Personne B sont visibles"...
 [reste du gabarit identique]
 
 
@@ -238,6 +282,7 @@ Produis **un seul bloc JSON**, structuré exactement ainsi :
     "nombre_fiches_generees": 1,
     "logique_de_decoupage": "Explication courte de comment/pourquoi les notes ont été scindées ou regroupées",
     "thematiques_identifiees": ["Thème 1", "Thème 2"],
+    "elements_completes_ou_corriges": ["Chaque ajout ou correction fait par rapport à la prise de notes d'origine à l'aide du référentiel PSE1/PSE2, avec une courte justification"],
     "illustrations_proposees": ["Liste des noms de fichiers proposés, avec une phrase de justification chacun"],
     "ambiguites_detectees": ["Toute zone floue des notes d'origine qui a nécessité une interprétation"],
 "informations_manquantes_ou_a_valider": ["Toute donnée que tu n'as pas pu vérifier avec certitude, à faire relire par un humain formé"],
@@ -263,6 +308,7 @@ Le résultat final doit être un JSON strictement valide et directement parsable
   - `emplacement`
   - `prompt`
   - `logique_de_decoupage`
+  - `elements_completes_ou_corriges`
   - `illustrations_proposees`
   - `ambiguites_detectees`
   - `informations_manquantes_ou_a_valider`
@@ -322,6 +368,7 @@ Vérifie particulièrement chaque tableau JSON :
 "items": [ ... ]
 "illustrations_a_generer": [ ... ]
 "rapport.thematiques_identifiees": [ ... ]
+"rapport.elements_completes_ou_corriges": [ ... ]
 "rapport.illustrations_proposees": [ ... ]
 "rapport.ambiguites_detectees": [ ... ]
 "rapport.informations_manquantes_ou_a_valider": [ ... ]
@@ -375,6 +422,7 @@ Avant de répondre, vérifie particulièrement les champs suivants :
 
 prompt
 logique_de_decoupage
+elements_completes_ou_corriges
 illustrations_proposees
 ambiguites_detectees
 informations_manquantes_ou_a_valider
@@ -408,5 +456,5 @@ Important : ne jamais produire un JSON approximatif ou pseudo-JSON. Si une erreu
 Le JSON doit être directement copiable-collable dans un parseur JSON et importable sans modification manuelle.
 
 ## NOTES À TRAITER
-tu dois compléter, ajuster selon les référentiels PSE en vigueur, les prompts d'illustration doivent etre le plus détaillé possible afin qu'il n'y ait aucune ambiguité ou interprétation dans la réalisation des illustrations et cela pour toutes les cases en rappelant tous le nécessaire et le contenu de la case :
+
 *(Colle tes notes brutes juste ici, sans rien changer à ce qui précède)*
