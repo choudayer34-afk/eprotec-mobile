@@ -1029,7 +1029,7 @@
   </section>
 <section id="plus-import-fiches">
     <div class="detail-header">
-      <button class="plus-back" data-target="plus-secourisme">‹</button>
+      <button class="plus-back" id="import-fiches-back-btn" data-target="plus-secourisme">‹</button>
       <span>Importer des fiches</span>
     </div>
 <button class="detail-action-btn" id="get-prompt-btn" style="margin-bottom:10px;">📄 Récupérer le prompt universel</button>
@@ -1894,6 +1894,13 @@ document.querySelectorAll('.tile[data-open]').forEach(tile => {
       return;
     }
     if (tile.dataset.open === 'import-fiches') {
+      // Ouverture "normale" depuis la tuile : le bouton retour doit repartir
+      // sur Secourisme, pas garder le contexte d'une fiche visitée avant un
+      // précédent aller-retour via goToUploadWithFilename.
+      importFichesReturnTarget = null;
+      importFichesReturnFicheKey = null;
+      const importBackBtn = document.getElementById('import-fiches-back-btn');
+      if (importBackBtn) importBackBtn.dataset.target = 'plus-secourisme';
       document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === 'plus-secourisme'));
       document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
       document.getElementById('plus-import-fiches').classList.add('active');
@@ -3888,14 +3895,35 @@ function handleFicheImgError(imgEl, filename) {
     div.style.cursor = 'pointer';
     div.style.textDecoration = 'underline';
     div.innerHTML = `📷 Illustration <b>${filename}</b> dans le dossier <b>data</b> — pas encore uploadée (tape ici pour l'envoyer)`;
-    div.addEventListener('click', () => goToUploadWithFilename(filename));
+    // Repère la fiche d'origine (son data-geste-key) pour pouvoir y revenir
+    // directement, toujours ouverte, une fois l'upload fait ou annulé — au
+    // lieu de renvoyer systématiquement sur l'écran Secourisme.
+    const gesteGroup = imgEl.closest('.geste-group');
+    const ficheKey = gesteGroup ? gesteGroup.dataset.gesteKey : null;
+    div.addEventListener('click', () => goToUploadWithFilename(filename, ficheKey));
   } else {
     div.innerHTML = `📷 Illustration <b>${filename}</b> dans le dossier <b>data</b> — pas encore uploadée`;
   }
   imgEl.replaceWith(div);
 }
 
-function goToUploadWithFilename(filename) {
+// Section (et, si connue, fiche précise) à retrouver quand on retourne en
+// arrière depuis "Importer des fiches" après avoir tapé sur une illustration
+// manquante — permet d'enchaîner l'ajout de plusieurs illustrations sur la
+// même fiche sans avoir à la rechercher de nouveau à chaque fois.
+let importFichesReturnTarget = null;
+let importFichesReturnFicheKey = null;
+
+function goToUploadWithFilename(filename, ficheKey) {
+  const currentActive = document.querySelector('section.active');
+  if (currentActive && currentActive.id !== 'plus-import-fiches') {
+    importFichesReturnTarget = currentActive.id;
+    importFichesReturnFicheKey = ficheKey || null;
+  }
+
+  const backBtn = document.getElementById('import-fiches-back-btn');
+  if (backBtn) backBtn.dataset.target = importFichesReturnTarget || 'plus-secourisme';
+
   document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === 'plus-secourisme'));
   document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
   document.getElementById('plus-import-fiches').classList.add('active');
@@ -3908,6 +3936,25 @@ function goToUploadWithFilename(filename) {
     syncUploadPromptRow(filename);
   }, 100);
 }
+
+// Au retour vers la fiche d'origine : le bouton générique .plus-back a déjà
+// réactivé la bonne section via data-target, on la re-rend ici (pour que les
+// illustrations tout juste uploadées s'affichent correctement) puis on
+// rouvre directement la fiche précise si elle est connue.
+document.getElementById('import-fiches-back-btn').addEventListener('click', () => {
+  const sectionId = importFichesReturnTarget;
+  const ficheKey = importFichesReturnFicheKey;
+  importFichesReturnFicheKey = null;
+  if (!sectionId || sectionId === 'plus-secourisme') return;
+  openPlusSection(sectionId);
+  if (ficheKey) {
+    setTimeout(() => {
+      const section = document.getElementById(sectionId);
+      const target = section && section.querySelector(`.geste-group[data-geste-key="${ficheKey}"] .month-toggle`);
+      if (target) target.click();
+    }, 60);
+  }
+});
 
 const QUIZ_DATA = [
   { id: 'q1', category: 'Urgences vitales', question: 'Quelle est la fréquence recommandée pour les compressions thoraciques en RCP ?', options: ['60 à 80/min', '100 à 120/min', '140 à 160/min', '30 à 50/min'], correctIndex: 1, explication: 'La fréquence recommandée est de 100 à 120 compressions par minute, chez l\'adulte comme chez l\'enfant.' },
