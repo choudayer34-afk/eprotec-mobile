@@ -150,6 +150,18 @@ Adapte les repères de position au nombre de panneaux : `(Top-left)`, `(Top-righ
 
 Quand le sujet comporte plus de 3 personnages, une manipulation d'objet qui superpose des éléments (brancard glissé sous une victime, matériel manipulé à plusieurs mains), ou quand des essais précédents ont montré une dérive malgré un prompt conforme au gabarit ci-dessus : propose à la place, dans `illustrations_a_generer`, une entrée par panneau (donc plusieurs `nom_fichier` pour la même illustration logique, ex. `pont-ameliore-etape1.png`, `pont-ameliore-etape2.png`...), chacune avec son propre prompt complet et autonome décrivant une seule vue simple (mêmes couleurs, même style, un seul panneau, sans grille). Précise dans `emplacement` que ces images sont destinées à être assemblées manuellement (montage image) ou affichées comme illustrations successives d'une même section.
 
+### Alternative : signaler une piste de recherche d'image déjà existante
+
+Pour certains schémas très classiques et largement diffusés (RCP, PLS, désobstruction/Heimlich, positions anatomiques standard), il existe déjà des illustrations libres de droits, souvent plus fiables qu'une génération IA (proportions et gestes corrects, pas de dérive entre panneaux). Si le sujet de l'illustration te semble correspondre à ce cas de figure, ajoute en plus du prompt de génération (ne le retire pas, il sert de solution de repli) un champ `piste_recherche_image_existante` dans l'entrée correspondante de `illustrations_a_generer`.
+
+**Règle impérative : ne fournis jamais une URL précise que tu n'as pas toi-même vérifiée comme existante et correcte.** Si tu n'as pas de moyen de vérifier qu'une adresse précise fonctionne réellement, ne l'invente pas — une URL inventée qui ne mène nulle part est pire qu'une absence de piste. Donne uniquement une **piste de recherche** exploitable par un humain, par exemple :
+- Le nom d'une catégorie Wikimedia Commons connue pour ce sujet (ex. `"Wikimedia Commons, catégorie 'Recovery position'"`, `"Wikimedia Commons, catégorie 'Cardiopulmonary resuscitation'"`)
+- Un terme de recherche précis en anglais à utiliser sur ces plateformes (ex. `"chercher 'abdominal thrusts diagram' sur Wikimedia Commons"`)
+
+Si tu as un accès de recherche web réel dans la conversation où ce prompt est exécuté et que tu as personnellement vérifié qu'une URL précise existe et affiche bien l'image attendue, tu peux l'indiquer directement dans ce champ à la place d'une simple piste — mais uniquement dans ce cas, jamais par déduction ou probabilité. Dans le doute, une piste de recherche reste préférable à une URL non vérifiée.
+
+Ce champ est purement informatif pour l'utilisateur : l'application ne le télécharge pas automatiquement. Une fois l'image trouvée et son droit d'usage vérifié (licence libre ou domaine public), l'utilisateur la récupère lui-même via le champ "URL publique d'une image existante" de l'écran "Illustrations à générer et uploader", qui la redimensionne et l'importe.
+
 ### Cas particulier : fiches Autodéfense / Krav Maga
 
 Les générateurs d'images refusent souvent les prompts contenant du vocabulaire de combat explicite ("attacker", "attack", "choke", "combat"), même en anglais et même dans un contexte pédagogique non violent. Remplace systématiquement ce vocabulaire par des termes neutres, en anglais, tout en gardant l'intégralité de la précision géométrique :
@@ -262,7 +274,8 @@ Produis **un seul bloc JSON**, structuré exactement ainsi :
     {
       "nom_fichier": "nom-fichier-descriptif.png",
       "emplacement": "Fiche '🩸 Titre de la fiche', section 'Conduite à tenir'",
-      "prompt": "Le prompt complet rédigé selon le gabarit de l'Étape 4"
+      "prompt": "Le prompt complet rédigé selon le gabarit de l'Étape 4",
+      "piste_recherche_image_existante": "Optionnel — voir Étape 4, sous-section 'Alternative : signaler une piste de recherche d'image déjà existante'. Omets ce champ si aucune piste pertinente."
     }
   ],
 "quiz": [
@@ -304,6 +317,7 @@ Le résultat final doit être un JSON strictement valide et directement parsable
   - `pse.sousRubrique`
   - `emplacement`
   - `prompt`
+  - `piste_recherche_image_existante`
   - `logique_de_decoupage`
   - `elements_completes_ou_corriges`
   - `illustrations_proposees`
@@ -333,6 +347,7 @@ Le résultat final doit être un JSON strictement valide et directement parsable
 - Les noms de fichiers d'illustration en minuscules, sans espace (tirets), avec extension `.png`
 - Ne jamais omettre la section `rapport`, même si tout est parfaitement clair (dans ce cas, les listes concernées restent vides `[]`)
 - Le champ `pse` d'une fiche est facultatif : omets-le entièrement (plutôt que de mettre des valeurs vides) pour une fiche d'autodéfense ou si aucune rubrique n'est certaine.
+- Le champ `piste_recherche_image_existante` d'une illustration est facultatif : omets-le si aucune piste d'image existante pertinente n'a été identifiée, et ne le remplis jamais avec une URL inventée ou non vérifiée (voir Étape 4).
 
 ---
 ## Contrôle final obligatoire avant réponse
