@@ -5023,7 +5023,7 @@ function renderImportReport() {
               <div style="color:#fff;font-size:12px;">${escapeHtml(img.piste_recherche_image_existante)}</div>
             </div>
           ` : ''}
-          <div style="margin-bottom:8px;">${buildImageSearchLinksHtml(deriveSearchTermFromFilename(img.nom_fichier))}</div>
+          <div style="margin-bottom:8px;">${buildImageSearchLinksHtml(img.terme_recherche_anglais || deriveSearchTermFromFilename(img.nom_fichier), deriveSearchTermFromFilename(img.nom_fichier))}</div>
           <div class="text-field-wrap has-value">
             <textarea rows="3" class="bilan-textarea" readonly style="font-size:11px;">${escapeHtml(img.prompt || '')}</textarea>
           </div>
@@ -5038,7 +5038,8 @@ function renderImportReport() {
         illustrationPrompts[img.nom_fichier] = {
           prompt: img.prompt || '',
           emplacement: img.emplacement || '',
-          pisteRechercheImageExistante: img.piste_recherche_image_existante || ''
+          pisteRechercheImageExistante: img.piste_recherche_image_existante || '',
+          termeRechercheAnglais: img.terme_recherche_anglais || ''
         };
       }
     });
@@ -11715,10 +11716,12 @@ function deriveSearchTermFromFilename(filename) {
 }
 
 // Construit la rangée de boutons de recherche d'image pour un terme donné.
-// Chaque clic copie le terme dans le presse-papiers (utile notamment pour
-// les catégories Commons, qui n'acceptent pas de terme dans l'URL) et ouvre
-// la source dans un nouvel onglet.
-function buildImageSearchLinksHtml(term) {
+// `term` doit être en anglais (les banques d'images et Wikimedia Commons
+// indexent très mal le français) — c'est lui qui est copié dans le
+// presse-papiers et inséré dans les URL de recherche. `frenchLabel`, si
+// fourni et différent, s'affiche entre parenthèses juste à titre indicatif
+// pour qu'on comprenne ce qui est cherché.
+function buildImageSearchLinksHtml(term, frenchLabel) {
   if (!term) return '';
   const t = escapeHtml(term);
   const encoded = encodeURIComponent(term);
@@ -11729,8 +11732,10 @@ function buildImageSearchLinksHtml(term) {
     { label: 'Unsplash', url: `https://unsplash.com/fr/s/photos/${unsplashTerm}` }
   ];
   const allSources = IMAGE_SEARCH_FIXED_SOURCES.concat(dynamicSources);
+  const showFrench = frenchLabel && frenchLabel.trim() && frenchLabel.trim().toLowerCase() !== term.trim().toLowerCase();
+  const frenchNote = showFrench ? ` <span style="color:#9FB3D6;">(fr : ${escapeHtml(frenchLabel)})</span>` : '';
   return `
-    <div style="color:#9FB3D6;font-size:11px;margin-bottom:6px;">🔎 Chercher une image existante pour : <b style="color:#fff;">${t}</b> (terme copié dans le presse-papiers à l'ouverture)</div>
+    <div style="color:#9FB3D6;font-size:11px;margin-bottom:6px;">🔎 Chercher une image existante pour : <b style="color:#fff;">${t}</b>${frenchNote} (terme copié dans le presse-papiers à l'ouverture)</div>
     <div style="display:flex;flex-wrap:wrap;gap:6px;">
       ${allSources.map(s => `<button type="button" class="detail-action-btn img-search-btn" data-url="${escapeHtml(s.url)}" data-term="${t}" style="flex:none;font-size:11px;padding:6px 10px;">${escapeHtml(s.label)}</button>`).join('')}
     </div>
@@ -11756,15 +11761,17 @@ function syncUploadPromptRow(filename) {
   const promptRow = document.getElementById('upload-prompt-row');
   const pisteRow = document.getElementById('upload-piste-row');
   const searchRow = document.getElementById('upload-search-row');
-  const term = deriveSearchTermFromFilename(filename);
-  if (term) {
-    searchRow.innerHTML = buildImageSearchLinksHtml(term);
+  const promptInfo = illustrationPrompts[filename];
+  const frenchTerm = deriveSearchTermFromFilename(filename);
+  const englishTerm = (promptInfo && promptInfo.termeRechercheAnglais) || '';
+  const searchTerm = englishTerm || frenchTerm;
+  if (searchTerm) {
+    searchRow.innerHTML = buildImageSearchLinksHtml(searchTerm, englishTerm ? frenchTerm : null);
     searchRow.style.display = 'block';
   } else {
     searchRow.innerHTML = '';
     searchRow.style.display = 'none';
   }
-  const promptInfo = illustrationPrompts[filename];
   if (promptInfo && promptInfo.prompt) {
     document.getElementById('upload-prompt-text').value = promptInfo.prompt;
     promptRow.style.display = 'block';
