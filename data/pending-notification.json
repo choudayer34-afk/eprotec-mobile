@@ -1,124 +1,12 @@
 {
   "newEvents": [
     {
-      "tag": "AUTRE",
-      "titre": "[REU 34] Reu Secu Feria Palavas",
-      "lieu": "Palavas les Flots",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1655023",
+      "tag": "FOR",
+      "titre": "[FOR 34] PSC",
+      "lieu": "Centre de formation de Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1655599",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-09-18T07:30:00.000Z"
-    },
-    {
-      "tag": "AUTRE",
-      "titre": "[REU 34] Reunion Gest Risques Majeurs CCVH",
-      "lieu": "CFO Lattes",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1655007",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-09-21T14:00:00.000Z"
-    },
-    {
-      "tag": "AUTRE",
-      "titre": "[REU 34] RETEX Vague Chaleur",
-      "lieu": "Montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1655017",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-09-21T12:30:00.000Z"
-    },
-    {
-      "tag": "DPS",
-      "titre": "[DPS 34] Feria de Palavas",
-      "lieu": "Boulevard Marechal Joffre 34250 Palavas-les-Flots",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1654994",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-09-26T09:30:00.000Z"
-    },
-    {
-      "tag": "DPS",
-      "titre": "[DPS 34] Feria de Palavas",
-      "lieu": "Boulevard Sarrail 34250 Palavas-les-Flots",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1654995",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-09-27T08:00:00.000Z"
-    },
-    {
-      "tag": "DPS",
-      "titre": "[DPS 34] La balade Rose",
-      "lieu": "place jacques d aragon 34970 Lattes",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1655022",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-10-03T13:00:00.000Z"
-    },
-    {
-      "tag": "DPS",
-      "titre": "[DPS 34] Mini BUT",
-      "lieu": "Allees Paul Riquet 34500 Beziers",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1655001",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-10-10T13:00:00.000Z"
-    },
-    {
-      "tag": "DPS",
-      "titre": "[DPS 34] Beziers Urban Trail",
-      "lieu": "Allees Paul Riquet 34500 Beziers",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1655002",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-10-11T05:00:00.000Z"
-    },
-    {
-      "tag": "DPS",
-      "titre": "[DPS 34] Cross UNSS - Beziers",
-      "lieu": "Beziers",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1654982",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-10-14T11:00:00.000Z"
-    },
-    {
-      "tag": "DPS",
-      "titre": "[DPS 34] Cross UNSS - Montpellier",
-      "lieu": "Parc Montcalm, Montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1654983",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-10-14T11:00:00.000Z"
-    },
-    {
-      "tag": "DPS",
-      "titre": "[DPS 34] Cross UNSS",
-      "lieu": "Lac du Salagou 34800 Clermont-l'Herault",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1654984",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-11-18T07:00:00.000Z"
-    },
-    {
-      "tag": "DPS",
-      "titre": "[DPS 34] Cross academique",
-      "lieu": "Beziers",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1655021",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-12-09T07:00:00.000Z"
-    },
-    {
-      "tag": "AUTRE",
-      "titre": "[COM 34] Educap City - Rallye citoyen",
-      "lieu": "Peyrou",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1655018",
-      "dejaInscrit": false,
-      "dateDebutIso": "2027-05-18T06:00:00.000Z"
-    },
-    {
-      "tag": "AUTRE",
-      "titre": "[COM 34] Defile du 14 juillet - MPL",
-      "lieu": "Montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1655019",
-      "dejaInscrit": false,
-      "dateDebutIso": "2027-07-13T14:00:00.000Z"
-    },
-    {
-      "tag": "AUTRE",
-      "titre": "[COM 34] Defile du 14 Juillet - BZR",
-      "lieu": "Beziers",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1655020",
-      "dejaInscrit": false,
-      "dateDebutIso": "2027-07-14T06:00:00.000Z"
+      "dateDebutIso": "2026-09-22T07:00:00.000Z"
     }
   ],
   "topSuggestion": {

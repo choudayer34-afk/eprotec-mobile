@@ -37,43 +37,6 @@
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1627494"
   },
   {
-    "uid": "evt16274951@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] MHSC - Red star",
-    "lieu": "Stade de la Mosson, 34080 Montpellier",
-    "dateDebut": "2026-10-23T16:30:00.000Z",
-    "dateFin": "2026-10-23T20:30:00.000Z",
-    "description": "1h30 avant match - 1h45 de match - 30mn apres match. Bord de terrain uniquement et dedie extraction joueurs. Horaire non definitif. Matchs en majorite le vendredi soir a 20h, possiblement a 20h45 et le samedi a 14h, ou 20h. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627495'>Lien vers l'activité</a>",
-    "tag": "DPS",
-    "score": 15,
-    "reasons": [
-      {
-        "text": "Mois sans DPS planifié",
-        "category": "positive"
-      },
-      {
-        "text": "Jour : Vendredi (+3)",
-        "category": "positive"
-      },
-      {
-        "text": "Créneau fin d'après-midi / soirée",
-        "category": "positive"
-      },
-      {
-        "text": "Durée raisonnable",
-        "category": "positive"
-      },
-      {
-        "text": "Très proche (9.4 km)",
-        "category": "positive"
-      },
-      {
-        "text": "Espacement confortable (42 jours)",
-        "category": "positive"
-      }
-    ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1627495"
-  },
-  {
     "uid": "evt16462801@https://eprotec.protection-civile.org",
     "titre": "[DPS 34] [Previ] MFC - OL Lyonnes",
     "lieu": "La Mosson, Montpellier",
@@ -109,43 +72,6 @@
       }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1646280"
-  },
-  {
-    "uid": "evt16274961@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] MHSC - FC Metz",
-    "lieu": "Stade de la Mosson, 34080 Montpellier",
-    "dateDebut": "2026-11-06T17:30:00.000Z",
-    "dateFin": "2026-11-06T21:30:00.000Z",
-    "description": "1h30 avant match - 1h45 de match - 30mn apres match. Bord de terrain uniquement et dedie extraction joueurs. Horaire non definitif. Matchs en majorite le vendredi soir a 20h, possiblement a 20h45 et le samedi a 14h, ou 20h. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627496'>Lien vers l'activité</a>",
-    "tag": "DPS",
-    "score": 15,
-    "reasons": [
-      {
-        "text": "Mois sans DPS planifié",
-        "category": "positive"
-      },
-      {
-        "text": "Jour : Vendredi (+3)",
-        "category": "positive"
-      },
-      {
-        "text": "Créneau fin d'après-midi / soirée",
-        "category": "positive"
-      },
-      {
-        "text": "Durée raisonnable",
-        "category": "positive"
-      },
-      {
-        "text": "Très proche (9.4 km)",
-        "category": "positive"
-      },
-      {
-        "text": "Espacement confortable (56 jours)",
-        "category": "positive"
-      }
-    ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1627496"
   },
   {
     "uid": "evt16462811@https://eprotec.protection-civile.org",
@@ -810,6 +736,39 @@
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1655022"
   },
   {
+    "uid": "evt16274951@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] MHSC - Red star",
+    "lieu": "Stade de la Mosson, 34080 Montpellier",
+    "dateDebut": "2026-10-24T10:30:00.000Z",
+    "dateFin": "2026-10-24T14:30:00.000Z",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627495'>Lien vers l'activité</a>",
+    "tag": "DPS",
+    "score": 13,
+    "reasons": [
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour : Samedi (+3)",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (9.4 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (43 jours)",
+        "category": "positive"
+      }
+    ],
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1627495"
+  },
+  {
     "uid": "evt16285411@https://eprotec.protection-civile.org",
     "titre": "[DPS 34] MHR - Castres Olympique",
     "lieu": "Avenue de Vanieres 34070 Montpellier",
@@ -841,6 +800,39 @@
       }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1628541"
+  },
+  {
+    "uid": "evt16274961@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] MHSC - FC Metz",
+    "lieu": "Stade de la Mosson, 34080 Montpellier",
+    "dateDebut": "2026-11-07T11:30:00.000Z",
+    "dateFin": "2026-11-07T15:30:00.000Z",
+    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1627496'>Lien vers l'activité</a>",
+    "tag": "DPS",
+    "score": 13,
+    "reasons": [
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour : Samedi (+3)",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (9.4 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (57 jours)",
+        "category": "positive"
+      }
+    ],
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1627496"
   },
   {
     "uid": "evt16285421@https://eprotec.protection-civile.org",
