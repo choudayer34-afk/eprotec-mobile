@@ -12154,10 +12154,77 @@ function attachCategoryMoveAction(container, onChanged) {
   });
 }
 
+// Regroupe une liste de fiches ({geste, isCustom}) par rubrique PSE puis
+// sous-rubrique, pour éviter les longues listes "fourre-tout" dans les
+// écrans par catégorie fonctionnelle et dans Classement PSE. Les fiches
+// sans rubrique (ou sans sous-rubrique) PSE sont regroupées à part et
+// toujours affichées en dernier ; le reste est trié alphabétiquement.
+function groupFichesByPseTaxonomy(fichesWithMeta) {
+  const buckets = new Map(); // rubriqueId|null -> Map(sousId|null -> items[])
+  fichesWithMeta.forEach(item => {
+    const pse = getFichePse(item.geste, item.isCustom);
+    const rubriqueId = (pse && pse.rubrique) || null;
+    const sousId = (pse && pse.sousRubrique) || null;
+    if (!buckets.has(rubriqueId)) buckets.set(rubriqueId, new Map());
+    const sousMap = buckets.get(rubriqueId);
+    if (!sousMap.has(sousId)) sousMap.set(sousId, []);
+    sousMap.get(sousId).push(item);
+  });
+
+  const titleCompare = (a, b) => (a.geste.title || '').localeCompare(b.geste.title || '', 'fr', { sensitivity: 'base' });
+
+  return Array.from(buckets.entries()).map(([rubriqueId, sousMap]) => {
+    const rubInfo = rubriqueId ? pseRubriqueInfo(rubriqueId) : null;
+    const sousGroups = Array.from(sousMap.entries()).map(([sousId, items]) => ({
+      sousId,
+      sousLabel: (rubriqueId && sousId) ? pseSousRubriqueLabel(rubriqueId, sousId) : '',
+      fiches: items.slice().sort(titleCompare)
+    })).sort((a, b) => {
+      if (!a.sousId && !b.sousId) return 0;
+      if (!a.sousId) return -1;
+      if (!b.sousId) return 1;
+      return a.sousLabel.localeCompare(b.sousLabel, 'fr', { sensitivity: 'base' });
+    });
+    return {
+      rubriqueId,
+      rubriqueLabel: rubInfo ? rubInfo.label : 'Non classées',
+      rubriqueEmoji: rubInfo ? rubInfo.emoji : '🗂️',
+      sousGroups
+    };
+  }).sort((a, b) => {
+    if (!a.rubriqueId && !b.rubriqueId) return 0;
+    if (!a.rubriqueId) return 1;
+    if (!b.rubriqueId) return -1;
+    return a.rubriqueLabel.localeCompare(b.rubriqueLabel, 'fr', { sensitivity: 'base' });
+  });
+}
+
+// Rend le HTML d'une liste de fiches groupée par groupFichesByPseTaxonomy.
+// showRubriqueHeaders : à true quand la liste peut mélanger plusieurs
+// rubriques PSE (écrans par catégorie fonctionnelle) ; à false quand
+// l'écran affiche déjà une seule rubrique dans son titre (Classement PSE).
+function buildGroupedFichesHtml(fichesWithMeta, { showRubriqueHeaders } = {}) {
+  return groupFichesByPseTaxonomy(fichesWithMeta).map(group => {
+    const rubriqueHeaderHtml = showRubriqueHeaders
+      ? `<div style="color:#F5821F;font-size:13px;font-weight:600;margin:18px 0 6px;padding-top:10px;border-top:0.5px solid #223258;">${group.rubriqueEmoji} ${escapeHtml(group.rubriqueLabel)}</div>`
+      : '';
+    const sousHtml = group.sousGroups.map(sg => {
+      const sousHeaderHtml = sg.sousId
+        ? `<div style="color:#9FB3D6;font-size:12px;font-weight:500;margin:10px 0 4px 8px;">${escapeHtml(sg.sousLabel)}</div>`
+        : '';
+      return sousHeaderHtml + sg.fiches.map(({ geste, isCustom }) => buildGesteRowHtml(geste, isCustom)).join('');
+    }).join('');
+    return rubriqueHeaderHtml + sousHtml;
+  }).join('');
+}
+
 function renderGestesList(containerId, categories) {
   const container = document.getElementById(containerId);
+  const nativeFiltered = GESTES_DATA.filter(g => categories.includes(getFicheCategory(g, false)));
   const customFiltered = fichesCustom.filter(g => categories.includes(getFicheCategory(g, true)));
-  const filtered = GESTES_DATA.filter(g => categories.includes(getFicheCategory(g, false))).concat(customFiltered);
+  const filtered = nativeFiltered.concat(customFiltered);
+  const fichesWithMeta = nativeFiltered.map(g => ({ geste: g, isCustom: false }))
+    .concat(customFiltered.map(g => ({ geste: g, isCustom: true })));
 
   const addBtnHtml = isAdminUser
     ? `<button class="detail-action-btn primary" id="add-fiche-btn" style="margin-bottom:14px;">➕ Ajouter une fiche</button>`
@@ -12171,10 +12238,7 @@ function renderGestesList(containerId, categories) {
     return;
   }
 
-  container.innerHTML = addBtnHtml + filtered.map(geste => {
-    const isCustom = fichesCustom.some(fc => fc.key === geste.key);
-    return buildGesteRowHtml(geste, isCustom);
-  }).join('');
+  container.innerHTML = addBtnHtml + buildGroupedFichesHtml(fichesWithMeta, { showRubriqueHeaders: true });
 
   setupAccordion(container, '.geste-group');
   setupAccordion(container);
@@ -12304,7 +12368,7 @@ function renderPseFicheList(rubriqueId) {
     return;
   }
 
-  container.innerHTML = filtered.map(({ geste, isCustom }) => buildGesteRowHtml(geste, isCustom)).join('');
+  container.innerHTML = buildGroupedFichesHtml(filtered, { showRubriqueHeaders: false });
   setupAccordion(container, '.geste-group');
   setupAccordion(container);
 
