@@ -1038,6 +1038,13 @@
         <label>Nom du fichier (renommer si besoin)</label>
         <input type="text" id="upload-filename-input">
       </div>
+      <div id="upload-prompt-row" class="bilan-field-row" style="display:none;">
+        <label>Prompt associé à cette illustration</label>
+        <div class="text-field-wrap has-value">
+          <textarea rows="3" class="bilan-textarea" id="upload-prompt-text" readonly style="font-size:11px;"></textarea>
+        </div>
+        <button class="detail-action-btn" id="upload-prompt-copy-btn" style="margin-top:6px;">📋 Copier le prompt</button>
+      </div>
       <button class="detail-action-btn primary" id="upload-confirm-btn">Envoyer vers data/</button>
       <div id="upload-status" style="color:#9FB3D6;font-size:12px;margin-top:8px;"></div>
     </div>
@@ -3868,6 +3875,7 @@ function goToUploadWithFilename(filename) {
     uploadForm.style.display = 'block';
     document.getElementById('upload-filename-input').value = filename;
     document.getElementById('upload-status').textContent = `Prêt à recevoir le fichier pour remplacer "${filename}"`;
+    syncUploadPromptRow(filename);
   }, 100);
 }
 
@@ -4573,6 +4581,24 @@ const CATEGORY_SCREENS = {
 };
 
 let fichesCustom = [];
+let illustrationPrompts = {};
+
+async function loadIllustrationPrompts() {
+  try {
+    const res = await fetch(FIREBASE_URL + '/contenu-partage/illustration-prompts.json?t=' + Date.now(), { cache: 'no-store' });
+    const data = await res.json();
+    illustrationPrompts = (data && typeof data === 'object') ? data : {};
+  } catch {
+    illustrationPrompts = {};
+  }
+}
+
+async function saveIllustrationPrompts() {
+  await fetch(FIREBASE_URL + '/contenu-partage/illustration-prompts.json', {
+    method: 'PUT',
+    body: JSON.stringify(illustrationPrompts)
+  });
+}
 
 async function loadFichesCustom() {
   try {
@@ -4672,7 +4698,7 @@ function renderImportReport() {
   const illustrations = parsed.illustrations_a_generer || [];
   if (illustrations.length > 0) {
     html += `<div class="card"><div class="card-title">🎨 Illustrations à générer et uploader</div>`;
-    illustrations.forEach(img => {
+    illustrations.forEach((img, i) => {
       html += `
         <div style="margin-bottom:12px;border-top:0.5px solid #223258;padding-top:8px;">
           <div style="color:#F5821F;font-size:13px;font-weight:600;">${escapeHtml(img.nom_fichier)}</div>
@@ -4680,10 +4706,21 @@ function renderImportReport() {
           <div class="text-field-wrap has-value">
             <textarea rows="3" class="bilan-textarea" readonly style="font-size:11px;">${escapeHtml(img.prompt || '')}</textarea>
           </div>
+          <button class="detail-action-btn illustration-copy-btn" data-illustration-idx="${i}" style="margin-top:6px;">📋 Copier le prompt</button>
         </div>
       `;
     });
-    html += `<div style="color:#9FB3D6;font-size:11px;">Génère ces images avec le prompt fourni, puis uploade-les dans le dossier "data" de GitHub avec le nom exact indiqué — la fiche les affichera automatiquement.</div></div>`;
+    html += `<div style="color:#9FB3D6;font-size:11px;">Génère ces images avec le prompt fourni, puis uploade-les dans le dossier "data" de GitHub avec le nom exact indiqué — la fiche les affichera automatiquement. Les prompts restent disponibles (tape sur une illustration manquante dans une fiche pour les retrouver) tant qu'elles ne sont pas uploadées.</div></div>`;
+
+    illustrations.forEach(img => {
+      if (img.nom_fichier) {
+        illustrationPrompts[img.nom_fichier] = {
+          prompt: img.prompt || '',
+          emplacement: img.emplacement || ''
+        };
+      }
+    });
+    saveIllustrationPrompts();
   }
 
  const quizQuestions = parsed.quiz || [];
@@ -4698,6 +4735,22 @@ function renderImportReport() {
   html += `<button class="detail-action-btn primary" id="import-confirm-btn" style="margin-top:10px;">✅ Confirmer l'import de ${parsed.fiches.length} fiche(s)${quizQuestions.length > 0 ? ' et ' + quizQuestions.length + ' question(s) de quizz' : ''}</button>`;
 
   container.innerHTML = html;
+
+  container.querySelectorAll('.illustration-copy-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const img = illustrations[Number(btn.dataset.illustrationIdx)];
+      if (!img) return;
+      const original = btn.textContent;
+      try {
+        await navigator.clipboard.writeText(img.prompt || '');
+        btn.textContent = '✓ Copié dans le presse-papiers';
+      } catch (err) {
+        btn.textContent = '❌ Erreur, réessaie';
+        console.error(err);
+      }
+      setTimeout(() => { btn.textContent = original; }, 2000);
+    });
+  });
 
   container.querySelector('#import-confirm-btn').addEventListener('click', async () => {
     importParsedData.fiches.forEach((f, i) => {
@@ -10800,12 +10853,43 @@ document.getElementById('show-upload-btn').addEventListener('click', () => {
   form.style.display = form.style.display === 'none' ? 'block' : 'none';
 });
 
+function syncUploadPromptRow(filename) {
+  const promptRow = document.getElementById('upload-prompt-row');
+  const promptInfo = illustrationPrompts[filename];
+  if (promptInfo && promptInfo.prompt) {
+    document.getElementById('upload-prompt-text').value = promptInfo.prompt;
+    promptRow.style.display = 'block';
+  } else {
+    document.getElementById('upload-prompt-text').value = '';
+    promptRow.style.display = 'none';
+  }
+}
+
 document.getElementById('upload-file-input').addEventListener('change', (e) => {
   const file = e.target.files[0];
   const filenameInput = document.getElementById('upload-filename-input');
   if (file && !filenameInput.value.trim()) {
     filenameInput.value = sanitizeFilename(file.name);
   }
+  syncUploadPromptRow(sanitizeFilename(filenameInput.value));
+});
+
+document.getElementById('upload-filename-input').addEventListener('input', (e) => {
+  syncUploadPromptRow(sanitizeFilename(e.target.value));
+});
+
+document.getElementById('upload-prompt-copy-btn').addEventListener('click', async () => {
+  const btn = document.getElementById('upload-prompt-copy-btn');
+  const text = document.getElementById('upload-prompt-text').value;
+  const original = btn.textContent;
+  try {
+    await navigator.clipboard.writeText(text);
+    btn.textContent = '✓ Copié dans le presse-papiers';
+  } catch (err) {
+    btn.textContent = '❌ Erreur, réessaie';
+    console.error(err);
+  }
+  setTimeout(() => { btn.textContent = original; }, 2000);
 });
 
 document.getElementById('upload-confirm-btn').addEventListener('click', async () => {
@@ -10830,6 +10914,11 @@ document.getElementById('upload-confirm-btn').addEventListener('click', async ()
       status.textContent = `✓ ${filename} envoyé dans data/ — visible d'ici 1-2 minutes.`;
       fileInput.value = '';
       filenameInput.value = '';
+      if (illustrationPrompts[filename]) {
+        delete illustrationPrompts[filename];
+        saveIllustrationPrompts();
+      }
+      syncUploadPromptRow('');
 } catch (err) {
       if (err.message && err.message.toLowerCase().includes('not accessible')) {
         showTokenPermissionHelp();
@@ -11961,6 +12050,7 @@ await loadChangelog(); tick();
 await loadLexiqueCustom();
 await loadFichesCustom();
   await loadQuizCustom();
+  await loadIllustrationPrompts();
 
   renderParametres();
 
