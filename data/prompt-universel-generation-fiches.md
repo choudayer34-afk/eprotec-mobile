@@ -91,110 +91,85 @@ Structure logique habituelle d'une fiche autodéfense : présentation de la situ
 
 ### Si une illustration est recommandée
 
-Précise dans quelle section l'insérer (`illustration: "nom-fichier.png"` dans cette section), puis fournis un **prompt de génération d'image extrêmement détaillé**, en respectant strictement ce gabarit (déjà validé et éprouvé pour ce projet) :
+Précise dans quelle section l'insérer (`illustration: "nom-fichier.png"` dans cette section), puis fournis un **prompt de génération d'image**, en respectant strictement la méthode ci-dessous (déjà validée et éprouvée pour ce projet).
+
+**Principes obligatoires, dans cet ordre de priorité :**
+
+1. **Le prompt (champ `prompt`) est rédigé en anglais technique**, même si le reste de la fiche est en français — les générateurs d'images actuels suivent les contraintes de façon plus fiable en anglais. Seul le JSON autour (title, summary, items...) reste en français.
+2. **Simplicité avant tout.** La cause la plus fréquente d'un rendu qui dévie (nombre de personnages qui change d'un panneau à l'autre, éléments qui se superposent, postures qui glissent) est la surcharge d'instructions : trop de personnages, trop de détails anatomiques, trop de texte à faire tenir dans une même image en un seul passage. En cas de doute, mieux vaut un prompt plus court et une seule contrainte critique par panneau qu'une liste exhaustive de contraintes.
+3. **Formuler en positif, jamais en négatif.** Les modèles d'image traitent mal les négations ("does not touch", "without touching"). Remplace toujours par une formulation positive de ce qui doit être vu (ex. "hands resting at his sides, away from the victim" plutôt que "does not touch the victim").
+4. **Séparer clairement la structure du contenu** : la toute première phrase du prompt pose le style, le layout et le fond — pas encore l'action. Le contenu de chaque panneau vient ensuite, un paragraphe court par panneau.
+5. **Éviter le texte long dans l'image.** Les générateurs restituent mal les phrases — pas de longue légende intégrée à l'image. Les explications restent dans les `items` de la fiche (déjà affichés par l'application à côté de l'illustration) ; si une étiquette dans l'image est vraiment utile, la limiter à 1-3 mots.
+
+**Gabarit recommandé :**
 
 ```
-Crée une illustration vectorielle plate (flat design) de type manuel de formation professionnelle,
-non violente et non graphique, sur fond bleu marine foncé (#0B2A5C).
+Flat vector illustration style, professional rescue training manual, [2x2 grid layout /
+3-panel horizontal layout / 2 rows of 3 panels], dark navy blue background (#0B2A5C) with
+thin white grid borders.
 
-Sujet : [décrire précisément le geste/la situation]
+Panel 1 (Top-left): [viewpoint, ex. "Top-down view"]. [characters present with color-coded
+role, ex. "Light blue-grey victim (#9FB3D6) lying flat on back. Four rescuers in orange
+(#F5821F) positioned around victim."]. [single key action or positioning for this panel,
+stated positively].
 
-Personnages génériques et neutres, silhouettes simplifiées sans traits du visage détaillés,
-identifiés par une étiquette fixe à utiliser MOT POUR MOT dans toute la suite du prompt
-(ne jamais reformuler différemment d'une case à l'autre) :
-- Personnage 1 = [rôle, ex. "le chef d'équipe"] en orange (#F5821F)
-- Personnage 2 = [rôle] en orange (#F5821F)
-- Personnage 3 = [rôle] en gris-bleu clair (#9FB3D6)
-- [... un personnage par ligne, avec son étiquette fixe]
+Panel 2 (Top-right): [même logique — même nombre et mêmes couleurs de personnages sauf
+changement volontaire explicitement indiqué]. [action de ce panneau].
 
-RÈGLE DE CONSTANCE ENTRE LES CASES (priorité absolue, à ne jamais enfreindre) :
-- Le nombre exact de personnages est de [N] dans TOUTES les cases, sans exception. Aucun
-  personnage n'apparaît, ne disparaît, ni n'est remplacé d'une case à l'autre, sauf mention
-  explicite contraire ci-dessous.
-- Repère spatial fixe pour toute la séquence : [ex. "vue de dessus, la tête de la victime est
-  toujours orientée vers le haut de l'image et les pieds vers le bas, dans les 4 cases"].
-  Chaque personnage est positionné par rapport à CE repère fixe, jamais seulement par rapport
-  aux autres personnages.
-- Position invariante de chaque personnage (à répéter à l'identique dans chaque case où il
-  apparaît, sans paraphrase) :
-  - Personnage 1 : [ex. "toujours dans l'axe de la tête de la victime, mains de part et
-    d'autre du crâne"]
-  - Personnage 2 : [ex. "toujours du côté gauche de la victime, au niveau des épaules"]
-  - [...]
-- Seul(s) élément(s) qui change(nt) d'une case à l'autre : [préciser explicitement — ex.
-  "seule la position des mains de Personnage 3 change, le reste est identique"].
+Panel 3 (Bottom-left): [...]
 
-CLARIFICATIONS CRITIQUES À RESPECTER STRICTEMENT DANS CHAQUE CASE (aucune ambiguïté, aucune
-inversion gauche/droite d'une case à l'autre) :
-- Pour chaque prise/contact : préciser la main exacte (gauche ou droite) ET le point de
-  contact exact sur l'autre personnage (ex. "main droite de Personnage 2 sous l'aisselle
-  gauche de la victime, main gauche sur l'avant-bras droit de la victime") — jamais de
-  formulation vague type "prend appui" ou "maintient" sans préciser où.
-- [Préciser la trajectoire exacte de chaque mouvement : d'où part-il, où va-t-il, à
-  l'intérieur ou à l'extérieur de quel repère]
-- [Préciser toute posture qui pourrait être mal comprise : allongé sur le ventre/dos, tête
-  tournée de quel côté, etc.]
+Panel 4 (Bottom-right): [...]
 
-Présente la scène en [3 à 6] cases numérotées, disposées [horizontalement / en grille 2x2 /
-en 2 rangées de 3], séparées par de fines lignes blanches. Au début de la description de
-CHAQUE case, rappelle explicitement la présence des [N] personnages avec leurs étiquettes
-fixes, même si leur position ne change pas :
-
-Case 1 : Les [N] personnages ([liste des étiquettes]) sont visibles. [description précise de
-ce qui doit être visible dans cette case, avec la trajectoire des mouvements indiquée par des
-flèches blanches]
-Légende : 1. [texte court]
-
-Case 2 : Les [N] mêmes personnages sont visibles, aux mêmes positions générales qu'en case 1
-sauf : [préciser uniquement ce qui change]. [description précise]
-Légende : 2. [texte court]
-
-[... autant de cases que nécessaire, chacune rappelant explicitement les [N] personnages]
-
-Format : image 16:9, sans titre superposé, uniquement les cases et leurs légendes en bas de chaque case, police sans-serif blanche, texte court et lisible.
+Minimalist flat design, clean lines, no facial features, high contrast, clean technical
+illustration style.
 ```
 
-**Règle d'or** : chaque détail géométrique (quel bras, quelle direction, à l'intérieur ou à l'extérieur, gauche ou droite) doit être écrit explicitement — ne jamais laisser l'IA graphique déduire ou supposer, sous peine d'un résultat visuellement incohérent. Le nombre de personnages et leur position de base doivent être répétés à l'identique dans chaque case plutôt que sous-entendus — c'est cette répétition explicite qui évite les dérives (personnage qui disparaît, main qui change de côté, etc.) d'une case à l'autre.
+Adapte les repères de position au nombre de panneaux : `(Top-left)`, `(Top-right)`, `(Bottom-left)`, `(Bottom-right)` pour une grille 2x2 ; `(Left)`, `(Center)`, `(Right)` pour 3 panneaux en ligne ; `(Top row, 1/2/3)` et `(Bottom row, 1/2/3)` pour 2 rangées de 3.
 
-**Si malgré un prompt conforme à ce gabarit des écarts persistent** (fréquent au-delà de 3-4 personnages sur 4 cases ou plus, limite connue des générateurs d'images) : le signaler dans `rapport.informations_manquantes_ou_a_valider` en proposant, en alternative, de générer chaque case comme une image séparée avec la même section "personnages / règle de constance" répétée à l'identique dans chaque prompt individuel, puis de composer la grille manuellement.
+**Constance des personnages, en une phrase, sans la répéter dans chaque panneau** : indique une seule fois, juste après la phrase de structure, le nombre total et le code couleur de chaque personnage (ex. "Throughout all panels: 4 rescuers in orange (#F5821F), 1 victim in light blue-grey (#9FB3D6) — same count and colors in every panel unless a panel explicitly states a character enters or leaves."). Ne redétaille pas leur position complète dans chaque panneau ensuite : décris seulement, pour chaque panneau, l'action ou le changement propre à ce panneau — c'est cette brièveté par panneau qui limite la surcharge.
+
+**Limite du nombre de personnages/contraintes par image** : au-delà de 3 personnages simultanés ou d'une manipulation d'objet complexe (ex. glisser un brancard sous une victime), le risque de superposition ou de dérive augmente fortement. Dans ce cas, ou si un premier essai a montré une dérive, indique dans `rapport.informations_manquantes_ou_a_valider` que la stratégie alternative ci-dessous est recommandée plutôt que d'insister sur un prompt multi-panneaux plus détaillé.
+
+**Stratégie alternative recommandée : 1 panneau = 1 image**
+
+Quand le sujet comporte plus de 3 personnages, une manipulation d'objet qui superpose des éléments (brancard glissé sous une victime, matériel manipulé à plusieurs mains), ou quand des essais précédents ont montré une dérive malgré un prompt conforme au gabarit ci-dessus : propose à la place, dans `illustrations_a_generer`, une entrée par panneau (donc plusieurs `nom_fichier` pour la même illustration logique, ex. `pont-ameliore-etape1.png`, `pont-ameliore-etape2.png`...), chacune avec son propre prompt complet et autonome décrivant une seule vue simple (mêmes couleurs, même style, un seul panneau, sans grille). Précise dans `emplacement` que ces images sont destinées à être assemblées manuellement (montage image) ou affichées comme illustrations successives d'une même section.
 
 ### Cas particulier : fiches Autodéfense / Krav Maga
 
-Les générateurs d'images refusent souvent les prompts contenant du vocabulaire de combat explicite ("agresseur", "attaque", "étranglement", "combat"), même dans un contexte pédagogique et non violent. Pour éviter ce blocage, remplace systématiquement ce vocabulaire par des termes neutres, tout en gardant l'intégralité de la précision géométrique :
+Les générateurs d'images refusent souvent les prompts contenant du vocabulaire de combat explicite ("attacker", "attack", "choke", "combat"), même en anglais et même dans un contexte pédagogique non violent. Remplace systématiquement ce vocabulaire par des termes neutres, en anglais, tout en gardant l'intégralité de la précision géométrique :
 
-- "le défenseur" → **"Personne A (qui se protège)"**
-- "l'agresseur" → **"Personne B"**
-- "saisit/étrangle/attaque" → **"pose ses mains sur"**, **"exerce une pression au niveau de"**
-- "dégagement d'un étranglement" → **"exercice de mise à distance"**, **"démonstration de gestion de prise"**
-- "technique de combat" → **"exercice de posture de protection"**
+- "the defender" → **"Person A"**
+- "the attacker" → **"Person B"**
+- "grabs/chokes/attacks" → **"places hands on"**, **"applies pressure at"**
+- "chokehold escape" → **"distance-creating exercise"**, **"grip management demonstration"**
+- "combat technique" → **"protective posture exercise"**
 
-Utilise "Personne A" et "Personne B" comme étiquettes fixes au sens de la règle de constance ci-dessus : mêmes contraintes de répétition à l'identique dans chaque case.
+Utilise "Person A" et "Person B" comme étiquettes fixes (mêmes couleurs orange #F5821F / gris-bleu #9FB3D6 que les autres fiches), avec la même logique de constance décrite ci-dessus : le nombre de personnages (généralement 2) reste identique dans tous les panneaux.
 
-Exemple de reformulation (le contenu géométrique reste identique, seul le vocabulaire change) :
-Crée une illustration vectorielle plate (flat design) de type manuel de formation professionnelle,
-non violente et non graphique, sur fond bleu marine foncé (
-#0B2A5C).
+Exemple :
 
-Sujet : exercice de mise à distance face à une pression au niveau du cou, par écartement des avant-bras depuis l'intérieur.
+```
+Flat vector illustration style, professional self-defense training manual, 2x2 grid layout,
+dark navy blue background (#0B2A5C) with thin white grid borders.
 
-Personnages génériques et neutres, silhouettes simplifiées sans traits du visage détaillés :
+Throughout all panels: Person A (#F5821F) and Person B (#9FB3D6) only — same 2 characters
+in every panel.
 
-Personne A (qui se protège) en orange (
-#F5821F)
-Personne B en gris-bleu clair (
-#9FB3D6)
+Panel 1 (Top-left): Front view. Person B places right hand on the left side of Person A's
+neck, left hand on the right side. Person A stands with right foot slightly back.
 
-RÈGLE DE CONSTANCE ENTRE LES CASES : 2 personnages exactement dans les 4 cases, aucun de plus, aucun de moins.
+Panel 2 (Top-right): Same positions. Person A raises both forearms close to the chest,
+palms facing inward.
 
-CLARIFICATIONS CRITIQUES À RESPECTER STRICTEMENT DANS CHAQUE CASE :
+Panel 3 (Bottom-left): Person A sweeps both forearms outward and upward between Person B's
+arms, breaking contact.
 
-Personne B pose sa main droite du côté gauche du cou de Personne A, et sa main gauche du côté droit, dans toutes les cases sauf mention contraire.
-Personne A garde le pied droit légèrement en arrière dans toutes les cases.
-[... reste des clarifications géométriques identiques ...]
+Panel 4 (Bottom-right): Person A takes one step back, hands up and open at chest height,
+at a safe distance from Person B.
 
-Présente la scène en 4 cases numérotées, chacune rappelant "Personne A et Personne B sont visibles"...
-[reste du gabarit identique]
-
+Minimalist flat design, clean lines, no facial features, high contrast, clean technical
+illustration style.
+```
 
 Applique cette substitution de vocabulaire **avant** de produire le prompt final dans le JSON de sortie, pour toute fiche appartenant aux catégories `prevention`, `saisies`, `etranglements`, `parades`, `sol`.
 
