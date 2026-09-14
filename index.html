@@ -4890,27 +4890,55 @@ function showEditFicheModal(ficheKey, containerId, categories) {
 
 
 function goToGesteByKey(gesteKey) {
-  const cat = GESTE_CATEGORIES_MAP[gesteKey];
+  // Les fiches natives ont leur catégorie dans GESTE_CATEGORIES_MAP ; les
+  // fiches importées/créées manuellement (fichesCustom) portent directement
+  // leur catégorie sur l'objet.
+  let cat = GESTE_CATEGORIES_MAP[gesteKey];
+  if (!cat) {
+    const custom = fichesCustom.find(f => f.key === gesteKey);
+    if (custom) cat = custom.category;
+  }
   const screen = CATEGORY_SCREENS[cat];
   if (!screen) return;
   goToGesteFiche(screen.section, screen.content, screen.cats, gesteKey);
+}
+
+// Construit un extrait de contexte : la ligne trouvée, entourée de 3 lignes
+// avant et 3 lignes après (quand elles existent), avec la ligne trouvée mise
+// en évidence — pour comprendre pourquoi une fiche remonte dans la recherche,
+// même quand le terme cherché n'est pas dans le titre.
+function buildSearchContextSnippet(lines, idx) {
+  const start = Math.max(0, idx - 3);
+  const end = Math.min(lines.length - 1, idx + 3);
+  const parts = [];
+  for (let i = start; i <= end; i++) {
+    const text = escapeHtml(lines[i]);
+    parts.push(i === idx ? `<span style="color:#F5821F;font-weight:600;">${text}</span>` : text);
+  }
+  return parts.join('<br>');
 }
 
 function searchSecourisme(query) {
   const q = normalizeText(query);
   if (!q) return [];
   const results = [];
-  GESTES_DATA.forEach(g => {
+  // Les fiches importées ou créées manuellement (fichesCustom) doivent
+  // remonter dans la recherche au même titre que les fiches natives.
+  const allFiches = GESTES_DATA.concat(fichesCustom);
+  allFiches.forEach(g => {
     let snippet = null;
-    if (normalizeText(g.title).includes(q)) snippet = g.title;
-    if (!snippet) {
-      for (const s of g.summary) { if (normalizeText(s).includes(q)) { snippet = s; break; } }
+    if (normalizeText(g.title).includes(q)) snippet = escapeHtml(g.title);
+    if (!snippet && Array.isArray(g.summary)) {
+      const idx = g.summary.findIndex(s => normalizeText(s).includes(q));
+      if (idx !== -1) snippet = buildSearchContextSnippet(g.summary, idx);
     }
-    if (!snippet) {
+    if (!snippet && Array.isArray(g.sections)) {
       outer:
       for (const sec of g.sections) {
-        if (normalizeText(sec.title).includes(q)) { snippet = sec.title; break; }
-        for (const item of sec.items) { if (normalizeText(item).includes(q)) { snippet = item; break outer; } }
+        if (normalizeText(sec.title).includes(q)) { snippet = escapeHtml(sec.title); break; }
+        const items = Array.isArray(sec.items) ? sec.items : [];
+        const idx = items.findIndex(item => normalizeText(item).includes(q));
+        if (idx !== -1) { snippet = buildSearchContextSnippet(items, idx); break outer; }
       }
     }
     if (snippet) results.push({ key: g.key, title: g.title, snippet });
@@ -4927,7 +4955,7 @@ function renderSecourismeSearch(query) {
     : results.map(r => `
       <div class="card card-clickable" data-search-key="${r.key}">
         <div class="card-title" style="margin-bottom:4px;">${r.title}</div>
-        <div style="color:#9FB3D6;font-size:12px;">${r.snippet}</div>
+        <div style="color:#9FB3D6;font-size:12px;line-height:1.6;">${r.snippet}</div>
       </div>
     `).join('');
   container.querySelectorAll('[data-search-key]').forEach(card => {
