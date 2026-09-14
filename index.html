@@ -1051,6 +1051,7 @@
         <label>Nom du fichier (renommer si besoin)</label>
         <input type="text" id="upload-filename-input">
       </div>
+      <div id="upload-search-row" style="display:none;margin-bottom:10px;"></div>
       <div id="upload-piste-row" style="display:none;background:rgba(151,196,89,0.12);border-radius:8px;padding:8px;margin-bottom:10px;">
         <div style="color:#97C459;font-size:11px;font-weight:600;margin-bottom:2px;">🔎 Piste d'image déjà existante</div>
         <div id="upload-piste-text" style="color:#fff;font-size:12px;"></div>
@@ -4975,6 +4976,7 @@ function renderImportReport() {
               <div style="color:#fff;font-size:12px;">${escapeHtml(img.piste_recherche_image_existante)}</div>
             </div>
           ` : ''}
+          <div style="margin-bottom:8px;">${buildImageSearchLinksHtml(deriveSearchTermFromFilename(img.nom_fichier))}</div>
           <div class="text-field-wrap has-value">
             <textarea rows="3" class="bilan-textarea" readonly style="font-size:11px;">${escapeHtml(img.prompt || '')}</textarea>
           </div>
@@ -11645,9 +11647,76 @@ document.getElementById('show-upload-btn').addEventListener('click', () => {
   form.style.display = form.style.display === 'none' ? 'block' : 'none';
 });
 
+// Sources d'images déjà existantes, libres de droits, à proposer pour
+// éviter de repasser par une génération IA — 4 catégories Wikimedia Commons
+// fixes (pas de recherche paramétrée possible côté Commons de cette façon)
+// + 3 moteurs de banques d'images gratuites dont l'URL de recherche peut
+// être construite directement avec le terme recherché.
+const IMAGE_SEARCH_FIXED_SOURCES = [
+  { label: 'Commons : First aid diagrams', url: 'https://commons.wikimedia.org/wiki/Category:First_aid_diagrams' },
+  { label: 'Commons : First aid', url: 'https://commons.wikimedia.org/wiki/Category:First_aid' },
+  { label: 'Commons : Cardiopulmonary resuscitation', url: 'https://commons.wikimedia.org/wiki/Category:Cardiopulmonary_resuscitation' },
+  { label: 'Commons : Recovery position', url: 'https://commons.wikimedia.org/wiki/Category:Recovery_position' }
+];
+
+// Déduit un terme de recherche lisible à partir d'un nom de fichier
+// d'illustration (ex. "recovery-position-adult.png" → "recovery position
+// adult") — les noms de fichiers proposés par le prompt sont déjà
+// descriptifs, pas besoin d'un champ dédié.
+function deriveSearchTermFromFilename(filename) {
+  return (filename || '').replace(/\.[a-z0-9]+$/i, '').replace(/[-_]+/g, ' ').trim();
+}
+
+// Construit la rangée de boutons de recherche d'image pour un terme donné.
+// Chaque clic copie le terme dans le presse-papiers (utile notamment pour
+// les catégories Commons, qui n'acceptent pas de terme dans l'URL) et ouvre
+// la source dans un nouvel onglet.
+function buildImageSearchLinksHtml(term) {
+  if (!term) return '';
+  const t = escapeHtml(term);
+  const encoded = encodeURIComponent(term);
+  const unsplashTerm = term.trim().toLowerCase().replace(/\s+/g, '-');
+  const dynamicSources = [
+    { label: 'Pixabay', url: `https://pixabay.com/fr/images/search/${encoded}/` },
+    { label: 'Pexels', url: `https://www.pexels.com/search/${encoded}/` },
+    { label: 'Unsplash', url: `https://unsplash.com/fr/s/photos/${unsplashTerm}` }
+  ];
+  const allSources = IMAGE_SEARCH_FIXED_SOURCES.concat(dynamicSources);
+  return `
+    <div style="color:#9FB3D6;font-size:11px;margin-bottom:6px;">🔎 Chercher une image existante pour : <b style="color:#fff;">${t}</b> (terme copié dans le presse-papiers à l'ouverture)</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;">
+      ${allSources.map(s => `<button type="button" class="detail-action-btn img-search-btn" data-url="${escapeHtml(s.url)}" data-term="${t}" style="flex:none;font-size:11px;padding:6px 10px;">${escapeHtml(s.label)}</button>`).join('')}
+    </div>
+  `;
+}
+
+async function openImageSearchLink(url, term) {
+  try { await navigator.clipboard.writeText(term); } catch {}
+  window.open(url, '_blank', 'noopener');
+}
+
+// Délégation globale : ces boutons peuvent être injectés dans plusieurs
+// écrans différents (rapport d'import, formulaire d'upload) et re-générés à
+// chaque rendu, une seule écoute suffit donc au lieu de la réattacher à
+// chaque fois.
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.img-search-btn');
+  if (!btn) return;
+  openImageSearchLink(btn.dataset.url, btn.dataset.term);
+});
+
 function syncUploadPromptRow(filename) {
   const promptRow = document.getElementById('upload-prompt-row');
   const pisteRow = document.getElementById('upload-piste-row');
+  const searchRow = document.getElementById('upload-search-row');
+  const term = deriveSearchTermFromFilename(filename);
+  if (term) {
+    searchRow.innerHTML = buildImageSearchLinksHtml(term);
+    searchRow.style.display = 'block';
+  } else {
+    searchRow.innerHTML = '';
+    searchRow.style.display = 'none';
+  }
   const promptInfo = illustrationPrompts[filename];
   if (promptInfo && promptInfo.prompt) {
     document.getElementById('upload-prompt-text').value = promptInfo.prompt;
