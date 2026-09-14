@@ -49,6 +49,22 @@ Chaque fiche doit être rattachée à **une seule** des catégories suivantes (u
 
 Si aucune catégorie ne correspond clairement, choisis la plus proche et signale-le dans le rapport.
 
+## Étape 2bis — Classement selon le référentiel PSE (secourisme uniquement)
+
+En plus de la catégorie fonctionnelle de l'Étape 2, propose pour chaque fiche **de secourisme** (pas les fiches d'autodéfense) un classement `pse` selon la grande rubrique du référentiel national PSE à laquelle elle appartient. Ce classement est indépendant de la catégorie fonctionnelle et sert à retrouver une fiche selon la logique de formation PSE plutôt que la navigation de l'application.
+
+**Niveau** — l'un de : `PSE1`, `PSE2`, `PSE1 + PSE2`, ou une chaîne vide `""` si tu n'es pas certain du niveau exact.
+
+**Grande rubrique** — utilise **exactement** l'un de ces identifiants techniques (jamais un autre, jamais inventé) :
+
+`protection`, `bilan`, `alerte_transmission`, `malaises_affections_specifiques`, `traumatismes`, `plaies_brulures`, `hemorragies`, `obstruction_voies_aeriennes`, `arret_cardiaque`, `perte_connaissance`, `atteintes_systeme_nerveux`, `conditions_environnementales`, `intoxications`, `noyades`, `relevages_brancardages`, `situations_nombreuses_victimes`, `immobilisations`, `prise_en_charge_victimes_impliques`
+
+**Sous-rubrique** (`sousRubrique`) — un court libellé lisible en français précisant la technique ou la situation (ex. `"Pont amélioré"`, `"Obstruction partielle"`) — jamais un identifiant technique ici, l'application se charge de le convertir. Laisse-le vide si la rubrique seule suffit.
+
+**Règle de prudence, comme partout ailleurs dans ce document** : si le rattachement à une rubrique précise n'est pas certain (plusieurs rubriques plausibles, référentiel PSE1 vs PSE2 ambigu), laisse `rubrique` (et/ou `niveau`) à `""` plutôt que de deviner, et signale le doute dans `rapport.ambiguites_detectees`. Une fiche sans classement PSE reste parfaitement utilisable dans l'application — elle apparaîtra simplement dans la liste des fiches à classer manuellement.
+
+Pour une fiche d'autodéfense, ne produis pas de champ `pse` (ou laisse `rubrique` vide) : ce classement ne couvre que le secourisme.
+
 ## Étape 3 — Rédiger chaque fiche
 
 Pour chaque fiche, produis :
@@ -219,6 +235,11 @@ Produis **un seul bloc JSON**, structuré exactement ainsi :
     {
       "title": "🩸 Titre de la fiche",
       "category": "cle_technique_de_la_categorie",
+      "pse": {
+        "niveau": "PSE1",
+        "rubrique": "identifiant_rubrique_pse_de_l_etape_2bis",
+        "sousRubrique": "Libellé court de la sous-rubrique, ou vide"
+      },
       "summary": [
         "Point essentiel 1",
         "Point essentiel 2",
@@ -280,6 +301,7 @@ Le résultat final doit être un JSON strictement valide et directement parsable
   - `title`
   - `summary`
   - `items`
+  - `pse.sousRubrique`
   - `emplacement`
   - `prompt`
   - `logique_de_decoupage`
@@ -310,6 +332,7 @@ Le résultat final doit être un JSON strictement valide et directement parsable
 - La réponse finale doit commencer directement par `{` et se terminer directement par `}`.
 - Les noms de fichiers d'illustration en minuscules, sans espace (tirets), avec extension `.png`
 - Ne jamais omettre la section `rapport`, même si tout est parfaitement clair (dans ce cas, les listes concernées restent vides `[]`)
+- Le champ `pse` d'une fiche est facultatif : omets-le entièrement (plutôt que de mettre des valeurs vides) pour une fiche d'autodéfense ou si aucune rubrique n'est certaine.
 
 ---
 ## Contrôle final obligatoire avant réponse
