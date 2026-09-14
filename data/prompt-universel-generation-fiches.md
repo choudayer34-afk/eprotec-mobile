@@ -408,5 +408,5 @@ Important : ne jamais produire un JSON approximatif ou pseudo-JSON. Si une erreu
 Le JSON doit être directement copiable-collable dans un parseur JSON et importable sans modification manuelle.
 
 ## NOTES À TRAITER
-
+tu dois compléter, ajuster selon les référentiels PSE en vigueur, les prompts d'illustration doivent etre le plus détaillé possible afin qu'il n'y ait aucune ambiguité ou interprétation dans la réalisation des illustrations et cela pour toutes les cases en rappelant tous le nécessaire et le contenu de la case :
 *(Colle tes notes brutes juste ici, sans rien changer à ce qui précède)*
