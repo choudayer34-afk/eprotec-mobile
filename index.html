@@ -12165,12 +12165,39 @@ document.addEventListener('click', (e) => {
   if (e.target.closest('nav button') || e.target.closest('.plus-back')) stopFicheSpeech();
 });
 
+// Regroupe les actions admin (Classer PSE / Déplacer / Modifier / Supprimer)
+// derrière un seul bouton "⋯" au lieu de 4 icônes séparées : sur iPhone,
+// une fiche personnalisée affichait jusqu'à 5 boutons à côté du titre
+// (🔊 + 4 actions admin), ce qui compressait le texte en mode plié. Les
+// vrais boutons restent dans le DOM (juste masqués) pour que tout le
+// câblage existant (attachPseClassementAction, écouteurs d'édition/
+// suppression) continue de fonctionner sans changement : le menu se
+// contente de déclencher un clic programmatique sur le bon bouton.
+document.addEventListener('click', (e) => {
+  const toggleBtn = e.target.closest('[data-fiche-actions-toggle]');
+  if (!toggleBtn) return;
+  e.stopPropagation();
+  const hiddenActions = toggleBtn.previousElementSibling;
+  const actionButtons = Array.from(hiddenActions ? hiddenActions.querySelectorAll('[data-action-label]') : []);
+  const labels = actionButtons.map(b => b.dataset.actionLabel);
+  promptChoice('Actions sur cette fiche', labels).then(choice => {
+    if (!choice) return;
+    const match = actionButtons.find(b => b.dataset.actionLabel === choice);
+    if (match) match.click();
+  });
+});
+
 function buildGesteRowHtml(geste, isCustom) {
   const pse = getFichePse(geste, isCustom);
   const pseTagHtml = pse ? `<div style="color:#9FB3D6;font-size:11px;margin:2px 0 0;">${escapeHtml(formatPseTag(pse))}</div>` : '';
   const speakBtnHtml = `<button class="icon-btn" data-fiche-speak="${geste.key}" data-fiche-speak-custom="${isCustom ? '1' : '0'}" title="Écouter la fiche">🔊</button>`;
   const adminBtnsHtml = isAdminUser
-    ? `<button class="icon-btn" data-fiche-pse="${geste.key}" data-fiche-pse-custom="${isCustom ? '1' : '0'}" title="Classer PSE">🗂️</button><button class="icon-btn" data-fiche-move="${geste.key}" data-fiche-move-custom="${isCustom ? '1' : '0'}" title="Déplacer vers une autre catégorie">🔀</button>${isCustom ? `<button class="icon-btn" data-fiche-edit="${geste.key}">✏️</button><button class="icon-btn" data-fiche-delete="${geste.key}">✕</button>` : ''}`
+    ? `<span style="display:none;">
+         <button data-fiche-pse="${geste.key}" data-fiche-pse-custom="${isCustom ? '1' : '0'}" data-action-label="🗂️ Classer PSE"></button>
+         <button data-fiche-move="${geste.key}" data-fiche-move-custom="${isCustom ? '1' : '0'}" data-action-label="🔀 Déplacer vers une autre catégorie"></button>
+         ${isCustom ? `<button data-fiche-edit="${geste.key}" data-action-label="✏️ Modifier la fiche"></button><button data-fiche-delete="${geste.key}" data-action-label="✕ Supprimer la fiche"></button>` : ''}
+       </span>
+       <button class="icon-btn" data-fiche-actions-toggle title="Autres actions">⋯</button>`
     : '';
   return `
     <div class="geste-group" data-geste-key="${geste.key}">
