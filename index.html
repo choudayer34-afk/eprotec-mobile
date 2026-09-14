@@ -4891,7 +4891,30 @@ function renderImportReport() {
   });
 
   container.querySelector('#import-confirm-btn').addEventListener('click', async () => {
+    // Le classement PSE proposé par le JSON importé est facultatif. Le
+    // "sousRubrique" y est un libellé lisible (ex. "Pont amélioré"), pas un
+    // identifiant technique : on le fait passer par la même logique que le
+    // formulaire de classement manuel (slug + enregistrement dans
+    // pseSousRubriques) pour que le tag affiché ensuite sur la fiche
+    // fonctionne (sinon la sous-rubrique resterait introuvable et invisible).
+    let sousRubriquesChanged = false;
     importParsedData.fiches.forEach((f, i) => {
+      let pse;
+      if (f.pse && f.pse.rubrique && pseRubriqueInfo(f.pse.rubrique)) {
+        const rubrique = f.pse.rubrique;
+        let sousRubrique = '';
+        const sousLabel = (f.pse.sousRubrique || '').toString().trim();
+        if (sousLabel) {
+          const id = slugifyId(sousLabel);
+          if (!pseSousRubriques[rubrique]) pseSousRubriques[rubrique] = [];
+          if (!pseSousRubriques[rubrique].some(s => s.id === id)) {
+            pseSousRubriques[rubrique].push({ id, label: sousLabel });
+            sousRubriquesChanged = true;
+          }
+          sousRubrique = id;
+        }
+        pse = { niveau: PSE_NIVEAUX.includes(f.pse.niveau) ? f.pse.niveau : '', rubrique, sousRubrique };
+      }
       fichesCustom.push({
         key: 'custom_' + Date.now() + '_' + i,
         title: f.title,
@@ -4903,12 +4926,11 @@ sections: (f.sections || []).map(s => ({
           image: s.illustration || undefined,
           type: s.type || undefined
         })),
-        // Le classement PSE (niveau/rubrique/sous-rubrique) est facultatif :
-        // s'il est déjà présent dans le JSON importé, on le conserve tel quel.
-        pse: (f.pse && f.pse.rubrique) ? { niveau: f.pse.niveau || '', rubrique: f.pse.rubrique, sousRubrique: f.pse.sousRubrique || '' } : undefined
+        pse
       });
     });
 await saveFichesCustom();
+    if (sousRubriquesChanged) await savePseSousRubriques();
 
     const quizToImport = importParsedData.quiz || [];
     if (quizToImport.length > 0) {
