@@ -4966,6 +4966,149 @@ function showEditFicheModal(ficheKey, containerId, categories) {
 
   let importParsedData = null;
 
+// Mémorise, le temps de la session, la fiche que l'écran "Compléter via IA"
+// a préparée pour mise à jour (voir buildFicheUpdatePromptText / le bouton
+// "🧠 Compléter via IA" dans le menu "⋯" d'une fiche) : permet à
+// renderImportReport de proposer une mise à jour en place plutôt que de
+// créer un doublon quand le JSON collé correspond à cette préparation.
+let pendingFicheUpdate = null;
+
+// Construit un instantané JSON de la fiche, dans le même format que celui
+// attendu en sortie du prompt universel, pour le transmettre à l'IA en
+// contexte (voir buildFicheUpdatePromptText).
+function buildFicheSnapshotForPrompt(geste, isCustom) {
+  const category = getFicheCategory(geste, isCustom);
+  const pse = getFichePse(geste, isCustom);
+  const snapshot = {
+    title: geste.title,
+    category,
+    summary: geste.summary || [],
+    sections: (geste.sections || []).map(sec => {
+      const out = { title: sec.title };
+      if (sec.type) out.type = sec.type;
+      if (Array.isArray(sec.items)) out.items = sec.items;
+      else if (sec.customHtml) out.items = [stripHtmlToText(sec.customHtml)];
+      const illu = sec.illustration || sec.image;
+      if (illu) out.illustration = illu;
+      return out;
+    })
+  };
+  if (pse && pse.rubrique) {
+    snapshot.pse = {
+      niveau: pse.niveau || '',
+      rubrique: pse.rubrique,
+      sousRubrique: pse.sousRubrique ? pseSousRubriqueLabel(pse.rubrique, pse.sousRubrique) : ''
+    };
+  }
+  return snapshot;
+}
+
+// Insère, juste après le marqueur "## NOTES À TRAITER" du prompt universel,
+// le contenu actuel intégral de la fiche (pour que l'IA ne perde aucune
+// information déjà présente) suivi des notes de complément de l'utilisateur,
+// avec une consigne explicite de mise à jour plutôt que de création.
+function buildFicheUpdatePromptText(universalPromptText, geste, isCustom, userNotes) {
+  const snapshot = buildFicheSnapshotForPrompt(geste, isCustom);
+  const marker = '## NOTES À TRAITER';
+  const idx = universalPromptText.indexOf(marker);
+  const base = idx >= 0 ? universalPromptText.slice(0, idx + marker.length) : (universalPromptText + '\n\n' + marker);
+  const updateBlock = `
+
+*(Ceci n'est pas une création de fiche à partir de zéro : il s'agit de COMPLÉTER une fiche déjà existante dans l'application. Le JSON ci-dessous "Fiche existante" est son contenu actuel intégral — ne supprime, ne résume et n'oublie aucune information qu'il contient déjà. Intègre ensuite les compléments indiqués après "Notes / compléments à ajouter" à l'endroit le plus pertinent (nouvelle section si besoin, ou enrichissement d'une section existante). Conserve la valeur du champ "category" telle quelle, sauf si tu es certain qu'une autre catégorie de l'Étape 2 convient clairement mieux. Ne scinde cette fiche en plusieurs fiches que si les compléments introduisent un sujet clairement distinct et sans lien avec le contenu actuel — sinon, retourne une seule fiche mise à jour, dans le même format JSON que défini plus haut.)*
+
+### Fiche existante (à ne pas perdre)
+
+\`\`\`json
+${JSON.stringify(snapshot, null, 2)}
+\`\`\`
+
+### Notes / compléments à ajouter
+
+${userNotes}
+`;
+  return base + updateBlock;
+}
+
+function showCompleteFicheModal(geste, isCustom) {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto;';
+  overlay.innerHTML = `
+    <div style="background:#163C74;border-radius:16px;padding:20px;width:100%;max-width:420px;max-height:90vh;overflow-y:auto;">
+      <div style="color:#fff;font-size:15px;font-weight:600;margin-bottom:4px;">🧠 Compléter « ${escapeHtml(geste.title)} » via IA</div>
+      <div style="color:#9FB3D6;font-size:12px;margin-bottom:12px;">Décris ce que tu veux ajouter ou préciser. Le contenu actuel complet de la fiche sera transmis à l'IA en plus de ta note, pour qu'elle ne perde aucune information déjà présente.</div>
+      <div class="bilan-field-row">
+        <label>Notes / compléments à intégrer</label>
+        <textarea rows="5" class="bilan-textarea" id="complete-fiche-notes" placeholder="Ex : ajouter le seuil de température pour l'hyperthermie sévère, préciser la contre-indication chez la femme enceinte..."></textarea>
+      </div>
+      <button class="detail-action-btn primary" id="complete-fiche-generate-btn" style="margin-top:6px;">✨ Générer le prompt</button>
+      <div id="complete-fiche-result" style="display:none;margin-top:14px;">
+        <div class="bilan-field-row">
+          <label>Prompt complet à coller dans ton IA</label>
+          <div class="text-field-wrap has-value">
+            <textarea rows="10" class="bilan-textarea" id="complete-fiche-prompt-text" readonly style="font-size:11px;"></textarea>
+          </div>
+        </div>
+        <button class="detail-action-btn" id="complete-fiche-copy-btn" style="margin-top:6px;">📋 Copier le prompt</button>
+        <div style="color:#97C459;font-size:11px;margin-top:8px;">Une fois la réponse de l'IA obtenue, colle-la dans "Importer des fiches" → Analyser : elle sera proposée en mise à jour de cette fiche.</div>
+      </div>
+      <button class="detail-action-btn" id="complete-fiche-close-btn" style="margin-top:14px;">Fermer</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  overlay.querySelector('#complete-fiche-close-btn').addEventListener('click', () => overlay.remove());
+
+  overlay.querySelector('#complete-fiche-generate-btn').addEventListener('click', async () => {
+    const notes = overlay.querySelector('#complete-fiche-notes').value.trim();
+    if (!notes) { alert('Décris au moins brièvement ce que tu veux ajouter.'); return; }
+    const genBtn = overlay.querySelector('#complete-fiche-generate-btn');
+    const original = genBtn.textContent;
+    genBtn.disabled = true;
+    genBtn.textContent = 'Génération...';
+    try {
+      const res = await fetch('data/prompt-universel-generation-fiches.md?t=' + Date.now(), { cache: 'no-store' });
+      const universalPromptText = await res.text();
+      const fullText = buildFicheUpdatePromptText(universalPromptText, geste, isCustom, notes);
+      overlay.querySelector('#complete-fiche-prompt-text').value = fullText;
+      overlay.querySelector('#complete-fiche-result').style.display = 'block';
+      pendingFicheUpdate = { key: geste.key, isCustom, title: geste.title };
+      try {
+        await navigator.clipboard.writeText(fullText);
+        genBtn.textContent = '✓ Copié dans le presse-papiers';
+      } catch {
+        genBtn.textContent = '✓ Prompt généré ci-dessous';
+      }
+    } catch (err) {
+      console.error(err);
+      genBtn.textContent = '❌ Erreur, réessaie';
+    }
+    genBtn.disabled = false;
+    setTimeout(() => { genBtn.textContent = original; }, 2500);
+  });
+
+  overlay.querySelector('#complete-fiche-copy-btn').addEventListener('click', async () => {
+    const btn = overlay.querySelector('#complete-fiche-copy-btn');
+    const original = btn.textContent;
+    try {
+      await navigator.clipboard.writeText(overlay.querySelector('#complete-fiche-prompt-text').value);
+      btn.textContent = '✓ Copié';
+    } catch (err) {
+      btn.textContent = '❌ Erreur';
+      console.error(err);
+    }
+    setTimeout(() => { btn.textContent = original; }, 2000);
+  });
+}
+
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-fiche-complete]');
+  if (!btn) return;
+  e.stopPropagation();
+  const isCustom = btn.dataset.ficheCompleteCustom === '1';
+  const geste = findGesteByKeyAndType(btn.dataset.ficheComplete, isCustom);
+  if (geste) showCompleteFicheModal(geste, isCustom);
+});
+
 function renderImportReport() {
   const container = document.getElementById('import-report-content');
   const raw = document.getElementById('import-json-input').value.trim();
@@ -4988,7 +5131,30 @@ function renderImportReport() {
   importParsedData = parsed;
   const rapport = parsed.rapport || {};
 
-  let html = `<div class="card highlight"><div class="card-title">📋 Rapport de traitement</div>`;
+  // Si ce JSON provient du bouton "🧠 Compléter via IA" d'une fiche
+  // existante, propose de la mettre à jour en place plutôt que de créer un
+  // doublon — seulement possible pour une fiche personnalisée existante et
+  // si l'IA a bien renvoyé une seule fiche (pas de scission).
+  const updateEligible = !!(pendingFicheUpdate && pendingFicheUpdate.isCustom && parsed.fiches.length === 1
+    && fichesCustom.some(fc => fc.key === pendingFicheUpdate.key));
+  let updateBannerHtml = '';
+  if (pendingFicheUpdate) {
+    updateBannerHtml = updateEligible
+      ? `<div class="consignes-box" style="background:rgba(151,196,89,0.12);border-color:#97C459;">
+           <div class="consignes-title" style="color:#97C459;">🔄 Mise à jour proposée</div>
+           <div style="color:#fff;font-size:13px;margin-bottom:8px;">Ce JSON a été généré pour compléter la fiche existante « ${escapeHtml(pendingFicheUpdate.title)} ».</div>
+           <label style="display:flex;align-items:center;gap:8px;color:#fff;font-size:13px;">
+             <input type="checkbox" id="import-update-toggle" checked>
+             Mettre à jour cette fiche au lieu d'en créer une nouvelle
+           </label>
+         </div>`
+      : `<div class="consignes-box" style="background:#3A2A0E;border-color:#EF9F27;">
+           <div class="consignes-title" style="color:#FAC775;">⚠️ Mise à jour non applicable</div>
+           <div style="color:#fff;font-size:13px;">Ce prompt avait été généré pour compléter « ${escapeHtml(pendingFicheUpdate.title)} », mais ${!pendingFicheUpdate.isCustom ? "il s'agit d'une fiche native (définie dans le code), qui ne peut pas être remplacée depuis l'application" : parsed.fiches.length !== 1 ? "l'IA a renvoyé plusieurs fiches au lieu d'une seule" : "cette fiche n'existe plus"} : ${parsed.fiches.length === 1 ? 'elle sera importée comme une nouvelle fiche personnalisée, à comparer manuellement.' : 'les fiches seront importées normalement, à trier manuellement.'}</div>
+         </div>`;
+  }
+
+  let html = updateBannerHtml + `<div class="card highlight"><div class="card-title">📋 Rapport de traitement</div>`;
   html += `<div class="bilan-ref-item">Fiches générées : ${parsed.fiches.length}</div>`;
   if (rapport.logique_de_decoupage) html += `<div class="bilan-ref-item">Découpage : ${escapeHtml(rapport.logique_de_decoupage)}</div>`;
   if (rapport.thematiques_identifiees && rapport.thematiques_identifiees.length) {
@@ -5082,6 +5248,9 @@ function renderImportReport() {
     // formulaire de classement manuel (slug + enregistrement dans
     // pseSousRubriques) pour que le tag affiché ensuite sur la fiche
     // fonctionne (sinon la sous-rubrique resterait introuvable et invisible).
+    const updateToggle = document.getElementById('import-update-toggle');
+    const shouldUpdateExisting = updateEligible && updateToggle && updateToggle.checked;
+
     let sousRubriquesChanged = false;
     importParsedData.fiches.forEach((f, i) => {
       let pse;
@@ -5100,8 +5269,7 @@ function renderImportReport() {
         }
         pse = { niveau: PSE_NIVEAUX.includes(f.pse.niveau) ? f.pse.niveau : '', rubrique, sousRubrique };
       }
-      fichesCustom.push({
-        key: 'custom_' + Date.now() + '_' + i,
+      const ficheData = {
         title: f.title,
         category: f.category,
         summary: f.summary || [],
@@ -5112,8 +5280,17 @@ sections: (f.sections || []).map(s => ({
           type: s.type || undefined
         })),
         pse
-      });
+      };
+      // Mise à jour en place : on garde la clé existante (donc l'historique,
+      // les éventuels renvois vers cette fiche...) au lieu de pousser un
+      // nouveau doublon.
+      if (shouldUpdateExisting) {
+        const existing = fichesCustom.find(fc => fc.key === pendingFicheUpdate.key);
+        if (existing) { Object.assign(existing, ficheData); return; }
+      }
+      fichesCustom.push({ key: 'custom_' + Date.now() + '_' + i, ...ficheData });
     });
+    pendingFicheUpdate = null;
 await saveFichesCustom();
     if (sousRubriquesChanged) await savePseSousRubriques();
 
@@ -12195,6 +12372,7 @@ function buildGesteRowHtml(geste, isCustom) {
     ? `<span style="display:none;">
          <button data-fiche-pse="${geste.key}" data-fiche-pse-custom="${isCustom ? '1' : '0'}" data-action-label="🗂️ Classer PSE"></button>
          <button data-fiche-move="${geste.key}" data-fiche-move-custom="${isCustom ? '1' : '0'}" data-action-label="🔀 Déplacer vers une autre catégorie"></button>
+         <button data-fiche-complete="${geste.key}" data-fiche-complete-custom="${isCustom ? '1' : '0'}" data-action-label="🧠 Compléter via IA"></button>
          ${isCustom ? `<button data-fiche-edit="${geste.key}" data-action-label="✏️ Modifier la fiche"></button><button data-fiche-delete="${geste.key}" data-action-label="✕ Supprimer la fiche"></button>` : ''}
        </span>
        <button class="icon-btn" data-fiche-actions-toggle title="Autres actions">⋯</button>`
