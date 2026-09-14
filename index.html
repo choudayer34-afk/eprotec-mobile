@@ -4606,6 +4606,52 @@ const CATEGORY_SCREENS = {
   pediatrie: { section: 'plus-pediatrie', content: 'pediatrie-content', cats: ['pediatrie'] }
 };
 
+// Libellés lisibles des catégories fonctionnelles de secourisme (celles des
+// écrans "Fiches gestes" et des tuiles de l'écran Secourisme) — utilisés pour
+// proposer un menu de déplacement d'une fiche d'une catégorie à l'autre.
+const SECOURISME_CATEGORIES_INFO = [
+  { id: 'urgences', label: 'Urgences vitales' },
+  { id: 'trauma', label: 'Traumatologie' },
+  { id: 'malaises', label: 'Malaises médicaux' },
+  { id: 'plaies_brulures', label: 'Plaies et brûlures' },
+  { id: 'degagement', label: "Dégagements d'urgence" },
+  { id: 'psychologie', label: 'Psychologie & relationnel' },
+  { id: 'materiel', label: 'Matériel' },
+  { id: 'novi', label: 'Nombreuses victimes' },
+  { id: 'pediatrie', label: 'Enfant / Nourrisson' }
+];
+
+// Catégorie fonctionnelle des fiches natives (non modifiables dans leur code
+// source) : stockée à part, comme le classement PSE, plutôt que directement
+// sur GESTES_DATA. Les fiches personnalisées, elles, portent directement leur
+// catégorie sur l'objet et n'ont pas besoin de ce mécanisme.
+let ficheCategoryOverrides = {};
+
+async function loadFicheCategoryOverrides() {
+  try {
+    const res = await fetch(FIREBASE_URL + '/contenu-partage/geste-category-overrides.json?t=' + Date.now(), { cache: 'no-store' });
+    const data = await res.json();
+    ficheCategoryOverrides = (data && typeof data === 'object') ? data : {};
+  } catch {
+    ficheCategoryOverrides = {};
+  }
+}
+
+async function saveFicheCategoryOverrides() {
+  await fetch(FIREBASE_URL + '/contenu-partage/geste-category-overrides.json', {
+    method: 'PUT',
+    body: JSON.stringify(ficheCategoryOverrides)
+  });
+}
+
+// Résout la catégorie fonctionnelle effective d'une fiche, native ou
+// personnalisée — à utiliser partout à la place d'un accès direct à
+// GESTE_CATEGORIES_MAP ou geste.category.
+function getFicheCategory(geste, isCustom) {
+  if (isCustom) return geste.category;
+  return ficheCategoryOverrides[geste.key] || GESTE_CATEGORIES_MAP[geste.key];
+}
+
 let fichesCustom = [];
 let illustrationPrompts = {};
 
@@ -5214,15 +5260,62 @@ function showPseClassementModal(ficheKey, isCustom, onSaved) {
   });
 }
 
+// Déplace une fiche (native ou personnalisée) d'une catégorie fonctionnelle
+// à une autre (ex. Traumatologie → Dégagements d'urgence) — la catégorie qui
+// alimente les écrans "Fiches gestes" existants, indépendante du classement
+// PSE. Pour une fiche personnalisée, `category` est modifié directement ;
+// pour une fiche native, le changement passe par une surcharge dédiée
+// puisque son code source n'est pas modifiable en direct.
+function showCategoryMoveModal(ficheKey, isCustom, onSaved) {
+  const fiche = isCustom ? fichesCustom.find(f => f.key === ficheKey) : GESTES_DATA.find(g => g.key === ficheKey);
+  if (!fiche) return;
+  const currentCat = getFicheCategory(fiche, isCustom);
+
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;';
+  overlay.innerHTML = `
+    <div style="background:#163C74;border-radius:16px;padding:20px;width:100%;max-width:380px;">
+      <div style="color:#fff;font-size:15px;font-weight:600;margin-bottom:4px;">🔀 Déplacer la fiche</div>
+      <div style="color:#9FB3D6;font-size:12px;margin-bottom:12px;">${escapeHtml(fiche.title)}</div>
+      <div class="bilan-field-row">
+        <label>Catégorie</label>
+        <select id="category-move-select">
+          ${SECOURISME_CATEGORIES_INFO.map(c => `<option value="${c.id}" ${currentCat === c.id ? 'selected' : ''}>${escapeHtml(c.label)}</option>`).join('')}
+        </select>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:6px;">
+        <button class="detail-action-btn" id="category-move-cancel" style="flex:1;">Annuler</button>
+        <button class="detail-action-btn primary" id="category-move-save" style="flex:1;">Déplacer</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  overlay.querySelector('#category-move-cancel').addEventListener('click', () => overlay.remove());
+  overlay.querySelector('#category-move-save').addEventListener('click', async () => {
+    const newCat = overlay.querySelector('#category-move-select').value;
+    if (isCustom) {
+      fiche.category = newCat;
+      await saveFichesCustom();
+    } else {
+      // Si la nouvelle catégorie correspond à la catégorie native d'origine,
+      // on retire la surcharge plutôt que de la conserver inutilement.
+      if (newCat === GESTE_CATEGORIES_MAP[fiche.key]) delete ficheCategoryOverrides[fiche.key];
+      else ficheCategoryOverrides[fiche.key] = newCat;
+      await saveFicheCategoryOverrides();
+    }
+    overlay.remove();
+    if (typeof onSaved === 'function') onSaved();
+  });
+}
+
 function goToGesteByKey(gesteKey) {
-  // Les fiches natives ont leur catégorie dans GESTE_CATEGORIES_MAP ; les
-  // fiches importées/créées manuellement (fichesCustom) portent directement
-  // leur catégorie sur l'objet.
-  let cat = GESTE_CATEGORIES_MAP[gesteKey];
-  if (!cat) {
-    const custom = fichesCustom.find(f => f.key === gesteKey);
-    if (custom) cat = custom.category;
-  }
+  // Les fiches natives ont leur catégorie dans GESTE_CATEGORIES_MAP (avec
+  // possibilité de surcharge via ficheCategoryOverrides) ; les fiches
+  // importées/créées manuellement (fichesCustom) portent directement leur
+  // catégorie sur l'objet.
+  const custom = fichesCustom.find(f => f.key === gesteKey);
+  const cat = custom ? getFicheCategory(custom, true) : getFicheCategory({ key: gesteKey }, false);
   const screen = CATEGORY_SCREENS[cat];
   if (!screen) return;
   goToGesteFiche(screen.section, screen.content, screen.cats, gesteKey);
@@ -11347,7 +11440,7 @@ function buildGesteRowHtml(geste, isCustom) {
   const pse = getFichePse(geste, isCustom);
   const pseTagHtml = pse ? `<div style="color:#9FB3D6;font-size:11px;margin:2px 0 0;">${escapeHtml(formatPseTag(pse))}</div>` : '';
   const adminBtnsHtml = isAdminUser
-    ? `<button class="icon-btn" data-fiche-pse="${geste.key}" data-fiche-pse-custom="${isCustom ? '1' : '0'}" title="Classer PSE">🗂️</button>${isCustom ? `<button class="icon-btn" data-fiche-edit="${geste.key}">✏️</button><button class="icon-btn" data-fiche-delete="${geste.key}">✕</button>` : ''}`
+    ? `<button class="icon-btn" data-fiche-pse="${geste.key}" data-fiche-pse-custom="${isCustom ? '1' : '0'}" title="Classer PSE">🗂️</button><button class="icon-btn" data-fiche-move="${geste.key}" data-fiche-move-custom="${isCustom ? '1' : '0'}" title="Déplacer vers une autre catégorie">🔀</button>${isCustom ? `<button class="icon-btn" data-fiche-edit="${geste.key}">✏️</button><button class="icon-btn" data-fiche-delete="${geste.key}">✕</button>` : ''}`
     : '';
   return `
     <div class="geste-group" data-geste-key="${geste.key}">
@@ -11412,10 +11505,25 @@ function attachPseClassementAction(container, onChanged) {
   });
 }
 
+// Attache l'action "🔀 Déplacer" (changement de catégorie fonctionnelle) —
+// commune aux fiches natives et personnalisées, comme le classement PSE.
+// Après déplacement, la fiche peut ne plus correspondre au filtre de l'écran
+// courant : le rafraîchissement (onChanged) la fera alors disparaître de la
+// liste, ce qui est le comportement attendu.
+function attachCategoryMoveAction(container, onChanged) {
+  if (!isAdminUser) return;
+  container.querySelectorAll('[data-fiche-move]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showCategoryMoveModal(btn.dataset.ficheMove, btn.dataset.ficheMoveCustom === '1', onChanged);
+    });
+  });
+}
+
 function renderGestesList(containerId, categories) {
   const container = document.getElementById(containerId);
-  const customFiltered = fichesCustom.filter(g => categories.includes(g.category));
-  const filtered = GESTES_DATA.filter(g => categories.includes(GESTE_CATEGORIES_MAP[g.key])).concat(customFiltered);
+  const customFiltered = fichesCustom.filter(g => categories.includes(getFicheCategory(g, true)));
+  const filtered = GESTES_DATA.filter(g => categories.includes(getFicheCategory(g, false))).concat(customFiltered);
 
   const addBtnHtml = isAdminUser
     ? `<button class="detail-action-btn primary" id="add-fiche-btn" style="margin-bottom:14px;">➕ Ajouter une fiche</button>`
@@ -11439,6 +11547,7 @@ function renderGestesList(containerId, categories) {
 
   const refresh = () => renderGestesList(containerId, categories);
   attachPseClassementAction(container, refresh);
+  attachCategoryMoveAction(container, refresh);
 
   if (isAdminUser) {
     const addBtn = document.getElementById('add-fiche-btn');
@@ -11474,10 +11583,10 @@ let currentPseNiveauFilter = 'tous';
 
 function getAllSecourismeFiches() {
   const nativeOnes = GESTES_DATA
-    .filter(g => !PSE_EXCLUDED_CATEGORIES.includes(GESTE_CATEGORIES_MAP[g.key]))
+    .filter(g => !PSE_EXCLUDED_CATEGORIES.includes(getFicheCategory(g, false)))
     .map(g => ({ geste: g, isCustom: false }));
   const customOnes = fichesCustom
-    .filter(f => !PSE_EXCLUDED_CATEGORIES.includes(f.category))
+    .filter(f => !PSE_EXCLUDED_CATEGORIES.includes(getFicheCategory(f, true)))
     .map(f => ({ geste: f, isCustom: true }));
   return nativeOnes.concat(customOnes);
 }
@@ -11567,6 +11676,7 @@ function renderPseFicheList(rubriqueId) {
 
   const refresh = () => renderPseFicheList(rubriqueId);
   attachPseClassementAction(container, refresh);
+  attachCategoryMoveAction(container, refresh);
 
   if (isAdminUser) {
     // Les fiches personnalisées listées ici peuvent venir de catégories
@@ -12498,6 +12608,7 @@ await loadFichesCustom();
   await loadIllustrationPrompts();
   await loadGestePseOverrides();
   await loadPseSousRubriques();
+  await loadFicheCategoryOverrides();
 
   renderParametres();
 
