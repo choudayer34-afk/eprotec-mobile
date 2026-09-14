@@ -750,26 +750,7 @@
       
       <div class="tile" data-open="plus-gestes">
         <div class="tile-icon">📚</div>
-        <div class="tile-title">Fiches gestes</div>
-      </div>
-      <div class="tile" data-open="plus-psychologie">
-        <div class="tile-icon">🧠</div>
-        <div class="tile-title">Psychologie & relationnel</div>
-      </div>
-
-    
-
-      <div class="tile" data-open="plus-materiel">
-        <div class="tile-icon">🧰</div>
-        <div class="tile-title">Matériel</div>
-      </div>
-<div class="tile" data-open="plus-novi">
-        <div class="tile-icon">👥</div>
-        <div class="tile-title">Nombreuses victimes</div>
-      </div>
-            <div class="tile" data-open="plus-pediatrie">
-        <div class="tile-icon">👶</div>
-        <div class="tile-title">Enfant / Nourrisson</div>
+        <div class="tile-title">Fiches & rubriques</div>
       </div>
             <div class="tile" data-open="urgence-numeros">
         <div class="tile-icon">📞</div>
@@ -816,34 +797,18 @@
 <section id="plus-gestes">
     <div class="detail-header">
       <button class="plus-back" data-target="plus-secourisme">‹</button>
-      <span>Fiches gestes</span>
+      <span style="flex:1;">Fiches & rubriques</span>
+      <button class="detail-action-btn" id="fiches-gestes-organize-btn" style="display:none;flex:none;padding:6px 10px;font-size:12px;">🛠️ Organiser</button>
     </div>
-    <div class="tile-grid">
-      <div class="tile" data-open="plus-gestes-urgences">
-        <div class="tile-icon">🚨</div>
-        <div class="tile-title">Urgences vitales</div>
-      </div>
-      <div class="tile" data-open="plus-gestes-trauma">
-        <div class="tile-icon">🤕</div>
-        <div class="tile-title">Traumatologie</div>
-      </div>
-      <div class="tile" data-open="plus-gestes-malaises">
-        <div class="tile-icon">💊</div>
-        <div class="tile-title">Malaises médicaux</div>
-      </div>
-      <div class="tile" data-open="plus-gestes-plaies">
-        <div class="tile-icon">🔥</div>
-        <div class="tile-title">Plaies et brûlures</div>
-      </div>
-      <div class="tile span-2" data-open="plus-gestes-degagement">
-        <div class="tile-icon">🏃</div>
-        <div class="tile-title">Dégagements d'urgence</div>
-      </div>
-      <div class="tile span-2" data-open="plus-gestes-pse">
-        <div class="tile-icon">🗂️</div>
-        <div class="tile-title">Classement PSE</div>
-      </div>
+    <div id="fiches-gestes-grid"></div>
+  </section>
+
+  <section id="plus-gestes-custom-cat">
+    <div class="detail-header">
+      <button class="plus-back" data-target="plus-gestes">‹</button>
+      <span id="custom-cat-header-title">Rubrique</span>
     </div>
+    <div id="custom-cat-content"><div class="empty">Chargement...</div></div>
   </section>
 
   <section id="plus-gestes-pse">
@@ -909,7 +874,7 @@
 
   <section id="plus-psychologie">
     <div class="detail-header">
-      <button class="plus-back" data-target="plus-secourisme">‹</button>
+      <button class="plus-back" data-target="plus-gestes">‹</button>
       <span>Psychologie & relationnel</span>
     </div>
     <div id="psychologie-content"><div class="empty">Chargement...</div></div>
@@ -917,7 +882,7 @@
 
 <section id="plus-materiel">
     <div class="detail-header">
-      <button class="plus-back" data-target="plus-secourisme">‹</button>
+      <button class="plus-back" data-target="plus-gestes">‹</button>
       <span>Matériel</span>
     </div>
     <div id="materiel-content"><div class="empty">Chargement...</div></div>
@@ -925,7 +890,7 @@
 
 <section id="plus-novi">
     <div class="detail-header">
-      <button class="plus-back" data-target="plus-secourisme">‹</button>
+      <button class="plus-back" data-target="plus-gestes">‹</button>
       <span>Nombreuses victimes</span>
     </div>
     <div id="novi-content"><div class="empty">Chargement...</div></div>
@@ -933,7 +898,7 @@
 
   <section id="plus-pediatrie">
     <div class="detail-header">
-      <button class="plus-back" data-target="plus-secourisme">‹</button>
+      <button class="plus-back" data-target="plus-gestes">‹</button>
       <span>Enfant / Nourrisson</span>
     </div>
     <div id="pediatrie-content"><div class="empty">Chargement...</div></div>
@@ -1940,6 +1905,7 @@ if (subId === 'plus-pretapartir') renderPretAPartir();
   if (subId === 'plus-eprotec-lien') renderEprotecLien();
   if (subId === 'plus-apropos') renderApropos();
   if (subId === 'plus-bilan') renderBilan();
+  if (subId === 'plus-gestes') renderFichesGestesGrid();
   if (subId === 'plus-gestes-urgences') renderGestesList('gestes-urgences-content', ['urgences']);
   if (subId === 'plus-gestes-trauma') renderGestesList('gestes-trauma-content', ['trauma']);
   if (subId === 'plus-gestes-malaises') renderGestesList('gestes-malaises-content', ['malaises']);
@@ -4607,19 +4573,95 @@ const CATEGORY_SCREENS = {
 };
 
 // Libellés lisibles des catégories fonctionnelles de secourisme (celles des
-// écrans "Fiches gestes" et des tuiles de l'écran Secourisme) — utilisés pour
+// écran "Fiches & rubriques") — utilisés pour
 // proposer un menu de déplacement d'une fiche d'une catégorie à l'autre.
 const SECOURISME_CATEGORIES_INFO = [
-  { id: 'urgences', label: 'Urgences vitales' },
-  { id: 'trauma', label: 'Traumatologie' },
-  { id: 'malaises', label: 'Malaises médicaux' },
-  { id: 'plaies_brulures', label: 'Plaies et brûlures' },
-  { id: 'degagement', label: "Dégagements d'urgence" },
-  { id: 'psychologie', label: 'Psychologie & relationnel' },
-  { id: 'materiel', label: 'Matériel' },
-  { id: 'novi', label: 'Nombreuses victimes' },
-  { id: 'pediatrie', label: 'Enfant / Nourrisson' }
+  { id: 'urgences', emoji: '🚨', label: 'Urgences vitales' },
+  { id: 'trauma', emoji: '🤕', label: 'Traumatologie' },
+  { id: 'malaises', emoji: '💊', label: 'Malaises médicaux' },
+  { id: 'plaies_brulures', emoji: '🔥', label: 'Plaies et brûlures' },
+  { id: 'degagement', emoji: '🏃', label: "Dégagements d'urgence" },
+  { id: 'psychologie', emoji: '🧠', label: 'Psychologie & relationnel' },
+  { id: 'materiel', emoji: '🧰', label: 'Matériel' },
+  { id: 'novi', emoji: '👥', label: 'Nombreuses victimes' },
+  { id: 'pediatrie', emoji: '👶', label: 'Enfant / Nourrisson' }
 ];
+
+// Rubriques ("dossiers") ajoutées par l'admin en plus des 9 catégories
+// natives ci-dessus, pour l'écran "Fiches & rubriques" — même esprit que les
+// sous-rubriques PSE : rien n'est inventé, la liste se construit à la
+// demande de l'admin. Chaque rubrique custom est enregistrée dans
+// CATEGORY_SCREENS pour réutiliser l'écran générique #plus-gestes-custom-cat.
+let ficheGestesCustomCategories = [];
+
+async function loadFicheGestesCustomCategories() {
+  try {
+    const res = await fetch(FIREBASE_URL + '/contenu-partage/fiche-gestes-custom-categories.json?t=' + Date.now(), { cache: 'no-store' });
+    const data = await res.json();
+    ficheGestesCustomCategories = Array.isArray(data) ? data : [];
+  } catch {
+    ficheGestesCustomCategories = [];
+  }
+  ficheGestesCustomCategories.forEach(cat => {
+    CATEGORY_SCREENS[cat.id] = { section: 'plus-gestes-custom-cat', content: 'custom-cat-content', cats: [cat.id] };
+  });
+}
+
+async function saveFicheGestesCustomCategories() {
+  const res = await fetch(FIREBASE_URL + '/contenu-partage/fiche-gestes-custom-categories.json', {
+    method: 'PUT',
+    body: JSON.stringify(ficheGestesCustomCategories)
+  });
+  if (!res.ok) throw new Error('Échec enregistrement rubrique (HTTP ' + res.status + ')');
+}
+
+// Catégories fonctionnelles complètes : les 9 natives + les rubriques créées
+// par l'admin.
+function getAllFicheGestesCategories() {
+  return SECOURISME_CATEGORIES_INFO.concat(ficheGestesCustomCategories);
+}
+
+// Disposition de l'écran "Fiches & rubriques" : liste ordonnée de lignes,
+// chacune avec une disposition ('full' = pleine largeur, 'split' = 2
+// colonnes côte à côte, 'left'/'right' = une seule colonne occupée) et les
+// identifiants des rubriques qu'elle contient ('pse' pour le Classement PSE,
+// ou un id de catégorie/rubrique). Modifiable par l'admin via l'écran
+// "🛠️ Organiser".
+const DEFAULT_FICHE_GESTES_LAYOUT = [
+  { layout: 'full', slots: ['pse'] },
+  { layout: 'full', slots: ['degagement'] },
+  { layout: 'split', slots: ['urgences', 'trauma'] },
+  { layout: 'split', slots: ['malaises', 'plaies_brulures'] },
+  { layout: 'split', slots: ['materiel', 'novi'] },
+  { layout: 'split', slots: ['psychologie', 'pediatrie'] }
+];
+
+let ficheGestesLayout = null;
+
+async function loadFicheGestesLayout() {
+  try {
+    const res = await fetch(FIREBASE_URL + '/contenu-partage/fiche-gestes-layout.json?t=' + Date.now(), { cache: 'no-store' });
+    const data = await res.json();
+    ficheGestesLayout = Array.isArray(data) && data.length ? data : null;
+  } catch {
+    ficheGestesLayout = null;
+  }
+}
+
+async function saveFicheGestesLayout() {
+  const res = await fetch(FIREBASE_URL + '/contenu-partage/fiche-gestes-layout.json', {
+    method: 'PUT',
+    body: JSON.stringify(ficheGestesLayout)
+  });
+  if (!res.ok) throw new Error('Échec enregistrement disposition (HTTP ' + res.status + ')');
+}
+
+// Options disponibles pour un emplacement de l'écran "Fiches & rubriques" :
+// le Classement PSE (spécial, pas une catégorie fonctionnelle) + toutes les
+// catégories/rubriques.
+function getAllFicheGestesTileOptions() {
+  return [{ id: 'pse', emoji: '🗂️', label: 'Classement PSE' }].concat(getAllFicheGestesCategories());
+}
 
 // Catégorie fonctionnelle des fiches natives (non modifiables dans leur code
 // source) : stockée à part, comme le classement PSE, plutôt que directement
@@ -4638,10 +4680,11 @@ async function loadFicheCategoryOverrides() {
 }
 
 async function saveFicheCategoryOverrides() {
-  await fetch(FIREBASE_URL + '/contenu-partage/geste-category-overrides.json', {
+  const res = await fetch(FIREBASE_URL + '/contenu-partage/geste-category-overrides.json', {
     method: 'PUT',
     body: JSON.stringify(ficheCategoryOverrides)
   });
+  if (!res.ok) throw new Error('Échec enregistrement catégorie (HTTP ' + res.status + ')');
 }
 
 // Résout la catégorie fonctionnelle effective d'une fiche, native ou
@@ -4726,10 +4769,11 @@ async function loadGestePseOverrides() {
 }
 
 async function saveGestePseOverrides() {
-  await fetch(FIREBASE_URL + '/contenu-partage/geste-pse-overrides.json', {
+  const res = await fetch(FIREBASE_URL + '/contenu-partage/geste-pse-overrides.json', {
     method: 'PUT',
     body: JSON.stringify(gestePseOverrides)
   });
+  if (!res.ok) throw new Error('Échec enregistrement classement PSE (HTTP ' + res.status + ')');
 }
 
 // Sous-rubriques : pas de liste officielle intégrée à l'app (le référentiel
@@ -4749,10 +4793,11 @@ async function loadPseSousRubriques() {
 }
 
 async function savePseSousRubriques() {
-  await fetch(FIREBASE_URL + '/contenu-partage/pse-sous-rubriques.json', {
+  const res = await fetch(FIREBASE_URL + '/contenu-partage/pse-sous-rubriques.json', {
     method: 'PUT',
     body: JSON.stringify(pseSousRubriques)
   });
+  if (!res.ok) throw new Error('Échec enregistrement sous-rubrique PSE (HTTP ' + res.status + ')');
 }
 
 function slugifyId(text) {
@@ -5224,45 +5269,53 @@ function showPseClassementModal(ficheKey, isCustom, onSaved) {
 
   overlay.querySelector('#pse-modal-cancel').addEventListener('click', () => overlay.remove());
   overlay.querySelector('#pse-modal-save').addEventListener('click', async () => {
+    const saveBtn = overlay.querySelector('#pse-modal-save');
     const niveau = overlay.querySelector('#pse-modal-niveau').value;
     const rubrique = overlay.querySelector('#pse-modal-rubrique').value;
     let sousRubrique = sousSelect.value;
 
-    if (rubrique && sousRubrique === '__nouvelle__') {
-      const label = overlay.querySelector('#pse-modal-nouvelle-sous').value.trim();
-      if (label) {
-        const id = slugifyId(label);
-        if (!pseSousRubriques[rubrique]) pseSousRubriques[rubrique] = [];
-        if (!pseSousRubriques[rubrique].some(s => s.id === id)) {
-          pseSousRubriques[rubrique].push({ id, label });
-          await savePseSousRubriques();
+    saveBtn.disabled = true;
+    try {
+      if (rubrique && sousRubrique === '__nouvelle__') {
+        const label = overlay.querySelector('#pse-modal-nouvelle-sous').value.trim();
+        if (label) {
+          const id = slugifyId(label);
+          if (!pseSousRubriques[rubrique]) pseSousRubriques[rubrique] = [];
+          if (!pseSousRubriques[rubrique].some(s => s.id === id)) {
+            pseSousRubriques[rubrique].push({ id, label });
+            await savePseSousRubriques();
+          }
+          sousRubrique = id;
+        } else {
+          sousRubrique = '';
         }
-        sousRubrique = id;
-      } else {
-        sousRubrique = '';
       }
+      if (!rubrique) sousRubrique = '';
+
+      const pse = (niveau || rubrique || sousRubrique) ? { niveau: niveau || '', rubrique: rubrique || '', sousRubrique: sousRubrique || '' } : null;
+
+      if (isCustom) {
+        fiche.pse = pse || undefined;
+        await saveFichesCustom();
+      } else {
+        if (pse) gestePseOverrides[fiche.key] = pse;
+        else delete gestePseOverrides[fiche.key];
+        await saveGestePseOverrides();
+      }
+
+      overlay.remove();
+      if (typeof onSaved === 'function') onSaved();
+    } catch (err) {
+      console.error('Erreur enregistrement classement PSE :', err);
+      alert("Échec de l'enregistrement du classement PSE (problème réseau ou droits Firebase). Rien n'a été sauvegardé — réessaie, et si ça persiste vérifie les règles de la base Firebase pour /contenu-partage/geste-pse-overrides.json et /contenu-partage/pse-sous-rubriques.json.");
+      saveBtn.disabled = false;
     }
-    if (!rubrique) sousRubrique = '';
-
-    const pse = (niveau || rubrique || sousRubrique) ? { niveau: niveau || '', rubrique: rubrique || '', sousRubrique: sousRubrique || '' } : null;
-
-    if (isCustom) {
-      fiche.pse = pse || undefined;
-      await saveFichesCustom();
-    } else {
-      if (pse) gestePseOverrides[fiche.key] = pse;
-      else delete gestePseOverrides[fiche.key];
-      await saveGestePseOverrides();
-    }
-
-    overlay.remove();
-    if (typeof onSaved === 'function') onSaved();
   });
 }
 
 // Déplace une fiche (native ou personnalisée) d'une catégorie fonctionnelle
 // à une autre (ex. Traumatologie → Dégagements d'urgence) — la catégorie qui
-// alimente les écrans "Fiches gestes" existants, indépendante du classement
+// alimente l'écran "Fiches & rubriques" existant, indépendante du classement
 // PSE. Pour une fiche personnalisée, `category` est modifié directement ;
 // pour une fiche native, le changement passe par une surcharge dédiée
 // puisque son code source n'est pas modifiable en direct.
@@ -5280,7 +5333,7 @@ function showCategoryMoveModal(ficheKey, isCustom, onSaved) {
       <div class="bilan-field-row">
         <label>Catégorie</label>
         <select id="category-move-select">
-          ${SECOURISME_CATEGORIES_INFO.map(c => `<option value="${c.id}" ${currentCat === c.id ? 'selected' : ''}>${escapeHtml(c.label)}</option>`).join('')}
+          ${getAllFicheGestesCategories().map(c => `<option value="${c.id}" ${currentCat === c.id ? 'selected' : ''}>${escapeHtml(c.emoji ? c.emoji + ' ' + c.label : c.label)}</option>`).join('')}
         </select>
       </div>
       <div style="display:flex;gap:8px;margin-top:6px;">
@@ -5293,19 +5346,27 @@ function showCategoryMoveModal(ficheKey, isCustom, onSaved) {
 
   overlay.querySelector('#category-move-cancel').addEventListener('click', () => overlay.remove());
   overlay.querySelector('#category-move-save').addEventListener('click', async () => {
+    const saveBtn = overlay.querySelector('#category-move-save');
     const newCat = overlay.querySelector('#category-move-select').value;
-    if (isCustom) {
-      fiche.category = newCat;
-      await saveFichesCustom();
-    } else {
-      // Si la nouvelle catégorie correspond à la catégorie native d'origine,
-      // on retire la surcharge plutôt que de la conserver inutilement.
-      if (newCat === GESTE_CATEGORIES_MAP[fiche.key]) delete ficheCategoryOverrides[fiche.key];
-      else ficheCategoryOverrides[fiche.key] = newCat;
-      await saveFicheCategoryOverrides();
+    saveBtn.disabled = true;
+    try {
+      if (isCustom) {
+        fiche.category = newCat;
+        await saveFichesCustom();
+      } else {
+        // Si la nouvelle catégorie correspond à la catégorie native d'origine,
+        // on retire la surcharge plutôt que de la conserver inutilement.
+        if (newCat === GESTE_CATEGORIES_MAP[fiche.key]) delete ficheCategoryOverrides[fiche.key];
+        else ficheCategoryOverrides[fiche.key] = newCat;
+        await saveFicheCategoryOverrides();
+      }
+      overlay.remove();
+      if (typeof onSaved === 'function') onSaved();
+    } catch (err) {
+      console.error('Erreur déplacement catégorie :', err);
+      alert("Échec du déplacement (problème réseau ou droits Firebase). Rien n'a été sauvegardé — réessaie, et si ça persiste vérifie les règles de la base Firebase pour /contenu-partage/geste-category-overrides.json.");
+      saveBtn.disabled = false;
     }
-    overlay.remove();
-    if (typeof onSaved === 'function') onSaved();
   });
 }
 
@@ -5318,7 +5379,251 @@ function goToGesteByKey(gesteKey) {
   const cat = custom ? getFicheCategory(custom, true) : getFicheCategory({ key: gesteKey }, false);
   const screen = CATEGORY_SCREENS[cat];
   if (!screen) return;
+  const customCatInfo = ficheGestesCustomCategories.find(c => c.id === cat);
+  if (customCatInfo) {
+    const titleEl = document.getElementById('custom-cat-header-title');
+    if (titleEl) titleEl.textContent = customCatInfo.emoji + ' ' + customCatInfo.label;
+  }
   goToGesteFiche(screen.section, screen.content, screen.cats, gesteKey);
+}
+
+// Ouvre une rubrique ("dossier") créée par l'admin : réutilise l'écran
+// générique #plus-gestes-custom-cat, en fixant son titre et son contenu
+// dynamiquement puisqu'il est partagé entre toutes les rubriques custom.
+function openCustomCategoryScreen(catId) {
+  const cat = ficheGestesCustomCategories.find(c => c.id === catId);
+  document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === 'plus'));
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  document.getElementById('plus-gestes-custom-cat').classList.add('active');
+  document.getElementById('custom-cat-header-title').textContent = cat ? (cat.emoji + ' ' + cat.label) : 'Rubrique';
+  renderGestesList('custom-cat-content', [catId]);
+}
+
+// Ouvre l'un des emplacements de l'écran "Fiches & rubriques" : le
+// Classement PSE (spécial), une catégorie native (écran dédié existant) ou
+// une rubrique custom (écran générique partagé).
+function openFicheGestesTile(slotId) {
+  if (slotId === 'pse') { openPlusSection('plus-gestes-pse'); return; }
+  const isCustomCat = ficheGestesCustomCategories.some(c => c.id === slotId);
+  if (isCustomCat) { openCustomCategoryScreen(slotId); return; }
+  const screen = CATEGORY_SCREENS[slotId];
+  if (screen) openPlusSection(screen.section);
+}
+
+// Construit dynamiquement la grille de l'écran "Fiches & rubriques" à partir
+// de ficheGestesLayout (ou de la disposition par défaut si l'admin n'a
+// jamais personnalisé l'écran). Chaque ligne logique est son propre
+// mini-tile-grid pour que la disposition (pleine largeur / 2 colonnes /
+// colonne gauche ou droite seule) soit fiable, indépendamment des lignes
+// voisines.
+function renderFichesGestesGrid() {
+  const container = document.getElementById('fiches-gestes-grid');
+  if (!container) return;
+  const layout = (ficheGestesLayout && ficheGestesLayout.length) ? ficheGestesLayout : DEFAULT_FICHE_GESTES_LAYOUT;
+  const options = getAllFicheGestesTileOptions();
+  const tileHtml = (slotId, extraStyle) => {
+    const info = options.find(o => o.id === slotId);
+    if (!info) return '';
+    return `<div class="tile" data-slot-id="${escapeHtml(slotId)}" style="${extraStyle || ''}">
+      <div class="tile-icon">${info.emoji || '📄'}</div>
+      <div class="tile-title">${escapeHtml(info.label)}</div>
+    </div>`;
+  };
+  container.innerHTML = layout.map(row => {
+    if (row.layout === 'full') {
+      return `<div class="tile-grid" style="margin-bottom:10px;">${tileHtml(row.slots[0], 'grid-column:span 2;')}</div>`;
+    }
+    if (row.layout === 'left') {
+      return `<div class="tile-grid" style="margin-bottom:10px;">${tileHtml(row.slots[0])}</div>`;
+    }
+    if (row.layout === 'right') {
+      return `<div class="tile-grid" style="margin-bottom:10px;">${tileHtml(row.slots[0], 'grid-column:2;')}</div>`;
+    }
+    return `<div class="tile-grid" style="margin-bottom:10px;">${tileHtml(row.slots[0])}${tileHtml(row.slots[1])}</div>`;
+  }).join('');
+
+  container.querySelectorAll('.tile[data-slot-id]').forEach(tile => {
+    tile.addEventListener('click', () => openFicheGestesTile(tile.dataset.slotId));
+  });
+
+  const organizeBtn = document.getElementById('fiches-gestes-organize-btn');
+  if (organizeBtn) {
+    organizeBtn.style.display = isAdminUser ? 'block' : 'none';
+    organizeBtn.onclick = () => showFichesGestesOrganizerModal();
+  }
+}
+
+// Modale admin de réorganisation de l'écran "Fiches & rubriques" : réordonner
+// les lignes, changer leur disposition (pleine largeur / 2 colonnes / gauche
+// seule / droite seule), changer les rubriques affichées, et créer de
+// nouvelles rubriques ("dossiers") à la volée. Tout est travaillé sur une
+// copie locale (workingLayout) et n'est enregistré qu'au clic sur
+// "Enregistrer".
+function showFichesGestesOrganizerModal() {
+  const baseLayout = (ficheGestesLayout && ficheGestesLayout.length) ? ficheGestesLayout : DEFAULT_FICHE_GESTES_LAYOUT;
+  const workingLayout = JSON.parse(JSON.stringify(baseLayout));
+
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;';
+  overlay.innerHTML = `
+    <div style="background:#163C74;border-radius:16px;padding:20px;width:100%;max-width:440px;max-height:85vh;overflow-y:auto;">
+      <div style="color:#fff;font-size:15px;font-weight:600;margin-bottom:12px;">🛠️ Organiser "Fiches & rubriques"</div>
+      <div id="organizer-rows"></div>
+      <div style="display:flex;gap:8px;margin-bottom:12px;">
+        <button class="detail-action-btn" id="organizer-add-row" style="flex:1;">+ Ajouter une ligne</button>
+        <button class="detail-action-btn" id="organizer-add-cat" style="flex:1;">+ Nouvelle rubrique</button>
+      </div>
+      <div id="organizer-new-cat-row" style="display:none;margin-bottom:12px;">
+        <div class="bilan-field-row">
+          <label>Emoji</label>
+          <input type="text" id="organizer-new-cat-emoji" placeholder="📁" maxlength="4" style="width:60px;">
+        </div>
+        <div class="bilan-field-row">
+          <label>Nom de la rubrique</label>
+          <input type="text" id="organizer-new-cat-label" placeholder="Ex : Traumatologie">
+        </div>
+        <button class="detail-action-btn primary" id="organizer-new-cat-create" style="width:100%;">Créer la rubrique</button>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:6px;">
+        <button class="detail-action-btn" id="organizer-cancel" style="flex:1;">Annuler</button>
+        <button class="detail-action-btn primary" id="organizer-save" style="flex:1;">Enregistrer</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  const rowsContainer = overlay.querySelector('#organizer-rows');
+  const layoutLabels = { full: 'Pleine largeur (1 rubrique)', split: '2 colonnes (2 rubriques)', left: 'Colonne gauche seule', right: 'Colonne droite seule' };
+
+  function optionsHtml(selectedId) {
+    return getAllFicheGestesTileOptions().map(o => `<option value="${o.id}" ${selectedId === o.id ? 'selected' : ''}>${escapeHtml(o.emoji + ' ' + o.label)}</option>`).join('');
+  }
+
+  function renderRows() {
+    rowsContainer.innerHTML = workingLayout.map((row, idx) => {
+      const slotCount = row.layout === 'split' ? 2 : 1;
+      const slotsHtml = slotCount === 2
+        ? `<label style="margin-top:6px;">Rubrique (gauche)</label>
+           <select data-row-slot="${idx}" data-slot-index="0">${optionsHtml(row.slots[0])}</select>
+           <label style="margin-top:6px;">Rubrique (droite)</label>
+           <select data-row-slot="${idx}" data-slot-index="1">${optionsHtml(row.slots[1])}</select>`
+        : `<label style="margin-top:6px;">Rubrique</label>
+           <select data-row-slot="${idx}" data-slot-index="0">${optionsHtml(row.slots[0])}</select>`;
+      return `
+        <div class="bilan-field-row" style="border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:10px;margin-bottom:10px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <span style="color:#9FB3D6;font-size:12px;">Ligne ${idx + 1}</span>
+            <div style="display:flex;gap:4px;">
+              <button type="button" class="detail-action-btn" data-row-up="${idx}" ${idx === 0 ? 'disabled' : ''} style="padding:2px 8px;">▲</button>
+              <button type="button" class="detail-action-btn" data-row-down="${idx}" ${idx === workingLayout.length - 1 ? 'disabled' : ''} style="padding:2px 8px;">▼</button>
+              <button type="button" class="detail-action-btn" data-row-remove="${idx}" style="padding:2px 8px;color:#E24B4A;">✕</button>
+            </div>
+          </div>
+          <label>Disposition</label>
+          <select data-row-layout="${idx}">
+            ${Object.keys(layoutLabels).map(k => `<option value="${k}" ${row.layout === k ? 'selected' : ''}>${layoutLabels[k]}</option>`).join('')}
+          </select>
+          ${slotsHtml}
+        </div>
+      `;
+    }).join('');
+
+    rowsContainer.querySelectorAll('[data-row-up]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const i = Number(btn.dataset.rowUp);
+        [workingLayout[i - 1], workingLayout[i]] = [workingLayout[i], workingLayout[i - 1]];
+        renderRows();
+      });
+    });
+    rowsContainer.querySelectorAll('[data-row-down]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const i = Number(btn.dataset.rowDown);
+        [workingLayout[i + 1], workingLayout[i]] = [workingLayout[i], workingLayout[i + 1]];
+        renderRows();
+      });
+    });
+    rowsContainer.querySelectorAll('[data-row-remove]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        workingLayout.splice(Number(btn.dataset.rowRemove), 1);
+        renderRows();
+      });
+    });
+    rowsContainer.querySelectorAll('[data-row-layout]').forEach(sel => {
+      sel.addEventListener('change', () => {
+        const i = Number(sel.dataset.rowLayout);
+        const row = workingLayout[i];
+        const wasTwoSlots = row.layout === 'split';
+        row.layout = sel.value;
+        const nowTwoSlots = row.layout === 'split';
+        if (nowTwoSlots && !wasTwoSlots) {
+          const fallback = getAllFicheGestesTileOptions()[0].id;
+          row.slots = [row.slots[0] || fallback, fallback];
+        } else if (!nowTwoSlots && wasTwoSlots) {
+          row.slots = [row.slots[0]];
+        }
+        renderRows();
+      });
+    });
+    rowsContainer.querySelectorAll('[data-row-slot]').forEach(sel => {
+      sel.addEventListener('change', () => {
+        const i = Number(sel.dataset.rowSlot);
+        const slotIdx = Number(sel.dataset.slotIndex);
+        workingLayout[i].slots[slotIdx] = sel.value;
+      });
+    });
+  }
+
+  renderRows();
+
+  overlay.querySelector('#organizer-add-row').addEventListener('click', () => {
+    workingLayout.push({ layout: 'full', slots: [getAllFicheGestesTileOptions()[0].id] });
+    renderRows();
+  });
+
+  overlay.querySelector('#organizer-add-cat').addEventListener('click', () => {
+    const row = overlay.querySelector('#organizer-new-cat-row');
+    row.style.display = row.style.display === 'none' ? 'block' : 'none';
+  });
+
+  overlay.querySelector('#organizer-new-cat-create').addEventListener('click', async () => {
+    const emoji = overlay.querySelector('#organizer-new-cat-emoji').value.trim() || '📁';
+    const label = overlay.querySelector('#organizer-new-cat-label').value.trim();
+    if (!label) { alert('Merci de donner un nom à la rubrique.'); return; }
+    const id = slugifyId(label);
+    if (getAllFicheGestesTileOptions().some(o => o.id === id)) { alert('Une rubrique avec un nom aussi proche existe déjà.'); return; }
+    const createBtn = overlay.querySelector('#organizer-new-cat-create');
+    createBtn.disabled = true;
+    try {
+      ficheGestesCustomCategories.push({ id, emoji, label });
+      await saveFicheGestesCustomCategories();
+      CATEGORY_SCREENS[id] = { section: 'plus-gestes-custom-cat', content: 'custom-cat-content', cats: [id] };
+      overlay.querySelector('#organizer-new-cat-emoji').value = '';
+      overlay.querySelector('#organizer-new-cat-label').value = '';
+      overlay.querySelector('#organizer-new-cat-row').style.display = 'none';
+      renderRows();
+    } catch (err) {
+      console.error('Erreur création rubrique :', err);
+      ficheGestesCustomCategories = ficheGestesCustomCategories.filter(c => c.id !== id);
+      alert("Échec de la création de la rubrique (problème réseau ou droits Firebase). Réessaie, et si ça persiste vérifie les règles Firebase pour /contenu-partage/fiche-gestes-custom-categories.json.");
+    }
+    createBtn.disabled = false;
+  });
+
+  overlay.querySelector('#organizer-cancel').addEventListener('click', () => overlay.remove());
+  overlay.querySelector('#organizer-save').addEventListener('click', async () => {
+    const saveBtn = overlay.querySelector('#organizer-save');
+    saveBtn.disabled = true;
+    try {
+      ficheGestesLayout = workingLayout;
+      await saveFicheGestesLayout();
+      overlay.remove();
+      renderFichesGestesGrid();
+    } catch (err) {
+      console.error('Erreur enregistrement disposition :', err);
+      alert("Échec de l'enregistrement de la disposition (problème réseau ou droits Firebase). Rien n'a été sauvegardé — réessaie, et si ça persiste vérifie les règles Firebase pour /contenu-partage/fiche-gestes-layout.json.");
+      saveBtn.disabled = false;
+    }
+  });
 }
 
 // Construit un extrait de contexte : la ligne trouvée, entourée de 3 lignes
@@ -12565,6 +12870,8 @@ async function loadData() {
     await loadGestePseOverrides();
     await loadPseSousRubriques();
     await loadFicheCategoryOverrides();
+    await loadFicheGestesCustomCategories();
+    await loadFicheGestesLayout();
 
     renderParametres();
 
@@ -12616,6 +12923,8 @@ await loadFichesCustom();
   await loadGestePseOverrides();
   await loadPseSousRubriques();
   await loadFicheCategoryOverrides();
+  await loadFicheGestesCustomCategories();
+  await loadFicheGestesLayout();
 
   renderParametres();
 
