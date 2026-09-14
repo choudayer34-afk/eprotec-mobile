@@ -12070,9 +12070,105 @@ ecg12: 'materiel',
 // entre la liste par catégorie fonctionnelle (renderGestesList) et la liste
 // par rubrique PSE (renderPseFicheList) — pour ne pas dupliquer le rendu du
 // contenu d'une fiche entre les deux écrans.
+// --- Lecture audio d'une fiche (synthèse vocale du navigateur) ---------
+// Utilise l'API SpeechSynthesis native (gratuite, aucun fichier à stocker,
+// fonctionne hors-ligne) : lit le titre, le résumé express puis chaque
+// section de la fiche. Une seule lecture à la fois ; recliquer sur le
+// bouton en cours de lecture l'arrête.
+let currentSpeechBtn = null;
+
+function stripHtmlToText(html) {
+  const div = document.createElement('div');
+  div.innerHTML = html || '';
+  return (div.textContent || div.innerText || '').replace(/\s+/g, ' ').trim();
+}
+
+function buildFicheSpeechText(geste) {
+  const parts = [geste.title + '.'];
+  if (Array.isArray(geste.summary) && geste.summary.length) {
+    parts.push('Résumé express.');
+    geste.summary.forEach(s => parts.push(stripHtmlToText(s)));
+  }
+  (geste.sections || []).forEach(sec => {
+    if (sec.title) parts.push(sec.title + '.');
+    if (sec.type === 'consignes' && Array.isArray(sec.items)) {
+      parts.push("Consignes si pas d'évacuation.");
+      sec.items.forEach(i => parts.push(stripHtmlToText(i)));
+    } else if (sec.customHtml) {
+      parts.push(stripHtmlToText(sec.customHtml));
+    } else if (Array.isArray(sec.items)) {
+      sec.items.forEach(i => parts.push(stripHtmlToText(i)));
+    }
+  });
+  return parts.filter(Boolean).join(' ');
+}
+
+function pickFrenchVoice() {
+  if (!window.speechSynthesis) return null;
+  const voices = window.speechSynthesis.getVoices();
+  return voices.find(v => v.lang && v.lang.toLowerCase().startsWith('fr')) || null;
+}
+
+function resetSpeechBtn(btn) {
+  if (!btn) return;
+  btn.textContent = '🔊';
+  btn.title = 'Écouter la fiche';
+}
+
+function stopFicheSpeech() {
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+  resetSpeechBtn(currentSpeechBtn);
+  currentSpeechBtn = null;
+}
+
+function findGesteByKeyAndType(key, isCustom) {
+  return isCustom ? fichesCustom.find(f => f.key === key) : GESTES_DATA.find(g => g.key === key);
+}
+
+function toggleFicheSpeech(geste, btn) {
+  if (!window.speechSynthesis) {
+    alert("La lecture audio n'est pas disponible sur cet appareil ou ce navigateur.");
+    return;
+  }
+  const wasSpeakingThisBtn = currentSpeechBtn === btn && window.speechSynthesis.speaking;
+  stopFicheSpeech();
+  if (wasSpeakingThisBtn) return;
+
+  const text = buildFicheSpeechText(geste);
+  if (!text) return;
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'fr-FR';
+  const voice = pickFrenchVoice();
+  if (voice) utterance.voice = voice;
+  utterance.onend = () => { if (currentSpeechBtn === btn) stopFicheSpeech(); };
+  utterance.onerror = () => { if (currentSpeechBtn === btn) stopFicheSpeech(); };
+  currentSpeechBtn = btn;
+  btn.textContent = '⏹️';
+  btn.title = 'Arrêter la lecture';
+  window.speechSynthesis.speak(utterance);
+}
+
+// Délégation globale : ces boutons sont re-générés à chaque rendu de liste
+// (renderGestesList, renderPseFicheList...), une seule écoute suffit.
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-fiche-speak]');
+  if (!btn) return;
+  e.stopPropagation();
+  const geste = findGesteByKeyAndType(btn.dataset.ficheSpeak, btn.dataset.ficheSpeakCustom === '1');
+  if (geste) toggleFicheSpeech(geste, btn);
+});
+
+// Coupe une lecture en cours dès qu'on change d'écran (barre de navigation
+// du bas ou flèche de retour), pour éviter qu'une fiche continue à être lue
+// une fois qu'on n'est plus dessus.
+document.addEventListener('click', (e) => {
+  if (e.target.closest('nav button') || e.target.closest('.plus-back')) stopFicheSpeech();
+});
+
 function buildGesteRowHtml(geste, isCustom) {
   const pse = getFichePse(geste, isCustom);
   const pseTagHtml = pse ? `<div style="color:#9FB3D6;font-size:11px;margin:2px 0 0;">${escapeHtml(formatPseTag(pse))}</div>` : '';
+  const speakBtnHtml = `<button class="icon-btn" data-fiche-speak="${geste.key}" data-fiche-speak-custom="${isCustom ? '1' : '0'}" title="Écouter la fiche">🔊</button>`;
   const adminBtnsHtml = isAdminUser
     ? `<button class="icon-btn" data-fiche-pse="${geste.key}" data-fiche-pse-custom="${isCustom ? '1' : '0'}" title="Classer PSE">🗂️</button><button class="icon-btn" data-fiche-move="${geste.key}" data-fiche-move-custom="${isCustom ? '1' : '0'}" title="Déplacer vers une autre catégorie">🔀</button>${isCustom ? `<button class="icon-btn" data-fiche-edit="${geste.key}">✏️</button><button class="icon-btn" data-fiche-delete="${geste.key}">✕</button>` : ''}`
     : '';
@@ -12086,7 +12182,7 @@ function buildGesteRowHtml(geste, isCustom) {
           </div>
           <span class="month-chevron">▸</span>
         </button>
-        ${adminBtnsHtml}
+        ${speakBtnHtml}${adminBtnsHtml}
       </div>
       <div class="month-body" style="display:none">
         <div class="card highlight" style="margin-bottom:12px;">
