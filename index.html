@@ -554,7 +554,10 @@
 
   <section id="accueil" class="active">
 <div class="screen-header">
-      <div class="screen-side"><button class="icon-btn" id="bilan-quickaccess-btn" style="background:#F5821F;font-size:20px;">🩺</button></div>
+      <div class="screen-side" style="gap:8px;">
+        <button class="icon-btn" id="bilan-quickaccess-btn" style="background:#F5821F;font-size:20px;">🩺</button>
+        <button class="icon-btn" id="global-search-btn" style="font-size:20px;">🔍</button>
+      </div>
       <div style="text-align:center;">
         <h2 class="screen-title" style="margin-bottom:2px;">Mon eProtec</h2>
         <div style="font-size:10px;color:#9FB3D6;" id="app-version">v...</div>
@@ -598,6 +601,18 @@
       </button>
       <div id="liste-nouveautes" style="display:none;"><div class="empty">Chargement...</div></div>
     </div>
+  </section>
+
+  <section id="recherche-globale">
+    <div class="detail-header">
+      <button class="plus-back" id="recherche-globale-back" data-target="accueil">‹</button>
+      <span>Rechercher</span>
+    </div>
+    <div class="search-box">
+      <span>🔍</span>
+      <input type="text" id="global-search-input" placeholder="Une fiche, un sigle, un terme...">
+    </div>
+    <div id="global-search-results"></div>
   </section>
 
 <section id="plus-evenements">
@@ -1945,6 +1960,16 @@ document.getElementById('bilan-quickaccess-btn').addEventListener('click', () =>
   bilanMode = 'remplir';
   document.querySelectorAll('[data-bilan-mode]').forEach(b => b.classList.toggle('active', b.dataset.bilanMode === 'remplir'));
   renderBilan();
+});
+
+document.getElementById('global-search-btn').addEventListener('click', () => {
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  document.getElementById('recherche-globale').classList.add('active');
+  const input = document.getElementById('global-search-input');
+  input.value = '';
+  document.getElementById('global-search-results').innerHTML = '';
+  setTimeout(() => input.focus(), 100);
 });
   
 document.getElementById('accueil-nouveautes-toggle').addEventListener('click', () => {
@@ -5679,6 +5704,73 @@ function searchSecourisme(query) {
   });
   return results;
 }
+
+// Recherche combinée fiches + lexique pour la loupe de l'écran d'accueil —
+// même principe que searchSecourisme, mais élargie au lexique (sigles et
+// définitions). Réutilise searchSecourisme telle quelle pour les fiches afin
+// de ne pas dupliquer sa logique de recherche par titre/résumé/sections/PSE.
+function searchLexiqueEntries(query) {
+  const fullList = LEXIQUE_DATA.concat(lexiqueCustomEntries);
+  const qLex = normalizeLexique(query);
+  const qText = normalizeText(query);
+  return fullList.filter(l => normalizeLexique(l.term).includes(qLex) || normalizeText(l.def).includes(qText));
+}
+
+function renderGlobalSearch(query) {
+  const container = document.getElementById('global-search-results');
+  if (!query) { container.innerHTML = ''; return; }
+
+  const ficheResults = searchSecourisme(query);
+  const lexiqueResults = searchLexiqueEntries(query);
+
+  if (ficheResults.length === 0 && lexiqueResults.length === 0) {
+    container.innerHTML = '<div class="empty">Aucun résultat.</div>';
+    return;
+  }
+
+  let html = '';
+  if (ficheResults.length > 0) {
+    html += `<div style="color:#9FB3D6;font-size:12px;margin:10px 0 6px;">📚 Fiches (${ficheResults.length})</div>`;
+    html += ficheResults.map(r => `
+      <div class="card card-clickable" data-search-key="${r.key}">
+        <div class="card-title" style="margin-bottom:4px;">${r.title}</div>
+        <div style="color:#9FB3D6;font-size:12px;line-height:1.6;">${r.snippet}</div>
+      </div>
+    `).join('');
+  }
+  if (lexiqueResults.length > 0) {
+    html += `<div style="color:#9FB3D6;font-size:12px;margin:10px 0 6px;">📖 Lexique (${lexiqueResults.length})</div>`;
+    html += lexiqueResults.map(l => `
+      <div class="card card-clickable" data-search-lexique-term="${escapeHtml(l.term)}">
+        <div class="card-title" style="margin-bottom:4px;">${l.term}</div>
+        <div style="color:#9FB3D6;font-size:12px;line-height:1.6;">${l.def}</div>
+      </div>
+    `).join('');
+  }
+  container.innerHTML = html;
+
+  container.querySelectorAll('[data-search-key]').forEach(card => {
+    card.addEventListener('click', () => goToGesteByKey(card.dataset.searchKey));
+  });
+  container.querySelectorAll('[data-search-lexique-term]').forEach(card => {
+    card.addEventListener('click', () => {
+      document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === 'plus'));
+      document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+      document.getElementById('plus-lexique').classList.add('active');
+      const lexiqueSearchInput = document.getElementById('lexique-search');
+      if (lexiqueSearchInput) lexiqueSearchInput.value = card.dataset.searchLexiqueTerm;
+      renderLexique(card.dataset.searchLexiqueTerm);
+    });
+  });
+}
+
+document.getElementById('global-search-input').addEventListener('input', (e) => {
+  renderGlobalSearch(e.target.value);
+});
+
+document.getElementById('recherche-globale-back').addEventListener('click', () => {
+  document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === 'accueil'));
+});
 
 function renderSecourismeSearch(query) {
   const container = document.getElementById('secourisme-search-results');
