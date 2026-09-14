@@ -1039,9 +1039,21 @@
         <label>Choisir l'image</label>
         <input type="file" id="upload-file-input" accept="image/*">
       </div>
+      <div style="color:#9FB3D6;font-size:12px;margin:4px 0;">— ou —</div>
+      <div class="bilan-field-row">
+        <label>URL publique d'une image existante</label>
+        <input type="text" id="upload-url-input" placeholder="https://upload.wikimedia.org/...">
+        <button class="detail-action-btn" id="upload-url-fetch-btn" style="margin-top:6px;">⬇️ Récupérer et redimensionner</button>
+        <img id="upload-url-preview" style="display:none;max-width:100%;border-radius:8px;margin-top:8px;">
+        <div id="upload-url-status" style="color:#9FB3D6;font-size:12px;margin-top:6px;"></div>
+      </div>
       <div class="bilan-field-row">
         <label>Nom du fichier (renommer si besoin)</label>
         <input type="text" id="upload-filename-input">
+      </div>
+      <div id="upload-piste-row" style="display:none;background:rgba(151,196,89,0.12);border-radius:8px;padding:8px;margin-bottom:10px;">
+        <div style="color:#97C459;font-size:11px;font-weight:600;margin-bottom:2px;">🔎 Piste d'image déjà existante</div>
+        <div id="upload-piste-text" style="color:#fff;font-size:12px;"></div>
       </div>
       <div id="upload-prompt-row" class="bilan-field-row" style="display:none;">
         <label>Prompt associé à cette illustration</label>
@@ -4957,6 +4969,12 @@ function renderImportReport() {
         <div style="margin-bottom:12px;border-top:0.5px solid #223258;padding-top:8px;">
           <div style="color:#F5821F;font-size:13px;font-weight:600;">${escapeHtml(img.nom_fichier)}</div>
           <div style="color:#9FB3D6;font-size:11px;margin-bottom:4px;">${escapeHtml(img.emplacement || '')}</div>
+          ${img.piste_recherche_image_existante ? `
+            <div style="background:rgba(151,196,89,0.12);border-radius:8px;padding:8px;margin-bottom:6px;">
+              <div style="color:#97C459;font-size:11px;font-weight:600;margin-bottom:2px;">🔎 Piste d'image déjà existante</div>
+              <div style="color:#fff;font-size:12px;">${escapeHtml(img.piste_recherche_image_existante)}</div>
+            </div>
+          ` : ''}
           <div class="text-field-wrap has-value">
             <textarea rows="3" class="bilan-textarea" readonly style="font-size:11px;">${escapeHtml(img.prompt || '')}</textarea>
           </div>
@@ -4970,7 +4988,8 @@ function renderImportReport() {
       if (img.nom_fichier) {
         illustrationPrompts[img.nom_fichier] = {
           prompt: img.prompt || '',
-          emplacement: img.emplacement || ''
+          emplacement: img.emplacement || '',
+          pisteRechercheImageExistante: img.piste_recherche_image_existante || ''
         };
       }
     });
@@ -11628,6 +11647,7 @@ document.getElementById('show-upload-btn').addEventListener('click', () => {
 
 function syncUploadPromptRow(filename) {
   const promptRow = document.getElementById('upload-prompt-row');
+  const pisteRow = document.getElementById('upload-piste-row');
   const promptInfo = illustrationPrompts[filename];
   if (promptInfo && promptInfo.prompt) {
     document.getElementById('upload-prompt-text').value = promptInfo.prompt;
@@ -11636,13 +11656,101 @@ function syncUploadPromptRow(filename) {
     document.getElementById('upload-prompt-text').value = '';
     promptRow.style.display = 'none';
   }
+  if (promptInfo && promptInfo.pisteRechercheImageExistante) {
+    document.getElementById('upload-piste-text').textContent = promptInfo.pisteRechercheImageExistante;
+    pisteRow.style.display = 'block';
+  } else {
+    pisteRow.style.display = 'none';
+  }
 }
+
+// Image récupérée depuis une URL publique et redimensionnée (voir
+// resizeImageBlob) : prend le pas sur le fichier choisi via le sélecteur
+// tant qu'elle n'a pas été remplacée ou envoyée, pour éviter d'envoyer les
+// deux sources en même temps par erreur.
+let pendingUploadBlob = null;
+
+// Redimensionne une image (Blob quelconque) pour qu'aucune dimension ne
+// dépasse maxDim, en conservant les proportions, et la ré-encode en PNG —
+// utile pour éviter d'envoyer dans le dépôt une photo trouvée sur internet à
+// pleine résolution (plusieurs Mo) alors que l'app l'affiche en petit.
+function resizeImageBlob(blob, maxDim) {
+  return new Promise((resolve, reject) => {
+    const objectUrl = URL.createObjectURL(blob);
+    const img = new Image();
+    img.onload = () => {
+      let width = img.naturalWidth;
+      let height = img.naturalHeight;
+      if (width > maxDim || height > maxDim) {
+        if (width >= height) { height = Math.round(height * maxDim / width); width = maxDim; }
+        else { width = Math.round(width * maxDim / height); height = maxDim; }
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+      canvas.toBlob((resizedBlob) => {
+        URL.revokeObjectURL(objectUrl);
+        if (resizedBlob) resolve(resizedBlob); else reject(new Error('Échec du redimensionnement'));
+      }, 'image/png');
+    };
+    img.onerror = () => { URL.revokeObjectURL(objectUrl); reject(new Error("Impossible de charger l'image (format non supporté ou URL invalide)")); };
+    img.src = objectUrl;
+  });
+}
+
+document.getElementById('upload-url-fetch-btn').addEventListener('click', async () => {
+  const urlInput = document.getElementById('upload-url-input');
+  const status = document.getElementById('upload-url-status');
+  const preview = document.getElementById('upload-url-preview');
+  const url = urlInput.value.trim();
+  if (!url) { status.textContent = "❌ Colle d'abord une URL d'image."; return; }
+
+  status.textContent = 'Récupération en cours...';
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const blob = await res.blob();
+    if (!blob.type.startsWith('image/')) throw new Error("Cette URL ne renvoie pas une image.");
+
+    const resized = await resizeImageBlob(blob, 1200);
+    pendingUploadBlob = resized;
+
+    document.getElementById('upload-file-input').value = '';
+    preview.src = URL.createObjectURL(resized);
+    preview.style.display = 'block';
+    status.textContent = `✓ Image récupérée et redimensionnée (${Math.round(resized.size / 1024)} Ko) — choisis un nom de fichier puis "Envoyer vers data/".`;
+
+    const filenameInput = document.getElementById('upload-filename-input');
+    if (!filenameInput.value.trim()) {
+      const guess = url.split('/').pop().split('?')[0].split('#')[0];
+      if (guess) filenameInput.value = sanitizeFilename(guess.replace(/\.[a-z0-9]+$/i, '') + '.png');
+    }
+    syncUploadPromptRow(sanitizeFilename(filenameInput.value));
+  } catch (err) {
+    console.error('Erreur récupération image URL :', err);
+    pendingUploadBlob = null;
+    preview.style.display = 'none';
+    if (err instanceof TypeError) {
+      status.textContent = "❌ Ce site ne permet pas la récupération automatique depuis l'app (restriction CORS). Télécharge l'image toi-même puis uploade-la comme fichier ci-dessus.";
+    } else {
+      status.textContent = `❌ Échec : ${err.message}`;
+    }
+  }
+});
 
 document.getElementById('upload-file-input').addEventListener('change', (e) => {
   const file = e.target.files[0];
   const filenameInput = document.getElementById('upload-filename-input');
-  if (file && !filenameInput.value.trim()) {
-    filenameInput.value = sanitizeFilename(file.name);
+  if (file) {
+    // Un fichier choisi manuellement prend le pas sur une éventuelle image
+    // récupérée par URL juste avant.
+    pendingUploadBlob = null;
+    document.getElementById('upload-url-preview').style.display = 'none';
+    document.getElementById('upload-url-status').textContent = '';
+    if (!filenameInput.value.trim()) {
+      filenameInput.value = sanitizeFilename(file.name);
+    }
   }
   syncUploadPromptRow(sanitizeFilename(filenameInput.value));
 });
@@ -11669,11 +11777,13 @@ document.getElementById('upload-confirm-btn').addEventListener('click', async ()
   const fileInput = document.getElementById('upload-file-input');
   const filenameInput = document.getElementById('upload-filename-input');
   const status = document.getElementById('upload-status');
-  const file = fileInput.files[0];
+  // Source de l'image : soit celle récupérée par URL et redimensionnée
+  // (prioritaire si présente), soit le fichier choisi via le sélecteur.
+  const file = pendingUploadBlob || fileInput.files[0];
   const filename = sanitizeFilename(filenameInput.value);
 
   if (!file || !filename) {
-    status.textContent = '❌ Choisis un fichier et un nom valide.';
+    status.textContent = '❌ Choisis un fichier (ou récupère une image par URL) et un nom valide.';
     return;
   }
 
@@ -11687,6 +11797,10 @@ document.getElementById('upload-confirm-btn').addEventListener('click', async ()
       status.textContent = `✓ ${filename} envoyé dans data/ — visible d'ici 1-2 minutes.`;
       fileInput.value = '';
       filenameInput.value = '';
+      pendingUploadBlob = null;
+      document.getElementById('upload-url-input').value = '';
+      document.getElementById('upload-url-preview').style.display = 'none';
+      document.getElementById('upload-url-status').textContent = '';
       if (illustrationPrompts[filename]) {
         delete illustrationPrompts[filename];
         saveIllustrationPrompts();
