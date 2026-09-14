@@ -839,7 +839,32 @@
         <div class="tile-icon">🏃</div>
         <div class="tile-title">Dégagements d'urgence</div>
       </div>
+      <div class="tile span-2" data-open="plus-gestes-pse">
+        <div class="tile-icon">🗂️</div>
+        <div class="tile-title">Classement PSE</div>
+      </div>
     </div>
+  </section>
+
+  <section id="plus-gestes-pse">
+    <div class="detail-header">
+      <button class="plus-back" data-target="plus-gestes">‹</button>
+      <span>Classement PSE</span>
+    </div>
+    <div class="metric-toggle" id="pse-niveau-toggle">
+      <button data-pse-niveau="tous" class="active">Tous</button>
+      <button data-pse-niveau="PSE1">PSE1</button>
+      <button data-pse-niveau="PSE2">PSE2</button>
+    </div>
+    <div id="pse-rubriques-content"></div>
+  </section>
+
+  <section id="plus-gestes-pse-fiches">
+    <div class="detail-header">
+      <button class="plus-back" data-target="plus-gestes-pse">‹</button>
+      <span id="pse-fiches-header-title">Rubrique</span>
+    </div>
+    <div id="pse-fiches-content"><div class="empty">Chargement...</div></div>
   </section>
 
   <section id="plus-gestes-urgences">
@@ -1924,6 +1949,7 @@ if (subId === 'plus-pretapartir') renderPretAPartir();
 if (subId === 'plus-materiel') renderGestesList('materiel-content', ['materiel']);
 if (subId === 'plus-novi') renderGestesList('novi-content', ['novi']);
   if (subId === 'plus-pediatrie') renderGestesList('pediatrie-content', ['pediatrie']);
+  if (subId === 'plus-gestes-pse') renderPseRubriquesList('tous');
   if (subId === 'plus-import-fiches') { document.getElementById('import-report-content').innerHTML = ''; }
   if (subId === 'plus-quiz') renderQuizHome();
   if (subId === 'plus-sos-contacts') renderSosContactsScreen();
@@ -4610,6 +4636,118 @@ async function loadFichesCustom() {
   }
 }
 
+// --- Classement PSE ---------------------------------------------------
+// Les grandes rubriques du référentiel PSE : une liste centralisée, à ne
+// pas confondre avec les catégories fonctionnelles existantes (urgences,
+// trauma, ...) qui restent utilisées telles quelles pour la navigation
+// actuelle. Le classement PSE est une couche supplémentaire, facultative,
+// que l'on ajoute fiche par fiche sans rien casser de l'existant.
+const PSE_RUBRIQUES = [
+  { id: 'protection', emoji: '🛡️', label: 'Protection' },
+  { id: 'bilan', emoji: '🩺', label: 'Bilan' },
+  { id: 'alerte_transmission', emoji: '📻', label: 'Alerte et transmission' },
+  { id: 'malaises_affections_specifiques', emoji: '💊', label: 'Malaises et affections spécifiques' },
+  { id: 'traumatismes', emoji: '🤕', label: 'Traumatismes' },
+  { id: 'plaies_brulures', emoji: '🔥', label: 'Plaies et brûlures' },
+  { id: 'hemorragies', emoji: '🩸', label: 'Hémorragies' },
+  { id: 'obstruction_voies_aeriennes', emoji: '🫁', label: 'Obstruction des voies aériennes' },
+  { id: 'arret_cardiaque', emoji: '🫀', label: 'Arrêt cardiaque' },
+  { id: 'perte_connaissance', emoji: '😵', label: 'Perte de connaissance' },
+  { id: 'atteintes_systeme_nerveux', emoji: '🧠', label: 'Atteintes du système nerveux' },
+  { id: 'conditions_environnementales', emoji: '🌡️', label: 'Atteintes liées aux conditions environnementales' },
+  { id: 'intoxications', emoji: '🧪', label: 'Intoxications' },
+  { id: 'noyades', emoji: '🌊', label: 'Noyades' },
+  { id: 'relevages_brancardages', emoji: '🛏️', label: 'Relevages et brancardages' },
+  { id: 'situations_nombreuses_victimes', emoji: '👥', label: 'Situations à nombreuses victimes' },
+  { id: 'immobilisations', emoji: '🦴', label: 'Immobilisations' },
+  { id: 'prise_en_charge_victimes_impliques', emoji: '🤝', label: 'Prise en charge des victimes et des impliqués' }
+];
+
+const PSE_NIVEAUX = ['PSE1', 'PSE2', 'PSE1 + PSE2'];
+
+// Classement PSE des fiches natives (non modifiables dans leur code source) :
+// stocké à part, par clé de fiche, plutôt que directement sur GESTES_DATA.
+let gestePseOverrides = {};
+
+async function loadGestePseOverrides() {
+  try {
+    const res = await fetch(FIREBASE_URL + '/contenu-partage/geste-pse-overrides.json?t=' + Date.now(), { cache: 'no-store' });
+    const data = await res.json();
+    gestePseOverrides = (data && typeof data === 'object') ? data : {};
+  } catch {
+    gestePseOverrides = {};
+  }
+}
+
+async function saveGestePseOverrides() {
+  await fetch(FIREBASE_URL + '/contenu-partage/geste-pse-overrides.json', {
+    method: 'PUT',
+    body: JSON.stringify(gestePseOverrides)
+  });
+}
+
+// Sous-rubriques : pas de liste officielle intégrée à l'app (le référentiel
+// PSE exact doit être vérifié par l'utilisateur) — la liste se construit au
+// fil de l'eau, par rubrique, à mesure que l'admin classe des fiches. Ainsi
+// aucun intitulé n'est inventé par l'application elle-même.
+let pseSousRubriques = {}; // { [rubriqueId]: [{ id, label }, ...] }
+
+async function loadPseSousRubriques() {
+  try {
+    const res = await fetch(FIREBASE_URL + '/contenu-partage/pse-sous-rubriques.json?t=' + Date.now(), { cache: 'no-store' });
+    const data = await res.json();
+    pseSousRubriques = (data && typeof data === 'object') ? data : {};
+  } catch {
+    pseSousRubriques = {};
+  }
+}
+
+async function savePseSousRubriques() {
+  await fetch(FIREBASE_URL + '/contenu-partage/pse-sous-rubriques.json', {
+    method: 'PUT',
+    body: JSON.stringify(pseSousRubriques)
+  });
+}
+
+function slugifyId(text) {
+  const accentsRe = new RegExp('[̀-ͯ]', 'g');
+  const noAccents = (text || '').toString().trim().toLowerCase().normalize('NFD').replace(accentsRe, '');
+  return noAccents.replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '') || ('id_' + Date.now());
+}
+
+// Résout le classement PSE effectif d'une fiche, qu'elle soit native
+// (classement stocké à part dans gestePseOverrides) ou personnalisée
+// (classement porté directement par la fiche).
+function getFichePse(geste, isCustom) {
+  if (isCustom) return (geste && geste.pse) || null;
+  return gestePseOverrides[geste.key] || null;
+}
+
+function pseRubriqueInfo(id) {
+  return PSE_RUBRIQUES.find(r => r.id === id) || null;
+}
+
+function pseSousRubriqueLabel(rubriqueId, sousId) {
+  const list = pseSousRubriques[rubriqueId] || [];
+  const found = list.find(s => s.id === sousId);
+  return found ? found.label : '';
+}
+
+// Construit la mention discrète "PSE2 · Relevages et brancardages › Pont amélioré"
+// affichée sous le titre d'une fiche classée. Retourne '' si non classée.
+function formatPseTag(pse) {
+  if (!pse || !pse.rubrique) return '';
+  const rub = pseRubriqueInfo(pse.rubrique);
+  if (!rub) return '';
+  let text = rub.emoji + ' ' + rub.label;
+  if (pse.sousRubrique) {
+    const sousLabel = pseSousRubriqueLabel(pse.rubrique, pse.sousRubrique);
+    if (sousLabel) text += ' › ' + sousLabel;
+  }
+  if (pse.niveau) text = pse.niveau + ' · ' + text;
+  return text;
+}
+
 async function saveFichesCustom() {
   await fetch(FIREBASE_URL + '/contenu-partage/fiches-custom.json', {
     method: 'PUT',
@@ -4764,7 +4902,10 @@ sections: (f.sections || []).map(s => ({
           items: s.items || [],
           image: s.illustration || undefined,
           type: s.type || undefined
-        }))
+        })),
+        // Le classement PSE (niveau/rubrique/sous-rubrique) est facultatif :
+        // s'il est déjà présent dans le JSON importé, on le conserve tel quel.
+        pse: (f.pse && f.pse.rubrique) ? { niveau: f.pse.niveau || '', rubrique: f.pse.rubrique, sousRubrique: f.pse.sousRubrique || '' } : undefined
       });
     });
 await saveFichesCustom();
@@ -4898,7 +5039,7 @@ function showAddFicheModal(category, containerId) {
   });
 }
 
-function showEditFicheModal(ficheKey, containerId, categories) {
+function showEditFicheModal(ficheKey, containerId, categories, onSaved) {
   const fiche = fichesCustom.find(f => f.key === ficheKey);
   if (!fiche) return;
   const sectionsRef = fiche.sections.map(s => ({ ...s }));
@@ -4936,11 +5077,120 @@ function showEditFicheModal(ficheKey, containerId, categories) {
     fiche.sections = collectSectionsFromModal(overlay);
     await saveFichesCustom();
     overlay.remove();
-    renderGestesList(containerId, categories);
+    // Deux façons de rafraîchir l'écran d'origine : soit un containerId de
+    // liste classique (categories fonctionnelles), soit un callback direct
+    // (ex. la liste par rubrique PSE, qui mélange plusieurs catégories).
+    if (typeof onSaved === 'function') onSaved();
+    else if (containerId) renderGestesList(containerId, categories);
   });
 }
 
+// Classement PSE d'une fiche (native ou personnalisée) : niveau, grande
+// rubrique, sous-rubrique. Séparé de l'édition de contenu (showEditFicheModal)
+// pour s'appliquer aussi bien aux fiches natives (non éditables) qu'aux
+// fiches personnalisées, via un seul et même formulaire.
+function showPseClassementModal(ficheKey, isCustom, onSaved) {
+  const fiche = isCustom ? fichesCustom.find(f => f.key === ficheKey) : GESTES_DATA.find(g => g.key === ficheKey);
+  if (!fiche) return;
+  const current = getFichePse(fiche, isCustom) || {};
 
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;';
+  overlay.innerHTML = `
+    <div style="background:#163C74;border-radius:16px;padding:20px;width:100%;max-width:400px;max-height:85vh;overflow-y:auto;">
+      <div style="color:#fff;font-size:15px;font-weight:600;margin-bottom:4px;">🗂️ Classement PSE</div>
+      <div style="color:#9FB3D6;font-size:12px;margin-bottom:12px;">${escapeHtml(fiche.title)}</div>
+
+      <div class="bilan-field-row">
+        <label>Niveau</label>
+        <select id="pse-modal-niveau">
+          <option value="" ${!current.niveau ? 'selected' : ''}>Non renseigné</option>
+          ${PSE_NIVEAUX.map(n => `<option value="${n}" ${current.niveau === n ? 'selected' : ''}>${n}</option>`).join('')}
+        </select>
+      </div>
+      <div class="bilan-field-row">
+        <label>Grande rubrique</label>
+        <select id="pse-modal-rubrique">
+          <option value="">— Non classé —</option>
+          ${PSE_RUBRIQUES.map(r => `<option value="${r.id}" ${current.rubrique === r.id ? 'selected' : ''}>${r.emoji} ${escapeHtml(r.label)}</option>`).join('')}
+        </select>
+      </div>
+      <div class="bilan-field-row">
+        <label>Sous-rubrique</label>
+        <select id="pse-modal-sous-rubrique"></select>
+      </div>
+      <div id="pse-modal-nouvelle-sous-row" class="bilan-field-row" style="display:none;">
+        <label>Nouvelle sous-rubrique</label>
+        <input type="text" id="pse-modal-nouvelle-sous" placeholder="Ex : Pont amélioré">
+      </div>
+
+      <div style="display:flex;gap:8px;margin-top:6px;">
+        <button class="detail-action-btn" id="pse-modal-cancel" style="flex:1;">Annuler</button>
+        <button class="detail-action-btn primary" id="pse-modal-save" style="flex:1;">Enregistrer</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  const sousSelect = overlay.querySelector('#pse-modal-sous-rubrique');
+  const nouvelleSousRow = overlay.querySelector('#pse-modal-nouvelle-sous-row');
+
+  function refreshSousOptions(rubriqueId, selectedSousId) {
+    const list = pseSousRubriques[rubriqueId] || [];
+    sousSelect.innerHTML = `<option value="">— Aucune —</option>` +
+      list.map(s => `<option value="${s.id}" ${selectedSousId === s.id ? 'selected' : ''}>${escapeHtml(s.label)}</option>`).join('') +
+      `<option value="__nouvelle__">+ Nouvelle sous-rubrique…</option>`;
+    sousSelect.disabled = !rubriqueId;
+    nouvelleSousRow.style.display = 'none';
+  }
+
+  refreshSousOptions(current.rubrique || '', current.sousRubrique || '');
+
+  overlay.querySelector('#pse-modal-rubrique').addEventListener('change', (e) => {
+    refreshSousOptions(e.target.value, '');
+  });
+
+  sousSelect.addEventListener('change', (e) => {
+    nouvelleSousRow.style.display = e.target.value === '__nouvelle__' ? 'block' : 'none';
+  });
+
+  overlay.querySelector('#pse-modal-cancel').addEventListener('click', () => overlay.remove());
+  overlay.querySelector('#pse-modal-save').addEventListener('click', async () => {
+    const niveau = overlay.querySelector('#pse-modal-niveau').value;
+    const rubrique = overlay.querySelector('#pse-modal-rubrique').value;
+    let sousRubrique = sousSelect.value;
+
+    if (rubrique && sousRubrique === '__nouvelle__') {
+      const label = overlay.querySelector('#pse-modal-nouvelle-sous').value.trim();
+      if (label) {
+        const id = slugifyId(label);
+        if (!pseSousRubriques[rubrique]) pseSousRubriques[rubrique] = [];
+        if (!pseSousRubriques[rubrique].some(s => s.id === id)) {
+          pseSousRubriques[rubrique].push({ id, label });
+          await savePseSousRubriques();
+        }
+        sousRubrique = id;
+      } else {
+        sousRubrique = '';
+      }
+    }
+    if (!rubrique) sousRubrique = '';
+
+    const pse = (niveau || rubrique || sousRubrique) ? { niveau: niveau || '', rubrique: rubrique || '', sousRubrique: sousRubrique || '' } : null;
+
+    if (isCustom) {
+      fiche.pse = pse || undefined;
+      await saveFichesCustom();
+    } else {
+      if (pse) gestePseOverrides[fiche.key] = pse;
+      else delete gestePseOverrides[fiche.key];
+      await saveGestePseOverrides();
+    }
+
+    overlay.remove();
+    if (typeof onSaved === 'function') onSaved();
+  });
+}
 
 function goToGesteByKey(gesteKey) {
   // Les fiches natives ont leur catégorie dans GESTE_CATEGORIES_MAP ; les
@@ -4992,6 +5242,17 @@ function searchSecourisme(query) {
         const items = Array.isArray(sec.items) ? sec.items : [];
         const idx = items.findIndex(item => normalizeText(item).includes(q));
         if (idx !== -1) { snippet = buildSearchContextSnippet(items, idx); break outer; }
+      }
+    }
+    // Une fiche classée dans le référentiel PSE doit aussi remonter quand on
+    // cherche le nom de sa rubrique/sous-rubrique, même si ce texte n'apparaît
+    // nulle part ailleurs dans le contenu de la fiche.
+    if (!snippet) {
+      const isCustom = fichesCustom.includes(g);
+      const pse = getFichePse(g, isCustom);
+      const pseTag = formatPseTag(pse);
+      if (pseTag && normalizeText(pseTag).includes(q)) {
+        snippet = `Classé sous : ${escapeHtml(pseTag)}`;
       }
     }
     if (snippet) results.push({ key: g.key, title: g.title, snippet });
@@ -11056,33 +11317,27 @@ ecg12: 'materiel',
   pediatrie: 'pediatrie'
 };
 
-function renderGestesList(containerId, categories) {
-  const container = document.getElementById(containerId);
-  const customFiltered = fichesCustom.filter(g => categories.includes(g.category));
-  const filtered = GESTES_DATA.filter(g => categories.includes(GESTE_CATEGORIES_MAP[g.key])).concat(customFiltered);
-
-  const addBtnHtml = isAdminUser
-    ? `<button class="detail-action-btn primary" id="add-fiche-btn" style="margin-bottom:14px;">➕ Ajouter une fiche</button>`
+// Construit le bloc HTML d'une fiche (accordéon résumé + détails), partagé
+// entre la liste par catégorie fonctionnelle (renderGestesList) et la liste
+// par rubrique PSE (renderPseFicheList) — pour ne pas dupliquer le rendu du
+// contenu d'une fiche entre les deux écrans.
+function buildGesteRowHtml(geste, isCustom) {
+  const pse = getFichePse(geste, isCustom);
+  const pseTagHtml = pse ? `<div style="color:#9FB3D6;font-size:11px;margin:2px 0 0;">${escapeHtml(formatPseTag(pse))}</div>` : '';
+  const adminBtnsHtml = isAdminUser
+    ? `<button class="icon-btn" data-fiche-pse="${geste.key}" data-fiche-pse-custom="${isCustom ? '1' : '0'}" title="Classer PSE">🗂️</button>${isCustom ? `<button class="icon-btn" data-fiche-edit="${geste.key}">✏️</button><button class="icon-btn" data-fiche-delete="${geste.key}">✕</button>` : ''}`
     : '';
-
-  if (filtered.length === 0) {
-    container.innerHTML = addBtnHtml + '<div class="empty">Aucune fiche disponible pour le moment.</div>';
-    if (isAdminUser) {
-      document.getElementById('add-fiche-btn').addEventListener('click', () => showAddFicheModal(categories[0], containerId));
-    }
-    return;
-  }
-
-container.innerHTML = addBtnHtml + filtered.map(geste => {
-    const isCustom = fichesCustom.some(fc => fc.key === geste.key);
-    return `
+  return `
     <div class="geste-group" data-geste-key="${geste.key}">
       <div style="display:flex;align-items:center;gap:6px;">
         <button class="month-toggle" style="flex:1;">
-          <span>${geste.title}</span>
+          <div style="text-align:left;">
+            <span>${geste.title}</span>
+            ${pseTagHtml}
+          </div>
           <span class="month-chevron">▸</span>
         </button>
-        ${isCustom ? `<button class="icon-btn" data-fiche-edit="${geste.key}">✏️</button><button class="icon-btn" data-fiche-delete="${geste.key}">✕</button>` : ''}
+        ${adminBtnsHtml}
       </div>
       <div class="month-body" style="display:none">
         <div class="card highlight" style="margin-bottom:12px;">
@@ -11118,10 +11373,50 @@ ${sec.type === 'consignes' ? `
       </div>
     </div>
  `;
+}
+
+// Attache l'action admin "Classer PSE" (commune aux fiches natives et
+// personnalisées) sur un conteneur déjà rempli par buildGesteRowHtml.
+// L'édition/suppression de contenu, elles, restent propres à chaque écran
+// (elles n'existent que pour les fiches personnalisées et ont besoin de
+// connaître le containerId/categories d'origine pour se rafraîchir).
+function attachPseClassementAction(container, onChanged) {
+  if (!isAdminUser) return;
+  container.querySelectorAll('[data-fiche-pse]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showPseClassementModal(btn.dataset.fichePse, btn.dataset.fichePseCustom === '1', onChanged);
+    });
+  });
+}
+
+function renderGestesList(containerId, categories) {
+  const container = document.getElementById(containerId);
+  const customFiltered = fichesCustom.filter(g => categories.includes(g.category));
+  const filtered = GESTES_DATA.filter(g => categories.includes(GESTE_CATEGORIES_MAP[g.key])).concat(customFiltered);
+
+  const addBtnHtml = isAdminUser
+    ? `<button class="detail-action-btn primary" id="add-fiche-btn" style="margin-bottom:14px;">➕ Ajouter une fiche</button>`
+    : '';
+
+  if (filtered.length === 0) {
+    container.innerHTML = addBtnHtml + '<div class="empty">Aucune fiche disponible pour le moment.</div>';
+    if (isAdminUser) {
+      document.getElementById('add-fiche-btn').addEventListener('click', () => showAddFicheModal(categories[0], containerId));
+    }
+    return;
+  }
+
+  container.innerHTML = addBtnHtml + filtered.map(geste => {
+    const isCustom = fichesCustom.some(fc => fc.key === geste.key);
+    return buildGesteRowHtml(geste, isCustom);
   }).join('');
 
   setupAccordion(container, '.geste-group');
   setupAccordion(container);
+
+  const refresh = () => renderGestesList(containerId, categories);
+  attachPseClassementAction(container, refresh);
 
   if (isAdminUser) {
     const addBtn = document.getElementById('add-fiche-btn');
@@ -11140,7 +11435,135 @@ ${sec.type === 'consignes' ? `
         if (confirmDel === 'Oui, supprimer') {
           fichesCustom = fichesCustom.filter(f => f.key !== btn.dataset.ficheDelete);
           await saveFichesCustom();
-          renderGestesList(containerId, categories);
+          refresh();
+        }
+      });
+    });
+  }
+}
+
+// --- Écran "Classement PSE" --------------------------------------------
+// Vue transversale des fiches de secourisme par grande rubrique PSE,
+// indépendante des catégories fonctionnelles existantes (qui continuent
+// d'alimenter les écrans Urgences vitales / Traumatologie / etc. sans rien
+// changer). L'autodéfense n'entre pas dans ce classement.
+const PSE_EXCLUDED_CATEGORIES = ['prevention', 'saisies', 'etranglements', 'parades', 'sol'];
+let currentPseNiveauFilter = 'tous';
+
+function getAllSecourismeFiches() {
+  const nativeOnes = GESTES_DATA
+    .filter(g => !PSE_EXCLUDED_CATEGORIES.includes(GESTE_CATEGORIES_MAP[g.key]))
+    .map(g => ({ geste: g, isCustom: false }));
+  const customOnes = fichesCustom
+    .filter(f => !PSE_EXCLUDED_CATEGORIES.includes(f.category))
+    .map(f => ({ geste: f, isCustom: true }));
+  return nativeOnes.concat(customOnes);
+}
+
+function pseMatchesNiveau(pse, niveauFilter) {
+  if (!niveauFilter || niveauFilter === 'tous') return true;
+  if (!pse || !pse.niveau) return false;
+  return pse.niveau === niveauFilter || pse.niveau === 'PSE1 + PSE2';
+}
+
+function renderPseRubriquesList(niveauFilter) {
+  currentPseNiveauFilter = niveauFilter || 'tous';
+  const container = document.getElementById('pse-rubriques-content');
+  const allFiches = getAllSecourismeFiches();
+
+  const nonClassees = allFiches.filter(({ geste, isCustom }) => !getFichePse(geste, isCustom));
+  const adminBannerHtml = isAdminUser
+    ? `<div class="card" id="pse-non-classees-card" style="cursor:pointer;margin-bottom:12px;">
+         <div class="card-title">🗂️ Fiches sans classement PSE (${nonClassees.length})</div>
+         <div style="color:#9FB3D6;font-size:12px;">${nonClassees.length > 0 ? 'Tape ici pour les compléter une par une.' : 'Toutes les fiches secourisme sont classées.'}</div>
+       </div>`
+    : '';
+
+  const rowsHtml = PSE_RUBRIQUES.map(r => {
+    const count = allFiches.filter(({ geste, isCustom }) => {
+      const pse = getFichePse(geste, isCustom);
+      return pse && pse.rubrique === r.id && pseMatchesNiveau(pse, currentPseNiveauFilter);
+    }).length;
+    return `
+      <button class="pse-rubrique-row" data-pse-rubrique="${r.id}" style="display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:transparent;border:none;border-top:0.5px solid #223258;padding:12px 4px;color:#fff;">
+        <span style="font-size:18px;">${r.emoji}</span>
+        <span style="flex:1;font-size:14px;">${escapeHtml(r.label)}</span>
+        <span style="color:#9FB3D6;font-size:12px;">${count}</span>
+        <span style="color:#9FB3D6;">›</span>
+      </button>
+    `;
+  }).join('');
+
+  container.innerHTML = adminBannerHtml + rowsHtml;
+
+  if (isAdminUser) {
+    const nonClasseesBtn = document.getElementById('pse-non-classees-card');
+    if (nonClasseesBtn) nonClasseesBtn.addEventListener('click', () => goToPseRubrique('__non_classe__'));
+  }
+  container.querySelectorAll('[data-pse-rubrique]').forEach(btn => {
+    btn.addEventListener('click', () => goToPseRubrique(btn.dataset.pseRubrique));
+  });
+}
+
+document.querySelectorAll('#pse-niveau-toggle button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#pse-niveau-toggle button').forEach(b => b.classList.toggle('active', b === btn));
+    renderPseRubriquesList(btn.dataset.pseNiveau);
+  });
+});
+
+function goToPseRubrique(rubriqueId) {
+  document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === 'plus'));
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  document.getElementById('plus-gestes-pse-fiches').classList.add('active');
+
+  const rub = pseRubriqueInfo(rubriqueId);
+  document.getElementById('pse-fiches-header-title').textContent = rub ? (rub.emoji + ' ' + rub.label) : '🗂️ Fiches non classées';
+
+  renderPseFicheList(rubriqueId);
+}
+
+function renderPseFicheList(rubriqueId) {
+  const container = document.getElementById('pse-fiches-content');
+  const allFiches = getAllSecourismeFiches();
+
+  const filtered = allFiches.filter(({ geste, isCustom }) => {
+    const pse = getFichePse(geste, isCustom);
+    if (!pseMatchesNiveau(pse, currentPseNiveauFilter)) return false;
+    if (rubriqueId === '__non_classe__') return !pse;
+    return pse && pse.rubrique === rubriqueId;
+  });
+
+  if (filtered.length === 0) {
+    container.innerHTML = '<div class="empty">Aucune fiche dans cette rubrique pour le moment.</div>';
+    return;
+  }
+
+  container.innerHTML = filtered.map(({ geste, isCustom }) => buildGesteRowHtml(geste, isCustom)).join('');
+  setupAccordion(container, '.geste-group');
+  setupAccordion(container);
+
+  const refresh = () => renderPseFicheList(rubriqueId);
+  attachPseClassementAction(container, refresh);
+
+  if (isAdminUser) {
+    // Les fiches personnalisées listées ici peuvent venir de catégories
+    // fonctionnelles différentes ; pas de containerId/categories d'origine
+    // pertinent à transmettre, donc on rafraîchit directement cette liste.
+    container.querySelectorAll('[data-fiche-edit]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showEditFicheModal(btn.dataset.ficheEdit, null, null, refresh);
+      });
+    });
+    container.querySelectorAll('[data-fiche-delete]').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const confirmDel = await promptChoice('Supprimer cette fiche ?', ['Oui, supprimer', 'Annuler']);
+        if (confirmDel === 'Oui, supprimer') {
+          fichesCustom = fichesCustom.filter(f => f.key !== btn.dataset.ficheDelete);
+          await saveFichesCustom();
+          refresh();
         }
       });
     });
@@ -12051,6 +12474,8 @@ await loadLexiqueCustom();
 await loadFichesCustom();
   await loadQuizCustom();
   await loadIllustrationPrompts();
+  await loadGestePseOverrides();
+  await loadPseSousRubriques();
 
   renderParametres();
 
