@@ -1,12 +1,20 @@
 {
   "newEvents": [
     {
-      "tag": "FOR",
-      "titre": "[FOR 34] PSC",
-      "lieu": "Centre de formation de Montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1655599",
+      "tag": "AUTRE",
+      "titre": "[COM 34] Partenariat",
+      "lieu": "Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1656023",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-09-22T07:00:00.000Z"
+      "dateDebutIso": "2026-09-15T11:30:00.000Z"
+    },
+    {
+      "tag": "AUTRE",
+      "titre": "[COM 34] Muscat",
+      "lieu": "Frontignan",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1656024",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-09-15T09:00:00.000Z"
     }
   ],
   "topSuggestion": {
