@@ -475,5 +475,14 @@
     "dateDebut": "2026-11-28T18:00:00.000Z",
     "dureeHeures": 9,
     "statut": "Inscrit"
+  },
+  "evt16356391@https://eprotec.protection-civile.org": {
+    "uid": "evt16356391@https://eprotec.protection-civile.org",
+    "tag": "FOR",
+    "titre": "[FOR 34] Stand premiers secours EXAPRINT",
+    "lieu": "Exaprint Mauguio",
+    "dateDebut": "2026-09-17T07:00:00.000Z",
+    "dureeHeures": 7.5,
+    "statut": "Inscrit"
   }
 }

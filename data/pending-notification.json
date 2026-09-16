@@ -1,20 +1,60 @@
 {
   "newEvents": [
     {
-      "tag": "AUTRE",
-      "titre": "[COM 34] Partenariat",
-      "lieu": "Montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1656023",
+      "tag": "FOR",
+      "titre": "[FOR 34] Stand premiers secours EXAPRINT",
+      "lieu": "Exaprint Mauguio",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1656645",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-09-15T11:30:00.000Z"
+      "dateDebutIso": "2026-09-17T20:00:00.000Z"
+    },
+    {
+      "tag": "FOR",
+      "titre": "[FOR 34] Stand premiers secours EXAPRINT",
+      "lieu": "Exaprint Mauguio",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1656644",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-09-22T07:00:00.000Z"
+    },
+    {
+      "tag": "FOR",
+      "titre": "[FOR 34] PSC - Emmaus Beziers",
+      "lieu": "Emmaus Beziers",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1656680",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-10-29T08:00:00.000Z"
+    },
+    {
+      "tag": "FOR",
+      "titre": "[FOR 34] PSC - Emmaus Beziers",
+      "lieu": "Emmaus Beziers",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1656681",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-11-05T08:00:00.000Z"
+    },
+    {
+      "tag": "FOR",
+      "titre": "[FOR 34] PSC - Emmaus Beziers",
+      "lieu": "Emmaus Beziers",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1656682",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-11-12T08:00:00.000Z"
+    },
+    {
+      "tag": "FOR",
+      "titre": "[FOR 34] PSC - Emmaus Beziers",
+      "lieu": "Emmaus Beziers",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1656683",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-11-26T08:00:00.000Z"
     },
     {
       "tag": "AUTRE",
-      "titre": "[COM 34] Muscat",
-      "lieu": "Frontignan",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1656024",
+      "titre": "[COM 34] Presentation APC ESM",
+      "lieu": "Purple Campus, Beziers",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1656513",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-09-15T09:00:00.000Z"
+      "dateDebutIso": "2027-01-21T12:30:00.000Z"
     }
   ],
   "topSuggestion": {
