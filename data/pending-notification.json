@@ -1,5 +1,22 @@
 {
-  "newEvents": [],
+  "newEvents": [
+    {
+      "tag": "AUTRE",
+      "titre": "[COM 34] Partenariat",
+      "lieu": "Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1657395",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-09-17T12:30:00.000Z"
+    },
+    {
+      "tag": "MLA",
+      "titre": "[MLA 34] Logistiques DPS Weekend",
+      "lieu": "Centre ope de Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1657402",
+      "dejaInscrit": true,
+      "dateDebutIso": "2026-09-17T14:30:00.000Z"
+    }
+  ],
   "topSuggestion": {
     "titre": "[DPS 34] MHSC - Grenoble",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
