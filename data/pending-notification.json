@@ -1,60 +1,28 @@
 {
   "newEvents": [
     {
-      "tag": "FOR",
-      "titre": "[FOR 34] Stand premiers secours EXAPRINT",
-      "lieu": "Exaprint Mauguio",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1656645",
+      "tag": "DPS",
+      "titre": "[DPS 34] Fest'udiant",
+      "lieu": "Camping Soleil, Vias",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1657042",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-09-17T20:00:00.000Z"
+      "dateDebutIso": "2026-10-09T16:00:00.000Z"
     },
     {
-      "tag": "FOR",
-      "titre": "[FOR 34] Stand premiers secours EXAPRINT",
-      "lieu": "Exaprint Mauguio",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1656644",
+      "tag": "DPS",
+      "titre": "[DPS 34] Fest'udiant",
+      "lieu": "Camping Soleil, Vias",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1657043",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-09-22T07:00:00.000Z"
+      "dateDebutIso": "2026-10-10T07:00:00.000Z"
     },
     {
-      "tag": "FOR",
-      "titre": "[FOR 34] PSC - Emmaus Beziers",
-      "lieu": "Emmaus Beziers",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1656680",
+      "tag": "DPS",
+      "titre": "[DPS 34] Fest'udiant",
+      "lieu": "Camping Soleil, Vias",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1657044",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-10-29T08:00:00.000Z"
-    },
-    {
-      "tag": "FOR",
-      "titre": "[FOR 34] PSC - Emmaus Beziers",
-      "lieu": "Emmaus Beziers",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1656681",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-11-05T08:00:00.000Z"
-    },
-    {
-      "tag": "FOR",
-      "titre": "[FOR 34] PSC - Emmaus Beziers",
-      "lieu": "Emmaus Beziers",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1656682",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-11-12T08:00:00.000Z"
-    },
-    {
-      "tag": "FOR",
-      "titre": "[FOR 34] PSC - Emmaus Beziers",
-      "lieu": "Emmaus Beziers",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1656683",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-11-26T08:00:00.000Z"
-    },
-    {
-      "tag": "AUTRE",
-      "titre": "[COM 34] Presentation APC ESM",
-      "lieu": "Purple Campus, Beziers",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1656513",
-      "dejaInscrit": false,
-      "dateDebutIso": "2027-01-21T12:30:00.000Z"
+      "dateDebutIso": "2026-10-10T19:00:00.000Z"
     }
   ],
   "topSuggestion": {
