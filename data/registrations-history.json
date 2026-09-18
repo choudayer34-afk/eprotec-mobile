@@ -493,5 +493,32 @@
     "dateDebut": "2026-09-17T14:30:00.000Z",
     "dureeHeures": 2,
     "statut": "Inscrit"
+  },
+  "evt15943101@https://eprotec.protection-civile.org": {
+    "uid": "evt15943101@https://eprotec.protection-civile.org",
+    "tag": "MAN",
+    "titre": "[MAN 34] Rassemblement Mensuel - MTP 16 -2026 -Rallye des techniques",
+    "lieu": "Centre de formation de Montpellier",
+    "dateDebut": "2026-09-24T16:45:00.000Z",
+    "dureeHeures": 2,
+    "statut": "Inscrit"
+  },
+  "evt16285401@https://eprotec.protection-civile.org": {
+    "uid": "evt16285401@https://eprotec.protection-civile.org",
+    "tag": "DPS",
+    "titre": "[DPS 34] MHR - RC Toulon",
+    "lieu": "Avenue de Vanieres 34070 Montpellier",
+    "dateDebut": "2026-10-04T17:00:00.000Z",
+    "dureeHeures": 6.5,
+    "statut": "Inscrit"
+  },
+  "evt16258361@https://eprotec.protection-civile.org": {
+    "uid": "evt16258361@https://eprotec.protection-civile.org",
+    "tag": "AUTRE",
+    "titre": "[REU 34] Monthly Formation {Formateurs} No8-2026 Octobre",
+    "lieu": "Presentiel et Visio",
+    "dateDebut": "2026-10-05T18:00:00.000Z",
+    "dureeHeures": 0.5,
+    "statut": "Inscrit"
   }
 }

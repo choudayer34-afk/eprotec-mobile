@@ -30,7 +30,7 @@
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (50 jours)",
+        "text": "Espacement confortable (27 jours)",
         "category": "positive"
       }
     ],
@@ -67,7 +67,7 @@
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (64 jours)",
+        "text": "Espacement confortable (41 jours)",
         "category": "positive"
       }
     ],
@@ -104,7 +104,7 @@
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (84 jours)",
+        "text": "Espacement confortable (61 jours)",
         "category": "positive"
       }
     ],
@@ -141,7 +141,7 @@
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (92 jours)",
+        "text": "Espacement confortable (69 jours)",
         "category": "positive"
       }
     ],
@@ -178,7 +178,7 @@
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (126 jours)",
+        "text": "Espacement confortable (103 jours)",
         "category": "positive"
       }
     ],
@@ -215,7 +215,7 @@
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (134 jours)",
+        "text": "Espacement confortable (111 jours)",
         "category": "positive"
       }
     ],
@@ -252,7 +252,7 @@
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (140 jours)",
+        "text": "Espacement confortable (117 jours)",
         "category": "positive"
       }
     ],
@@ -289,7 +289,7 @@
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (148 jours)",
+        "text": "Espacement confortable (125 jours)",
         "category": "positive"
       }
     ],
@@ -326,7 +326,7 @@
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (154 jours)",
+        "text": "Espacement confortable (131 jours)",
         "category": "positive"
       }
     ],
@@ -363,7 +363,7 @@
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (168 jours)",
+        "text": "Espacement confortable (145 jours)",
         "category": "positive"
       }
     ],
@@ -400,7 +400,7 @@
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (175 jours)",
+        "text": "Espacement confortable (152 jours)",
         "category": "positive"
       }
     ],
@@ -437,7 +437,7 @@
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (183 jours)",
+        "text": "Espacement confortable (160 jours)",
         "category": "positive"
       }
     ],
@@ -474,7 +474,7 @@
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (197 jours)",
+        "text": "Espacement confortable (174 jours)",
         "category": "positive"
       }
     ],
@@ -511,7 +511,7 @@
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (203 jours)",
+        "text": "Espacement confortable (180 jours)",
         "category": "positive"
       }
     ],
@@ -548,7 +548,7 @@
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (217 jours)",
+        "text": "Espacement confortable (194 jours)",
         "category": "positive"
       }
     ],
@@ -585,7 +585,7 @@
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (231 jours)",
+        "text": "Espacement confortable (208 jours)",
         "category": "positive"
       }
     ],
@@ -622,48 +622,11 @@
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (245 jours)",
+        "text": "Espacement confortable (222 jours)",
         "category": "positive"
       }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1627514"
-  },
-  {
-    "uid": "evt16285401@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] MHR - RC Toulon",
-    "lieu": "Avenue de Vanieres 34070 Montpellier",
-    "dateDebut": "2026-10-04T17:00:00.000Z",
-    "dateFin": "2026-10-04T23:30:00.000Z",
-    "description": "<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628540'>Lien vers l'activité</a>",
-    "tag": "DPS",
-    "score": 12,
-    "reasons": [
-      {
-        "text": "Mois sans DPS planifié",
-        "category": "positive"
-      },
-      {
-        "text": "Jour : Dimanche (+2)",
-        "category": "positive"
-      },
-      {
-        "text": "Créneau fin d'après-midi / soirée",
-        "category": "positive"
-      },
-      {
-        "text": "Durée raisonnable",
-        "category": "positive"
-      },
-      {
-        "text": "Très proche (5 km)",
-        "category": "positive"
-      },
-      {
-        "text": "Espacement confortable (23 jours)",
-        "category": "positive"
-      }
-    ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1628540"
   },
   {
     "uid": "evt16462781@https://eprotec.protection-civile.org",
@@ -703,39 +666,6 @@
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1646278"
   },
   {
-    "uid": "evt16550221@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] La balade Rose",
-    "lieu": "place jacques d aragon 34970 Lattes",
-    "dateDebut": "2026-10-03T13:00:00.000Z",
-    "dateFin": "2026-10-03T16:00:00.000Z",
-    "description": "Presence pour le Lions Club - Stand de com et IGQS + PAPS<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1655022'>Lien vers l'activité</a>",
-    "tag": "DPS",
-    "score": 11,
-    "reasons": [
-      {
-        "text": "Mois sans DPS planifié",
-        "category": "positive"
-      },
-      {
-        "text": "Jour : Samedi (+3)",
-        "category": "positive"
-      },
-      {
-        "text": "Durée raisonnable",
-        "category": "positive"
-      },
-      {
-        "text": "Très proche (0.4 km)",
-        "category": "positive"
-      },
-      {
-        "text": "Espacement confortable (22 jours)",
-        "category": "positive"
-      }
-    ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1655022"
-  },
-  {
     "uid": "evt16274951@https://eprotec.protection-civile.org",
     "titre": "[DPS 34] MHSC - Red star",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
@@ -762,7 +692,7 @@
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (43 jours)",
+        "text": "Espacement confortable (20 jours)",
         "category": "positive"
       }
     ],
@@ -795,7 +725,7 @@
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (50 jours)",
+        "text": "Espacement confortable (27 jours)",
         "category": "positive"
       }
     ],
@@ -828,7 +758,7 @@
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (57 jours)",
+        "text": "Espacement confortable (34 jours)",
         "category": "positive"
       }
     ],
@@ -861,7 +791,7 @@
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (57 jours)",
+        "text": "Espacement confortable (34 jours)",
         "category": "positive"
       }
     ],
@@ -894,7 +824,7 @@
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (85 jours)",
+        "text": "Espacement confortable (62 jours)",
         "category": "positive"
       }
     ],
@@ -927,7 +857,7 @@
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (106 jours)",
+        "text": "Espacement confortable (83 jours)",
         "category": "positive"
       }
     ],
@@ -960,7 +890,7 @@
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (113 jours)",
+        "text": "Espacement confortable (90 jours)",
         "category": "positive"
       }
     ],
@@ -993,7 +923,7 @@
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (134 jours)",
+        "text": "Espacement confortable (111 jours)",
         "category": "positive"
       }
     ],
@@ -1026,7 +956,7 @@
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (162 jours)",
+        "text": "Espacement confortable (139 jours)",
         "category": "positive"
       }
     ],
@@ -1059,10 +989,76 @@
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (190 jours)",
+        "text": "Espacement confortable (167 jours)",
         "category": "positive"
       }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1628557"
+  },
+  {
+    "uid": "evt16285581@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] MHR - Union Bordeaux Begles",
+    "lieu": "Avenue de Vanieres 34070 Montpellier",
+    "dateDebut": "2027-04-17T12:30:00.000Z",
+    "dateFin": "2027-04-17T19:00:00.000Z",
+    "description": "Horaires non definitives - 2h avant match - 1h45 de match - 2h de post match (pour 8 IS seulement). En general, match a 16h30 le samedi. Peut etre a 14h30, 21h ou exceptionnellement le dimanche a 21h. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628558'>Lien vers l'activité</a>",
+    "tag": "DPS",
+    "score": 11,
+    "reasons": [
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour : Samedi (+3)",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (5 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (195 jours)",
+        "category": "positive"
+      }
+    ],
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1628558"
+  },
+  {
+    "uid": "evt16462861@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] MFC - RC Lens",
+    "lieu": "Domaine de Grammont, Montpellier",
+    "dateDebut": "2027-05-01T15:00:00.000Z",
+    "dateFin": "2027-05-01T18:00:00.000Z",
+    "description": "Horaires non definitives<br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1646286'>Lien vers l'activité</a>",
+    "tag": "DPS",
+    "score": 11,
+    "reasons": [
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour : Samedi (+3)",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (5.7 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (209 jours)",
+        "category": "positive"
+      }
+    ],
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1646286"
   }
 ]
