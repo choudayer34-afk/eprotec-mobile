@@ -1,5 +1,14 @@
 {
-  "newEvents": [],
+  "newEvents": [
+    {
+      "tag": "AUTRE",
+      "titre": "[COM 34] INTER OC",
+      "lieu": "MAURIN",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1657756",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-09-18T13:00:00.000Z"
+    }
+  ],
   "topSuggestion": {
     "titre": "[DPS 34] [Previ] MFC - OL Lyonnes",
     "lieu": "La Mosson, Montpellier",
