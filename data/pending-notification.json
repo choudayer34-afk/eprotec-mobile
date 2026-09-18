@@ -1,27 +1,10 @@
 {
-  "newEvents": [
-    {
-      "tag": "DPS",
-      "titre": "[DPS 34] Cross UNSS - Trail",
-      "lieu": "Lac du Salagou 34800 Clermont-l'Herault",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1657439",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-11-04T12:30:00.000Z"
-    },
-    {
-      "tag": "DPS",
-      "titre": "[DPS 34] Cross UNSS - Academique",
-      "lieu": "Montfloures, Beziers",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1657441",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-12-09T09:00:00.000Z"
-    }
-  ],
+  "newEvents": [],
   "topSuggestion": {
     "titre": "[DPS 34] [Previ] MFC - OL Lyonnes",
     "lieu": "La Mosson, Montpellier",
     "dateDebutIso": "2026-10-31T16:00:00.000Z",
-    "score": 15,
+    "score": 13,
     "reasons": [
       {
         "text": "Mois sans DPS planifié",
