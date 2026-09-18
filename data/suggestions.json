@@ -765,39 +765,6 @@
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1628541"
   },
   {
-    "uid": "evt16285421@https://eprotec.protection-civile.org",
-    "titre": "[DPS 34] MHR - LOU Rugby",
-    "lieu": "Avenue de Vanieres 34070 Montpellier",
-    "dateDebut": "2026-11-07T13:30:00.000Z",
-    "dateFin": "2026-11-07T20:00:00.000Z",
-    "description": "Horaires non definitives - 2h avant match - 1h45 de match - 2h de post match (pour 8 IS seulement). En general, match a 16h30 le samedi. Peut etre a 14h30, 21h ou exceptionnellement le dimanche a 21h. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628542'>Lien vers l'activité</a>",
-    "tag": "DPS",
-    "score": 11,
-    "reasons": [
-      {
-        "text": "Mois sans DPS planifié",
-        "category": "positive"
-      },
-      {
-        "text": "Jour : Samedi (+3)",
-        "category": "positive"
-      },
-      {
-        "text": "Durée raisonnable",
-        "category": "positive"
-      },
-      {
-        "text": "Très proche (5 km)",
-        "category": "positive"
-      },
-      {
-        "text": "Espacement confortable (57 jours)",
-        "category": "positive"
-      }
-    ],
-    "url": "https://eprotec.protection-civile.org/index.php?evenement=1628542"
-  },
-  {
     "uid": "evt16274961@https://eprotec.protection-civile.org",
     "titre": "[DPS 34] MHSC - FC Metz",
     "lieu": "Stade de la Mosson, 34080 Montpellier",
@@ -829,6 +796,39 @@
       }
     ],
     "url": "https://eprotec.protection-civile.org/index.php?evenement=1627496"
+  },
+  {
+    "uid": "evt16285421@https://eprotec.protection-civile.org",
+    "titre": "[DPS 34] MHR - LOU Rugby",
+    "lieu": "Avenue de Vanieres 34070 Montpellier",
+    "dateDebut": "2026-11-07T13:30:00.000Z",
+    "dateFin": "2026-11-07T20:00:00.000Z",
+    "description": "Horaires non definitives - 2h avant match - 1h45 de match - 2h de post match (pour 8 IS seulement). En general, match a 16h30 le samedi. Peut etre a 14h30, 21h ou exceptionnellement le dimanche a 21h. <br><a href='https://eprotec.protection-civile.org/evenement_display.php?evenement=1628542'>Lien vers l'activité</a>",
+    "tag": "DPS",
+    "score": 11,
+    "reasons": [
+      {
+        "text": "Mois sans DPS planifié",
+        "category": "positive"
+      },
+      {
+        "text": "Jour : Samedi (+3)",
+        "category": "positive"
+      },
+      {
+        "text": "Durée raisonnable",
+        "category": "positive"
+      },
+      {
+        "text": "Très proche (5 km)",
+        "category": "positive"
+      },
+      {
+        "text": "Espacement confortable (57 jours)",
+        "category": "positive"
+      }
+    ],
+    "url": "https://eprotec.protection-civile.org/index.php?evenement=1628542"
   },
   {
     "uid": "evt16285431@https://eprotec.protection-civile.org",
