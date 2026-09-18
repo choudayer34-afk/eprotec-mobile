@@ -547,6 +547,7 @@ async function evaluateDpsCandidate(evt, monthIsOpen, registeredDps, geocache, S
   }
 
   if (registeredDps.length > 0) {
+    //chr doute
     const gaps = registeredDps.map(r => Math.abs((new Date(r.dateDebut) - start) / 86400000));
     const minGap = Math.round(Math.min(...gaps));
     if (minGap < S.minGapDays) {
