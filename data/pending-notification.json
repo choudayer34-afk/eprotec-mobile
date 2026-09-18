@@ -1,26 +1,26 @@
 {
   "newEvents": [
     {
-      "tag": "AUTRE",
-      "titre": "[COM 34] Partenariat",
-      "lieu": "Montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1657395",
+      "tag": "DPS",
+      "titre": "[DPS 34] Cross UNSS - Trail",
+      "lieu": "Lac du Salagou 34800 Clermont-l'Herault",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1657439",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-09-17T12:30:00.000Z"
+      "dateDebutIso": "2026-11-04T12:30:00.000Z"
     },
     {
-      "tag": "MLA",
-      "titre": "[MLA 34] Logistiques DPS Weekend",
-      "lieu": "Centre ope de Montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1657402",
-      "dejaInscrit": true,
-      "dateDebutIso": "2026-09-17T14:30:00.000Z"
+      "tag": "DPS",
+      "titre": "[DPS 34] Cross UNSS - Academique",
+      "lieu": "Montfloures, Beziers",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1657441",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-12-09T09:00:00.000Z"
     }
   ],
   "topSuggestion": {
-    "titre": "[DPS 34] MHSC - Grenoble",
-    "lieu": "Stade de la Mosson, 34080 Montpellier",
-    "dateDebutIso": "2026-10-09T16:30:00.000Z",
+    "titre": "[DPS 34] [Previ] MFC - OL Lyonnes",
+    "lieu": "La Mosson, Montpellier",
+    "dateDebutIso": "2026-10-31T16:00:00.000Z",
     "score": 15,
     "reasons": [
       {
@@ -28,7 +28,7 @@
         "category": "positive"
       },
       {
-        "text": "Jour : Vendredi (+3)",
+        "text": "Jour : Samedi (+3)",
         "category": "positive"
       },
       {
@@ -40,11 +40,11 @@
         "category": "positive"
       },
       {
-        "text": "Très proche (9.4 km)",
+        "text": "Très proche (3.6 km)",
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (28 jours)",
+        "text": "Espacement confortable (50 jours)",
         "category": "positive"
       }
     ]

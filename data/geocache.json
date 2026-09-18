@@ -442,5 +442,13 @@
   "Camping Soleil, Vias": {
     "lat": 43.2934534,
     "lon": 3.3991141
+  },
+  "Boulevard Sarrail 34250 Palavas-les-Flots": {
+    "lat": 43.5295289,
+    "lon": 3.937716
+  },
+  "Montfloures, Beziers": {
+    "lat": 43.3288566,
+    "lon": 3.1844993
   }
 }
