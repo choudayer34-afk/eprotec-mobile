@@ -586,7 +586,7 @@ async function computeOadSuggestions(events, registrationsHistory, geocache, S, 
       const d = new Date(r.dateDebut);
       return d.getFullYear() === first.getFullYear() && d.getMonth() === first.getMonth();
     });
-    if (registeredInMonth.length > 0) continue;
+    //chr if (registeredInMonth.length > 0) continue;
 
     for (const evt of monthEvents) {
       results.push(await evaluateDpsCandidate(evt, true, registeredDps, geocache, S));
