@@ -1,12 +1,20 @@
 {
   "newEvents": [
     {
-      "tag": "AUTRE",
-      "titre": "[COM 34] INTER OC",
-      "lieu": "MAURIN",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1657756",
+      "tag": "DPS",
+      "titre": "[DPS 34] Week-end Etudiant - TBS Master",
+      "lieu": "Camping Soleil, Chemin de la Grande Cosse, Vias",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1657892",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-09-18T13:00:00.000Z"
+      "dateDebutIso": "2026-09-20T10:00:00.000Z"
+    },
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] Cross College - Lattes",
+      "lieu": "Avenue du Mejean, Lattes",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1657990",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-10-01T07:00:00.000Z"
     }
   ],
   "topSuggestion": {

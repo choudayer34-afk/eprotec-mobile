@@ -450,5 +450,9 @@
   "Montfloures, Beziers": {
     "lat": 43.3288566,
     "lon": 3.1844993
+  },
+  "Avenue du Mejean, Lattes": {
+    "lat": 43.5559044,
+    "lon": 3.9012405
   }
 }
