@@ -1,26 +1,9 @@
 {
-  "newEvents": [
-    {
-      "tag": "DPS",
-      "titre": "[DPS 34] Week-end Etudiant - TBS Master",
-      "lieu": "Camping Soleil, Chemin de la Grande Cosse, Vias",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1657892",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-09-20T10:00:00.000Z"
-    },
-    {
-      "tag": "DPS",
-      "titre": "[DPS 34] Cross College - Lattes",
-      "lieu": "Avenue du Mejean, Lattes",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1657990",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-10-01T07:00:00.000Z"
-    }
-  ],
+  "newEvents": [],
   "topSuggestion": {
-    "titre": "[DPS 34] [Previ] MFC - OL Lyonnes",
-    "lieu": "La Mosson, Montpellier",
-    "dateDebutIso": "2026-10-31T16:00:00.000Z",
+    "titre": "[DPS 34] MFC - FC Fleury 91",
+    "lieu": "Domaine de Grammont, Montpellier",
+    "dateDebutIso": "2026-11-14T16:00:00.000Z",
     "score": 13,
     "reasons": [
       {
@@ -40,11 +23,11 @@
         "category": "positive"
       },
       {
-        "text": "Très proche (3.6 km)",
+        "text": "Très proche (5.7 km)",
         "category": "positive"
       },
       {
-        "text": "Espacement confortable (27 jours)",
+        "text": "Espacement confortable (41 jours)",
         "category": "positive"
       }
     ]
