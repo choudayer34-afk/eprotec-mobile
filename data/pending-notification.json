@@ -1,22 +1,5 @@
 {
-  "newEvents": [
-    {
-      "tag": "MLA",
-      "titre": "[MLA 34] Logistique alimentaire DPS",
-      "lieu": "Centre ope de Lattes",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1658931",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-09-21T10:00:00.000Z"
-    },
-    {
-      "tag": "AUTRE",
-      "titre": "[CER 34] Renfort Ravivage de la flamme",
-      "lieu": "Place Charles de Gaulle 75116 Paris",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1658718",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-11-21T16:00:00.000Z"
-    }
-  ],
+  "newEvents": [],
   "topSuggestion": {
     "titre": "[DPS 34] MFC - FC Fleury 91",
     "lieu": "Domaine de Grammont, Montpellier",
