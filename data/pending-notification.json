@@ -2,51 +2,27 @@
   "newEvents": [
     {
       "tag": "MLA",
-      "titre": "[MLA 34] Peremptions IDE",
-      "lieu": "Local de Montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1660058",
+      "titre": "[MLA 34] Prepa Action Calendriers",
+      "lieu": "Visio",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1660726",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-10-29T18:30:00.000Z"
+      "dateDebutIso": "2026-09-25T16:00:00.000Z"
+    },
+    {
+      "tag": "FOR",
+      "titre": "[FOR 34] PSC - Ouvert aux nouveaux benevoles",
+      "lieu": "Rue du Puech Radier 34970 Lattes",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1660415",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-10-04T06:30:00.000Z"
     },
     {
       "tag": "MLA",
-      "titre": "[MLA 34] Peremptions IDE",
-      "lieu": "Local de Montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1660060",
+      "titre": "[MLA 34] Prepa Action Calendriers",
+      "lieu": "CFO Lattes",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1660725",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-11-29T17:00:00.000Z"
-    },
-    {
-      "tag": "MLA",
-      "titre": "[MLA 34] Peremptions IDE",
-      "lieu": "Local de Montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1660061",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-12-30T17:00:00.000Z"
-    },
-    {
-      "tag": "MLA",
-      "titre": "[MLA 34] Peremptions IDE",
-      "lieu": "Local de Montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1660063",
-      "dejaInscrit": false,
-      "dateDebutIso": "2027-01-28T17:00:00.000Z"
-    },
-    {
-      "tag": "MLA",
-      "titre": "[MLA 34] Peremptions IDE",
-      "lieu": "Local de Montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1660064",
-      "dejaInscrit": false,
-      "dateDebutIso": "2027-02-25T18:00:00.000Z"
-    },
-    {
-      "tag": "MLA",
-      "titre": "[MLA 34] Peremptions IDE",
-      "lieu": "Local de Montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1660065",
-      "dejaInscrit": false,
-      "dateDebutIso": "2027-03-29T17:00:00.000Z"
+      "dateDebutIso": "2026-10-04T12:00:00.000Z"
     }
   ],
   "topSuggestion": {
