@@ -1,30 +1,5 @@
 {
-  "newEvents": [
-    {
-      "tag": "MLA",
-      "titre": "[MLA 34] Prepa Action Calendriers",
-      "lieu": "Visio",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1660726",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-09-25T16:00:00.000Z"
-    },
-    {
-      "tag": "FOR",
-      "titre": "[FOR 34] PSC - Ouvert aux nouveaux benevoles",
-      "lieu": "Rue du Puech Radier 34970 Lattes",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1660415",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-10-04T06:30:00.000Z"
-    },
-    {
-      "tag": "MLA",
-      "titre": "[MLA 34] Prepa Action Calendriers",
-      "lieu": "CFO Lattes",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1660725",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-10-04T12:00:00.000Z"
-    }
-  ],
+  "newEvents": [],
   "topSuggestion": {
     "titre": "[DPS 34] MFC - FC Fleury 91",
     "lieu": "Domaine de Grammont, Montpellier",
