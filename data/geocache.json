@@ -454,5 +454,17 @@
   "Avenue du Mejean, Lattes": {
     "lat": 43.5559044,
     "lon": 3.9012405
+  },
+  "Nord Herault": {
+    "lat": 43.7652838,
+    "lon": 3.7350049
+  },
+  "4 Rue de la Mairie 34430 Saint-Jean-de-Vedas": {
+    "lat": 43.5757296,
+    "lon": 3.8267796
+  },
+  "213 rue du Dauphine, Sete": {
+    "lat": 43.3955014,
+    "lon": 3.6646711
   }
 }

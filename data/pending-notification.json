@@ -1,5 +1,30 @@
 {
-  "newEvents": [],
+  "newEvents": [
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] Securisation des services de l'Etat",
+      "lieu": "Nord Herault",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1661050",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-10-08T04:00:00.000Z"
+    },
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] Feu Artifice de la Fete de la Courge",
+      "lieu": "4 Rue de la Mairie 34430 Saint-Jean-de-Vedas",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1661051",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-10-11T15:30:00.000Z"
+    },
+    {
+      "tag": "DPS",
+      "titre": "[DPS 34] Olympiade IUT",
+      "lieu": "213 rue du Dauphine, Sete",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1661052",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-10-17T07:00:00.000Z"
+    }
+  ],
   "topSuggestion": {
     "titre": "[DPS 34] MFC - FC Fleury 91",
     "lieu": "Domaine de Grammont, Montpellier",
