@@ -1,28 +1,20 @@
 {
   "newEvents": [
     {
-      "tag": "DPS",
-      "titre": "[DPS 34] Securisation des services de l'Etat",
-      "lieu": "Nord Herault",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1661050",
+      "tag": "MLA",
+      "titre": "[MLA 34] verification Vehicule BZR",
+      "lieu": "Centre ope Beziers CDV",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1661613",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-10-08T04:00:00.000Z"
+      "dateDebutIso": "2026-09-29T10:30:00.000Z"
     },
     {
-      "tag": "DPS",
-      "titre": "[DPS 34] Feu Artifice de la Fete de la Courge",
-      "lieu": "4 Rue de la Mairie 34430 Saint-Jean-de-Vedas",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1661051",
+      "tag": "MLA",
+      "titre": "[MLA 34] Tri des dons VAHU",
+      "lieu": "Centre ope de Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1661614",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-10-11T15:30:00.000Z"
-    },
-    {
-      "tag": "DPS",
-      "titre": "[DPS 34] Olympiade IUT",
-      "lieu": "213 rue du Dauphine, Sete",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1661052",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-10-17T07:00:00.000Z"
+      "dateDebutIso": "2026-10-19T06:00:00.000Z"
     }
   ],
   "topSuggestion": {
