@@ -1100,6 +1100,10 @@
         <div class="tile-icon">📊</div>
         <div class="tile-title">Consommation Firebase</div>
       </button>
+<button class="tile" id="users-activity-btn-admin" style="border:none;width:100%;">
+        <div class="tile-icon">👥</div>
+        <div class="tile-title">Utilisateurs (activité)</div>
+      </button>
 <button class="tile" id="share-app-btn-admin" style="border:none;width:100%;">
         <div class="tile-icon">📤</div>
         <div class="tile-title">Partager l'app (QR code)</div>
@@ -3720,6 +3724,167 @@ function showSosSendChooser(contacts, message) {
   }
 }
   
+
+/* ===== Suivi d'activité des utilisateurs ===== */
+const ACTIVITY_IGNORED_SECTIONS = ['accueil','plus','detail','plus-admin','recherche-globale'];
+const ACTIVITY_LABELS = {
+  'calendrier':'Calendrier','favoris':'Favoris','plus-evenements':'Événements','plus-suggestions':'Suggestions',
+  'plus-inscriptions':'Inscriptions','plus-rapport':'Rapport','plus-nouveautes':'Nouveautés','plus-changelog':'Mises à jour',
+  'plus-secourisme':'Secourisme','plus-bilan':'Bilan','plus-gestes':'Fiches gestes','plus-psychologie':'Psychologie',
+  'plus-materiel':'Matériel','plus-novi':'NOVI','plus-pediatrie':'Pédiatrie','plus-autodefense':'Autodéfense',
+  'plus-pretapartir':'Prêt à partir','plus-eprotec-lien':'Lien Eprotec','plus-sos-contacts':'Contacts SOS',
+  'plus-import-fiches':'Import de fiches','plus-quiz':'Quizz','plus-lexique':'Lexique','plus-liens':'Liens utiles',
+  'plus-parametres':'Paramètres','plus-apropos':'À propos'
+};
+let activityPending = {};
+let activityLastPing = 0;
+
+function activityNormalizeSection(id) {
+  if (id.startsWith('plus-gestes')) return 'plus-gestes';
+  if (id.startsWith('plus-autodef')) return 'plus-autodefense';
+  if (id.startsWith('plus-secourisme')) return 'plus-secourisme';
+  return id;
+}
+
+function activityUrl(uid) {
+  return FIREBASE_URL + '/users/' + uid + '/activity.json';
+}
+
+async function activityPing() {
+  if (!currentUserUid || currentUserUid === 'default') return;
+  activityLastPing = Date.now();
+  try {
+    await fetch(activityUrl(currentUserUid), {
+      method: 'PATCH',
+      body: JSON.stringify({
+        lastSeen: new Date().toISOString(),
+        version: (allChangelog[0] && allChangelog[0].version) || '',
+        opens: { '.sv': { increment: 1 } }
+      })
+    });
+  } catch (e) { /* silencieux : le suivi ne doit jamais gêner l'app */ }
+}
+
+function activityFlush(keepalive) {
+  if (!currentUserUid || currentUserUid === 'default') return;
+  const ids = Object.keys(activityPending);
+  if (ids.length === 0) return;
+  const body = { lastSeen: new Date().toISOString() };
+  ids.forEach(id => { body['modules/' + id] = { '.sv': { increment: activityPending[id] } }; });
+  activityPending = {};
+  try {
+    fetch(activityUrl(currentUserUid), { method: 'PATCH', body: JSON.stringify(body), keepalive: !!keepalive }).catch(() => {});
+  } catch (e) {}
+}
+
+function initActivityTracking() {
+  if (!currentUserUid || currentUserUid === 'default') return;
+  activityPing();
+  const observer = new MutationObserver(muts => {
+    muts.forEach(m => {
+      const el = m.target;
+      if (el.tagName === 'SECTION' && el.classList.contains('active') && !(m.oldValue || '').split(' ').includes('active')) {
+        const id = activityNormalizeSection(el.id);
+        if (!id || ACTIVITY_IGNORED_SECTIONS.includes(id)) return;
+        activityPending[id] = (activityPending[id] || 0) + 1;
+      }
+    });
+  });
+  document.querySelectorAll('section').forEach(sec => observer.observe(sec, { attributes: true, attributeFilter: ['class'], attributeOldValue: true }));
+  setInterval(() => activityFlush(false), 60000);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') activityFlush(true);
+    else if (Date.now() - activityLastPing > 30 * 60 * 1000) activityPing();
+  });
+  window.addEventListener('pagehide', () => activityFlush(true));
+}
+
+function activityRelative(iso) {
+  if (!iso) return 'jamais';
+  const diffMin = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
+  if (diffMin < 2) return "à l'instant";
+  if (diffMin < 60) return 'il y a ' + diffMin + ' min';
+  const h = Math.floor(diffMin / 60);
+  if (h < 24) return 'il y a ' + h + ' h';
+  const j = Math.floor(h / 24);
+  return 'il y a ' + j + (j > 1 ? ' jours' : ' jour');
+}
+
+async function showUsersActivityModal() {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;';
+  overlay.innerHTML = `
+    <div style="background:#163C74;border-radius:16px;padding:16px;width:100%;max-width:420px;max-height:88vh;overflow-y:auto;">
+      <div style="color:#fff;font-size:16px;font-weight:600;margin-bottom:12px;text-align:center;">👥 Activité des utilisateurs</div>
+      <div id="users-activity-content" style="color:#9FB3D6;text-align:center;">Chargement...</div>
+      <button class="detail-action-btn primary" id="users-activity-close" style="margin-top:12px;">Fermer</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.querySelector('#users-activity-close').addEventListener('click', () => overlay.remove());
+
+  try {
+    const bust = '?t=' + Date.now();
+    const keysRes = await fetch(FIREBASE_URL + '/users.json?shallow=true&t=' + Date.now(), { cache: 'no-store' });
+    const keysObj = await keysRes.json();
+    const uids = keysObj ? Object.keys(keysObj) : [];
+    const rows = await Promise.all(uids.map(async uid => {
+      const get = path => fetch(FIREBASE_URL + '/users/' + uid + '/' + path + '.json' + bust, { cache: 'no-store' }).then(r => r.json()).catch(() => null);
+      const [activity, email, nom] = await Promise.all([get('activity'), get('email'), get('mon-nom')]);
+      return { uid, activity: activity || null, email: typeof email === 'string' ? email : '', nom: typeof nom === 'string' ? nom : '' };
+    }));
+
+    const now = Date.now();
+    const DAY = 86400000;
+    const ageOf = r => r.activity && r.activity.lastSeen ? now - new Date(r.activity.lastSeen).getTime() : Infinity;
+    rows.sort((a, b) => ageOf(a) - ageOf(b));
+
+    const actifs7 = rows.filter(r => ageOf(r) < 7 * DAY).length;
+    const actifs30 = rows.filter(r => ageOf(r) < 30 * DAY).length;
+    const globalModules = {};
+    rows.forEach(r => {
+      const m = (r.activity && r.activity.modules) || {};
+      Object.keys(m).forEach(k => { globalModules[k] = (globalModules[k] || 0) + m[k]; });
+    });
+    const label = id => ACTIVITY_LABELS[id] || id;
+    const kpi = (n, t) => `<div style="flex:1;background:#0B2A5C;border-radius:10px;padding:8px 4px;"><div style="color:#fff;font-size:20px;font-weight:700;">${n}</div><div style="color:#9FB3D6;font-size:10px;">${t}</div></div>`;
+
+    const listHtml = rows.map(r => {
+      const age = ageOf(r);
+      const color = age < 7 * DAY ? '#4CAF50' : (age < 30 * DAY ? '#F5821F' : '#E24B4A');
+      const name = r.nom || r.email || r.uid;
+      const mods = (r.activity && r.activity.modules) || {};
+      const top = Object.keys(mods).sort((a, b) => mods[b] - mods[a]).slice(0, 3).map(k => `${label(k)} (${mods[k]})`).join(', ');
+      const a = r.activity;
+      return `
+        <div style="background:#0B2A5C;border-radius:10px;padding:10px 12px;margin-bottom:8px;text-align:left;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="width:10px;height:10px;border-radius:50%;background:${a ? color : '#6B7A99'};flex-shrink:0;"></span>
+            <span style="color:#fff;font-size:14px;font-weight:600;word-break:break-all;">${escapeHtml(name)}</span>
+          </div>
+          ${r.nom && r.email ? `<div style="color:#9FB3D6;font-size:11px;margin-top:2px;word-break:break-all;">${escapeHtml(r.email)}</div>` : ''}
+          <div style="color:#9FB3D6;font-size:12px;margin-top:4px;">${a ? `Vu ${activityRelative(a.lastSeen)} · ${a.opens || 0} ouverture(s)${a.version ? ' · v' + escapeHtml(String(a.version)) : ''}` : "Aucune activité enregistrée (n'a pas encore ouvert la dernière version)"}</div>
+          ${top ? `<div style="color:#9FB3D6;font-size:11px;margin-top:4px;">Utilise surtout : ${escapeHtml(top)}</div>` : ''}
+        </div>`;
+    }).join('');
+
+    const gm = Object.keys(globalModules).sort((a, b) => globalModules[b] - globalModules[a]);
+    const modulesHtml = gm.length ? `
+      <div style="color:#fff;font-size:13px;font-weight:600;margin:14px 0 6px;text-align:left;">Modules les plus utilisés</div>
+      <div style="text-align:left;">${gm.slice(0, 8).map(k => `<div style="display:flex;justify-content:space-between;color:#9FB3D6;font-size:12px;padding:3px 0;border-bottom:1px solid #0B2A5C;"><span>${escapeHtml(label(k))}</span><span style="color:#fff;">${globalModules[k]}</span></div>`).join('')}</div>` : '';
+
+    document.getElementById('users-activity-content').innerHTML = `
+      <div style="display:flex;gap:6px;margin-bottom:12px;">${kpi(rows.length, 'inscrits')}${kpi(actifs7, 'actifs 7 j')}${kpi(actifs30, 'actifs 30 j')}</div>
+      <div style="color:#9FB3D6;font-size:11px;margin-bottom:8px;text-align:left;">🟢 moins de 7 j · 🟠 7 à 30 j · 🔴 plus de 30 j · ⚪ pas de donnée</div>
+      ${listHtml || 'Aucun utilisateur.'}
+      ${modulesHtml}
+    `;
+  } catch (err) {
+    document.getElementById('users-activity-content').textContent = 'Erreur de chargement.';
+    console.error(err);
+  }
+}
+
 async function showFirebaseStatsModal() {
   const overlay = document.createElement('div');
   overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;';
@@ -11781,6 +11946,7 @@ document.getElementById('lexique-add-btn').addEventListener('click', showAddLexi
 
 document.getElementById('liens-urgence-btn').addEventListener('click', showEmergencyNumbersModal);
 document.getElementById('firebase-stats-btn-admin').addEventListener('click', showFirebaseStatsModal);
+document.getElementById('users-activity-btn-admin').addEventListener('click', showUsersActivityModal);
 document.getElementById('ntfy-share-btn').addEventListener('click', showNtfyShareModal);
 document.getElementById('mailjet-stats-btn').addEventListener('click', showMailjetStatsModal);
 document.getElementById('cf-access-guide-btn').addEventListener('click', showCloudflareAccessGuideModal);
@@ -13610,6 +13776,7 @@ await checkCloudflareIdentity(); tick();
   await initDismissed(); tick();
   await loadOadSettings(); tick();
 await loadChangelog(); tick();
+initActivityTracking();
 await loadLexiqueCustom();
 await loadFichesCustom();
   await loadQuizCustom();
