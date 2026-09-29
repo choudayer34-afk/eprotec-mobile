@@ -466,5 +466,9 @@
   "213 rue du Dauphine, Sete": {
     "lat": 43.3955014,
     "lon": 3.6646711
+  },
+  "Route du Stade 34480 Puissalicon": {
+    "lat": 43.4618362,
+    "lon": 3.2355144
   }
 }
