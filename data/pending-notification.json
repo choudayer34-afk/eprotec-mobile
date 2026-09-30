@@ -1,38 +1,5 @@
 {
-  "newEvents": [
-    {
-      "tag": "ALERT",
-      "titre": "[ALERT 34] Renfort Vigilance ROUGE : Episode Cevenol",
-      "lieu": "Gard et Herault",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1662308",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-09-30T07:00:00.000Z"
-    },
-    {
-      "tag": "ALERT",
-      "titre": "[ALERT 34] Vigilance Rouge Inondations partie 1/3",
-      "lieu": "Est Herault",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1662318",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-09-30T06:00:00.000Z"
-    },
-    {
-      "tag": "ALERT",
-      "titre": "[ALERT 34] Vigilance Rouge Inondations partie 2/3",
-      "lieu": "Est Herault",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1662318",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-09-30T15:00:00.000Z"
-    },
-    {
-      "tag": "ALERT",
-      "titre": "[ALERT 34] Vigilance Rouge Inondations partie 3/3",
-      "lieu": "Est Herault",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1662318",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-09-30T22:00:00.000Z"
-    }
-  ],
+  "newEvents": [],
   "topSuggestion": {
     "titre": "[DPS 34] MFC - FC Fleury 91",
     "lieu": "Domaine de Grammont, Montpellier",
