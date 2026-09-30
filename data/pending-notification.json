@@ -1,132 +1,36 @@
 {
   "newEvents": [
     {
-      "tag": "MLA",
-      "titre": "[MLA 34] Mise en route groupe",
-      "lieu": "Base nautique beziers",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1662063",
+      "tag": "ALERT",
+      "titre": "[ALERT 34] Renfort Vigilance ROUGE : Episode Cevenol",
+      "lieu": "Gard et Herault",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1662308",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-09-29T10:30:00.000Z"
+      "dateDebutIso": "2026-09-30T07:00:00.000Z"
     },
     {
-      "tag": "MLA",
-      "titre": "[MLA 34] Depose VSO Moliere chez electricien",
-      "lieu": "Local Lattes",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1661690",
+      "tag": "ALERT",
+      "titre": "[ALERT 34] Vigilance Rouge Inondations partie 1/3",
+      "lieu": "Est Herault",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1662318",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-10-01T11:00:00.000Z"
+      "dateDebutIso": "2026-09-30T06:00:00.000Z"
     },
     {
-      "tag": "MLA",
-      "titre": "[MLA 34] Verification mensuelle des vehicules MTP",
-      "lieu": "Centre ope de Montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1661815",
+      "tag": "ALERT",
+      "titre": "[ALERT 34] Vigilance Rouge Inondations partie 2/3",
+      "lieu": "Est Herault",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1662318",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-10-04T12:00:00.000Z"
+      "dateDebutIso": "2026-09-30T15:00:00.000Z"
     },
     {
-      "tag": "MLA",
-      "titre": "[MLA 34] VAHU point hayon et conduite",
-      "lieu": "Centre ope nautique de Beziers",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1662094",
+      "tag": "ALERT",
+      "titre": "[ALERT 34] Vigilance Rouge Inondations partie 3/3",
+      "lieu": "Est Herault",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1662318",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-10-11T10:00:00.000Z"
-    },
-    {
-      "tag": "FOR",
-      "titre": "[FOR 34] Formation Maquillage",
-      "lieu": "260 Rue du Puech Radier 34970 Lattes",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1662083",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-10-13T17:00:00.000Z"
-    },
-    {
-      "tag": "MAN",
-      "titre": "[MAN 34] Rassemblement Mensuel - BZR - 2026 - BRANCARDAGE",
-      "lieu": "Centre de formation de Beziers",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1662096",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-10-15T16:30:00.000Z"
-    },
-    {
-      "tag": "FOR",
-      "titre": "[FOR 34] IPS ENFANTS - Grand public com'",
-      "lieu": "7 Boulevard Bertrand Duguesclin 34500 Beziers",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1662092",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-10-17T07:30:00.000Z"
-    },
-    {
-      "tag": "FOR",
-      "titre": "[FOR 34] IPS Enfant - initiation au materiel",
-      "lieu": "Local de Montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1662087",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-10-19T17:00:00.000Z"
-    },
-    {
-      "tag": "DPS",
-      "titre": "[DPS 34] Du stade vers l'Emploi",
-      "lieu": "Palais des sports Pierre de Coubertin, 25 rue de Genes, 34080 Montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1661668",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-11-17T12:00:00.000Z"
-    },
-    {
-      "tag": "MAN",
-      "titre": "[MAN 34] Rassemblement Mensuel - BZR - 2026 - PLAIES ET BRULURES",
-      "lieu": "Centre de formation de Beziers",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1662099",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-11-24T17:30:00.000Z"
-    },
-    {
-      "tag": "DPS",
-      "titre": "[DPS 34] MHR - Vodacum Bulls",
-      "lieu": "Avenue de Vanieres 34070 Montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1662136",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-12-12T13:30:00.000Z"
-    },
-    {
-      "tag": "MAN",
-      "titre": "[MAN 34] Rassemblement Mensuel - BZR - 2026 - PC",
-      "lieu": "Centre de formation de Beziers",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1662101",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-12-15T17:30:00.000Z"
-    },
-    {
-      "tag": "AUTRE",
-      "titre": "[REU 34] Session de recrutement Beziers",
-      "lieu": "Local FO BZRS",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1661842",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-12-16T17:45:00.000Z"
-    },
-    {
-      "tag": "AUTRE",
-      "titre": "[REU 34] Session de recrutement MTP",
-      "lieu": "Local FO MTP",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1661841",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-12-21T17:45:00.000Z"
-    },
-    {
-      "tag": "DPS",
-      "titre": "[DPS 34] MHR - Northampton Saints",
-      "lieu": "Avenue de Vanieres 34070 Montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1662137",
-      "dejaInscrit": false,
-      "dateDebutIso": "2027-01-09T13:30:00.000Z"
-    },
-    {
-      "tag": "DPS",
-      "titre": "[DPS 34] Cross College",
-      "lieu": "Route du Stade 34480 Puissalicon",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1661659",
-      "dejaInscrit": false,
-      "dateDebutIso": "2027-04-28T06:00:00.000Z"
+      "dateDebutIso": "2026-09-30T22:00:00.000Z"
     }
   ],
   "topSuggestion": {
