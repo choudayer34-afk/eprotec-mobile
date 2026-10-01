@@ -1,5 +1,78 @@
 {
-  "newEvents": [],
+  "newEvents": [
+    {
+      "tag": "FOR",
+      "titre": "[FOR 34] Stand Addictologie EXAPRINT",
+      "lieu": "Exaprint Mauguio",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1662748",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-10-01T07:00:00.000Z"
+    },
+    {
+      "tag": "AUTRE",
+      "titre": "[ALSAN 34] Mission ARS - Porte a Porte",
+      "lieu": "boulangerie Au pain gourmand - Chez la Crouze 77 rue Jacques Cur",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1662617",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-10-02T08:30:00.000Z"
+    },
+    {
+      "tag": "MLA",
+      "titre": "[MLA 34] Protocole VPSP Riquet",
+      "lieu": "75 Avenue Jean Moulin 34500 Beziers",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1662632",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-10-06T16:30:00.000Z"
+    },
+    {
+      "tag": "AUTRE",
+      "titre": "[COM 34] Passation de commandement du corps departemental des sapeurs",
+      "lieu": "DDSDIS Vailhauques",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1662925",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-10-08T16:30:00.000Z"
+    },
+    {
+      "tag": "FOR",
+      "titre": "[FOR 34] GQS - Mairie de Marsilargues",
+      "lieu": "Marsillargues",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1662802",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-10-20T08:00:00.000Z"
+    },
+    {
+      "tag": "MLA",
+      "titre": "[MLA 34] Protocole VPSP Centurion",
+      "lieu": "75 Avenue Jean Moulin 34500 Beziers",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1662633",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-10-21T16:30:00.000Z"
+    },
+    {
+      "tag": "AUTRE",
+      "titre": "[REU 34] Reu La Salvetat",
+      "lieu": "La Salvetat",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1662870",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-10-23T08:00:00.000Z"
+    },
+    {
+      "tag": "FOR",
+      "titre": "[FOR 34] IPS Enfants - Mairie de Beziers",
+      "lieu": "KLESIS JUNIOR Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1662810",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-11-04T08:30:00.000Z"
+    },
+    {
+      "tag": "FOR",
+      "titre": "[FOR 34] IPS Enfants - Mairie de Beziers",
+      "lieu": "KLESIS JUNIOR Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1662811",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-11-18T13:30:00.000Z"
+    }
+  ],
   "topSuggestion": {
     "titre": "[DPS 34] MFC - FC Fleury 91",
     "lieu": "Domaine de Grammont, Montpellier",
