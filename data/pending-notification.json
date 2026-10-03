@@ -1,5 +1,14 @@
 {
-  "newEvents": [],
+  "newEvents": [
+    {
+      "tag": "AIP",
+      "titre": "[AIP 34] Portage ACM",
+      "lieu": "571 Avenue du Comte de Nice 34080 Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1663572",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-10-05T11:30:00.000Z"
+    }
+  ],
   "topSuggestion": {
     "titre": "[DPS 34] MFC - FC Fleury 91",
     "lieu": "Domaine de Grammont, Montpellier",
