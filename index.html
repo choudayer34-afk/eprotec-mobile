@@ -1229,12 +1229,13 @@
 </main>
 
 <nav style="position:fixed;left:0;right:0;bottom:0;">
-  <button data-tab="accueil" class="active"><span class="nav-icon">🏠</span>Accueil</button>
+  <button data-tab="accueil" id="nav-accueil-btn" class="active"><span class="nav-icon">🏠</span>Accueil</button>
   <button data-tab="plus-evenements"><span class="nav-icon">🎯</span>Événements</button>
-  <button data-tab="plus-secourisme"><span class="nav-icon">🆘</span>Secourisme</button>
+  <button data-tab="plus-secourisme" id="nav-secourisme-btn" style="display:none;"><span class="nav-icon">🆘</span>Secourisme</button>
   <button data-tab="plus-pretapartir"><span class="nav-icon">🎒</span>Prêt à partir</button>
   <button data-tab="plus"><span class="nav-icon">⋯</span>Plus</button>
 </nav>
+
 
 <script>
 const FIREBASE_URL = 'https://eprotec-favoris-default-rtdb.europe-west1.firebasedatabase.app';
@@ -1881,6 +1882,28 @@ document.querySelectorAll('nav button').forEach(btn => {
     if (btn.dataset.tab === 'plus-pretapartir') renderPretAPartir();
   });
 });
+
+// Onglet "Secourisme" (🆘) masqué de la barre du bas : accès réservé à qui
+// connaît le geste — 3 taps rapprochés sur l'icône "Accueil" l'ouvrent, sans
+// jamais le réafficher durablement dans la barre.
+(() => {
+  let accueilClickCount = 0;
+  let accueilClickTimer = null;
+  const accueilBtn = document.getElementById('nav-accueil-btn');
+  const secourismeBtn = document.getElementById('nav-secourisme-btn');
+  if (!accueilBtn || !secourismeBtn) return;
+  accueilBtn.addEventListener('click', () => {
+    accueilClickCount++;
+    clearTimeout(accueilClickTimer);
+    if (accueilClickCount >= 3) {
+      accueilClickCount = 0;
+      secourismeBtn.click();
+      return;
+    }
+    accueilClickTimer = setTimeout(() => { accueilClickCount = 0; }, 600);
+  });
+})();
+
   document.querySelectorAll('#plus-evenements [data-view]').forEach(btn => {
   btn.addEventListener('click', () => {
     if (btn.dataset.view === 'calendrier') {
