@@ -1,12 +1,12 @@
 {
   "newEvents": [
     {
-      "tag": "AIP",
-      "titre": "[AIP 34] Portage ACM",
-      "lieu": "571 Avenue du Comte de Nice 34080 Montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1663572",
+      "tag": "DPS",
+      "titre": "[DPS 34] La balade Rose",
+      "lieu": "place jacques d aragon 34970 Lattes",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1655022",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-10-05T11:30:00.000Z"
+      "dateDebutIso": "2026-10-10T13:00:00.000Z"
     }
   ],
   "topSuggestion": {
