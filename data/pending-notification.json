@@ -1,60 +1,36 @@
 {
   "newEvents": [
     {
-      "tag": "FOR",
-      "titre": "[FOR 34] Formation PSC",
-      "lieu": "Centre de formation de Montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1663889",
+      "tag": "AUTRE",
+      "titre": "[TEC 34] Firstop",
+      "lieu": "Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1664515",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-10-09T06:30:00.000Z"
+      "dateDebutIso": "2026-10-06T13:00:00.000Z"
     },
     {
       "tag": "AUTRE",
-      "titre": "[COM 34] JNR AMF",
-      "lieu": "PPESU",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1664288",
+      "titre": "[TEC 34] Controle technique",
+      "lieu": "Lattes",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1664851",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-10-15T07:00:00.000Z"
+      "dateDebutIso": "2026-10-07T13:30:00.000Z"
+    },
+    {
+      "tag": "MLA",
+      "titre": "[MLA 34] Rdv Proprio / Macon pour fuite",
+      "lieu": "7 Boulevard Bertrand Duguesclin 34500 Beziers",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1664595",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-10-08T07:45:00.000Z"
     },
     {
       "tag": "AUTRE",
-      "titre": "[COM 34] Stand Com - Balade Rose",
-      "lieu": "Campagnan",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1664456",
+      "titre": "[TEC 34] Taillefer et Marty",
+      "lieu": "Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1664516",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-10-24T07:00:00.000Z"
-    },
-    {
-      "tag": "FOR",
-      "titre": "[FOR 34] Formation Extincteurs - Yooz",
-      "lieu": "Aimargues",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1664279",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-10-26T13:00:00.000Z"
-    },
-    {
-      "tag": "FOR",
-      "titre": "[FOR 34] Formation Extincteurs - Yooz",
-      "lieu": "Aimargues",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1664280",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-10-27T08:30:00.000Z"
-    },
-    {
-      "tag": "FOR",
-      "titre": "[FOR 34] Formation PSC  - Yooz",
-      "lieu": "Aimargues",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1664281",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-11-05T08:00:00.000Z"
-    },
-    {
-      "tag": "AUTRE",
-      "titre": "[COM 34] Demo et visite ambulance enfants",
-      "lieu": "Ecole Jacques Chirac de Castelnau le Lez",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1663907",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-12-02T09:00:00.000Z"
+      "dateDebutIso": "2026-10-14T07:00:00.000Z"
     }
   ],
   "topSuggestion": {
