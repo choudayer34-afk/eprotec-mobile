@@ -1,52 +1,28 @@
 {
   "newEvents": [
     {
-      "tag": "MLA",
-      "titre": "[MLA 34] Rdv M.Carmaillou",
-      "lieu": "75 avenue jean moulin 34500 Beziers",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1664975",
+      "tag": "AUTRE",
+      "titre": "[REU 34] Reunion IDE no1",
+      "lieu": "Local de Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1666023",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-10-07T10:15:00.000Z"
+      "dateDebutIso": "2026-10-20T17:30:00.000Z"
     },
     {
       "tag": "MLA",
-      "titre": "[MLA 34] Rdv proprio",
-      "lieu": "75 Avenue Jean Moulin 34500 Beziers",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1665079",
+      "titre": "[MLA 34] Maquillage plastrons TMR",
+      "lieu": "Montpellier",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1666126",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-10-07T16:00:00.000Z"
-    },
-    {
-      "tag": "MLA",
-      "titre": "[MLA 34] Rdv Ste PSI pour verif trappe cuve",
-      "lieu": "75 avenue jean moulin 34500 Beziers",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1664970",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-10-08T07:15:00.000Z"
-    },
-    {
-      "tag": "AIP",
-      "titre": "[AIP 34] Portage ACM",
-      "lieu": "70 Rue Lejzer Zamenhof 34080 Montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1665086",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-10-09T09:00:00.000Z"
-    },
-    {
-      "tag": "AIP",
-      "titre": "[AIP 34] Plastrons Pref",
-      "lieu": "Herault",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1665088",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-10-13T07:00:00.000Z"
+      "dateDebutIso": "2026-10-22T05:15:00.000Z"
     },
     {
       "tag": "DPS",
-      "titre": "[DPS 34] Mega Troc",
-      "lieu": "110 Avenue de Lodeve 34000 Montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1665201",
+      "titre": "[DPS 34] La balade du pere noel",
+      "lieu": "Roquebrun",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1666127",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-11-21T08:30:00.000Z"
+      "dateDebutIso": "2026-12-13T07:00:00.000Z"
     }
   ],
   "topSuggestion": {
