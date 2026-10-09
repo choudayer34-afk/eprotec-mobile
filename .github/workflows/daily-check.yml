@@ -63,3 +63,12 @@ jobs:
           MAIL_FROM: ${{ secrets.MAIL_FROM }}
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+      # Rappels sur l'application, en meme temps que le mail et ntfy (le Worker reste en secours, sans doublon)
+      - run: node scripts/envoi-push.js
+        if: env.SKIP != 'true'
+        continue-on-error: true
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          VAPID_PUBLIC: ${{ secrets.VAPID_PUBLIC }}
+          VAPID_PRIVATE: ${{ secrets.VAPID_PRIVATE }}
+          VAPID_SUBJECT: ${{ secrets.VAPID_SUBJECT }}
