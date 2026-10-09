@@ -36,9 +36,11 @@ async function loadUserTopSuggestion(uid) {
   }
 }
 
+// Le serveur GitHub est à l'heure UTC : on impose l'heure de Paris (été et hiver gérés automatiquement).
 function formatDate(iso) {
   if (!iso) return 'date inconnue';
   return new Date(iso).toLocaleString('fr-FR', {
+    timeZone: 'Europe/Paris',
     weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric',
     hour: '2-digit', minute: '2-digit'
   });
