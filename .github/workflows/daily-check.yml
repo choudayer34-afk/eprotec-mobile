@@ -36,12 +36,14 @@ jobs:
           node-version: 20
       - run: npm install
         if: env.SKIP != 'true'
-      - run: node scripts/check-events.js
+      # --import charge scripts/firebase-auth.js avant le script : acces authentifie a Firebase
+      - run: node --import ./scripts/firebase-auth.js scripts/check-events.js
         if: env.SKIP != 'true'
         env:
           EPROTEC_ICS_URL: ${{ secrets.EPROTEC_ICS_URL }}
           EPROTEC_PERSO_URL: ${{ secrets.EPROTEC_PERSO_URL }}
           GCP_MONITORING_KEY: ${{ secrets.GCP_MONITORING_KEY }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
       - uses: stefanzweifel/git-auto-commit-action@v5
         if: env.SKIP != 'true'
         with:
@@ -50,7 +52,7 @@ jobs:
       - name: Attendre la publication sur GitHub Pages
         if: env.SKIP != 'true'
         run: sleep 120
-      - run: node scripts/send-notifications.js
+      - run: node --import ./scripts/firebase-auth.js scripts/send-notifications.js
         if: env.SKIP != 'true'
         env:
           SMTP_HOST: ${{ secrets.SMTP_HOST }}
@@ -60,3 +62,4 @@ jobs:
           MAIL_TO: ${{ secrets.MAIL_TO }}
           MAIL_FROM: ${{ secrets.MAIL_FROM }}
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
