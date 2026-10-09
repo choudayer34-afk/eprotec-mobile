@@ -1,22 +1,5 @@
 {
-  "newEvents": [
-    {
-      "tag": "MLA",
-      "titre": "[MLA 34] Tri facture et MAJ Eprotec vehicule MPL",
-      "lieu": "Herault",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1666540",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-10-09T12:00:00.000Z"
-    },
-    {
-      "tag": "AUTRE",
-      "titre": "[REU 34] Rencontre lycee Castelnau",
-      "lieu": "Centre ope de Lattes",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1666537",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-10-21T14:00:00.000Z"
-    }
-  ],
+  "newEvents": [],
   "topSuggestion": {
     "titre": "[DPS 34] MFC - FC Fleury 91",
     "lieu": "Domaine de Grammont, Montpellier",
