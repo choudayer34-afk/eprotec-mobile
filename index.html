@@ -3833,6 +3833,27 @@ function activityRelative(iso) {
   return 'il y a ' + j + (j > 1 ? ' jours' : ' jour');
 }
 
+// Appel d'une route d'administration du Worker (/api/admin/...). L'identité est vérifiée côté serveur
+// via Cloudflare Access : seul le compte administrateur obtient des données.
+async function appelerApiAdmin(chemin) {
+  let reponse;
+  try {
+    reponse = await fetch(chemin, { cache: 'no-store', credentials: 'same-origin' });
+  } catch (e) {
+    throw new Error('Serveur injoignable : vérifie ta connexion.');
+  }
+  if (reponse.status === 401) throw new Error('Session expirée : recharge l\'application.');
+  if (reponse.status === 403) throw new Error('Accès réservé à l\'administrateur.');
+  if (reponse.status === 503) throw new Error('Serveur mal configuré (secret ou variables Cloudflare manquants).');
+  if (reponse.status === 502) throw new Error('Lecture de la base impossible côté serveur.');
+  if (!reponse.ok) throw new Error('Erreur serveur (' + reponse.status + ').');
+  try {
+    return await reponse.json();
+  } catch (e) {
+    throw new Error('Réponse inattendue du serveur.');
+  }
+}
+
 async function showUsersActivityModal() {
   const overlay = document.createElement('div');
   overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;';
@@ -3847,15 +3868,7 @@ async function showUsersActivityModal() {
   overlay.querySelector('#users-activity-close').addEventListener('click', () => overlay.remove());
 
   try {
-    const bust = '?t=' + Date.now();
-    const keysRes = await fetch(FIREBASE_URL + '/users.json?shallow=true&t=' + Date.now(), { cache: 'no-store' });
-    const keysObj = await keysRes.json();
-    const uids = keysObj ? Object.keys(keysObj) : [];
-    const rows = await Promise.all(uids.map(async uid => {
-      const get = path => fetch(FIREBASE_URL + '/users/' + uid + '/' + path + '.json' + bust, { cache: 'no-store' }).then(r => r.json()).catch(() => null);
-      const [activity, email, nom] = await Promise.all([get('activity'), get('email'), get('mon-nom')]);
-      return { uid, activity: activity || null, email: typeof email === 'string' ? email : '', nom: typeof nom === 'string' ? nom : '' };
-    }));
+    const rows = (await appelerApiAdmin('/api/admin/utilisateurs')).utilisateurs || [];
 
     const now = Date.now();
     const DAY = 86400000;
@@ -3903,7 +3916,7 @@ async function showUsersActivityModal() {
       ${modulesHtml}
     `;
   } catch (err) {
-    document.getElementById('users-activity-content').textContent = 'Erreur de chargement.';
+    document.getElementById('users-activity-content').textContent = err.message || 'Erreur de chargement.';
     console.error(err);
   }
 }
@@ -3923,13 +3936,9 @@ async function showFirebaseStatsModal() {
   overlay.querySelector('#firebase-stats-close').addEventListener('click', () => overlay.remove());
 
   try {
-    const [statsRes, usersRes] = await Promise.all([
-      fetch(FIREBASE_URL + '/admin-stats.json?t=' + Date.now(), { cache: 'no-store' }),
-      fetch(FIREBASE_URL + '/users.json?t=' + Date.now(), { cache: 'no-store' })
-    ]);
-    const stats = await statsRes.json();
-    const users = await usersRes.json();
-    const nbUsers = users ? Object.keys(users).length : 0;
+    const reponseStats = await appelerApiAdmin('/api/admin/stats');
+    const stats = reponseStats.stats;
+    const nbUsers = reponseStats.nbUtilisateurs || 0;
 
     const content = document.getElementById('firebase-stats-content');
     if (!stats) {
@@ -3952,7 +3961,7 @@ async function showFirebaseStatsModal() {
       </div>
     `;
   } catch (err) {
-    document.getElementById('firebase-stats-content').textContent = 'Erreur de chargement.';
+    document.getElementById('firebase-stats-content').textContent = err.message || 'Erreur de chargement.';
     console.error(err);
   }
 }
