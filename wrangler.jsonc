@@ -18,8 +18,8 @@
   // Variables NON secrètes. Les clés restent dans les secrets Cloudflare.
   "vars": {
     // À REMPLACER avant la publication (voir la notice) :
-    "CF_ACCESS_TEAM_DOMAIN": "A_REMPLACER.cloudflareaccess.com",
-    "CF_ACCESS_AUD": "A_REMPLACER",
+    "CF_ACCESS_TEAM_DOMAIN": "small-boat-1c5b.cloudflareaccess.com",
+    "CF_ACCESS_AUD": "007652374957e7cc1486ad23d3872fdda35f8b95ccb0aecffa8257d48b73601d",
     "ADMIN_EMAIL": "ch-houdayer@hotmail.fr"
   }
 }
