@@ -2,27 +2,27 @@
   "newEvents": [
     {
       "tag": "AUTRE",
-      "titre": "[REU 34] Reunion IDE no1",
-      "lieu": "Local de Montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1666023",
+      "titre": "[REU 34] Reu SAP - Perols",
+      "lieu": "CFO Lattes",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1666325",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-10-20T17:30:00.000Z"
+      "dateDebutIso": "2026-10-14T06:30:00.000Z"
     },
     {
-      "tag": "MLA",
-      "titre": "[MLA 34] Maquillage plastrons TMR",
-      "lieu": "Montpellier",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1666126",
+      "tag": "AUTRE",
+      "titre": "[TEC 34] controle technique",
+      "lieu": "Lattes",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1666377",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-10-22T05:15:00.000Z"
+      "dateDebutIso": "2026-10-16T13:00:00.000Z"
     },
     {
-      "tag": "DPS",
-      "titre": "[DPS 34] La balade du pere noel",
-      "lieu": "Roquebrun",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1666127",
+      "tag": "AUTRE",
+      "titre": "[REU 34] Reu Export Comptable",
+      "lieu": "Visio",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1666367",
       "dejaInscrit": false,
-      "dateDebutIso": "2026-12-13T07:00:00.000Z"
+      "dateDebutIso": "2026-10-20T12:00:00.000Z"
     }
   ],
   "topSuggestion": {
