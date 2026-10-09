@@ -23,7 +23,7 @@
     "ADMIN_EMAIL": "ch-houdayer@hotmail.fr",
 
     // Clé PUBLIQUE d'envoi (pas un secret) : à remplacer après la génération des clés (voir la notice).
-    "VAPID_PUBLIC": "A_REMPLACER",
+    "VAPID_PUBLIC": "BKhUoddpxfLoskAzRa_04ENI6_-hMSiVhx0DKyycc3IgBIzdYlnePxVNLt5j1SxR7nFztEvs0bHtvEfjKHO6CSI",
     "VAPID_SUBJECT": "mailto:ch-houdayer@hotmail.fr",
     "SITE_URL": "https://eprotec-mobile.choudayer34.workers.dev",
 
