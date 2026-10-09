@@ -1,1 +1,8 @@
 node_modules
+worker/
+scripts/
+.github/
+regles-firebase/
+wrangler.jsonc
+package.json
+package-lock.json
