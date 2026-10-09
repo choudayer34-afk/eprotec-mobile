@@ -1,30 +1,5 @@
 {
-  "newEvents": [
-    {
-      "tag": "AUTRE",
-      "titre": "[REU 34] Reu SAP - Perols",
-      "lieu": "CFO Lattes",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1666325",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-10-14T06:30:00.000Z"
-    },
-    {
-      "tag": "AUTRE",
-      "titre": "[TEC 34] controle technique",
-      "lieu": "Lattes",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1666377",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-10-16T13:00:00.000Z"
-    },
-    {
-      "tag": "AUTRE",
-      "titre": "[REU 34] Reu Export Comptable",
-      "lieu": "Visio",
-      "url": "https://eprotec.protection-civile.org/index.php?evenement=1666367",
-      "dejaInscrit": false,
-      "dateDebutIso": "2026-10-20T12:00:00.000Z"
-    }
-  ],
+  "newEvents": [],
   "topSuggestion": {
     "titre": "[DPS 34] MFC - FC Fleury 91",
     "lieu": "Domaine de Grammont, Montpellier",
