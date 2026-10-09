@@ -1,0 +1,25 @@
+{
+  // Nom EXACT du Worker déjà publié (eprotec-mobile.choudayer34.workers.dev) : ne pas le changer.
+  "name": "eprotec-mobile",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-07-01",
+
+  // Le site : tous les fichiers du dépôt, sauf ceux listés dans .assetsignore.
+  // Les adresses /api/* passent d'abord par le Worker ; tout le reste est servi comme avant.
+  "assets": {
+    "directory": "./",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"]
+  },
+
+  // Déclenchement toutes les heures (heure UTC), utilisé plus tard pour les rappels.
+  "triggers": { "crons": ["0 * * * *"] },
+
+  // Variables NON secrètes. Les clés restent dans les secrets Cloudflare.
+  "vars": {
+    // À REMPLACER avant la publication (voir la notice) :
+    "CF_ACCESS_TEAM_DOMAIN": "A_REMPLACER.cloudflareaccess.com",
+    "CF_ACCESS_AUD": "A_REMPLACER",
+    "ADMIN_EMAIL": "ch-houdayer@hotmail.fr"
+  }
+}
