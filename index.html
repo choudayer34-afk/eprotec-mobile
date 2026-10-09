@@ -687,6 +687,10 @@
         <div class="tile-icon">🛠</div>
         <div class="tile-title">Administration</div>
       </div>
+      <div class="tile" id="notifications-tile" style="display:none;">
+        <div class="tile-icon">🔔</div>
+        <div class="tile-title">Rappels (notifications)</div>
+      </div>
      <div class="tile" data-open="plus-changelog">
         <div class="tile-icon">🆕</div>
         <div class="tile-title">Nouveautés de l'app</div>
@@ -3831,6 +3835,296 @@ function activityRelative(iso) {
   if (h < 24) return 'il y a ' + h + ' h';
   const j = Math.floor(h / 24);
   return 'il y a ' + j + (j > 1 ? ' jours' : ' jour');
+}
+
+// ===== Rappels sur téléphone (notifications) =====
+// Ouvert à tous les secouristes quand la constante passe à true (et NOTIFS_OUVERTES_A_TOUS = "true" dans wrangler.jsonc).
+const NOTIFICATIONS_OUVERTES_A_TOUS = false;
+const NOTIF_CLE_APPAREIL = 'eprotec_push_device';
+const NOTIF_CLE_INVITATION = 'eprotec_notif_invitation';
+const NOTIF_REPORT_JOURS = 7;
+const NOTIF_RAPPELS = [
+  ['veille', "La veille d'une inscription"],
+  ['jourJ', "Le jour d'une inscription"],
+  ['suggestions', 'Nouvelles suggestions OAD'],
+  ['nouveautes', 'Nouveaux événements']
+];
+
+function notifIdAppareil() {
+  try {
+    let id = localStorage.getItem(NOTIF_CLE_APPAREIL);
+    if (!/^[a-z0-9]{8,32}$/.test(id || '')) {
+      const alphabet = 'abcdefghijklmnopqrstuvwxyz0123456789';
+      id = Array.from(crypto.getRandomValues(new Uint8Array(16)), (o) => alphabet[o % 36]).join('');
+      localStorage.setItem(NOTIF_CLE_APPAREIL, id);
+    }
+    return id;
+  } catch (e) { return 'sansstockage' + Math.random().toString(36).slice(2, 10); }
+}
+
+function notifSupport() {
+  const ios = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const installee = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  if (ios && !installee) return { ok: false, raison: 'ios-installer' };
+  if (!('serviceWorker' in navigator) || !('PushManager' in window) || !('Notification' in window)) return { ok: false, raison: 'indisponible' };
+  return { ok: true };
+}
+
+function notifLibelleAppareil() {
+  const ua = navigator.userAgent;
+  if (/iPhone/.test(ua)) return 'iPhone';
+  if (/iPad/.test(ua)) return 'iPad';
+  if (/Android/.test(ua)) return 'Android';
+  return 'Ordinateur';
+}
+
+async function notifApi(chemin, corps) {
+  let reponse;
+  try {
+    reponse = await fetch(chemin, corps === undefined
+      ? { cache: 'no-store', credentials: 'same-origin' }
+      : { method: 'POST', cache: 'no-store', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(corps) });
+  } catch (e) { throw new Error('Serveur injoignable : vérifie ta connexion.'); }
+  let donnees = null;
+  try { donnees = await reponse.json(); } catch (e) { /* réponse vide */ }
+  if (reponse.ok) return donnees || {};
+  const messages = {
+    401: "Session expirée : recharge l'application.",
+    403: "Les rappels ne sont pas encore ouverts pour ton compte.",
+    410: "Cet appareil n'est plus joignable : réactive les rappels.",
+    409: (donnees && donnees.erreur) || 'Limite atteinte.'
+  };
+  if (messages[reponse.status]) throw new Error(messages[reponse.status]);
+  if (reponse.status === 503) throw new Error((donnees && donnees.erreur) || 'Serveur mal configuré (clés ou variables Cloudflare manquantes).');
+  if (reponse.status === 502) throw new Error((donnees && donnees.erreur) || 'Le service de notification a refusé ou la base est injoignable.');
+  throw new Error((donnees && donnees.erreur) || 'Erreur serveur (' + reponse.status + ').');
+}
+
+function notifVersCle(b64) {
+  const rempli = (b64 + '='.repeat((4 - (b64.length % 4)) % 4)).replace(/-/g, '+').replace(/_/g, '/');
+  return Uint8Array.from(atob(rempli), (c) => c.charCodeAt(0));
+}
+
+// Demande l'autorisation, abonne l'appareil et l'enregistre côté serveur. À appeler depuis un clic.
+async function notifActiverAppareil() {
+  const s = notifSupport();
+  if (!s.ok) throw new Error(s.raison === 'ios-installer' ? "Sur iPhone, ajoute d'abord l'application à l'écran d'accueil." : "Ce navigateur ne gère pas les notifications.");
+  const permission = await Notification.requestPermission();
+  if (permission !== 'granted') throw new Error(permission === 'denied' ? "Notifications refusées : autorise-les dans les réglages de l'appareil, puis réessaie." : "Autorisation non accordée.");
+  const { cle } = await notifApi('/api/push/cle');
+  const reg = await navigator.serviceWorker.ready;
+  let abonnement = await reg.pushManager.getSubscription();
+  if (abonnement) {
+    const actuelle = abonnement.options && abonnement.options.applicationServerKey;
+    const attendue = notifVersCle(cle);
+    const identique = actuelle && new Uint8Array(actuelle).length === attendue.length && new Uint8Array(actuelle).every((v, i) => v === attendue[i]);
+    if (!identique) { await abonnement.unsubscribe(); abonnement = null; }
+  }
+  if (!abonnement) abonnement = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: notifVersCle(cle) });
+  return notifApi('/api/push/inscrire', { appareil: notifIdAppareil(), sub: abonnement.toJSON(), libelle: notifLibelleAppareil() });
+}
+
+async function notifRetirerAppareil() {
+  try {
+    const reg = await navigator.serviceWorker.ready;
+    const abonnement = await reg.pushManager.getSubscription();
+    if (abonnement) await abonnement.unsubscribe();
+  } catch (e) { /* tant pis : le serveur supprime quand même */ }
+  return notifApi('/api/push/supprimer', { appareil: notifIdAppareil() });
+}
+
+function notifOptionsHeures(choisie) {
+  let html = '';
+  for (let h = 0; h < 24; h++) html += '<option value="' + h + '"' + (h === choisie ? ' selected' : '') + '>' + String(h).padStart(2, '0') + ' h</option>';
+  return html;
+}
+
+function notifBlocReglages(a) {
+  const cases = NOTIF_RAPPELS.map(([cle, libelle]) =>
+    '<label style="display:flex;gap:8px;align-items:center;margin:6px 0;color:#fff;font-size:14px;"><input type="checkbox" data-rappel="' + cle + '"' + (a.rappels[cle] ? ' checked' : '') + '> ' + libelle + '</label>').join('');
+  const sel = 'background:#0F2E5A;color:#fff;border:1px solid #2A5090;border-radius:8px;padding:6px;font-size:14px;';
+  return '<div data-reglages="' + escapeHtml(a.id) + '" style="margin-top:10px;text-align:left;">' + cases +
+    '<div style="display:flex;gap:8px;align-items:center;justify-content:space-between;margin:8px 0;color:#9FB3D6;font-size:13px;">Rappel du soir <select data-champ="heure" style="' + sel + '">' + notifOptionsHeures(a.heure) + '</select></div>' +
+    '<div style="display:flex;gap:8px;align-items:center;justify-content:space-between;margin:8px 0;color:#9FB3D6;font-size:13px;">Rappel du matin (jour même) <select data-champ="heureMatin" style="' + sel + '">' + notifOptionsHeures(a.heureMatin) + '</select></div>' +
+    '<button class="detail-action-btn" data-action="enregistrer" data-id="' + escapeHtml(a.id) + '" style="width:100%;">Enregistrer les choix</button></div>';
+}
+
+function notifBlocAppareil(a, titre, ntfy) {
+  const actif = a.actif;
+  const interrupteur = '<label style="display:flex;align-items:center;justify-content:space-between;gap:8px;color:#fff;font-size:15px;font-weight:600;">' + titre +
+    '<span style="display:flex;align-items:center;gap:8px;font-size:13px;color:' + (actif ? '#97C459' : '#FAC775') + ';">' + (actif ? 'Activé' : 'En pause') +
+    '<input type="checkbox" role="switch" data-action="interrupteur" data-id="' + escapeHtml(a.id) + '"' + (actif ? ' checked' : '') + ' style="width:42px;height:24px;"></span></label>';
+  const aide = actif ? '' : '<div style="color:#FAC775;font-size:12px;margin-top:4px;">Aucun rappel n\'est envoyé tant que l\'interrupteur est sur pause. Tes choix sont conservés.</div>';
+  return '<div style="background:#0F2E5A;border-radius:12px;padding:12px;margin-bottom:10px;">' + interrupteur + aide + notifBlocReglages(a) +
+    '<div style="display:flex;gap:8px;margin-top:8px;"><button class="detail-action-btn" data-action="tester" data-id="' + escapeHtml(a.id) + '" style="flex:1;">Envoyer un test</button>' +
+    '<button class="detail-action-btn" data-action="' + (ntfy ? 'ntfy-retirer' : 'retirer') + '" data-id="' + escapeHtml(a.id) + '" style="flex:1;">' + (ntfy ? 'Désactiver ntfy' : 'Retirer cet appareil') + '</button></div></div>';
+}
+
+const NOTIF_GUIDE = '<ol style="margin:6px 0 0 18px;padding:0;line-height:1.5;">' +
+  '<li><b>iPhone / iPad</b> : ouvre l\'application dans Safari, touche Partager, puis « Sur l\'écran d\'accueil ». Ouvre ensuite eProtec depuis cette icône (iOS 16.4 minimum).</li>' +
+  '<li><b>Android</b> : ouvre l\'application dans Chrome ; l\'installation à l\'écran d\'accueil est conseillée mais pas obligatoire.</li>' +
+  '<li>Touche « Activer sur cet appareil » et accepte la demande d\'autorisation.</li>' +
+  '<li>Choisis les rappels et les heures, puis touche « Enregistrer les choix ».</li>' +
+  '<li>Touche « Envoyer un test » : la notification doit arriver en quelques secondes.</li>' +
+  '<li>Si rien n\'arrive : vérifie les notifications d\'eProtec dans les réglages du téléphone, ou utilise ntfy ci-dessous.</li></ol>';
+
+async function showNotificationsModal() {
+  const overlay = document.createElement('div');
+  overlay.id = 'notifications-modal';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;';
+  overlay.innerHTML = '<div style="background:#163C74;border-radius:16px;padding:16px;width:100%;max-width:420px;max-height:88vh;overflow-y:auto;">' +
+    '<div style="color:#fff;font-size:16px;font-weight:600;margin-bottom:12px;text-align:center;">🔔 Rappels sur téléphone</div>' +
+    '<div id="notif-contenu" style="color:#9FB3D6;text-align:center;">Chargement...</div>' +
+    '<div id="notif-message" role="status" style="min-height:18px;margin-top:8px;font-size:13px;text-align:center;"></div>' +
+    '<button class="detail-action-btn primary" id="notif-fermer" style="margin-top:8px;">Fermer</button>' +
+    '<div id="notif-version" style="color:#6F86AD;font-size:11px;text-align:center;margin-top:8px;"></div></div>';
+  document.body.appendChild(overlay);
+  const contenu = overlay.querySelector('#notif-contenu');
+  const message = overlay.querySelector('#notif-message');
+  const dire = (texte, ok) => { message.style.color = ok ? '#97C459' : '#FAC775'; message.textContent = texte || ''; };
+  overlay.querySelector('#notif-fermer').addEventListener('click', () => overlay.remove());
+  overlay.querySelector('#notif-version').textContent = 'Version de l\'application : ' + ((allChangelog && allChangelog[0] && allChangelog[0].version) || 'inconnue');
+  const monId = notifIdAppareil();
+  let appareils = [];
+
+  async function rendre() {
+    const s = notifSupport();
+    try { appareils = (await notifApi('/api/push/etat')).appareils || []; }
+    catch (e) { contenu.innerHTML = ''; dire(e.message, false); return; }
+    const moi = appareils.find((a) => a.id === monId);
+    const ntfy = appareils.find((a) => a.id === 'ntfy');
+    let html = '';
+    if (!s.ok) {
+      html += '<div style="background:#0F2E5A;border-radius:12px;padding:12px;margin-bottom:10px;color:#fff;font-size:14px;text-align:left;">' +
+        (s.raison === 'ios-installer' ? '<b>Installe d\'abord l\'application sur ton écran d\'accueil</b> (obligatoire sur iPhone) :<br>1. Touche Partager dans Safari.<br>2. Touche « Sur l\'écran d\'accueil ».<br>3. Ouvre eProtec depuis la nouvelle icône, puis reviens ici.'
+          : '<b>Ce navigateur ne gère pas les notifications.</b> Utilise ntfy ci-dessous.') + '</div>';
+    } else if (!moi) {
+      const refuse = Notification.permission === 'denied';
+      html += '<div style="background:#0F2E5A;border-radius:12px;padding:12px;margin-bottom:10px;color:#fff;font-size:14px;">Cet appareil ne reçoit pas encore de rappels.' +
+        (refuse ? '<div style="color:#FAC775;font-size:12px;margin-top:6px;">Les notifications sont refusées : autorise-les dans les réglages de l\'appareil.</div>' : '') +
+        '<button class="detail-action-btn primary" data-action="activer" style="margin-top:8px;width:100%;">Activer sur cet appareil</button></div>';
+    } else {
+      html += notifBlocAppareil(moi, 'Cet appareil (' + escapeHtml(moi.libelle) + ')', false);
+    }
+    const autres = appareils.filter((a) => a.canal === 'push' && a.id !== monId);
+    if (autres.length) html += '<div style="color:#9FB3D6;font-size:12px;text-align:left;margin-bottom:10px;">Autres appareils enregistrés : ' + autres.map((a) => escapeHtml(a.libelle)).join(', ') + '.</div>';
+
+    html += '<div style="color:#fff;font-weight:600;font-size:14px;text-align:left;margin:12px 0 6px;">Complément : ntfy</div>';
+    if (ntfy) {
+      const adresseWeb = 'https://ntfy.sh/' + encodeURIComponent(ntfy.topic);
+      html += notifBlocAppareil(ntfy, 'ntfy', true) +
+        '<div style="background:#0F2E5A;border-radius:12px;padding:12px;margin-bottom:10px;color:#fff;font-size:13px;text-align:left;">' +
+        '<div>1. Installe l\'application ntfy : <a style="color:#7FB2FF" href="https://apps.apple.com/app/ntfy/id1625396347" target="_blank" rel="noopener">iPhone</a> · <a style="color:#7FB2FF" href="https://play.google.com/store/apps/details?id=io.heckel.ntfy" target="_blank" rel="noopener">Android</a></div>' +
+        '<div style="margin-top:6px;">2. Dans ntfy, abonne-toi à ce sujet personnel (ne le partage pas) :</div>' +
+        '<div style="margin:6px 0;display:flex;gap:6px;align-items:center;"><code id="notif-topic" style="flex:1;background:#163C74;padding:6px;border-radius:6px;word-break:break-all;">' + escapeHtml(ntfy.topic) + '</code><button class="detail-action-btn" data-action="copier" data-topic="' + escapeHtml(ntfy.topic) + '" style="width:auto;padding:6px 10px;">Copier</button></div>' +
+        '<a class="detail-action-btn" style="display:block;text-align:center;text-decoration:none;" href="ntfy://ntfy.sh/' + encodeURIComponent(ntfy.topic) + '">Ouvrir dans ntfy</a>' +
+        '<div style="margin-top:6px;color:#9FB3D6;">Si le bouton ne fait rien : <a style="color:#7FB2FF" href="' + adresseWeb + '" target="_blank" rel="noopener">ouvrir la page web du sujet</a>.</div></div>';
+    } else {
+      html += '<div style="background:#0F2E5A;border-radius:12px;padding:12px;margin-bottom:10px;color:#9FB3D6;font-size:13px;text-align:left;">Autre canal de rappels, utile si les notifications du navigateur ne fonctionnent pas. Un sujet personnel aléatoire est créé pour toi.' +
+        '<button class="detail-action-btn" data-action="ntfy-activer" style="margin-top:8px;width:100%;">Activer ntfy</button></div>';
+    }
+    html += '<details style="background:#0F2E5A;border-radius:12px;padding:10px 12px;margin-bottom:6px;color:#fff;font-size:13px;text-align:left;"' + (!moi && s.ok ? ' open' : '') + '><summary style="cursor:pointer;font-weight:600;">Guide pas à pas</summary>' + NOTIF_GUIDE + '</details>';
+    contenu.style.textAlign = 'left';
+    contenu.innerHTML = html;
+  }
+
+  async function agir(bouton) {
+    const action = bouton.dataset.action;
+    const id = bouton.dataset.id;
+    dire('');
+    bouton.disabled = true;
+    try {
+      if (action === 'activer') { await notifActiverAppareil(); dire('Rappels activés sur cet appareil.', true); }
+      else if (action === 'interrupteur') {
+        const actif = bouton.checked;
+        await notifApi('/api/push/reglages', { appareil: id, actif });
+        dire(actif ? 'Rappels réactivés.' : 'Rappels mis en pause.', true);
+      } else if (action === 'enregistrer') {
+        const zone = overlay.querySelector('[data-reglages="' + id + '"]');
+        const rappels = {};
+        zone.querySelectorAll('[data-rappel]').forEach((c) => { rappels[c.dataset.rappel] = c.checked; });
+        await notifApi('/api/push/reglages', { appareil: id, rappels, heure: Number(zone.querySelector('[data-champ="heure"]').value), heureMatin: Number(zone.querySelector('[data-champ="heureMatin"]').value) });
+        dire('Choix enregistrés.', true);
+      } else if (action === 'tester') { await notifApi('/api/push/test', { appareil: id }); dire('Test envoyé : la notification arrive dans quelques secondes.', true); }
+      else if (action === 'retirer') { await notifRetirerAppareil(); dire('Appareil retiré.', true); }
+      else if (action === 'ntfy-activer') { await notifApi('/api/push/ntfy', { action: 'activer' }); dire('ntfy activé : abonne-toi au sujet ci-dessous.', true); }
+      else if (action === 'ntfy-retirer') { await notifApi('/api/push/ntfy', { action: 'desactiver' }); dire('ntfy désactivé.', true); }
+      else if (action === 'copier') {
+        try { await navigator.clipboard.writeText(bouton.dataset.topic); dire('Sujet copié.', true); } catch (e) { dire('Copie impossible : sélectionne le texte à la main.', false); }
+      }
+    } catch (e) { dire(e.message || 'Erreur inattendue.', false); }
+    bouton.disabled = false;
+    if (action !== 'copier') await rendre().catch(() => {});
+  }
+
+  overlay.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-action]');
+    if (b && b.dataset.action !== 'interrupteur') agir(b);
+  });
+  overlay.addEventListener('change', (e) => {
+    if (e.target.matches('[data-action="interrupteur"]')) agir(e.target);
+  });
+  await rendre();
+}
+
+// Invitation proposée une seule fois à la première ouverture (puis selon le choix de la personne).
+function notifInvitationEtat() {
+  try { return JSON.parse(localStorage.getItem(NOTIF_CLE_INVITATION) || 'null') || {}; } catch (e) { return {}; }
+}
+function notifInvitationEnregistrer(etat) {
+  try { localStorage.setItem(NOTIF_CLE_INVITATION, JSON.stringify(etat)); } catch (e) { /* sans stockage : sera reproposée */ }
+}
+
+async function notifProposerActivation() {
+  const etat = notifInvitationEtat();
+  if (etat.jamais || (etat.reporteJusqua && Date.now() < etat.reporteJusqua)) return;
+  const s = notifSupport();
+  if (!s.ok && s.raison !== 'ios-installer') return;
+  if (s.ok && Notification.permission === 'denied') return;
+  let appareils;
+  try { appareils = (await notifApi('/api/push/etat')).appareils || []; } catch (e) { return; }
+  if (appareils.some((a) => a.id === notifIdAppareil())) return;
+  if (document.getElementById('notif-invitation')) return;
+
+  const carte = document.createElement('div');
+  carte.id = 'notif-invitation';
+  carte.setAttribute('role', 'dialog');
+  carte.style.cssText = 'position:fixed;left:12px;right:12px;bottom:calc(76px + env(safe-area-inset-bottom));z-index:900;background:#163C74;border:1px solid #2A5090;border-radius:14px;padding:14px;box-shadow:0 6px 24px rgba(0,0,0,.5);max-width:420px;margin:0 auto;';
+  carte.innerHTML = '<div style="color:#fff;font-weight:600;font-size:15px;">🔔 Activer les rappels ?</div>' +
+    '<div style="color:#9FB3D6;font-size:13px;margin:6px 0 10px;">Reçois sur ce téléphone un rappel avant tes inscriptions, les nouvelles suggestions et les nouveaux événements. Tu pourras les mettre en pause ou les réactiver quand tu veux.</div>' +
+    '<div style="display:flex;gap:8px;"><button class="detail-action-btn primary" data-choix="activer" style="flex:1;">' + (s.ok ? 'Activer' : 'Voir comment') + '</button>' +
+    '<button class="detail-action-btn" data-choix="plus-tard" style="flex:1;">Plus tard</button></div>' +
+    '<button data-choix="jamais" style="background:none;border:none;color:#7F96BC;font-size:12px;margin-top:8px;width:100%;text-decoration:underline;">Ne plus demander</button>' +
+    '<div id="notif-invitation-message" role="status" style="color:#FAC775;font-size:12px;margin-top:6px;"></div>';
+  document.body.appendChild(carte);
+  carte.addEventListener('click', async (e) => {
+    const b = e.target.closest('[data-choix]');
+    if (!b) return;
+    const choix = b.dataset.choix;
+    if (choix === 'jamais') { notifInvitationEnregistrer({ jamais: true }); carte.remove(); return; }
+    if (choix === 'plus-tard') { notifInvitationEnregistrer({ reporteJusqua: Date.now() + NOTIF_REPORT_JOURS * 86400000 }); carte.remove(); return; }
+    if (!s.ok) { carte.remove(); showNotificationsModal(); return; }
+    b.disabled = true;
+    try {
+      await notifActiverAppareil();
+      notifInvitationEnregistrer({ jamais: true });
+      carte.remove();
+      showNotificationsModal();
+    } catch (err) {
+      carte.querySelector('#notif-invitation-message').textContent = err.message;
+      b.disabled = false;
+    }
+  });
+}
+
+function initNotificationsUI() {
+  if (!NOTIFICATIONS_OUVERTES_A_TOUS && !isAdminUser) return;
+  const tuile = document.getElementById('notifications-tile');
+  if (tuile) {
+    tuile.style.display = 'block';
+    tuile.addEventListener('click', () => showNotificationsModal());
+  }
+  setTimeout(() => { notifProposerActivation().catch(() => {}); }, 4000);
 }
 
 // Appel d'une route d'administration du Worker (/api/admin/...). L'identité est vérifiée côté serveur
@@ -13809,6 +14103,7 @@ await checkCloudflareIdentity(); tick();
   await loadOadSettings(); tick();
 await loadChangelog(); tick();
 initActivityTracking();
+initNotificationsUI();
 await loadLexiqueCustom();
 await loadFichesCustom();
   await loadQuizCustom();

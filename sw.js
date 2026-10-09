@@ -88,6 +88,14 @@ self.addEventListener('fetch', (event) => {
   }
 
   /*
+   * Les routes du serveur (/api/...) ne sont jamais mises en cache :
+   * données personnelles ou d'administration, toujours lues à jour.
+   */
+  if (url.pathname.startsWith('/api/')) {
+    return;
+  }
+
+  /*
    * NAVIGATION :
    * - en ligne : serveur prioritaire
    * - hors ligne : index.html en cache
@@ -136,6 +144,55 @@ self.addEventListener('fetch', (event) => {
 
         return cached || Response.error();
       }
+    })()
+  );
+});
+
+/*
+ * NOTIFICATIONS envoyées par le serveur (rappels d'inscriptions, nouveautés, suggestions).
+ * Le message arrive chiffré, déjà déchiffré par le navigateur : { titre, corps, url, tag }.
+ */
+self.addEventListener('push', (event) => {
+  let donnees = {};
+  try {
+    donnees = event.data.json();
+  } catch (err) {
+    donnees = { corps: event.data ? event.data.text() : '' };
+  }
+
+  event.waitUntil(
+    self.registration.showNotification(donnees.titre || 'eProtec', {
+      body: donnees.corps || '',
+      icon: './data/protection-civile-logo.png',
+      badge: './data/protection-civile-logo.png',
+      tag: donnees.tag || 'eprotec',
+      data: { url: donnees.url || './' }
+    })
+  );
+});
+
+/*
+ * Toucher la notification ouvre (ou ramène au premier plan) l'application, sur l'écran visé.
+ */
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  const cible = new URL(
+    (event.notification.data && event.notification.data.url) || './',
+    self.registration.scope
+  ).href;
+
+  event.waitUntil(
+    (async () => {
+      const fenetres = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+      for (const fenetre of fenetres) {
+        if ('focus' in fenetre) {
+          try {
+            if ('navigate' in fenetre) await fenetre.navigate(cible);
+          } catch (err) { /* navigation impossible : on se contente de ramener la fenêtre */ }
+          return fenetre.focus();
+        }
+      }
+      return self.clients.openWindow(cible);
     })()
   );
 });

@@ -12,14 +12,22 @@
     "run_worker_first": ["/api/*"]
   },
 
-  // Déclenchement toutes les heures (heure UTC), utilisé plus tard pour les rappels.
+  // Déclenchement toutes les heures (heure UTC) : envoi des rappels aux heures choisies.
   "triggers": { "crons": ["0 * * * *"] },
 
-  // Variables NON secrètes. Les clés restent dans les secrets Cloudflare.
+  // Variables NON secrètes. Les clés secrètes restent dans les secrets Cloudflare :
+  //   FIREBASE_SERVICE_ACCOUNT et VAPID_PRIVATE (type « Secret », jamais ici).
   "vars": {
-    // À REMPLACER avant la publication (voir la notice) :
     "CF_ACCESS_TEAM_DOMAIN": "small-boat-1c5b.cloudflareaccess.com",
     "CF_ACCESS_AUD": "007652374957e7cc1486ad23d3872fdda35f8b95ccb0aecffa8257d48b73601d",
-    "ADMIN_EMAIL": "ch-houdayer@hotmail.fr"
+    "ADMIN_EMAIL": "ch-houdayer@hotmail.fr",
+
+    // Clé PUBLIQUE d'envoi (pas un secret) : à remplacer après la génération des clés (voir la notice).
+    "VAPID_PUBLIC": "A_REMPLACER",
+    "VAPID_SUBJECT": "mailto:ch-houdayer@hotmail.fr",
+    "SITE_URL": "https://eprotec-mobile.choudayer34.workers.dev",
+
+    // « false » : rappels réservés à l'administrateur. Passer à « true » pour les ouvrir aux autres secouristes.
+    "NOTIFS_OUVERTES_A_TOUS": "false"
   }
 }
