@@ -1,21 +1,22 @@
 // Worker « eprotec-mobile » : sert le site (fichiers publics) et fournit les routes /api/*.
 //
 // Routes :
-//   GET /api/sante                  → test de fonctionnement (public, ne renvoie aucune donnée)
-//   GET /api/admin/utilisateurs     → liste des utilisateurs et de leur activité (administrateur seul)
-//   GET /api/admin/stats            → statistiques Firebase et Mailjet + nombre d'utilisateurs (administrateur seul)
+//   GET  /api/sante                  → test de fonctionnement (public, ne renvoie aucune donnée)
+//   GET  /api/admin/utilisateurs     → liste des utilisateurs et de leur activité (administrateur seul)
+//   GET  /api/admin/stats            → statistiques Firebase et Mailjet + nombre d'utilisateurs (administrateur seul)
+//   GET  /api/admin/vapid-generer    → génère UNE FOIS les clés d'envoi des notifications (administrateur seul, refusé si déjà configurées)
+//   GET  /api/push/cle, /api/push/etat ; POST /api/push/inscrire|reglages|supprimer|test|ntfy → notifications de l'application
 //
-// Variables (wrangler.jsonc) : CF_ACCESS_TEAM_DOMAIN, CF_ACCESS_AUD, ADMIN_EMAIL.
-// Secret (Cloudflare) : FIREBASE_SERVICE_ACCOUNT. Aucune clé n'est écrite dans le code.
+// Variables (wrangler.jsonc) : CF_ACCESS_TEAM_DOMAIN, CF_ACCESS_AUD, ADMIN_EMAIL, VAPID_PUBLIC, VAPID_SUBJECT, SITE_URL, NOTIFS_OUVERTES_A_TOUS.
+// Secrets (Cloudflare) : FIREBASE_SERVICE_ACCOUNT, VAPID_PRIVATE. Aucune clé n'est écrite dans le code.
 import { identite } from './acces.js';
 import { lire } from './firebase.js';
+import { json } from './http.js';
+import { routePush } from './notifs.js';
+import { genererClesVapid } from './push.js';
+import { lancer } from './rappels.js';
 
 const MAX_UTILISATEURS = 200;
-
-const json = (objet, code = 200) => new Response(JSON.stringify(objet), {
-  status: code,
-  headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' }
-});
 
 async function listerUtilisateurs(env) {
   const cles = Object.keys((await lire(env, 'users', '?shallow=true')) || {}).slice(0, MAX_UTILISATEURS);
@@ -52,6 +53,10 @@ async function routeAdmin(requete, env, chemin) {
   if (!env.ADMIN_EMAIL || moi.email.toLowerCase() !== String(env.ADMIN_EMAIL).toLowerCase()) return json({ erreur: "Réservé à l'administrateur" }, 403);
 
   try {
+    if (chemin === '/api/admin/vapid-generer') {
+      if (env.VAPID_PRIVATE) return json({ erreur: "Les clés d'envoi sont déjà configurées : route désactivée." }, 409);
+      return json(await genererClesVapid());
+    }
     if (chemin === '/api/admin/utilisateurs') return json(await listerUtilisateurs(env));
     if (chemin === '/api/admin/stats') return json(await statistiques(env));
   } catch (erreur) {
@@ -66,12 +71,14 @@ export default {
     const chemin = new URL(requete.url).pathname;
     if (chemin === '/api/sante') return json({ ok: true });
     if (chemin.startsWith('/api/admin/')) return routeAdmin(requete, env, chemin);
+    if (chemin.startsWith('/api/push/')) return routePush(requete, env, chemin);
     if (chemin.startsWith('/api/')) return json({ erreur: 'Introuvable' }, 404);
     return env.ASSETS.fetch(requete);
   },
 
-  // Déclenché toutes les heures (voir wrangler.jsonc). Pour l'instant ne fait rien : l'envoi des rappels viendra au prochain zip.
-  async scheduled(evenement) {
-    console.log(`Déclenchement horaire reçu (${new Date(evenement.scheduledTime).toISOString()}) : aucun traitement pour l'instant.`);
+  // Déclenché toutes les heures (voir wrangler.jsonc) : envoie les rappels dus à cette heure (heure de Paris).
+  async scheduled(evenement, env, ctx) {
+    console.log(`Déclenchement horaire reçu (${new Date(evenement.scheduledTime).toISOString()}).`);
+    ctx.waitUntil(lancer(env).catch((erreur) => console.error('Rappels en échec :', erreur.message)));
   }
 };

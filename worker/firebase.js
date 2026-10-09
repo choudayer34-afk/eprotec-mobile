@@ -73,3 +73,15 @@ export async function lire(env, chemin, options = '') {
   if (!reponse.ok) throw new Error(`Firebase ${reponse.status}`);
   return reponse.json();
 }
+
+// Écriture dans la base : PUT (remplace), PATCH (fusionne) ou DELETE (supprime).
+export async function ecrire(env, chemin, valeur, methode = 'PUT') {
+  const reponse = await fetch(`${URL_BASE}/${chemin}.json`, {
+    method: methode,
+    headers: { Authorization: `Bearer ${await obtenirJeton(env)}`, 'Content-Type': 'application/json' },
+    body: methode === 'DELETE' ? undefined : JSON.stringify(valeur)
+  });
+  if (!reponse.ok) throw new Error(`Firebase ${reponse.status}`);
+}
+
+export const supprimer = (env, chemin) => ecrire(env, chemin, undefined, 'DELETE');
