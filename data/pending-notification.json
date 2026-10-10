@@ -1,5 +1,14 @@
 {
-  "newEvents": [],
+  "newEvents": [
+    {
+      "tag": "MLA",
+      "titre": "[MLA 34] Depose VSO Moulin electricien",
+      "lieu": "Vic la gardiole",
+      "url": "https://eprotec.protection-civile.org/index.php?evenement=1666593",
+      "dejaInscrit": false,
+      "dateDebutIso": "2026-10-12T11:00:00.000Z"
+    }
+  ],
   "topSuggestion": {
     "titre": "[DPS 34] MFC - FC Fleury 91",
     "lieu": "Domaine de Grammont, Montpellier",
